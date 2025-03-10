@@ -13,17 +13,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum MediaType {
+  image
+  video
+}
+
 model User {
-  id                 Int      @id @default(autoincrement())
-  username           String   @unique
-  email              String   @unique
-  password_hash      String
-  full_name          String?
+  id                  Int       @id @default(autoincrement())
+  username            String    @unique
+  email               String    @unique
+  password_hash       String
+  full_name           String?
   profile_picture_url String?
-  bio                String?
-  created_at         DateTime @default(now())
-  updated_at         DateTime? @updatedAt
-  refresh_token      String?
+  bio                 String?
+  created_at          DateTime  @default(now())
+  updated_at          DateTime? @updatedAt
+  refresh_token       String?
 
   @@map("user")
 }
+
+model Media {
+  id          Int       @id @default(autoincrement())
+  user_id      Int
+  post_id      String
+  media_type   MediaType
+  description String?
+  url         String
+  creator     String
+  downloads   Int       @default(0)
+  created_at  DateTime  @default(now())
+
+  @@map("media")
+}
+
+
