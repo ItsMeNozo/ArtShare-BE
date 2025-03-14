@@ -14,16 +14,30 @@ datasource db {
 }
 
 model User {
-  id                 Int      @id @default(autoincrement())
-  username           String   @unique
-  email              String   @unique
-  password_hash      String
-  full_name          String?
+  id                  Int       @id @default(autoincrement())
+  username            String    @unique
+  email               String    @unique
+  password_hash       String
+  full_name           String?
   profile_picture_url String?
-  bio                String?
-  created_at         DateTime @default(now())
-  updated_at         DateTime? @updatedAt
-  refresh_token      String?
+  bio                 String?
+  created_at          DateTime  @default(now())
+  updated_at          DateTime? @updatedAt
+  refresh_token       String?
+  followers           Follow[]  @relation("following")
+  following           Follow[]  @relation("follower")
 
   @@map("user")
+}
+
+model Follow {
+  follower      User     @relation("follower", fields: [follower_id], references: [id])
+  follower_id   Int
+  following     User     @relation("following", fields: [following_id], references: [id])
+  following_id  Int
+  created_at    DateTime @default(now())
+  is_subscribed Boolean  @default(false)
+
+  @@id([follower_id, following_id])
+  @@map("follow")
 }
