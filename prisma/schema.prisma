@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,17 +7,136 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum MediaType {
+  image
+  video
+}
+
+enum TargetType {
+  POST
+  BLOG
+}
+
+enum SharePlatform {
+  FACEBOOK
+  TWITTER
+  LINKEDIN
+}
+
 model User {
-  id                 Int      @id @default(autoincrement())
-  username           String   @unique
-  email              String   @unique
-  password_hash      String
-  full_name          String?
+  id                  Int       @id @default(autoincrement())
+  username            String    @unique
+  email               String    @unique
+  password_hash       String
+  full_name           String?
   profile_picture_url String?
-  bio                String?
-  created_at         DateTime @default(now())
-  updated_at         DateTime? @updatedAt
-  refresh_token      String?
+  bio                 String?
+  created_at          DateTime  @default(now())
+  updated_at          DateTime? @updatedAt
+  refresh_token       String?
+
+  posts Post[] // One-to-many relation with Post
+
+  likes    Like[]
+  comments Comment[]
+  shares   Share[]
 
   @@map("user")
+}
+
+model Post {
+  id            Int      @id @default(autoincrement())
+  user_id       Int // Foreign key to User
+  title         String?
+  description   String?
+  created_at    DateTime @default(now())
+  is_published  Boolean  @default(false)
+  is_private    Boolean  @default(false)
+  group_id      Int?
+  like_count    Int      @default(0)
+  share_count   Int      @default(0)
+  comment_count Int      @default(0)
+
+  user       User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  medias     Media[] // One-to-many relationship with Media
+  likes      Like[]
+  comments   Comment[]
+  shares     Share[]
+  categories Category[] // Many-to-many relation with Category
+
+  @@map("post")
+}
+
+model Media {
+  id          Int       @id @default(autoincrement())
+  post_id     Int
+  media_type  MediaType
+  description String?
+  url         String
+  creator_id  Int
+  downloads   Int       @default(0)
+  created_at  DateTime  @default(now())
+
+  post Post @relation(fields: [post_id], references: [id], onDelete: Cascade)
+
+  @@map("media")
+}
+
+model Category {
+  cate_id    Int      @id @default(autoincrement())
+  cate_name  String   @unique
+  url        String?  @unique
+  created_at DateTime @default(now())
+
+  posts Post[] // Many-to-many relation with Post
+
+  @@map("category")
+}
+
+model Like {
+  user_id     Int
+  target_id   Int
+  target_type TargetType
+  created_at  DateTime   @default(now())
+
+  // Relations
+  user User? @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  post Post? @relation(fields: [target_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, target_id])
+  // Composite PK ensures a user can only like a given target once
+  @@map("like")
+}
+
+model Comment {
+  id                Int        @id @default(autoincrement())
+  user_id           Int
+  target_id         Int
+  parent_comment_id Int?
+  target_type       TargetType
+  content           String
+  created_at        DateTime   @default(now())
+  updated_at        DateTime?  @updatedAt
+
+  user           User?     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  post           Post?     @relation(fields: [target_id], references: [id], onDelete: Cascade)
+  parent_comment Comment?  @relation("CommentReplies", fields: [parent_comment_id], references: [id], onDelete: Cascade)
+  replies        Comment[] @relation("CommentReplies")
+
+  @@map("comment")
+}
+
+model Share {
+  id             Int           @id @default(autoincrement())
+  user_id        Int
+  target_id      Int
+  target_type    TargetType
+  share_platform SharePlatform
+  created_at     DateTime      @default(now())
+
+  // Relations
+  user User? @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  post Post? @relation(fields: [target_id], references: [id], onDelete: Cascade)
+
+  @@map("share")
 }
