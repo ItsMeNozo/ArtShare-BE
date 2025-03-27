@@ -9,16 +9,6 @@ import { DeleteUsersDTO } from './dto/delete-users.dto';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async createUser(data: {
-    email: string;
-    password_hash: string;
-    username: string;
-  }): Promise<User> {
-    return this.prisma.user.create({
-      data,
-    });
-  }
-
   // Tìm người dùng theo email
   async findUserByEmail(email: string): Promise<User | null> {
     return this.prisma.user.findUnique({
@@ -74,10 +64,11 @@ export class UserService {
   // Lấy thông tin người dùng đầu tiên (findFirst)
   async findAll(): Promise<User[] | null> {
     return this.prisma.user.findMany(); // Hoặc có thể tùy chỉnh để tìm kiếm theo điều kiện khác
+    return this.prisma.user.findMany(); // Hoặc có thể tùy chỉnh để tìm kiếm theo điều kiện khác
   }
 
   // Cập nhật thông tin người dùng
-  async updateUser(id: number, data: Partial<User>): Promise<User> {
+  async updateUser(id: string, data: Partial<User>): Promise<User> {
     return this.prisma.user.update({
       where: { id },
       data,

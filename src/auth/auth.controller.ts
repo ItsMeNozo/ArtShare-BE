@@ -9,9 +9,9 @@ export class AuthController {
   // Route đăng ký người dùng mới
   @Post('register')
   async signup(
-    @Body() body: { email: string; password: string; username: string },
+    @Body() body: { userId: string, email: string; password: string; username: string },
   ) {
-    return this.authService.signup(body.email, body.password, body.username);
+    return this.authService.signup(body.userId, body.email, body.password, body.username);
   }
 
   // Route đăng nhập người dùng

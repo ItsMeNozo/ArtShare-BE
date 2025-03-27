@@ -35,14 +35,14 @@ jobs:
       - name: Run Tests
         run: yarn test --coverage
 
-      - name: Setup Code Climate test-reporter
-        run: |
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
+      # - name: Setup Code Climate test-reporter
+      #   run: |
+      #     curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+      #     chmod +x ./cc-test-reporter
 
-      - name: Upload Code Climate test report
-        run: |
-          ./cc-test-reporter format-coverage -t lcov coverage/lcov.info
-          ./cc-test-reporter upload-coverage
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      # - name: Upload Code Climate test report
+      #   run: |
+      #     ./cc-test-reporter format-coverage -t lcov coverage/lcov.info -p . --debug
+      #     ./cc-test-reporter upload-coverage
+      #   env:
+      #     CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
