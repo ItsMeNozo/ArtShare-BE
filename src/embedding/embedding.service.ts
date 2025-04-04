@@ -1,12 +1,4 @@
 import { Injectable } from '@nestjs/common';
-// import axios from 'axios';
-import {
-  AutoProcessor,
-  AutoTokenizer,
-  CLIPVisionModelWithProjection,
-  CLIPTextModelWithProjection,
-  RawImage,
-} from '@xenova/transformers';
 import { TryCatch } from 'src/common/try-catch.decorator.';
 
 @Injectable()
@@ -19,13 +11,30 @@ export class EmbeddingService {
   constructor() {
     const modelName = 'Xenova/clip-vit-base-patch16';
 
-    this.processorPromise = AutoProcessor.from_pretrained(modelName);
-    this.visionModelPromise =
-      CLIPVisionModelWithProjection.from_pretrained(modelName);
+    // Use Function constructor to ensure ESM import is not transformed to require()
+    const importTransformers = () =>
+      Function('return import("@xenova/transformers")')();
 
-    this.tokenizerPromise = AutoTokenizer.from_pretrained(modelName);
-    this.textModelPromise =
-      CLIPTextModelWithProjection.from_pretrained(modelName);
+    this.processorPromise = importTransformers().then(
+      (module: { AutoProcessor: { from_pretrained: (arg0: string) => any } }) =>
+        module.AutoProcessor.from_pretrained(modelName),
+    );
+    this.visionModelPromise = importTransformers().then(
+      (module: {
+        CLIPVisionModelWithProjection: {
+          from_pretrained: (arg0: string) => any;
+        };
+      }) => module.CLIPVisionModelWithProjection.from_pretrained(modelName),
+    );
+    this.tokenizerPromise = importTransformers().then(
+      (module: { AutoTokenizer: { from_pretrained: (arg0: string) => any } }) =>
+        module.AutoTokenizer.from_pretrained(modelName),
+    );
+    this.textModelPromise = importTransformers().then(
+      (module: {
+        CLIPTextModelWithProjection: { from_pretrained: (arg0: string) => any };
+      }) => module.CLIPTextModelWithProjection.from_pretrained(modelName),
+    );
   }
 
   async generateEmbeddingFromText(text: string): Promise<number[]> {
@@ -41,11 +50,13 @@ export class EmbeddingService {
   async generateEmbeddingFromImageUrl(image_url: string): Promise<number[]> {
     const processor = await this.processorPromise;
     const visionModel = await this.visionModelPromise;
+
     try {
-      // Read image and run processor
+      const { RawImage } = await Function(
+        'return import("@xenova/transformers")',
+      )();
       const image = await RawImage.read(image_url);
       const image_inputs = await processor(image);
-      // Compute embeddings
       const { image_embeds } = await visionModel(image_inputs);
 
       return Object.values(image_embeds.data);
@@ -60,8 +71,10 @@ export class EmbeddingService {
     const processor = await this.processorPromise;
     const visionModel = await this.visionModelPromise;
 
+    const { RawImage } = await Function(
+      'return import("@xenova/transformers")',
+    )();
     const image_inputs = await processor(await RawImage.fromBlob(imageBlob));
-
     const { image_embeds } = await visionModel(image_inputs);
 
     return Object.values(image_embeds.data);

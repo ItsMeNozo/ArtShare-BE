@@ -22,7 +22,6 @@ export class AuthService {
     username: string,
   ): Promise<any> {
     try {
-      // Check if the username already exists
       const existingUser = await this.prisma.user.findUnique({
         where: { id: userId },
       });
@@ -50,7 +49,6 @@ export class AuthService {
     }
   }
 
-  // Method to verify the Firebase ID token and extract user data
   async login(token: string) {
     try {
       this.logger.log('Received token for verification', token); // Log a message for debugging
@@ -58,25 +56,43 @@ export class AuthService {
       // Verify the Firebase ID Token
       const decodedToken = await admin.auth().verifyIdToken(token);
       this.logger.log(
-        'Decoded token successfully: ' + JSON.stringify(decodedToken),
-      ); // Log decoded token
+        'Decoded token successfully from login: ' +
+          JSON.stringify(decodedToken),
+      );
       const userFromDb = await this.prisma.user.findUnique({
-        where: { email: decodedToken.email },
+        where: { id: decodedToken.uid },
+        include: {
+          roles: {
+            include: {
+              role: true,
+            },
+          },
+        },
       });
       if (!userFromDb) {
         throw new Error(
           `User with email ${decodedToken.email} not found in database`,
         );
       }
-      this.logger.log(`User info: ${userFromDb.id}`);
-      const tokens = await this.getTokens(userFromDb.id, decodedToken.email!);
+
+      // Extract role names from the nested structure
+      const roleNames = userFromDb.roles.map(
+        (userRole) => userRole.role.role_name,
+      );
+      this.logger.log(`User roles extracted: ${roleNames}`);
+
+      const tokens = await this.getTokens(
+        userFromDb.id,
+        decodedToken.email!,
+        roleNames,
+      );
       console.log('tokens: ', tokens);
       // Create access_token, refresh_token
       let user = null;
       this.logger.log(user);
       try {
         user = await this.prisma.user.update({
-          where: { email: decodedToken.email }, // Tìm user theo email từ Firebase token
+          where: { id: decodedToken.uid }, // Tìm user theo email từ Firebase token
           data: { refresh_token: tokens.refresh_token }, // Cập nhật refresh_token
         });
         this.logger.log(
@@ -136,16 +152,21 @@ export class AuthService {
     }
   }
 
-  async getTokens(userId: string, email: string): Promise<Tokens> {
+  async getTokens(
+    userId: string,
+    email: string,
+    roles: string[],
+  ): Promise<Tokens> {
     const jwtPayload: JwtPayload = {
       userId: userId,
       email: email,
+      roles: roles,
     };
 
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('AT_SECRET'),
-        expiresIn: '10000m',
+        expiresIn: '1000d',
       }),
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('RT_SECRET'),

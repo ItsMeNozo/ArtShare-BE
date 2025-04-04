@@ -23,6 +23,28 @@ enum SharePlatform {
   LINKEDIN
 }
 
+model Role {
+  role_id   Int      @id @default(autoincrement()) // As per your plan
+  role_name String   @unique                     // As per your plan (e.g., 'ADMIN', 'USER')
+  createdAt DateTime @default(now()) @map("created_at")
+
+  users UserRole[]
+
+  @@map("role")
+}
+
+model UserRole {
+  user_id String   // Foreign key to User
+  role_id Int      // Foreign key to Role
+  assignedAt DateTime @default(now()) @map("assigned_at")
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [role_id], references: [role_id], onDelete: Cascade)
+
+  @@id([user_id, role_id])
+  @@map("user_role")
+}
+
 model User {
   id                  String    @id
   username            String    @unique
@@ -43,6 +65,8 @@ model User {
 
   followers  Follow[] @relation("Follower")
   followings Follow[] @relation("Following")
+
+  roles UserRole[]
 
   @@map("user")
 }
@@ -158,3 +182,5 @@ model Follow {
   @@id([follower_id, following_id])
   @@map("follow")
 }
+
+

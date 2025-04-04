@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
-import { nanoid } from 'nanoid';
+// import { nanoid } from 'nanoid';
 import { IStorageProvider } from '../storage.interface';
 import { GetPresignedUrlRequestDto } from '../dto/request.dto';
 import { TryCatch } from 'src/common/try-catch.decorator.';
@@ -32,7 +32,7 @@ export class S3StorageProvider implements IStorageProvider {
     mediaType,
     directory,
   }: GetPresignedUrlRequestDto): Promise<{ url: string; key: string }> {
-    const key = `${directory}/${nanoid()}_${fileName}.${extension}`;
+    const key = `${directory}/_${fileName}.${extension}`;
 
     try {
       const url = await this.s3.getSignedUrlPromise('putObject', {
@@ -79,7 +79,7 @@ export class S3StorageProvider implements IStorageProvider {
     directory: string,
   ): Promise<{ url: string; key: string }[]> {
     const uploadPromises = files.map((file) => {
-      const key = `${directory}/${nanoid()}_${file.originalname}`;
+      const key = `${directory}/_${file.originalname}`;
 
       const params = {
         Bucket: this.bucketName,

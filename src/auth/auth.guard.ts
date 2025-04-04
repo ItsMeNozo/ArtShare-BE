@@ -20,6 +20,7 @@ export class AuthGuard implements CanActivate {
 
     try {
       const { user_id, email } = await this.authService.verifyToken(token); // Xác minh token
+      console.log(`verify token from authguard: ${user_id} ${email}`);
       request.user = { id: user_id, email };
       return true;
     } catch (error) {
