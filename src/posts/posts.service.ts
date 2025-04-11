@@ -190,33 +190,35 @@ export class PostsService {
     userId: string,
     page: number,
     page_size: number,
-  ): Promise<Post[]> {
+    filter: string[],
+  ): Promise<PostListItemResponseDto[]> {
     const skip = (page - 1) * page_size;
 
-    return this.prisma.post.findMany({
+    const whereClause =
+      filter.length > 0
+        ? { categories: { some: { cate_name: { in: filter } } } }
+        : {};
+
+    const posts = await this.prisma.post.findMany({
+      where: whereClause,
       orderBy: { share_count: 'desc' },
       take: page_size,
       skip,
-      include: { medias: true, user: true },
-    });
-  }
-
-  async getPostDetails(postId: number): Promise<PostDetailsResponseDto> {
-    const post = await this.prisma.post.findUnique({
-      where: { id: postId },
-      include: { medias: true, user: true, categories: true },
+      include: {
+        medias: true,
+        user: true,
+        categories: true,
+      },
     });
 
-    if (!post) {
-      throw new NotFoundException('Post not found');
-    }
-    return plainToInstance(PostDetailsResponseDto, post);
+    return plainToInstance(PostListItemResponseDto, posts);
   }
 
   async getFollowingPosts(
     userId: string,
     page: number,
     page_size: number,
+    filter: string[],
   ): Promise<PostListItemResponseDto[]> {
     const followingUsers = await this.prisma.follow.findMany({
       where: { follower_id: userId },
@@ -227,10 +229,15 @@ export class PostsService {
 
     const skip = (page - 1) * page_size;
 
+    const whereClause = {
+      user_id: { in: followingIds },
+      ...(filter.length > 0 && {
+        categories: { some: { cate_name: { in: filter } } },
+      }),
+    };
+
     const posts = await this.prisma.post.findMany({
-      where: {
-        user_id: { in: followingIds },
-      },
+      where: whereClause,
       skip,
       take: page_size,
       include: {
@@ -244,6 +251,18 @@ export class PostsService {
     });
 
     return plainToInstance(PostListItemResponseDto, posts);
+  }
+
+  async getPostDetails(postId: number): Promise<PostDetailsResponseDto> {
+    const post = await this.prisma.post.findUnique({
+      where: { id: postId },
+      include: { medias: true, user: true, categories: true },
+    });
+
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+    return plainToInstance(PostDetailsResponseDto, post);
   }
 
   @TryCatch()

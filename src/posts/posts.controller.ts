@@ -71,29 +71,33 @@ export class PostsController {
     );
   }
 
-  @Get('for-you')
+  @Post('for-you')
   async getForYouPosts(
-    @Query('page') page: string = '1',
-    @Query('page_size') page_size: string = '25',
+    @Body() body: { page: number; page_size: number; filter: string[] },
     @CurrentUser() user: CurrentUserType,
-  ) {
+  ): Promise<PostListItemResponseDto[]> {
+    const { page = 1, page_size = 25, filter } = body;
+
     return this.postsService.getForYouPosts(
       user.id,
-      Number(page),
-      Number(page_size),
+      page,
+      page_size,
+      filter,
     );
   }
 
-  @Get('following')
+  @Post('following')
   async getFollowingPosts(
-    @Query('page') page: string = '1',
-    @Query('page_size') page_size: string = '25',
+    @Body() body: { page: number; page_size: number; filter: string[] },
     @CurrentUser() user: CurrentUserType,
   ): Promise<PostListItemResponseDto[]> {
+    const { page = 1, page_size = 24, filter } = body;
+
     return this.postsService.getFollowingPosts(
       user.id,
-      Number(page),
-      Number(page_size),
+      page,
+      page_size,
+      filter,
     );
   }
 
