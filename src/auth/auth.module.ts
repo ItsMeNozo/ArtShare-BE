@@ -3,7 +3,6 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config'; // If using environment variables
 import * as admin from 'firebase-admin'; // Firebase Admin SDK
-import { PrismaService } from 'src/prisma.service'; // Import PrismaService
 import { JwtModule } from '@nestjs/jwt';
 import { AtStrategy } from './strategies/at.strategy';
 import { RtStrategy } from './strategies/rt.strategy';
@@ -20,7 +19,7 @@ import { RtStrategy } from './strategies/rt.strategy';
       inject: [ConfigService],
     }),
   ], // If you're using environment variables
-  providers: [AuthService, PrismaService, AtStrategy, RtStrategy],
+  providers: [AuthService, AtStrategy, RtStrategy],
   controllers: [AuthController],
   exports: [AuthService, JwtModule],
 })

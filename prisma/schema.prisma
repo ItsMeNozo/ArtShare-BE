@@ -17,40 +17,74 @@ model User {
   created_at          DateTime  @default(now())
   updated_at          DateTime? @updatedAt
   refresh_token       String?
-  comments            Comment[]
-  followers           Follow[]  @relation("Follower")
-  followings          Follow[]  @relation("Following")
-  likes               Like[]
-  posts               Post[]
-  shares              Share[]
+
+  comments       Comment[]
+  followers      Follow[]   @relation("Follower")
+  followings     Follow[]   @relation("Following")
+  likes          Like[]
+  posts          Post[]
+  blogs          Blog[]
+  shares         Share[]
+  bookmarks      Bookmark[]
+  ratings        Rating[]
 
   @@map("user")
 }
 
 model Post {
-  id            Int        @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   user_id       String
   title         String
   description   String?
-  created_at    DateTime   @default(now())
-  is_published  Boolean    @default(false)
-  is_private    Boolean    @default(false)
+  created_at    DateTime  @default(now())
+  is_published  Boolean   @default(false)
+  is_private    Boolean   @default(false)
   group_id      Int?
-  share_count   Int        @default(0)
-  comment_count Int        @default(0)
-  like_count    Int        @default(0)
+  share_count   Int       @default(0)
+  comment_count Int       @default(0)
+  like_count    Int       @default(0)
   thumbnail_url String
-  updated_at    DateTime?  @updatedAt
-  is_mature     Boolean    @default(false)
-  ai_created    Boolean    @default(false)
-  comments      Comment[]
-  likes         Like[]
-  medias        Media[]
-  user          User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  shares        Share[]
-  categories    Category[] @relation("CategoryToPost")
+  updated_at    DateTime? @updatedAt
+  is_mature     Boolean   @default(false)
+  ai_created    Boolean   @default(false)
 
+  comments   Comment[]
+  likes      Like[]
+  medias     Media[]
+  user       User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  shares     Share[]
+  categories Category[] @relation("CategoryToPost")
+
+  @@index([user_id])
   @@map("post")
+}
+
+model Blog {
+  id             Int       @id @default(autoincrement())
+  user_id        String
+  title          String
+  content        String
+  created_at     DateTime  @default(now())
+  is_published   Boolean   @default(false)
+  like_count     Int       @default(0)
+  comment_count  Int       @default(0)
+  share_count    Int       @default(0)
+  updated_at     DateTime? @updatedAt
+  is_protected   Boolean   @default(false)
+  average_rating Float     @default(0)
+  rating_count   Int       @default(0)
+
+  user       User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  comments   Comment[]
+  likes      Like[]
+  shares     Share[]
+  bookmarks  Bookmark[]
+  ratings    Rating[]
+  categories Category[] @relation("CategoryToBlog")
+
+  @@index([user_id])
+  @@index([created_at])
+  @@map("blog")
 }
 
 model Media {
@@ -64,15 +98,18 @@ model Media {
   creator_id  String
   post        Post      @relation(fields: [post_id], references: [id], onDelete: Cascade)
 
+  @@index([post_id])
   @@map("media")
 }
 
 model Category {
+  id         Int      @id @default(autoincrement())
   cate_name  String   @unique
   created_at DateTime @default(now())
   url        String?  @unique
-  id         Int      @id @default(autoincrement())
-  posts      Post[]   @relation("CategoryToPost")
+
+  posts Post[] @relation("CategoryToPost")
+  blogs Blog[] @relation("CategoryToBlog")
 
   @@map("category")
 }
@@ -82,10 +119,13 @@ model Like {
   target_id   Int
   target_type TargetType
   created_at  DateTime   @default(now())
-  post        Post       @relation(fields: [target_id], references: [id], onDelete: Cascade)
-  user        User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
-  @@id([user_id, target_id])
+  post Post? @relation(fields: [target_id], references: [id], onDelete: Cascade, map: "like_post_fkey")
+  blog Blog? @relation(fields: [target_id], references: [id], onDelete: Cascade, map: "like_blog_fkey")
+  user User  @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, target_id, target_type])
+  @@index([target_id, target_type])
   @@map("like")
 }
 
@@ -98,11 +138,15 @@ model Comment {
   content           String
   created_at        DateTime   @default(now())
   updated_at        DateTime?  @updatedAt
-  parent_comment    Comment?   @relation("CommentReplies", fields: [parent_comment_id], references: [id], onDelete: Cascade)
-  replies           Comment[]  @relation("CommentReplies")
-  post              Post       @relation(fields: [target_id], references: [id], onDelete: Cascade)
-  user              User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
+  parent_comment Comment?  @relation("CommentReplies", fields: [parent_comment_id], references: [id], onDelete: NoAction)
+  replies        Comment[] @relation("CommentReplies")
+  post           Post?     @relation(fields: [target_id], references: [id], onDelete: Cascade, map: "comment_post_fkey")
+  blog           Blog?     @relation(fields: [target_id], references: [id], onDelete: Cascade, map: "comment_blog_fkey")
+  user           User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([target_id, target_type])
+  @@index([parent_comment_id])
   @@map("comment")
 }
 
@@ -113,9 +157,12 @@ model Share {
   target_type    TargetType
   share_platform SharePlatform
   created_at     DateTime      @default(now())
-  post           Post          @relation(fields: [target_id], references: [id], onDelete: Cascade)
-  user           User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
+  post Post? @relation(fields: [target_id], references: [id], onDelete: Cascade, map: "share_post_fkey")
+  blog Blog? @relation(fields: [target_id], references: [id], onDelete: Cascade, map: "share_blog_fkey")
+  user User  @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([target_id, target_type])
   @@map("share")
 }
 
@@ -124,11 +171,42 @@ model Follow {
   following_id  String
   created_at    DateTime @default(now())
   is_subscribed Boolean  @default(false)
-  follower      User     @relation("Follower", fields: [follower_id], references: [id], onDelete: Cascade)
-  following     User     @relation("Following", fields: [following_id], references: [id], onDelete: Cascade)
+
+  follower  User @relation("Follower", fields: [follower_id], references: [id], onDelete: Cascade)
+  following User @relation("Following", fields: [following_id], references: [id], onDelete: Cascade)
 
   @@id([follower_id, following_id])
+  @@index([follower_id])
+  @@index([following_id])
   @@map("follow")
+}
+
+model Bookmark {
+  user_id    String
+  blog_id    Int
+  created_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  blog Blog @relation(fields: [blog_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, blog_id])
+  @@index([blog_id])
+  @@map("bookmark")
+}
+
+model Rating {
+  user_id    String
+  blog_id    Int
+  value      Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  blog Blog @relation(fields: [blog_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, blog_id])
+  @@index([blog_id])
+  @@map("rating")
 }
 
 enum MediaType {
