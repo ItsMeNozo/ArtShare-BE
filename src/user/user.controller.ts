@@ -18,7 +18,6 @@ import { UpdateUserDTO } from './dto/update-users.dto';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
 import { Roles } from 'src/auth/decorators/roles.decorators';
 import { Role } from 'src/auth/enums/role.enum';
-import { RolesGuard } from 'src/auth/roles.guard';
 import { ApiResponse } from 'src/common/api-response';
 
 @Controller('users')
