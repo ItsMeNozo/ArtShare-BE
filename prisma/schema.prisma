@@ -50,6 +50,9 @@ model User {
   bookmarks           Bookmark[]
   ratings             Rating[]
 
+  followers_count  Int @default(0)
+  followings_count Int @default(0)
+
   @@map("user")
 }
 

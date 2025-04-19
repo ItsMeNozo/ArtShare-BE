@@ -10,10 +10,14 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { BlogModule } from './blog/blog.module';
 import { PrismaModule } from './prisma.module';
+import { ConfigModule } from '@nestjs/config';
 import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // <-- Makes ConfigService available globally
+    }),
     UserModule,
     AuthModule,
     PostsModule,
