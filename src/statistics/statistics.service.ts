@@ -12,22 +12,30 @@ export interface StatCount {
 export class StatisticsService {
   private readonly logger = new Logger(StatisticsService.name);
 
-  constructor(
-    private readonly prisma: PrismaService,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
+  // Add this helper method to build date filter
+  private getDateFilter(daysBack?: number): string {
+    if (!daysBack) return ''; // No filter = all time
+    return `AND created_at >= CURRENT_DATE - INTERVAL '${daysBack} days'`;
+  }
+
+  // Update existing method with optional parameter
   private async rawStats(
     column: string,
     table = 'art_generation',
     alias = 'key',
+    daysBack?: number,
   ): Promise<StatCount[]> {
+    const dateFilter = this.getDateFilter(daysBack);
+
     type Row = { [key: string]: string | bigint };
     const rows = await this.prisma.$queryRaw<Row[]>`
       SELECT
         ${Prisma.raw(column)} AS ${Prisma.raw(alias)},
         COUNT(*)              AS count
       FROM ${Prisma.raw(table)}
-      WHERE ${Prisma.raw(column)} IS NOT NULL
+      WHERE ${Prisma.raw(column)} IS NOT NULL ${Prisma.raw(dateFilter)}
       GROUP BY ${Prisma.raw(column)}
       ORDER BY count DESC;
     `;
@@ -38,54 +46,71 @@ export class StatisticsService {
     }));
   }
 
-  async getAspectRatioStats(): Promise<StatCount[]> {
-    return this.rawStats('aspect_ratio');
+  // Update each method to accept daysBack parameter
+  async getAspectRatioStats(daysBack?: number): Promise<StatCount[]> {
+    return this.rawStats('aspect_ratio', 'art_generation', 'key', daysBack);
   }
 
-  async getLightingStats(): Promise<StatCount[]> {
-    return this.rawStats('lighting');
+  async getLightingStats(daysBack?: number): Promise<StatCount[]> {
+    return this.rawStats('lighting', 'art_generation', 'key', daysBack);
   }
 
-  async getStyles(): Promise<StatCount[]> {
-    return this.rawStats('style');
+  async getStyles(daysBack?: number): Promise<StatCount[]> {
+    return this.rawStats('style', 'art_generation', 'key', daysBack);
   }
 
-  async getPostsByAI(): Promise<StatCount[]> {
+  async getPostsByAI(daysBack?: number): Promise<StatCount[]> {
+    const dateFilter = this.getDateFilter(daysBack);
+
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
       SELECT COUNT(id) as count
       FROM post
-      WHERE ai_created = true
+      WHERE ai_created = true ${Prisma.raw(dateFilter)}
     `;
     return [{ key: 'posts_by_ai', count: Number(rows[0]?.count ?? 0) }];
   }
 
-  async getTotalAiImages(): Promise<StatCount[]> {
+  async getTotalAiImages(daysBack?: number): Promise<StatCount[]> {
+    const dateFilter = daysBack
+      ? `WHERE created_at >= CURRENT_DATE - INTERVAL '${daysBack} days'`
+      : '';
+
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
-    SELECT SUM(number_of_images_generated) as count
-    FROM art_generation
+      SELECT SUM(number_of_images_generated) as count
+      FROM art_generation
+      ${Prisma.raw(dateFilter)}
     `;
     return [{ key: 'ai_images', count: Number(rows[0]?.count ?? 0) }];
   }
 
-  async getTop5PostsByAI(): Promise<any> {
+  async getTop5PostsByAI(daysBack?: number): Promise<any> {
+    const dateFilter = this.getDateFilter(daysBack);
+
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
-    SELECT *
-    FROM post
-    WHERE ai_created = true
-    ORDER BY like_count DESC
+      SELECT *
+      FROM post
+      WHERE ai_created = true ${Prisma.raw(dateFilter)}
+      ORDER BY like_count DESC
+      LIMIT 5
     `;
     return rows;
   }
 
-  async getTotalTokenUsage(): Promise<StatCount[]> {
+  async getTotalTokenUsage(daysBack?: number): Promise<StatCount[]> {
+    const dateFilter = daysBack
+      ? `WHERE "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
+      : '';
+
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
-    SELECT SUM(used_amount) as count
-    FROM user_usage
+      SELECT SUM(used_amount) as count
+      FROM user_usage
+      ${Prisma.raw(dateFilter)}
     `;
     return [{ key: 'token_usage', count: Number(rows[0]?.count ?? 0) }];
   }
 
-  async getAll(): Promise<{
+  async getAll(daysBack?: number): Promise<{
+    timeRange: { days: number; from: string; to: string };
     aspectRatios: StatCount[];
     styles: StatCount[];
     posts_by_ai: StatCount[];
@@ -102,19 +127,29 @@ export class StatisticsService {
       top_posts_by_ai,
       token_usage,
     ] = await Promise.all([
-      this.getAspectRatioStats(),
-      this.getStyles(),
-      this.getPostsByAI(),
-      this.getTotalAiImages(),
-      this.getTop5PostsByAI(),
-      this.getTotalTokenUsage(),
+      this.getAspectRatioStats(daysBack),
+      this.getStyles(daysBack),
+      this.getPostsByAI(daysBack),
+      this.getTotalAiImages(daysBack),
+      this.getTop5PostsByAI(daysBack),
+      this.getTotalTokenUsage(daysBack),
     ]);
 
     const storedPrompts = await this.getStoredTrendingPrompts(
-      'trending_prompts_v1',
+      daysBack ? `trending_prompts_${daysBack}d` : 'trending_prompts_v1',
     );
 
+    const to = new Date();
+    const from = daysBack
+      ? new Date(to.getTime() - daysBack * 24 * 60 * 60 * 1000)
+      : new Date(0); // Beginning of time
+
     return {
+      timeRange: {
+        days: daysBack || 0,
+        from: from.toISOString(),
+        to: to.toISOString(),
+      },
       aspectRatios,
       styles,
       posts_by_ai,
@@ -125,20 +160,20 @@ export class StatisticsService {
     };
   }
 
-  async getRawTrendingPrompts(): Promise<string[]> {
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 50);
+  async getRawTrendingPrompts(daysBack: number = 7): Promise<string[]> {
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - daysBack);
 
     const recentArtGenerations = await this.prisma.artGeneration.findMany({
       where: {
         created_at: {
-          gte: sevenDaysAgo,
+          gte: startDate,
         },
       },
       orderBy: {
         created_at: 'desc',
       },
-      take: 20,
+      take: Math.min(daysBack * 3, 100), // Scale with days
     });
 
     return recentArtGenerations.map((item) => item.user_prompt);
