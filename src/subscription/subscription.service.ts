@@ -60,7 +60,7 @@ export class SubscriptionService {
       mostRecentUsage.cycleStartedAt < new Date()
     ) {
       this.logger.warn(
-        `User ${userId} with plan ${user.userAccess.plan.id} has no today's usage cycle.`,
+        `User ${userId} with plan ${planId} has no today's usage cycle.`,
       );
       throw new InternalServerErrorException(
         "user has no today's usage cycle, please check the debug logs",
