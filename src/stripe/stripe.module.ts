@@ -5,9 +5,10 @@ import { StripeController } from './stripe.controller';
 import { StripeCoreService } from './stripe-core.service';
 import { StripeDbService } from './stripe-db.service';
 import { StripeWebhookProcessorService } from './stripe-webhook-processor.service';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports: [ConfigModule],
+  imports: [ConfigModule, AuthModule],
   controllers: [StripeController],
   providers: [
     StripeService,
