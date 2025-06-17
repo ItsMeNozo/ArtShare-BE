@@ -3,11 +3,12 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
-import { subscriptionInfoResponseMapper } from './mapper/subscription.mapper';
-import { SubscriptionInfoResponseDto } from './dto/response/subscription-info.dto';
-import { endOfDay, startOfDay } from 'date-fns';
+import { PaidAccessLevel } from '@prisma/client';
+import { startOfDay } from 'date-fns';
 import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
+import { PrismaService } from 'src/prisma.service';
+import { SubscriptionInfoResponseDto } from './dto/response/subscription-info.dto';
+import { subscriptionInfoResponseMapper } from './mapper/subscription.mapper';
 
 @Injectable()
 export class SubscriptionService {
@@ -28,10 +29,6 @@ export class SubscriptionService {
         UserUsage: {
           where: {
             featureKey: FeatureKey.AI_CREDITS,
-            cycleStartedAt: {
-              gte: startOfDay(new Date()),
-              lt: endOfDay(new Date()),
-            },
           },
           orderBy: { cycleStartedAt: 'desc' }, // ← newest first
           take: 1,
@@ -39,8 +36,14 @@ export class SubscriptionService {
       },
     });
 
+    if (!user) {
+      this.logger.error(`User ${userId} not found.`);
+      throw new InternalServerErrorException(
+        'user not found, please check the debug logs',
+      );
+    }
+
     if (
-      !user ||
       !user.userAccess ||
       user.UserUsage.length === 0 ||
       !user.userAccess.plan
@@ -48,6 +51,20 @@ export class SubscriptionService {
       this.logger.warn(`User ${userId} does not have an active subscription.`);
       throw new InternalServerErrorException(
         'user or user access or plan or usage not found, please check the debug logs',
+      );
+    }
+
+    const mostRecentUsage = user.UserUsage[0];
+    const planId = user.userAccess.plan.id;
+    if (
+      planId !== PaidAccessLevel.FREE &&
+      startOfDay(mostRecentUsage.cycleStartedAt) < startOfDay(new Date())
+    ) {
+      this.logger.warn(
+        `User ${userId} with plan ${planId} has no today's usage cycle.`,
+      );
+      throw new InternalServerErrorException(
+        "user has no today's usage cycle, please check the debug logs",
       );
     }
 
