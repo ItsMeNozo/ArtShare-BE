@@ -4,6 +4,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { PaidAccessLevel } from '@prisma/client';
+import { startOfDay } from 'date-fns';
 import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
 import { PrismaService } from 'src/prisma.service';
 import { SubscriptionInfoResponseDto } from './dto/response/subscription-info.dto';
@@ -56,8 +57,8 @@ export class SubscriptionService {
     const mostRecentUsage = user.UserUsage[0];
     const planId = user.userAccess.plan.id;
     if (
-      planId != PaidAccessLevel.FREE &&
-      mostRecentUsage.cycleStartedAt < new Date()
+      planId !== PaidAccessLevel.FREE &&
+      startOfDay(mostRecentUsage.cycleStartedAt) < startOfDay(new Date())
     ) {
       this.logger.warn(
         `User ${userId} with plan ${planId} has no today's usage cycle.`,
