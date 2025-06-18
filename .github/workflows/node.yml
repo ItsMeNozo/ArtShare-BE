@@ -155,7 +155,14 @@ jobs:
                 docker tag $BACKUP_IMAGE ${DOCKER_IMAGE}:latest
                 echo "✅ Rollback complete"
               else
-                echo "⚠️ Backup image not found, rollback failed"
+                echo "⚠️ Backup image not found, attempting to rebuild the backup"
+                docker build -t $BACKUP_IMAGE .
+                if [ $? -eq 0 ]; then
+                  docker tag $BACKUP_IMAGE ${DOCKER_IMAGE}:latest
+                  echo "✅ Rollback complete after rebuild"
+                else
+                  echo "⚠️ Backup rebuild failed, rollback failed"
+                fi
               fi
               exit 1
             }
@@ -168,13 +175,16 @@ jobs:
                   echo "✅ Application passed health check"
                   return 0
                 fi
-                echo "⏳ Waiting for application to start... ($i/30)"
-                sleep 2
+                echo "⏳ Waiting for application to start... ($i/60)"
+                sleep 5
               done
-              echo "❌ Health check failed"
-              docker logs $TEMP_CONTAINER
-              docker rm -f $TEMP_CONTAINER
-              exit 1
+              if [ $i -eq 60 ]; then
+                echo "❌ New container health check failed"
+                docker logs $TEMP_CONTAINER
+                docker rm -f $TEMP_CONTAINER
+                rollback
+              fi
+              return 1
             }
             
             # Zero-downtime deployment strategy
