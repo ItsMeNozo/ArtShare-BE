@@ -15,20 +15,20 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Copy package files
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+COPY package.json package-lock.json ./
+RUN npm ci --only=production
 
 # Copy prisma schema
 COPY prisma ./prisma
 
 # Generate Prisma client with correct binary target
-RUN yarn prisma generate
+RUN npx prisma generate
 
 # Copy source code
 COPY . .
 
 # Build application
-RUN yarn build
+RUN npm run build
 
 # Stage 2: Production dependencies  
 FROM node:22-slim AS deps
@@ -50,10 +50,10 @@ WORKDIR /app
 # Set Sharp configuration to use local binaries
 ENV SHARP_IGNORE_GLOBAL_LIBVIPS=1
 
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile --production --network-timeout 600000
+COPY package.json package-lock.json ./
+RUN npm ci --only=production --ignore-scripts
 COPY prisma ./prisma
-RUN yarn prisma generate
+RUN npx prisma generate
 
 # Stage 3: Production runtime
 FROM node:22-slim

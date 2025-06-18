@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "generate:metadata": "npx tsx scripts/generate-metadata.ts",
-    "prebuild": "yarn generate:metadata",
+    "prebuild": "npm run generate:metadata",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start -b swc --type-check",
@@ -73,11 +73,7 @@
     "stripe": "^18.0.0",
     "typeorm": "^0.3.21",
     "uuid": "^11.1.0",
-    "yarn": "^1.22.22",
     "zod": "^3.24.4"
-  },
-  "resolutions": {
-    "cookie": "^0.7.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.4.9",

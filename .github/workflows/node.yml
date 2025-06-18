@@ -23,19 +23,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'yarn'
+          cache: 'npm'
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Run Linting
-        run: yarn lint
+        run: npm run lint
 
       - name: Run Formatting Check
-        run: yarn format
+        run: npm run format
 
       - name: Audit Dependencies
-        run: yarn audit --level=high
+        run: npm audit --audit-level=high
         continue-on-error: true
 
       - name: Build Project (Production)
@@ -43,7 +43,7 @@ jobs:
           NODE_ENV: production
         run: |
           set -e
-          yarn build
+          npm run build
           if [ ! -d "dist" ] && [ ! -d "build" ]; then
             echo "Build output directory not found!"
             exit 1
