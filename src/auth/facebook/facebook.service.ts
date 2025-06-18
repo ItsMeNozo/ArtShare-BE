@@ -1,13 +1,17 @@
 import { HttpService } from '@nestjs/axios';
 import {
   Injectable,
-  Logger,
   InternalServerErrorException,
+  Logger,
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { SharePlatform } from '@prisma/client';
 import { firstValueFrom } from 'rxjs';
+import { PublicPlatformOutputDto } from 'src/platform/dtos/public-platform-output.dto';
+import { ApiPageData } from 'src/platform/dtos/sync-platform-input.dto';
+import { PlatformService } from 'src/platform/platform.service';
 import { v4 as uuidv4 } from 'uuid';
 import {
   FacebookPageApiResponseData,
@@ -15,10 +19,14 @@ import {
   FacebookUserTokenResponse,
   PublicFacebookPageData,
 } from './facebook.type';
-import { SharePlatform } from '@prisma/client';
-import { PublicPlatformOutputDto } from 'src/platform/dtos/public-platform-output.dto';
-import { ApiPageData } from 'src/platform/dtos/sync-platform-input.dto';
-import { PlatformService } from 'src/platform/platform.service';
+
+interface FacebookStatePayload {
+  sub: string;
+  nonce: string;
+  purpose: 'facebook_page_connection_state';
+  successRedirectUrl: string;
+  errorRedirectUrl: string;
+}
 
 @Injectable()
 export class FacebookAuthService {
@@ -57,12 +65,14 @@ export class FacebookAuthService {
   async getFacebookLoginUrl(
     userId: string,
     successRedirectUrl: string,
+    errorRedirectUrl: string,
   ): Promise<{ loginUrl: string }> {
-    const payload = {
+    const payload: FacebookStatePayload = {
       sub: userId,
       nonce: uuidv4(),
       purpose: 'facebook_page_connection_state',
       successRedirectUrl,
+      errorRedirectUrl,
     };
     const stateJwt = await this.jwtService.signAsync(payload, {
       secret: this.OAUTH_STATE_JWT_SECRET,
@@ -76,15 +86,42 @@ export class FacebookAuthService {
     return { loginUrl };
   }
 
+  async getRedirectUrlsFromState(stateJwt: string): Promise<{
+    successRedirectUrl?: string;
+    errorRedirectUrl?: string;
+  }> {
+    if (!stateJwt) {
+      return {};
+    }
+    try {
+      const payload = await this.jwtService.verifyAsync<FacebookStatePayload>(
+        stateJwt,
+        { secret: this.OAUTH_STATE_JWT_SECRET },
+      );
+
+      if (payload.purpose !== 'facebook_page_connection_state') {
+        this.logger.warn(`State JWT has invalid purpose: ${payload.purpose}`);
+        return {};
+      }
+
+      return {
+        successRedirectUrl: payload.successRedirectUrl,
+        errorRedirectUrl: payload.errorRedirectUrl,
+      };
+    } catch (error) {
+      this.logger.error(
+        'Failed to verify or decode state JWT',
+        (error as any).message,
+      );
+      return {};
+    }
+  }
+
   async handleFacebookCallback(
     code: string,
     receivedStateJwt: string,
   ): Promise<string | null> {
-    let statePayload: {
-      sub: string;
-      purpose: string;
-      successRedirectUrl?: string;
-    };
+    let statePayload: FacebookStatePayload;
     try {
       statePayload = await this.jwtService.verifyAsync(receivedStateJwt, {
         secret: this.OAUTH_STATE_JWT_SECRET,
@@ -97,7 +134,7 @@ export class FacebookAuthService {
       );
     } catch (error) {
       this.logger.warn(
-        '[Request ID: ${requestId}] Invalid or expired OAuth state JWT for Facebook callback:',
+        `Invalid or expired OAuth state JWT for Facebook callback:`,
         (error as any).message,
       );
       throw new UnauthorizedException(
