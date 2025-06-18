@@ -57,5 +57,5 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 firebase-config.json
 .vercel
 src/metadata.ts
-package-lock.json
 serviceKey.json
+yarn.lock
