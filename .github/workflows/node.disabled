@@ -18,22 +18,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'yarn'
+          cache: 'npm'
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Run Linting
-        run: yarn lint
+        run: npm run lint
 
       - name: Run Formatting Check
-        run: yarn format
+        run: npm run format
 
       - name: Build Project
-        run: yarn build
+        run: npm run build
 
       - name: Run Tests
-        run: yarn test --coverage
+        run: npm run test -- --coverage
 
       # - name: Setup Code Climate test-reporter
       #   run: |
