@@ -171,12 +171,12 @@ jobs:
             # Health check function
             health_check() {
               echo "🔍 Performing health check..."
-              for i in {1..30}; do  
+              for i in {1..15}; do  # Reduced from 30 to 15
                 if docker exec $CONTAINER_NAME curl -f http://localhost:3000 2>/dev/null; then
                   echo "✅ Health check passed"
                   return 0
                 fi
-                echo "Waiting for application to start... ($i/30)"
+                echo "Waiting for application to start... ($i/15)"
                 sleep 2
               done
               echo "❌ Health check failed"
@@ -206,7 +206,7 @@ jobs:
             
             # Wait for new container to be ready
             echo "⏳ Waiting for new container to be ready..."
-            sleep 20
+            sleep 10
             
             # Check if new container is running
             if ! docker ps | grep -q $TEMP_CONTAINER; then
@@ -217,19 +217,19 @@ jobs:
             fi
             
             # Test new container (UPDATED timeout)
-              echo "🔍 Testing new container..."
-            for i in {1..30}; do  
+            echo "🔍 Testing new container..."
+            for i in {1..15}; do  # Reduced from 30 to 15
               if docker exec $TEMP_CONTAINER curl -f http://localhost:3000 2>/dev/null; then
                 echo "✅ New container is healthy"
                 break
               fi
-              if [ $i -eq 30 ]; then 
-                echo "❌ New container health check failed after 60 seconds"  # Added timeout info
+              if [ $i -eq 15 ]; then
+                echo "❌ New container health check failed"
                 docker logs $TEMP_CONTAINER
                 docker rm -f $TEMP_CONTAINER
                 rollback
               fi
-              echo "Waiting for new container... ($i/30)"  
+              echo "Waiting for new container... ($i/15)"
               sleep 2
             done
             
