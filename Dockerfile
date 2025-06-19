@@ -10,15 +10,13 @@ RUN apt-get update && \
     openssl \
     && apt-get upgrade -y \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /tmp/* \
-    && rm -rf /var/tmp/*
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 # Copy package files
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile && yarn cache clean
+RUN yarn install --frozen-lockfile
 
 # Copy prisma schema
 COPY prisma ./prisma
@@ -45,9 +43,7 @@ RUN apt-get update && \
     g++ \
     && apt-get upgrade -y && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* \
-    && rm -rf /tmp/* \
-    && rm -rf /var/tmp/*
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -55,7 +51,7 @@ WORKDIR /app
 ENV SHARP_IGNORE_GLOBAL_LIBVIPS=1
 
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile --production --network-timeout 600000 && yarn cache clean
+RUN yarn install --frozen-lockfile --production --network-timeout 600000
 COPY prisma ./prisma
 RUN yarn prisma generate
 
@@ -71,9 +67,7 @@ RUN apt-get update && \
     libvips42 \
     && apt-get upgrade -y && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* \
-    && rm -rf /tmp/* \
-    && rm -rf /var/tmp/*
+    rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
 RUN groupadd --gid 1001 --system nodejs && \
