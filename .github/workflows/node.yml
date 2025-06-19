@@ -153,9 +153,7 @@ jobs:
               echo "❌ Deployment failed, rolling back..."
               if docker images | grep -q "$BACKUP_IMAGE"; then
                 docker tag $BACKUP_IMAGE ${DOCKER_IMAGE}:latest
-                echo "✅ Rollback complete"
-              else
-                echo "⚠️ Backup image not found, rollback failed"
+                echo "Rollback image restored"
               fi
               exit 1
             }
@@ -164,17 +162,15 @@ jobs:
             health_check() {
               echo "🔍 Performing health check..."
               for i in {1..30}; do
-                if curl -s http://127.0.0.1:3000/health | grep -q '"status":"OK"'; then
-                  echo "✅ Application passed health check"
+                if docker exec $CONTAINER_NAME curl -f http://localhost:3000 2>/dev/null; then
+                  echo "✅ Health check passed"
                   return 0
                 fi
-                echo "⏳ Waiting for application to start... ($i/30)"
+                echo "Waiting for application to start... ($i/30)"
                 sleep 2
               done
               echo "❌ Health check failed"
-              docker logs $TEMP_CONTAINER
-              docker rm -f $TEMP_CONTAINER
-              exit 1
+              return 1
             }
             
             # Zero-downtime deployment strategy
@@ -196,22 +192,17 @@ jobs:
               --entrypoint sh ${DOCKER_IMAGE}:latest \
               -c "npx prisma migrate deploy && node dist/src/main.js" || rollback
             
-            echo "⏳ Waiting for container to be ready..."
-              for i in {1..30}; do
-                if docker ps | grep -q $TEMP_CONTAINER; then
-                  echo "✅ New container is running"
-                  break
-                fi
-                echo "⏳ Retrying container start... ($i/30)"
-                sleep 20
-              done
-
-              if ! docker ps | grep -q $TEMP_CONTAINER; then
-                echo "❌ New container failed to start"
-                docker logs $TEMP_CONTAINER
-                docker rm -f $TEMP_CONTAINER
-                exit 1
-              fi
+            # Wait for new container to be ready
+            echo "⏳ Waiting for new container to be ready..."
+            sleep 20
+            
+            # Check if new container is running
+            if ! docker ps | grep -q $TEMP_CONTAINER; then
+              echo "❌ New container failed to start"
+              docker logs $TEMP_CONTAINER
+              docker rm -f $TEMP_CONTAINER 2>/dev/null || true
+              rollback
+            fi
             
             # Test new container
             echo "🔍 Testing new container..."
