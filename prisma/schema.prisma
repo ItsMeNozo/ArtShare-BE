@@ -413,17 +413,20 @@ model Notification {
 }
 
 model Platform {
-  id               Int            @id @default(autoincrement())
-  name             SharePlatform
-  config           Json
-  user_id          String
-  external_page_id String
-  created_at       DateTime       @default(now())
-  updated_at       DateTime?      @updatedAt
-  status           PlatformStatus @default(ACTIVE) // Default new connections to ACTIVE
-  token_expires_at DateTime?
+  id                  Int       @id @default(autoincrement())
+  config              Json
+  user_id             String
+  external_page_id    String
+  created_at          DateTime  @default(now())
+  updated_at          DateTime? @updatedAt
+  token_expires_at    DateTime?
+  picture_url         String?
+  facebook_account_id Int?
 
-  autoProjects AutoProject[]
+  name            SharePlatform
+  status          PlatformStatus   @default(ACTIVE)
+  facebookAccount FacebookAccount? @relation(fields: [facebook_account_id], references: [id], onDelete: Cascade)
+  autoProjects    AutoProject[]
 
   @@unique([user_id, name, external_page_id])
   @@map("platform")
@@ -487,13 +490,29 @@ model Message {
   conversationId String
   role           MessageRole
   content        String      @db.Text
-  metadata       Json? // Store generated prompts here
+  metadata       Json?
   createdAt      DateTime    @default(now())
 
   conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
   @@index([conversationId, createdAt])
   @@map("message")
+}
+
+model FacebookAccount {
+  id                           Int       @id @default(autoincrement())
+  user_id                      String
+  facebook_user_id             String    @unique
+  name                         String
+  picture_url                  String?
+  long_lived_user_access_token String
+  token_expires_at             DateTime?
+  created_at                   DateTime  @default(now())
+  updated_at                   DateTime  @updatedAt
+
+  platforms Platform[]
+
+  @@map("facebook_accounts")
 }
 
 enum MessageRole {
