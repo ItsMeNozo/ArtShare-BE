@@ -75,7 +75,6 @@ export class AutoProjectWriteService {
         },
       },
       include: {
-        autoPosts: true,
         platform: true,
       },
     });
@@ -115,8 +114,6 @@ export class AutoProjectWriteService {
     updateDto: UpdateAutoProjectDto,
     userId: string,
   ): Promise<AutoProjectDetailsDto> {
-    const { title, description } = updateDto;
-
     const existingProject = await this.prisma.autoProject.findFirst({
       where: { id, user_id: userId },
     });
@@ -129,10 +126,7 @@ export class AutoProjectWriteService {
 
     const updatedProject = await this.prisma.autoProject.update({
       where: { id },
-      data: {
-        title,
-        description,
-      },
+      data: updateDto,
       include: { autoPosts: true },
     });
 

@@ -3,7 +3,6 @@ import { AutoProjectDetailsDto } from '../dto/response/auto-project-details.dto'
 
 type AutoProjectWithRelations = Prisma.AutoProjectGetPayload<{
   include: {
-    autoPosts: true;
     platform: true;
   };
 }>;
