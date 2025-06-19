@@ -110,18 +110,21 @@ jobs:
             
             echo "🚀 Starting deployment for commit: $GITHUB_SHA"
             
-            # CRITICAL: Clean up disk space BEFORE building
-            echo "🧹 Cleaning up disk space before deployment..."
+            # PRE-DEPLOYMENT CLEANUP 
+            echo "🧹 Pre-deployment cleanup..."
+            docker builder prune -af
+            docker system prune -f
             
-            # Remove unused Docker objects
-            docker system prune -af --volumes || true
+            # Check available space
+            AVAILABLE_SPACE=$(df / | awk 'NR==2 {print $4}')
+            AVAILABLE_GB=$((AVAILABLE_SPACE / 1024 / 1024))
+            echo "📊 Available disk space: ${AVAILABLE_GB}GB"
             
-            # Remove old backup images
-            docker images | grep "backup-" | awk '{print $3}' | xargs -r docker rmi -f || true
-            
-            # Show disk usage
-            echo "📊 Current disk usage:"
-            df -h /
+            if [ $AVAILABLE_GB -lt 2 ]; then
+              echo "🚨 Critical: Less than 2GB free space!"
+              docker system prune -af --volumes
+              docker image prune -af
+            fi
             
             # Navigate to project directory
             cd ArtShare-BE/
@@ -140,13 +143,20 @@ jobs:
             git checkout main
             git reset --hard origin/main
             
-            # Build new image with layer caching for faster builds
-            echo "🔨 Building Docker image with caching..."
+            # Build new image with space optimization (UPDATED)
+            echo "🔨 Building Docker image with space optimization..."
+            export DOCKER_BUILDKIT=1
             docker build \
-              --cache-from ${DOCKER_IMAGE}:latest \
               --build-arg BUILDKIT_INLINE_CACHE=1 \
               -t ${DOCKER_IMAGE}:${GITHUB_SHA} \
-              -t ${DOCKER_IMAGE}:latest .
+              -t ${DOCKER_IMAGE}:latest . || {
+                echo "❌ Build failed, cleaning up..."
+                docker builder prune -f
+                exit 1
+              }
+            
+            # Immediate post-build cleanup
+            docker builder prune -f --filter="until=10m"
             
             # Function to rollback on failure
             rollback() {
@@ -161,7 +171,7 @@ jobs:
             # Health check function
             health_check() {
               echo "🔍 Performing health check..."
-              for i in {1..30}; do
+              for i in {1..30}; do  
                 if docker exec $CONTAINER_NAME curl -f http://localhost:3000 2>/dev/null; then
                   echo "✅ Health check passed"
                   return 0
@@ -187,6 +197,8 @@ jobs:
               --cap-add=SETGID \
               --cap-add=SETUID \
               --security-opt=no-new-privileges:true \
+              --memory=400m \
+              --memory-swap=400m \
               -p 127.0.0.1:3001:3000 \
               --env-file .env \
               --entrypoint sh ${DOCKER_IMAGE}:latest \
@@ -204,20 +216,20 @@ jobs:
               rollback
             fi
             
-            # Test new container
-            echo "🔍 Testing new container..."
-            for i in {1..30}; do
+            # Test new container (UPDATED timeout)
+              echo "🔍 Testing new container..."
+            for i in {1..30}; do  
               if docker exec $TEMP_CONTAINER curl -f http://localhost:3000 2>/dev/null; then
                 echo "✅ New container is healthy"
                 break
               fi
-              if [ $i -eq 30 ]; then
-                echo "❌ New container health check failed"
+              if [ $i -eq 30 ]; then 
+                echo "❌ New container health check failed after 60 seconds"  # Added timeout info
                 docker logs $TEMP_CONTAINER
                 docker rm -f $TEMP_CONTAINER
                 rollback
               fi
-              echo "Waiting for new container... ($i/30)"
+              echo "Waiting for new container... ($i/30)"  
               sleep 2
             done
             
@@ -234,7 +246,7 @@ jobs:
             docker stop $TEMP_CONTAINER
             docker rm $TEMP_CONTAINER
             
-            # Start final container on production port
+            # Start final container on production port (UPDATED with memory limits)
             echo "🚀 Starting production container..."
             docker run -d --name $CONTAINER_NAME \
               --restart=unless-stopped \
@@ -243,6 +255,8 @@ jobs:
               --cap-add=SETGID \
               --cap-add=SETUID \
               --security-opt=no-new-privileges:true \
+              --memory=400m \
+              --memory-swap=400m \
               -p 127.0.0.1:3000:3000 \
               --env-file .env \
               --entrypoint sh ${DOCKER_IMAGE}:latest \
@@ -254,17 +268,22 @@ jobs:
               rollback
             fi
             
-            # Clean up old images (keep last 3)
-            echo "🧹 Cleaning up old Docker images..."
+            # Enhanced cleanup (UPDATED)
+            echo "🧹 Post-deployment cleanup..."
+            docker builder prune -f
             docker images $DOCKER_IMAGE --format "table {{.Repository}}:{{.Tag}}\t{{.CreatedAt}}" | \
               grep -v "latest\|backup" | \
-              tail -n +4 | \
+              tail -n +3 | \
               awk '{print $1}' | \
-              xargs -r docker rmi || true
+              xargs -r docker rmi 2>/dev/null || true
             
             echo "✅ Deployment completed successfully!"
             echo "📊 Container status:"
             docker ps | grep $CONTAINER_NAME
+            
+            echo "💾 Disk usage after deployment:"
+            df -h /
+            docker system df
             
             echo "📝 Recent logs:"
             docker logs --tail 20 $CONTAINER_NAME
