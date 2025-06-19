@@ -49,12 +49,9 @@ jobs:
             exit 1
           fi
 
-      - name: Build Docker Image with Cache
+      - name: Build Docker Image
         run: |
-          # Build with layer caching for faster builds
           docker build \
-            --cache-from ${{ env.DOCKER_IMAGE }}:latest \
-            --build-arg BUILDKIT_INLINE_CACHE=1 \
             -t ${{ env.DOCKER_IMAGE }}:${{ github.sha }} \
             -t ${{ env.DOCKER_IMAGE }}:test .
 
@@ -94,229 +91,119 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     
     steps:
-      - name: Deploy to Digital Ocean
-        uses: appleboy/ssh-action@v1.0.3
-        env:
-          GITHUB_SHA: ${{ github.sha }}
-          DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
-          CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
+      # Step 1: Download the image file created in the previous job.
+      - name: Download Docker Image Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image-${{ github.sha }}
+
+      # Step 2: Copy the image file to a temporary location on your server.
+      - name: Copy Image to Server
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.DO_HOST }}
           username: root
           key: ${{ secrets.DO_SSH_KEY }}
-          envs: GITHUB_SHA,DOCKER_IMAGE,CONTAINER_NAME
+          source: "docker-image.tar.gz"
+          target: "/tmp"
+
+      # Step 3: Run the combined deployment, verification, and notification script.
+      - name: Deploy, Verify, and Notify
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: root
+          key: ${{ secrets.DO_SSH_KEY }}
+          envs: GITHUB_SHA, DOCKER_IMAGE, CONTAINER_NAME
           script: |
-            set -e
+            # This script will run the main deployment logic.
+            # If it succeeds, it runs the success notification.
+            # If any command fails, it runs the failure notification.
             
-            echo "🚀 Starting deployment for commit: $GITHUB_SHA"
-            
-            # Navigate to project directory
-            cd ArtShare-BE/
-            
-            # Backup current state for rollback
-            echo "📦 Creating backup of current deployment..."
-            BACKUP_IMAGE="${DOCKER_IMAGE}:backup-$(date +%s)"
-            if docker images | grep -q "${DOCKER_IMAGE}:latest"; then
-              docker tag ${DOCKER_IMAGE}:latest $BACKUP_IMAGE
-              echo "Backup created: $BACKUP_IMAGE"
-            fi
-            
-            # Pull latest code
-            echo "📥 Pulling latest code from main branch..."
-            git fetch origin
-            git checkout main
-            git reset --hard origin/main
-            
-            # Build new image with layer caching for faster builds
-            echo "🔨 Building Docker image with caching..."
-            docker build \
-              --cache-from ${DOCKER_IMAGE}:latest \
-              --build-arg BUILDKIT_INLINE_CACHE=1 \
-              -t ${DOCKER_IMAGE}:${GITHUB_SHA} \
-              -t ${DOCKER_IMAGE}:latest .
-            
-            # Function to rollback on failure
-            rollback() {
-              echo "❌ Deployment failed, rolling back..."
-              if docker images | grep -q "$BACKUP_IMAGE"; then
-                docker tag $BACKUP_IMAGE ${DOCKER_IMAGE}:latest
-                echo "Rollback image restored"
-              fi
-              exit 1
-            }
-            
-            # Health check function
-            health_check() {
-              echo "🔍 Performing health check..."
-              for i in {1..30}; do
-                if docker exec $CONTAINER_NAME curl -f http://localhost:3000 2>/dev/null; then
-                  echo "✅ Health check passed"
+            # Function for the main deployment logic
+            deploy_and_verify() {
+              set -e # Exit this function immediately if a command fails
+              
+              echo "🚀 Starting deployment for commit: $GITHUB_SHA"
+              
+              echo "📦 Loading Docker image from /tmp/docker-image.tar.gz..."
+              docker load -i /tmp/docker-image.tar.gz
+              
+              # Start of your proven zero-downtime deployment logic
+              TEMP_CONTAINER="${CONTAINER_NAME}-new"
+              echo "🚀 Starting new container: $TEMP_CONTAINER"
+              
+              docker rm -f $TEMP_CONTAINER 2>/dev/null || true # Ensure no stale temp container exists
+              
+              docker run -d --name $TEMP_CONTAINER \
+                --restart=unless-stopped \
+                --cap-drop=ALL --cap-add=CHOWN --cap-add=SETGID --cap-add=SETUID --security-opt=no-new-privileges:true \
+                -p 127.0.0.1:3001:3000 \
+                --env-file /root/ArtShare-BE/.env \
+                ${DOCKER_IMAGE}:latest
+              
+              echo "⏳ Waiting for new container to be ready (up to 60s)..."
+              sleep 10 # Initial grace period
+              
+              # Health check and verification loop
+              for i in {1..25}; do
+                # Check that the container is running and healthy via curl
+                if docker exec $TEMP_CONTAINER curl -f http://localhost:3000/health >/dev/null 2>&1; then
+                  echo "✅ Verification successful: New container is healthy."
+                  
+                  # Stop the old container if it's running
+                  if docker ps | grep -q "$CONTAINER_NAME"; then
+                    echo "🛑 Stopping old container..."
+                    docker stop $CONTAINER_NAME
+                    docker rm $CONTAINER_NAME
+                  fi
+                  
+                  # Rename the new container to the final name and restart it on the correct port
+                  echo "🔄 Switching to the new container on port 3000..."
+                  docker stop $TEMP_CONTAINER
+                  docker rm $TEMP_CONTAINER
+                  
+                  docker run -d --name $CONTAINER_NAME \
+                    --restart=unless-stopped \
+                    --cap-drop=ALL --cap-add=CHOWN --cap-add=SETGID --cap-add=SETUID --security-opt=no-new-privileges:true \
+                    -p 127.0.0.1:3000:3000 \
+                    --env-file /root/ArtShare-BE/.env \
+                    ${DOCKER_IMAGE}:latest
+                  
+                  # If we reach this point, the entire process was a success.
                   return 0
                 fi
-                echo "Waiting for application to start... ($i/30)"
+                echo "Waiting for health check... ($i/25)"
                 sleep 2
               done
-              echo "❌ Health check failed"
-              return 1
-            }
-            
-            # Zero-downtime deployment strategy
-            echo "🔄 Starting zero-downtime deployment..."
-            
-            # Start new container with temporary name
-            TEMP_CONTAINER="${CONTAINER_NAME}-new"
-            
-            echo "🚀 Starting new container: $TEMP_CONTAINER"
-            docker run -d --name $TEMP_CONTAINER \
-              --restart=unless-stopped \
-              --cap-drop=ALL \
-              --cap-add=CHOWN \
-              --cap-add=SETGID \
-              --cap-add=SETUID \
-              --security-opt=no-new-privileges:true \
-              -p 127.0.0.1:3001:3000 \
-              --env-file .env \
-              --entrypoint sh ${DOCKER_IMAGE}:latest \
-              -c "npx prisma migrate deploy && node dist/src/main.js" || rollback
-            
-            # Wait for new container to be ready
-            echo "⏳ Waiting for new container to be ready..."
-            sleep 10
-            
-            # Check if new container is running
-            if ! docker ps | grep -q $TEMP_CONTAINER; then
-              echo "❌ New container failed to start"
+              
+              # If the loop finishes, the health check failed.
+              echo "❌ Verification failed: New container did not become healthy in time."
+              echo "Logs from failed container:"
               docker logs $TEMP_CONTAINER
-              docker rm -f $TEMP_CONTAINER 2>/dev/null || true
-              rollback
-            fi
-            
-            # Test new container
-            echo "🔍 Testing new container..."
-            for i in {1..30}; do
-              if docker exec $TEMP_CONTAINER curl -f http://localhost:3000 2>/dev/null; then
-                echo "✅ New container is healthy"
-                break
-              fi
-              if [ $i -eq 30 ]; then
-                echo "❌ New container health check failed"
-                docker logs $TEMP_CONTAINER
-                docker rm -f $TEMP_CONTAINER
-                rollback
-              fi
-              echo "Waiting for new container... ($i/30)"
-              sleep 2
-            done
-            
-            # Stop old container and start new one on correct port
-            echo "🔄 Switching to new container..."
-            
-            # Stop old container
-            if docker ps | grep -q "$CONTAINER_NAME"; then
-              docker stop $CONTAINER_NAME
-              docker rm $CONTAINER_NAME
-            fi
-            
-            # Stop temp container
-            docker stop $TEMP_CONTAINER
-            docker rm $TEMP_CONTAINER
-            
-            # Start final container on production port
-            echo "🚀 Starting production container..."
-            docker run -d --name $CONTAINER_NAME \
-              --restart=unless-stopped \
-              --cap-drop=ALL \
-              --cap-add=CHOWN \
-              --cap-add=SETGID \
-              --cap-add=SETUID \
-              --security-opt=no-new-privileges:true \
-              -p 127.0.0.1:3000:3000 \
-              --env-file .env \
-              --entrypoint sh ${DOCKER_IMAGE}:latest \
-              -c "npx prisma migrate deploy && node dist/src/main.js" || rollback
-            
-            # Final health check
-            sleep 10
-            if ! health_check; then
-              rollback
-            fi
-            
-            # Clean up old images (keep last 3)
-            echo "🧹 Cleaning up old Docker images..."
-            docker images $DOCKER_IMAGE --format "table {{.Repository}}:{{.Tag}}\t{{.CreatedAt}}" | \
-              grep -v "latest\|backup" | \
-              tail -n +4 | \
-              awk '{print $1}' | \
-              xargs -r docker rmi || true
-            
-            echo "✅ Deployment completed successfully!"
-            echo "📊 Container status:"
-            docker ps | grep $CONTAINER_NAME
-            
-            echo "📝 Recent logs:"
-            docker logs --tail 20 $CONTAINER_NAME
+              docker rm -f $TEMP_CONTAINER
+              return 1 # Explicitly return a failure code
+            }
 
-      - name: Verify Deployment
-        uses: appleboy/ssh-action@v1.0.3
-        env:
-          CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
-        with:
-          host: ${{ secrets.DO_HOST }}
-          username: root
-          key: ${{ secrets.DO_SSH_KEY }}
-          envs: CONTAINER_NAME
-          script: |
-            # Final verification
-            echo "🔍 Final deployment verification..."
-            
-            # Check container is running
-            if ! docker ps | grep -q "$CONTAINER_NAME"; then
-              echo "❌ Container is not running!"
-              exit 1
-            fi
-            
-            # Check application responds
-            sleep 5
-            if docker exec $CONTAINER_NAME curl -f http://localhost:3000 >/dev/null 2>&1; then
-              echo "✅ Application is responding"
+            # --- Main Execution Block ---
+            # Try to run the deployment function. Based on the result, run the correct notification.
+            if deploy_and_verify; then
+              # Success Notification
+              echo "🎉 Deployment of commit $GITHUB_SHA completed successfully!"
+              echo "📊 Current status:"
+              docker ps | grep $CONTAINER_NAME
+              echo "🔗 Application should be available at your domain"
+              
+              # Cleanup the temporary image file
+              echo "🧹 Cleaning up..."
+              rm /tmp/docker-image.tar.gz
+              docker image prune -f
             else
-              echo "❌ Application is not responding"
-              echo "Container logs:"
-              docker logs --tail 50 $CONTAINER_NAME
-              exit 1
+              # Failure Notification
+              echo "❌ Deployment failed for commit $GITHUB_SHA"
+              echo "📊 Current container status:"
+              docker ps -a | grep $CONTAINER_NAME || echo "No backend container found"
+              # Cleanup the temporary image file even on failure
+              rm /tmp/docker-image.tar.gz
+              exit 1 # Make sure the GitHub Actions step is marked as failed
             fi
-            
-            echo "🎉 Deployment verification successful!"
-
-      - name: Notify Deployment Success
-        if: success()
-        uses: appleboy/ssh-action@v1.0.3
-        env:
-          CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
-        with:
-          host: ${{ secrets.DO_HOST }}
-          username: root
-          key: ${{ secrets.DO_SSH_KEY }}
-          envs: CONTAINER_NAME
-          script: |
-            echo "🎉 Deployment of commit ${{ github.sha }} completed successfully!"
-            echo "📊 Current status:"
-            docker ps | grep $CONTAINER_NAME
-            echo "🔗 Application should be available at your domain"
-
-      - name: Notify Deployment Failure
-        if: failure()
-        uses: appleboy/ssh-action@v1.0.3
-        env:
-          CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
-        with:
-          host: ${{ secrets.DO_HOST }}
-          username: root
-          key: ${{ secrets.DO_SSH_KEY }}
-          envs: CONTAINER_NAME
-          script: |
-            echo "❌ Deployment failed for commit ${{ github.sha }}"
-            echo "📊 Current container status:"
-            docker ps -a | grep $CONTAINER_NAME || echo "No backend container found"
-            echo "📝 Recent logs:"
-            docker logs --tail 50 $CONTAINER_NAME 2>/dev/null || echo "No logs available"
