@@ -84,11 +84,11 @@ jobs:
           docker stop test-container || true
           docker rm test-container || true
 
-  # Deploy Job (only runs on main branch push)
+  # Deploy Job (temporarily enabled for all branches)
   deploy:
     needs: build-and-test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.event_name == 'push'  # Temporarily removed main branch restriction
     
     steps:
       # Step 1: Download the image file created in the previous job.
