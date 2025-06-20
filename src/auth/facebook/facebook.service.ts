@@ -17,6 +17,7 @@ import {
   FacebookPagesApiResponse,
   FacebookStatePayload,
   FacebookUserTokenResponse,
+  PublicFacebookPageData,
 } from './facebook.type';
 
 @Injectable()
@@ -147,6 +148,51 @@ export class FacebookAuthService {
       );
       throw error;
     }
+  }
+
+  /**
+   * @description Retrieves all Facebook accounts and their associated platforms for a given user.
+   * @param userId The internal ID of the user.
+   * @returns A list of Facebook account details and their platforms.
+   */
+  async getFacebookAccountInfo(userId: string): Promise<
+    Array<{
+      name: string;
+      picture_url: string | null;
+      platforms: PublicFacebookPageData[];
+    }>
+  > {
+    const accounts = await this.prisma.facebookAccount.findMany({
+      where: { user_id: userId },
+      include: {
+        platforms: {
+          where: { name: SharePlatform.FACEBOOK },
+          select: {
+            id: true,
+            external_page_id: true,
+            status: true,
+            config: true,
+          },
+        },
+      },
+    });
+
+    return accounts.map((account) => {
+      const formattedPlatforms: PublicFacebookPageData[] =
+        account.platforms.map((p) => ({
+          platform_db_id: p.id,
+          id: p.external_page_id,
+          name: (p.config as any)?.page_name || 'Unknown Page',
+          category: (p.config as any)?.category || 'Unknown Category',
+          status: p.status,
+        }));
+
+      return {
+        name: account.name,
+        picture_url: account.picture_url,
+        platforms: formattedPlatforms,
+      };
+    });
   }
 
   private async _verifyState(
