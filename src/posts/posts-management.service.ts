@@ -8,11 +8,11 @@ import {
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { MediaType, Post } from '@prisma/client';
 import { plainToInstance } from 'class-transformer';
 import { TryCatch } from 'src/common/try-catch.decorator';
 import embeddingConfig from 'src/config/embedding.config';
 import { QdrantService } from 'src/embedding/qdrant.service';
+import { MediaType, Post } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { FileUploadResponse } from 'src/storage/dto/response.dto';
 import { StorageService } from 'src/storage/storage.service';

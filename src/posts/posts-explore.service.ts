@@ -1,10 +1,10 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import { Post, Prisma } from '@prisma/client';
 import { QdrantClient } from '@qdrant/js-client-rest';
 import { TryCatch } from 'src/common/try-catch.decorator';
 import embeddingConfig from 'src/config/embedding.config';
 import { EmbeddingService } from 'src/embedding/embedding.service';
+import { Post, Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { SearchPostDto } from './dto/request/search-post.dto';
 import { PostDetailsResponseDto } from './dto/response/post-details.dto';

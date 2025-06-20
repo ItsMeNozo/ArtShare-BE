@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { plainToInstance } from 'class-transformer';
 import { TryCatch } from 'src/common/try-catch.decorator';
+import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { FindManyCategoriesDto } from './dto/request/find-many.dto';
 import { CategoryResponseDto } from './dto/response/category.dto';

@@ -1,27 +1,27 @@
 import {
-  Controller,
-  Post,
   Body,
-  UseGuards,
-  HttpStatus,
+  Controller,
+  Delete,
   Get,
-  Query,
-  Patch,
+  HttpCode,
+  HttpStatus,
   Param,
   ParseIntPipe,
-  Delete,
-  HttpCode,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
-import { CommentService } from './comment.service';
-import { CreateCommentDto } from './dto/create-comment.dto';
 import { ApiOperation } from '@nestjs/swagger';
-import { Comment } from '@prisma/client';
+import { Public } from 'src/auth/decorators/public.decorator';
+import { CurrentUser } from 'src/auth/decorators/users.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
-import { CurrentUser } from 'src/auth/decorators/users.decorator';
-import { UpdateCommentDto } from './dto/update-comment.dto';
-import { Public } from 'src/auth/decorators/public.decorator';
+import { Comment } from 'src/generated';
+import { CommentService } from './comment.service';
+import { CreateCommentDto } from './dto/create-comment.dto';
 import { GetCommentsDto } from './dto/request/get-comments.dto';
+import { UpdateCommentDto } from './dto/update-comment.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('comments')

@@ -5,13 +5,13 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { User } from 'src/generated';
 import Stripe from 'stripe';
 import { CreateCheckoutSessionDto } from './dto/create-checkout-session';
-import { User } from '@prisma/client';
 import { StripeCoreService } from './stripe-core.service';
 import { StripeDbService } from './stripe-db.service';
 import { StripeWebhookProcessorService } from './stripe-webhook-processor.service';
-import { ConfigService } from '@nestjs/config';
 import { DailyBreakdown } from './types';
 
 @Injectable()
@@ -166,7 +166,8 @@ export class StripeService {
       }
 
       const devSuffix = '+location_VN';
-      const isDevelopment = this.configService.get<string>('NODE_ENV') === 'development';
+      const isDevelopment =
+        this.configService.get<string>('NODE_ENV') === 'development';
       let customerEmailForStripe: string | undefined = email;
       if (isDevelopment && customerEmailForStripe) {
         const emailParts = customerEmailForStripe.split('@');
@@ -380,8 +381,12 @@ export class StripeService {
         limit: 100,
       });
       const dailyTotals = new Map<string, number>();
-      
-      for (let d = new Date(startOfMonth); d <= today; d.setDate(d.getDate() + 1)) {
+
+      for (
+        let d = new Date(startOfMonth);
+        d <= today;
+        d.setDate(d.getDate() + 1)
+      ) {
         const dateString = d.toISOString().split('T')[0];
         dailyTotals.set(dateString, 0);
       }
@@ -397,8 +402,12 @@ export class StripeService {
       const dailyBreakdown = Array.from(dailyTotals.entries())
         .map(([date, amount]) => ({ date, amount }))
         .sort((a, b) => a.date.localeCompare(b.date));
-      const totalIncome = dailyBreakdown.reduce((sum, day) => sum + day.amount, 0);
-      const currency = transactions.data.length > 0 ? transactions.data[0].currency : 'usd';
+      const totalIncome = dailyBreakdown.reduce(
+        (sum, day) => sum + day.amount,
+        0,
+      );
+      const currency =
+        transactions.data.length > 0 ? transactions.data[0].currency : 'usd';
 
       return {
         totalIncome,
@@ -407,8 +416,13 @@ export class StripeService {
         dailyBreakdown,
       };
     } catch (error) {
-      this.logger.error(`Stripe API error in getIncomeSummary: ${(error as Error).message}`, (error as Error).stack);
-      throw new Error('Failed to communicate with Stripe API for income summary.');
+      this.logger.error(
+        `Stripe API error in getIncomeSummary: ${(error as Error).message}`,
+        (error as Error).stack,
+      );
+      throw new Error(
+        'Failed to communicate with Stripe API for income summary.',
+      );
     }
   }
 }

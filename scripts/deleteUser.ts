@@ -1,8 +1,8 @@
 // execute: npx tsx ./scripts/deleteUser.ts <userId>
 
-import { PrismaClient } from '@prisma/client';
-import * as admin from 'firebase-admin';      
 import * as dotenv from 'dotenv';
+import * as admin from 'firebase-admin';
+import { PrismaClient } from 'src/generated';
 
 // Load environment variables
 dotenv.config();
@@ -26,37 +26,42 @@ const serviceAccount = {
   token_uri: process.env.FIREBASE_TOKEN_URI,
   auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_CERT_URL,
   client_x509_cert_url: process.env.FIREBASE_CLIENT_CERT_URL,
-  universe_domain: process.env.FIREBASE_UNIVERSE_DOMAIN
+  universe_domain: process.env.FIREBASE_UNIVERSE_DOMAIN,
 };
-
 
 // ─── 1. Initialize Firebase Admin SDK ─────────────────────────────────────────
 // We assume you have downloaded a service account JSON and saved it to ../firebase-service-account.json
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
-});                                                                            // :contentReference[oaicite:5]{index=5}
+}); // :contentReference[oaicite:5]{index=5}
 
 async function deleteUserAndVerify(userId: string) {
-  console.log(`Attempting to delete user: ${userId} and their associated data...`);
+  console.log(
+    `Attempting to delete user: ${userId} and their associated data...`,
+  );
 
   try {
     // ─── 2. Check if user exists in Prisma before proceeding ────────────────────
     const userExists = await prisma.user.findUnique({ where: { id: userId } });
     if (!userExists) {
-      console.log(`User with ID ${userId} not found in database. Nothing to delete.`); // :contentReference[oaicite:6]{index=6}
+      console.log(
+        `User with ID ${userId} not found in database. Nothing to delete.`,
+      ); // :contentReference[oaicite:6]{index=6}
       return;
     }
 
     // ─── 3. Delete from Firebase Auth first ────────────────────────────────────
     console.log(`Deleting user ${userId} from Firebase Auth...`);
     try {
-      await admin.auth().deleteUser(userId);                                    // :contentReference[oaicite:7]{index=7}
+      await admin.auth().deleteUser(userId); // :contentReference[oaicite:7]{index=7}
       console.log(`Successfully deleted Auth user ${userId}.`);
     } catch (authError: any) {
       console.error(`Error deleting Auth user ${userId}:`, authError);
       // If the Auth user does not exist, you can choose to continue to Prisma cleanup:
       if (authError.code === 'auth/user-not-found') {
-        console.warn(`Auth user ${userId} not found. Continuing Prisma cleanup...`); // :contentReference[oaicite:8]{index=8}
+        console.warn(
+          `Auth user ${userId} not found. Continuing Prisma cleanup...`,
+        ); // :contentReference[oaicite:8]{index=8}
       } else {
         throw authError;
       }
@@ -64,21 +69,21 @@ async function deleteUserAndVerify(userId: string) {
 
     // ─── 4. Start a Prisma transaction to delete all related records ────────────
     await prisma.$transaction(async (tx) => {
-      console.log("Starting Prisma transaction...");
+      console.log('Starting Prisma transaction...');
 
       // 4.1 Delete any collections explicitly if not cascaded:
       console.log(`Deleting collections for user ${userId}...`);
       const deletedCollections = await tx.collection.deleteMany({
         where: { user_id: userId },
       });
-      console.log(`Deleted ${deletedCollections.count} collection(s).`);           // :contentReference[oaicite:9]{index=9}
+      console.log(`Deleted ${deletedCollections.count} collection(s).`); // :contentReference[oaicite:9]{index=9}
 
       // 4.2 Delete art generations by user:
       console.log(`Deleting art generations for user ${userId}...`);
       const deletedArtGenerations = await tx.artGeneration.deleteMany({
         where: { user_id: userId },
       });
-      console.log(`Deleted ${deletedArtGenerations.count} art generation(s).`);    // :contentReference[oaicite:10]{index=10}
+      console.log(`Deleted ${deletedArtGenerations.count} art generation(s).`); // :contentReference[oaicite:10]{index=10}
 
       // 4.3 (Optional) If you must clean up orphan Media by creator_id:
       // console.log(`Deleting media records with creator_id ${userId} (if exist)...`);
@@ -89,29 +94,35 @@ async function deleteUserAndVerify(userId: string) {
 
       // 4.4 Delete the User record (cascade should handle other relations):
       console.log(`Deleting user ${userId} from Prisma...`);
-      await tx.user.delete({ where: { id: userId } });                             // :contentReference[oaicite:11]{index=11}
+      await tx.user.delete({ where: { id: userId } }); // :contentReference[oaicite:11]{index=11}
       console.log(`User ${userId} deleted successfully from Prisma.`);
-      console.log("Prisma transaction committed.");
+      console.log('Prisma transaction committed.');
     });
 
     // ─── 5. Verification step ─────────────────────────────────────────────────────
-    console.log("\n--- Verification ---");
+    console.log('\n--- Verification ---');
     await verifyUserDeletion(userId);
-
   } catch (error: any) {
-    console.error("Error during user deletion process:", error);
+    console.error('Error during user deletion process:', error);
     // Prisma-specific error for record not found
-    if (error.code === 'P2025') {                                                   // :contentReference[oaicite:12]{index=12}
-      console.warn(`User with ID ${userId} might have already been deleted or never existed in Prisma.`);
-    } else if (error.message.includes("Foreign key constraint failed")) {
-      console.error("A foreign key constraint failed. Review schema cascades/manual deletes.");
+    if (error.code === 'P2025') {
+      // :contentReference[oaicite:12]{index=12}
+      console.warn(
+        `User with ID ${userId} might have already been deleted or never existed in Prisma.`,
+      );
+    } else if (error.message.includes('Foreign key constraint failed')) {
+      console.error(
+        'A foreign key constraint failed. Review schema cascades/manual deletes.',
+      );
     } else if (error.code && error.code.startsWith('auth/')) {
-      console.error("A Firebase Auth error occurred. Manual investigation may be needed.");
+      console.error(
+        'A Firebase Auth error occurred. Manual investigation may be needed.',
+      );
     }
-    console.log("\n--- Attempting Verification After Error ---");
+    console.log('\n--- Attempting Verification After Error ---');
     await verifyUserDeletion(userId);
   } finally {
-    await prisma.$disconnect();                                                      // :contentReference[oaicite:13]{index=13}
+    await prisma.$disconnect(); // :contentReference[oaicite:13]{index=13}
   }
 }
 
@@ -121,7 +132,7 @@ async function verifyUserDeletion(userId: string) {
 
   // 1. Check if Prisma user still exists
   const user = await prisma.user.findUnique({ where: { id: userId } });
-  checks.push({ model: 'User', exists: !!user, count: user ? 1 : 0 });                // :contentReference[oaicite:14]{index=14}
+  checks.push({ model: 'User', exists: !!user, count: user ? 1 : 0 }); // :contentReference[oaicite:14]{index=14}
   if (user) allClear = false;
 
   // 2. Check related Prisma counts in parallel
@@ -141,24 +152,26 @@ async function verifyUserDeletion(userId: string) {
     countReportsAsReporter,
     countUserAccess,
     countUserUsage,
-    countArtGenerations
+    countArtGenerations,
   ] = await prisma.$transaction([
-    prisma.userRole.count({ where: { user_id: userId } }),                          // :contentReference[oaicite:15]{index=15}
-    prisma.post.count({ where: { user_id: userId } }),                               // :contentReference[oaicite:16]{index=16}
-    prisma.blog.count({ where: { user_id: userId } }),                               // :contentReference[oaicite:17]{index=17}
-    prisma.media.count({ where: { post: { user_id: userId } } }),                    // :contentReference[oaicite:18]{index=18}
-    prisma.like.count({ where: { user_id: userId } }),                                // :contentReference[oaicite:19]{index=19}
-    prisma.commentLike.count({ where: { user_id: userId } }),                         // :contentReference[oaicite:20]{index=20}
-    prisma.comment.count({ where: { user_id: userId } }),                             // :contentReference[oaicite:21]{index=21}
-    prisma.share.count({ where: { user_id: userId } }),                               // :contentReference[oaicite:22]{index=22}
-    prisma.follow.count({ where: { OR: [{ follower_id: userId }, { following_id: userId }] } }), // :contentReference[oaicite:23]{index=23}
-    prisma.bookmark.count({ where: { user_id: userId } }),                            // :contentReference[oaicite:24]{index=24}
-    prisma.rating.count({ where: { user_id: userId } }),                              // :contentReference[oaicite:25]{index=25}
-    prisma.collection.count({ where: { user_id: userId } }),                          // :contentReference[oaicite:26]{index=26}
-    prisma.report.count({ where: { reporter_id: userId } }),                          // :contentReference[oaicite:27]{index=27}
-    prisma.userAccess.count({ where: { userId: userId } }),                           // :contentReference[oaicite:28]{index=28}
-    prisma.userUsage.count({ where: { userId: userId } }),                            // :contentReference[oaicite:29]{index=29}
-    prisma.artGeneration.count({ where: { user_id: userId } })                        // :contentReference[oaicite:30]{index=30}
+    prisma.userRole.count({ where: { user_id: userId } }), // :contentReference[oaicite:15]{index=15}
+    prisma.post.count({ where: { user_id: userId } }), // :contentReference[oaicite:16]{index=16}
+    prisma.blog.count({ where: { user_id: userId } }), // :contentReference[oaicite:17]{index=17}
+    prisma.media.count({ where: { post: { user_id: userId } } }), // :contentReference[oaicite:18]{index=18}
+    prisma.like.count({ where: { user_id: userId } }), // :contentReference[oaicite:19]{index=19}
+    prisma.commentLike.count({ where: { user_id: userId } }), // :contentReference[oaicite:20]{index=20}
+    prisma.comment.count({ where: { user_id: userId } }), // :contentReference[oaicite:21]{index=21}
+    prisma.share.count({ where: { user_id: userId } }), // :contentReference[oaicite:22]{index=22}
+    prisma.follow.count({
+      where: { OR: [{ follower_id: userId }, { following_id: userId }] },
+    }), // :contentReference[oaicite:23]{index=23}
+    prisma.bookmark.count({ where: { user_id: userId } }), // :contentReference[oaicite:24]{index=24}
+    prisma.rating.count({ where: { user_id: userId } }), // :contentReference[oaicite:25]{index=25}
+    prisma.collection.count({ where: { user_id: userId } }), // :contentReference[oaicite:26]{index=26}
+    prisma.report.count({ where: { reporter_id: userId } }), // :contentReference[oaicite:27]{index=27}
+    prisma.userAccess.count({ where: { userId: userId } }), // :contentReference[oaicite:28]{index=28}
+    prisma.userUsage.count({ where: { userId: userId } }), // :contentReference[oaicite:29]{index=29}
+    prisma.artGeneration.count({ where: { user_id: userId } }), // :contentReference[oaicite:30]{index=30}
   ]);
 
   const modelNames = [
@@ -177,7 +190,7 @@ async function verifyUserDeletion(userId: string) {
     'Report (as reporter)',
     'UserAccess',
     'UserUsage',
-    'ArtGeneration (by user)'
+    'ArtGeneration (by user)',
   ];
 
   const relatedCounts = [
@@ -196,28 +209,34 @@ async function verifyUserDeletion(userId: string) {
     countReportsAsReporter,
     countUserAccess,
     countUserUsage,
-    countArtGenerations
+    countArtGenerations,
   ];
 
   relatedCounts.forEach((cnt, idx) => {
-    checks.push({ model: modelNames[idx], exists: cnt > 0, count: cnt });             // :contentReference[oaicite:31]{index=31}
+    checks.push({ model: modelNames[idx], exists: cnt > 0, count: cnt }); // :contentReference[oaicite:31]{index=31}
     if (cnt > 0) allClear = false;
   });
 
-  console.log("\nVerification Results:");
+  console.log('\nVerification Results:');
   checks.forEach((check) => {
-    console.log(`- ${check.model}: ${check.count} record(s) found. ${check.exists ? 'Problem!' : 'OK.'}`);
+    console.log(
+      `- ${check.model}: ${check.count} record(s) found. ${check.exists ? 'Problem!' : 'OK.'}`,
+    );
   });
 
   if (allClear) {
-    console.log("\nSUCCESS: All data associated with user seems deleted from Prisma.");
+    console.log(
+      '\nSUCCESS: All data associated with user seems deleted from Prisma.',
+    );
   } else {
-    console.warn("\nWARNING: Some data associated with the user still exists. Review logs above.");
+    console.warn(
+      '\nWARNING: Some data associated with the user still exists. Review logs above.',
+    );
   }
   return allClear;
 }
 
 // Run the function
 deleteUserAndVerify(userIdToDelete)
-  .then(() => console.log("Process finished."))
-  .catch((e) => console.error("Unhandled error in main execution:", e));               // :contentReference[oaicite:32]{index=32}
+  .then(() => console.log('Process finished.'))
+  .catch((e) => console.error('Unhandled error in main execution:', e)); // :contentReference[oaicite:32]{index=32}

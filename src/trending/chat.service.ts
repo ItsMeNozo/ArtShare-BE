@@ -1,15 +1,15 @@
 // src/modules/chat/services/chat.service.ts
-import {
-  Injectable,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
-import { MessageRole } from '@prisma/client';
-import { ConversationResponseDto, GeneratedPrompt, MessageResponseDto } from './dto/response/generated-prompt.dto';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { MessageRole } from 'src/generated';
+import { SimpleCacheService } from 'src/infastructure/simple-cache.service';
 import { CreateMessageDto } from './dto/request/create-message.dto';
+import {
+  ConversationResponseDto,
+  GeneratedPrompt,
+  MessageResponseDto,
+} from './dto/response/generated-prompt.dto';
 import { GeminiService } from './gemini.service';
 import { ChatRepository } from './repositories/chat.repository';
-import { SimpleCacheService } from 'src/infastructure/simple-cache.service';
 
 @Injectable()
 export class ChatService {
@@ -67,7 +67,7 @@ export class ChatService {
     const assistantMessage = await this.chatRepository.createMessage({
       conversationId,
       role: MessageRole.ASSISTANT,
-      content: "",
+      content: '',
       metadata: { generatedPrompts },
     });
 

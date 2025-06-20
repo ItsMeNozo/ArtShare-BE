@@ -1,29 +1,29 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  ParseIntPipe,
-  UsePipes,
-  ValidationPipe,
+  Get,
   HttpCode,
   HttpStatus,
-  Query,
   NotFoundException,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
   UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
-import { PlatformService } from './platform.service';
+import { Roles } from 'src/auth/decorators/roles.decorators';
+import { CurrentUser } from 'src/auth/decorators/users.decorator';
+import { Role } from 'src/auth/enums/role.enum';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CurrentUserType } from 'src/auth/types/current-user.type';
+import { Platform, SharePlatform } from 'src/generated';
 import { CreatePlatformDto } from './dtos/create-platform.dto';
 import { UpdatePlatformConfigDto } from './dtos/update-platform-config.dto';
-import { Platform, SharePlatform } from '@prisma/client';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { Roles } from 'src/auth/decorators/roles.decorators';
-import { Role } from 'src/auth/enums/role.enum';
-import { CurrentUserType } from 'src/auth/types/current-user.type';
-import { CurrentUser } from 'src/auth/decorators/users.decorator';
+import { PlatformService } from './platform.service';
 
 @UseGuards(JwtAuthGuard)
 @Controller('platforms')

@@ -1,11 +1,11 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
-import { Prisma } from '@prisma/client';
 import { UpdatePostDto } from './dto/request/update-post.dto';
+import { PostCategoryResponseDto } from './dto/response/category.dto';
+import { MediaResponseDto } from './dto/response/media.dto';
 import { PostDetailsResponseDto } from './dto/response/post-details.dto';
 import { UserResponseDto } from './dto/response/user.dto';
-import { MediaResponseDto } from './dto/response/media.dto';
-import { PostCategoryResponseDto } from './dto/response/category.dto';
 
 export class AdminPostListItemUserDto {
   id: string;

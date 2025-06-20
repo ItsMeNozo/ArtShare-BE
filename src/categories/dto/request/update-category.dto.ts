@@ -1,4 +1,3 @@
-import { CategoryType } from '@prisma/client';
 import {
   IsArray,
   IsEnum,
@@ -6,6 +5,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
+import { CategoryType } from 'src/generated';
 
 export class UpdateCategoryDto {
   @IsString()
