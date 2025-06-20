@@ -1,5 +1,5 @@
-import { AutoProjectStatus, SharePlatform } from '@prisma/client';
 import { Expose, Transform, Type } from 'class-transformer';
+import { AutoProjectStatus, SharePlatform } from 'src/generated';
 
 class PlatformInfo {
   @Expose()

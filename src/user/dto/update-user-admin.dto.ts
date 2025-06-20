@@ -1,16 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsString,
-  IsEmail,
-  IsOptional,
   IsArray,
-  IsEnum,
-  MinLength,
-  MaxLength,
   IsDateString,
+  IsEmail,
+  IsEnum,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
 import { Role } from 'src/auth/enums/role.enum';
-import { UserStatus } from '@prisma/client';
+import { UserStatus } from 'src/generated';
 
 export class UpdateUserAdminDTO {
   @ApiProperty({ example: 'new_username', required: false })

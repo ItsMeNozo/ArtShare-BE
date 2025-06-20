@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
-import { TargetType } from '@prisma/client';
 import { plainToClass } from 'class-transformer';
+import { TargetType } from 'src/generated';
+import { PrismaService } from 'src/prisma.service';
 import { CreateShareDto } from './dto/request/create-share.dto';
 import { ShareDetailsDto } from './dto/response/share-details.dto';
 

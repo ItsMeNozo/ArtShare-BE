@@ -1,5 +1,5 @@
-import { CategoryType } from '@prisma/client';
 import { Expose } from 'class-transformer';
+import { CategoryType } from 'src/generated';
 
 export class PostCategoryResponseDto {
   @Expose()

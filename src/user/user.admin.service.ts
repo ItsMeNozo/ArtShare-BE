@@ -6,19 +6,19 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { User, UserAccess, Prisma } from '@prisma/client';
-import { DeleteUsersDTO } from './dto/delete-users.dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { Role } from 'src/auth/enums/role.enum';
-import { CreateUserAdminDTO } from './dto/create-user-admin.dto';
-import { UpdateUserAdminDTO } from './dto/update-user-admin.dto';
-import { Auth } from 'firebase-admin/auth';
 import * as admin from 'firebase-admin';
 import { FirebaseError } from 'firebase-admin';
-import { UserResponseDto } from './dto/user-response.dto';
+import { Auth } from 'firebase-admin/auth';
+import { Role } from 'src/auth/enums/role.enum';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { Prisma, User, UserAccess } from 'src/generated';
+import { PrismaService } from '../prisma.service';
+import { CreateUserAdminDTO } from './dto/create-user-admin.dto';
+import { DeleteUsersDTO } from './dto/delete-users.dto';
 import { PaginatedUsersResponseDto } from './dto/paginated-users-response.dto';
+import { UpdateUserAdminDTO } from './dto/update-user-admin.dto';
+import { UserResponseDto } from './dto/user-response.dto';
 
 @Injectable()
 export class UserAdminService {

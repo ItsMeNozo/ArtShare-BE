@@ -3,9 +3,9 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
-import { PaidAccessLevel } from '@prisma/client';
 import { startOfDay } from 'date-fns';
 import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
+import { PaidAccessLevel } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { SubscriptionInfoResponseDto } from './dto/response/subscription-info.dto';
 import { subscriptionInfoResponseMapper } from './mapper/subscription.mapper';

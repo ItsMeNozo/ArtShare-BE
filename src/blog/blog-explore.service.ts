@@ -1,6 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import { Prisma } from '@prisma/client';
 import { QdrantClient } from '@qdrant/js-client-rest';
 import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
 import {
@@ -10,6 +9,7 @@ import {
 import { TryCatch } from 'src/common/try-catch.decorator';
 import embeddingConfig from 'src/config/embedding.config';
 import { EmbeddingService } from 'src/embedding/embedding.service';
+import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { GetBlogsQueryDto } from './dto/request/get-blogs-query.dto';
 import { BlogDetailsResponseDto } from './dto/response/blog-details.dto';

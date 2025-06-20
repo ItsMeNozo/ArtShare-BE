@@ -1,12 +1,12 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import { MediaType } from '@prisma/client';
 import { QdrantClient } from '@qdrant/js-client-rest';
 import { SyncEmbeddingResponseDto } from 'src/common/response/sync-embedding.dto';
 import { TryCatch } from 'src/common/try-catch.decorator';
 import embeddingConfig from 'src/config/embedding.config';
 import { EmbeddingService } from 'src/embedding/embedding.service';
 import { QdrantService } from 'src/embedding/qdrant.service';
+import { MediaType } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()

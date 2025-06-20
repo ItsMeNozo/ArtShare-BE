@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { TryCatch } from 'src/common/try-catch.decorator';
-import { PrismaService } from 'src/prisma.service';
-import { AutoProjectListResponseDto } from './dto/response/auto-project-list-item.dto';
 import { plainToInstance } from 'class-transformer';
+import { TryCatch } from 'src/common/try-catch.decorator';
+import { Prisma } from 'src/generated';
+import { PrismaService } from 'src/prisma.service';
 import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
-import { Prisma } from '@prisma/client';
+import { AutoProjectListResponseDto } from './dto/response/auto-project-list-item.dto';
 
 type SortableProjectKey = 'title' | 'status' | 'created_at';
 const allowedSortKeys: SortableProjectKey[] = ['title', 'status', 'created_at'];

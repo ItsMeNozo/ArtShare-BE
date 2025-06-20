@@ -1,4 +1,4 @@
-import { PlatformStatus } from '@prisma/client';
+import { PlatformStatus } from 'src/generated';
 
 export class PublicPlatformOutputDto {
   id: string;

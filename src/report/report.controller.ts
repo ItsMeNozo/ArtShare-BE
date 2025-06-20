@@ -11,14 +11,14 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { CreateReportDto } from './dto/create-report.dto';
 import { CurrentUser } from 'src/auth/decorators/users.decorator';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
-import { ReportService } from './report.service';
-import { Report, ReportStatus } from '@prisma/client';
-import { ViewReportsDto, ViewTab } from './dto/view-report.dto';
+import { Report, ReportStatus } from 'src/generated';
+import { CreateReportDto } from './dto/create-report.dto';
 import { ResolveReportDto } from './dto/resolve-report.dto';
+import { ViewReportsDto, ViewTab } from './dto/view-report.dto';
+import { ReportService } from './report.service';
 
 @ApiTags('reports')
 @Controller('reports')
