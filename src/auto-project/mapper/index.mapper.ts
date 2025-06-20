@@ -1,5 +1,7 @@
 import { Prisma } from 'src/generated';
 import { AutoProjectDetailsDto } from '../dto/response/auto-project-details.dto';
+import { AutoProjectListItemDto } from '../dto/response/auto-project-list-item.dto';
+import { RawProjectResult } from '../types/index.type';
 
 type AutoProjectWithRelations = Prisma.AutoProjectGetPayload<{
   include: {
@@ -24,4 +26,22 @@ export const mapToAutoProjectDetailsDto = (
       status: project.platform.status,
     },
   };
+};
+
+export const mapToAutoProjectListItemsDto = (
+  projects: RawProjectResult[],
+): AutoProjectListItemDto[] => {
+  return projects.map((p) => ({
+    id: p.id,
+    title: p.title,
+    status: p.status,
+    platform: {
+      id: p.platformId,
+      name: p.platformName,
+    },
+    postCount: p.postCount,
+    nextPostAt: p.nextPostAt,
+    created_at: p.createdAt,
+    updated_at: p.updatedAt,
+  }));
 };
