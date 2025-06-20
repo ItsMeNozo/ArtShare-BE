@@ -1,30 +1,31 @@
 import {
-  Controller,
-  Post,
   Body,
-  UsePipes,
-  ValidationPipe,
-  Logger,
-  Param,
-  Patch,
-  Get,
-  Query,
+  Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
-  UseGuards,
+  Logger,
+  Param,
   ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AutoPostService } from './auto-post.service';
+
+import { Roles } from 'src/auth/decorators/roles.decorators';
+import { Role } from 'src/auth/enums/role.enum';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import {
   GetAutoPostsQueryDto,
   ScheduleAutoPostDto,
-  UpdateAutoPostStatusDto,
   UpdateAutoPostDto,
-} from './dto/auto-post.dto.ts';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { Roles } from 'src/auth/decorators/roles.decorators';
-import { Role } from 'src/auth/enums/role.enum';
+  UpdateAutoPostStatusDto,
+} from './dto/auto-post.dto';
 
 @Controller('auto-post')
 export class AutoPostController {

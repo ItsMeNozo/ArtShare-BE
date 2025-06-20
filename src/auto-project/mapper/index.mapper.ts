@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from 'src/generated';
 import { AutoProjectDetailsDto } from '../dto/response/auto-project-details.dto';
 
 type AutoProjectWithRelations = Prisma.AutoProjectGetPayload<{

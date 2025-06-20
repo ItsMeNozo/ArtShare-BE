@@ -2,7 +2,7 @@ import {
   AutoProjectStatus,
   PlatformStatus,
   SharePlatform,
-} from '@prisma/client';
+} from 'src/generated';
 
 export class AutoProjectDetailsDto {
   id: number;
