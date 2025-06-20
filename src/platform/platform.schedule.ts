@@ -1,7 +1,7 @@
-import { PlatformStatus } from '@prisma/client';
-import { Cron } from '@nestjs/schedule';
-import { PrismaService } from 'src/prisma.service';
 import { Logger } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
+import { PlatformStatus } from 'src/generated';
+import { PrismaService } from 'src/prisma.service';
 
 export class PlatformScheduler {
   private readonly logger = new Logger(PlatformScheduler.name);

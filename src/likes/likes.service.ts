@@ -1,19 +1,20 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
-import { CreateLikeDto } from './dto/request/create-like.dto';
-import { TargetType } from '@prisma/client';
-import { plainToClass } from 'class-transformer';
-import { LikeDetailsDto } from './dto/response/like-details.dto';
-import { RemoveLikeDto } from './dto/request/remove-like.dto';
-import { TryCatch } from 'src/common/try-catch.decorator';
-import { LikingUserResponseDto } from './dto/response/liking-user-response.dto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { plainToClass } from 'class-transformer';
+import { TryCatch } from 'src/common/try-catch.decorator';
+import { TargetType } from 'src/generated';
+import { PrismaService } from 'src/prisma.service';
 import { NotificationUtils } from '../common/utils/notification.utils';
+import { CreateLikeDto } from './dto/request/create-like.dto';
+import { RemoveLikeDto } from './dto/request/remove-like.dto';
+import { LikeDetailsDto } from './dto/response/like-details.dto';
+import { LikingUserResponseDto } from './dto/response/liking-user-response.dto';
 
 @Injectable()
 export class LikesService {
-  constructor(private readonly prisma: PrismaService,
-              private readonly eventEmitter: EventEmitter2,
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   @TryCatch('create like failed')
@@ -42,7 +43,12 @@ export class LikesService {
           });
 
           // Only send notification if the user is not liking their own post
-          if (NotificationUtils.shouldSendNotification(userId, postUpdated.user_id)) {
+          if (
+            NotificationUtils.shouldSendNotification(
+              userId,
+              postUpdated.user_id,
+            )
+          ) {
             this.eventEmitter.emit('push-notification', {
               from: userId,
               to: postUpdated.user_id,

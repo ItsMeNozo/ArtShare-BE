@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from 'src/generated';
 import { BlogDetailsResponseDto } from '../dto/response/blog-details.dto';
 import { BlogListItemResponseDto } from '../dto/response/blog-list-item.dto';
 
@@ -10,11 +10,10 @@ type UserSelect = {
   followers_count: true;
 };
 
-
 export const blogListItemSelect = {
   id: true,
   title: true,
-  content: true,   
+  content: true,
   created_at: true,
   like_count: true,
   comment_count: true,
@@ -29,7 +28,7 @@ export const blogListItemSelect = {
       profile_picture_url: true,
       full_name: true,
       followers_count: true,
-    }
+    },
   },
   updated_at: true,
 };
@@ -69,7 +68,7 @@ export const mapBlogToDetailsDto = (
   const likeArray = Array.isArray((blog as any).likes)
     ? (blog as BlogWithRelations).likes
     : [];
-  
+
   const isFollowedByCurrentUser = (blog.user as any).followers
     ? (blog.user as any).followers.length > 0
     : false;
@@ -118,7 +117,7 @@ export const mapBlogToListItemDto = (
     title: blog.title,
     content: blog.content,
     created_at: blog.created_at,
-    updated_at: blog.updated_at, 
+    updated_at: blog.updated_at,
     like_count: blog.like_count,
     comment_count: blog.comment_count,
     share_count: blog.share_count,

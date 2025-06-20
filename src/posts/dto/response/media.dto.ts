@@ -1,5 +1,5 @@
-import { MediaType } from '@prisma/client';
 import { Expose } from 'class-transformer';
+import { MediaType } from 'src/generated';
 
 export class MediaResponseDto {
   @Expose() id: number;

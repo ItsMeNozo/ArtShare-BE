@@ -1,5 +1,5 @@
-import { MediaType } from '@prisma/client';
 import { IsEnum, IsOptional, IsString, Matches } from 'class-validator';
+import { MediaType } from 'src/generated';
 
 export class GetPresignedUrlRequestDto {
   @IsString()

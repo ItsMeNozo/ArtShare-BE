@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { SharePlatform } from '@prisma/client';
 import { firstValueFrom } from 'rxjs';
+import { SharePlatform } from 'src/generated';
 import { PublicPlatformOutputDto } from 'src/platform/dtos/public-platform-output.dto';
 import { ApiPageData } from 'src/platform/dtos/sync-platform-input.dto';
 import { PlatformService } from 'src/platform/platform.service';

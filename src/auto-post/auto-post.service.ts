@@ -7,32 +7,25 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import {
-  AutoPostStatus,
-  Prisma,
-  AutoPost as PrismaAutoPost,
-  SharePlatform,
-} from '@prisma/client';
 
-import { firstValueFrom } from 'rxjs';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { PrismaService } from 'src/prisma.service';
 import { AxiosError } from 'axios';
+import { firstValueFrom } from 'rxjs';
 import { EncryptionService } from 'src/encryption/encryption.service';
+import { AutoPost, AutoPostStatus, Prisma, SharePlatform } from 'src/generated';
+import { PlatformPageConfig } from 'src/platform/dtos/platform-config.interface.js';
+import { PrismaService } from 'src/prisma.service';
 import {
-  ScheduleAutoPostDto,
   GetAutoPostsQueryDto,
+  ScheduleAutoPostDto,
   UpdateAutoPostDto,
   UpdateAutoPostStatusDto,
 } from './dto/auto-post.dto.ts';
-import { PlatformPageConfig } from 'src/platform/dtos/platform-config.interface.js';
 
 export interface PlatformConfig {
   encryptedFacebookAccessToken?: string;
   facebookPageId?: string;
 }
-
-export type PublicAutoPost = PrismaAutoPost;
 
 @Injectable()
 export class AutoPostService {
@@ -53,18 +46,7 @@ export class AutoPostService {
     }
   }
 
-  private toPublicAutoPost(post: PrismaAutoPost): PublicAutoPost {
-    return post;
-  }
-
-  private toPublicAutoPostNullable(
-    post: PrismaAutoPost | null,
-  ): PublicAutoPost | null {
-    if (!post) return null;
-    return this.toPublicAutoPost(post);
-  }
-
-  private async findAutoPostOrThrow(id: number): Promise<PrismaAutoPost> {
+  private async findAutoPostOrThrow(id: number): Promise<AutoPost> {
     const post = await this.prisma.autoPost.findUnique({
       where: { id },
     });
@@ -74,7 +56,7 @@ export class AutoPostService {
     return post;
   }
 
-  async createAutoPost(dto: ScheduleAutoPostDto): Promise<PublicAutoPost> {
+  async createAutoPost(dto: ScheduleAutoPostDto): Promise<AutoPost> {
     this.logger.log(
       `Creating AutoPost for AutoProject ID ${dto.autoProjectId} at ${dto.scheduledAt}`,
     );
@@ -88,7 +70,7 @@ export class AutoPostService {
         );
       }
 
-      const post = await this.prisma.autoPost.create({
+      return await this.prisma.autoPost.create({
         data: {
           auto_project_id: dto.autoProjectId,
           content: dto.content,
@@ -97,8 +79,6 @@ export class AutoPostService {
           status: AutoPostStatus.PENDING,
         },
       });
-
-      return this.toPublicAutoPost(post);
     } catch (error) {
       this.logger.error(
         `Failed to create AutoPost: ${error instanceof Error ? error.message : String(error)}`,
@@ -111,17 +91,16 @@ export class AutoPostService {
     }
   }
 
-  async getAutoPostById(id: number): Promise<PublicAutoPost | null> {
+  async getAutoPostById(id: number): Promise<AutoPost | null> {
     this.logger.log(`Fetching AutoPost with ID: ${id}`);
-    const post = await this.prisma.autoPost.findUnique({
+    return await this.prisma.autoPost.findUnique({
       where: { id },
     });
-    return this.toPublicAutoPostNullable(post);
   }
 
   async getAllAutoPosts(
     query: GetAutoPostsQueryDto,
-  ): Promise<{ data: PublicAutoPost[]; count: number }> {
+  ): Promise<{ data: AutoPost[]; count: number }> {
     this.logger.log('Fetching all AutoPosts with query:', query);
     const {
       page = 1,
@@ -155,15 +134,12 @@ export class AutoPostService {
     ]);
 
     return {
-      data: posts.map((post) => this.toPublicAutoPost(post)),
+      data: posts,
       count,
     };
   }
 
-  async updateAutoPost(
-    id: number,
-    dto: UpdateAutoPostDto,
-  ): Promise<PublicAutoPost> {
+  async updateAutoPost(id: number, dto: UpdateAutoPostDto): Promise<AutoPost> {
     this.logger.log(`Updating AutoPost with ID: ${id}`);
     const existingPost = await this.findAutoPostOrThrow(id);
 
@@ -197,12 +173,10 @@ export class AutoPostService {
       dataToUpdate.platform_post_id = null;
     }
 
-    const updatedPost = await this.prisma.autoPost.update({
+    return await this.prisma.autoPost.update({
       where: { id },
       data: dataToUpdate,
     });
-
-    return this.toPublicAutoPost(updatedPost);
   }
 
   async deleteAutoPost(id: number): Promise<void> {
@@ -398,9 +372,7 @@ export class AutoPostService {
     }
   }
 
-  async updateAutoPostStatus(
-    dto: UpdateAutoPostStatusDto,
-  ): Promise<PublicAutoPost> {
+  async updateAutoPostStatus(dto: UpdateAutoPostStatusDto): Promise<AutoPost> {
     this.logger.log(
       `Updating status for AutoPost ID ${dto.autoPostId} to ${dto.status}`,
     );
@@ -421,15 +393,13 @@ export class AutoPostService {
       dataToUpdate.error_message = null;
     }
 
-    const updatedPost = await this.prisma.autoPost.update({
+    return await this.prisma.autoPost.update({
       where: { id: dto.autoPostId },
       data: dataToUpdate,
     });
-
-    return this.toPublicAutoPost(updatedPost);
   }
 
-  async cancelAutoPost(autoPostId: number): Promise<PublicAutoPost> {
+  async cancelAutoPost(autoPostId: number): Promise<AutoPost> {
     this.logger.log(`Cancelling AutoPost ID: ${autoPostId}`);
     const post = await this.findAutoPostOrThrow(autoPostId);
 
@@ -440,7 +410,7 @@ export class AutoPostService {
     }
     if (post.status === AutoPostStatus.CANCELLED) {
       this.logger.warn(`AutoPost ID ${autoPostId} is already cancelled.`);
-      return this.toPublicAutoPost(post);
+      return post;
     }
 
     if (
@@ -452,15 +422,13 @@ export class AutoPostService {
       );
     }
 
-    const result = await this.prisma.autoPost.update({
+    return await this.prisma.autoPost.update({
       where: { id: autoPostId },
       data: {
         status: AutoPostStatus.CANCELLED,
         error_message: null,
       },
     });
-
-    return this.toPublicAutoPost(result);
   }
   private async failPost(
     postId: number,

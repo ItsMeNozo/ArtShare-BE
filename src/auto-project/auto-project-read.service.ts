@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { plainToInstance } from 'class-transformer';
 import { TryCatch } from 'src/common/try-catch.decorator';
+import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
 import { AutoProjectListResponseDto } from './dto/response/auto-project-list-item.dto';

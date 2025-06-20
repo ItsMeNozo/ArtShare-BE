@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { User } from 'src/generated';
 import { PublicUserSearchResponseDto } from '../dto/response/search-users.dto';
 
 export function mapToPublicUserSearchDto(

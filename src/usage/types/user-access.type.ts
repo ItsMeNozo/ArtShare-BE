@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from 'src/generated';
 
 export type UserAccessWithPlan = Prisma.UserAccessGetPayload<{
   include: { plan: true };

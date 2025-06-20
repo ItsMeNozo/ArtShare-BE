@@ -1,16 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  ArrayNotEmpty,
   IsArray,
+  IsDateString,
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsDateString,
-  ArrayNotEmpty,
-  IsEnum,
 } from 'class-validator';
 import { Role as RoleEnum } from 'src/auth/enums/role.enum';
-import { UserStatus } from '@prisma/client';
+import { UserStatus } from 'src/generated';
 
 export class CreateUserAdminDTO {
   @ApiProperty({
