@@ -3,6 +3,7 @@ import {
   Get,
   InternalServerErrorException,
   Logger,
+  NotFoundException,
   Query,
   Res,
   UnauthorizedException,
@@ -128,6 +129,45 @@ export class FacebookController {
       );
 
       res.redirect(errorRedirectUrl);
+    }
+  }
+
+  /**
+   * @description Gets all connected Facebook Accounts and their associated Pages (Platforms).
+   * User must be logged into our application using JWT.
+   */
+  @UseGuards(JwtAuthGuard)
+  @Get('account-info')
+  async getFacebookAccountInfo(@CurrentUser() user: CurrentUserType) {
+    const userId = user?.id;
+    if (!userId) {
+      throw new UnauthorizedException(
+        'User authentication invalid or ID not available.',
+      );
+    }
+
+    try {
+      const accountsInfo =
+        await this.facebookAuthService.getFacebookAccountInfo(userId);
+
+      if (!accountsInfo || accountsInfo.length === 0) {
+        throw new NotFoundException(
+          'No Facebook accounts connected for this user.',
+        );
+      }
+
+      return accountsInfo;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      this.logger.error(
+        `Error getting Facebook account info for user ${userId}:`,
+        (error as any).message,
+      );
+      throw new InternalServerErrorException(
+        'Could not retrieve Facebook account information.',
+      );
     }
   }
 }

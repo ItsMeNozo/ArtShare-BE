@@ -5,21 +5,22 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
-import { CreateAutoProjectDto } from './dto/request/create-project.dto';
-import { AutoPostGenerateService } from 'src/auto-post/auto-post-generate.service';
 import { Platform } from '@prisma/client';
-import { TryCatch } from 'src/common/try-catch.decorator';
 import { plainToInstance } from 'class-transformer';
-import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
-import { UsageService } from 'src/usage/usage.service';
+import { AutoPostGenerateService } from 'src/auto-post/auto-post-generate.service';
 import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
+import { TryCatch } from 'src/common/try-catch.decorator';
+import { PrismaService } from 'src/prisma.service';
+import { UsageService } from 'src/usage/usage.service';
+import { CreateAutoProjectDto } from './dto/request/create-project.dto';
 import { UpdateAutoProjectDto } from './dto/request/update-project.dto';
+import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
+import { mapToAutoProjectDetailsDto } from './mapper/index.mapper';
 
 @Injectable()
 export class AutoProjectWriteService {
   private readonly logger: Logger;
-  
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly autoPostGenerateService: AutoPostGenerateService,
@@ -34,7 +35,12 @@ export class AutoProjectWriteService {
     createDto: CreateAutoProjectDto,
     userId: string,
   ): Promise<AutoProjectDetailsDto> {
-    const { title, description, platform_id, auto_post_meta_list } = createDto;
+    const {
+      title,
+      description,
+      platform_id,
+      auto_post_meta_list = [],
+    } = createDto;
 
     const validatedPlatformRecord = await this.validatePlatform(
       platform_id,
@@ -69,26 +75,11 @@ export class AutoProjectWriteService {
         },
       },
       include: {
-        autoPosts: true,
         platform: true,
       },
     });
 
-    const resultDto = plainToInstance(
-      AutoProjectDetailsDto,
-      createdAutoProject,
-    );
-
-    if (createdAutoProject.platform) {
-      resultDto.platform = {
-        id: createdAutoProject.platform.id,
-        name: createdAutoProject.platform.name.toString(),
-        external_page_id: createdAutoProject.platform.external_page_id,
-        config: createdAutoProject.platform.config,
-      };
-    }
-
-    return resultDto;
+    return mapToAutoProjectDetailsDto(createdAutoProject);
   }
 
   private async validatePlatform(
@@ -123,8 +114,6 @@ export class AutoProjectWriteService {
     updateDto: UpdateAutoProjectDto,
     userId: string,
   ): Promise<AutoProjectDetailsDto> {
-    const { title, description } = updateDto;
-
     const existingProject = await this.prisma.autoProject.findFirst({
       where: { id, user_id: userId },
     });
@@ -137,10 +126,7 @@ export class AutoProjectWriteService {
 
     const updatedProject = await this.prisma.autoProject.update({
       where: { id },
-      data: {
-        title,
-        description,
-      },
+      data: updateDto,
       include: { autoPosts: true },
     });
 

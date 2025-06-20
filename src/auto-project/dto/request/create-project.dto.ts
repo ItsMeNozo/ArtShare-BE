@@ -1,13 +1,14 @@
 // src/auto-project/dto/create-auto-project.dto.ts
+import { Type } from 'class-transformer';
 import {
-  IsString,
   IsArray,
-  ValidateNested,
   IsInt,
   IsNotEmpty,
+  IsOptional,
+  IsString,
+  ValidateNested,
 } from 'class-validator';
 import { AutoPostMeta } from './auto-post-meta.dto';
-import { Type } from 'class-transformer';
 
 export class CreateAutoProjectDto {
   @IsString()
@@ -23,5 +24,9 @@ export class CreateAutoProjectDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => AutoPostMeta)
-  auto_post_meta_list: AutoPostMeta[];
+  @IsOptional()
+  auto_post_meta_list?: AutoPostMeta[];
+
+  // @IsBoolean()
+  // is_draft: boolean;
 }
