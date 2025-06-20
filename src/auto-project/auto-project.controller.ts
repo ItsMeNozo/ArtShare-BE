@@ -1,27 +1,27 @@
 // src/auto-project/auto-project.controller.ts
 
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
-  Delete,
-  Patch,
-  ParseIntPipe,
-  UseGuards,
+  Controller,
   DefaultValuePipe,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
-import { AutoProjectReadService } from './auto-project-read.service';
-import { CreateAutoProjectDto } from './dto/request/create-project.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUser } from 'src/auth/decorators/users.decorator';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
+import { AutoProjectReadService } from './auto-project-read.service';
 import { AutoProjectWriteService } from './auto-project-write.service';
+import { CreateAutoProjectDto } from './dto/request/create-project.dto';
+import { UpdateAutoProjectDto } from './dto/request/update-project.dto';
 import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
 import { AutoProjectListResponseDto } from './dto/response/auto-project-list-item.dto';
-import { UpdateAutoProjectDto } from './dto/request/update-project.dto';
 
 @Controller('auto-project')
 @UseGuards(JwtAuthGuard)
@@ -66,7 +66,7 @@ export class AutoProjectController {
     return this.autoProjectReadService.findOne(id, user.id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateDto: UpdateAutoProjectDto,

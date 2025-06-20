@@ -1,20 +1,21 @@
-import { AutoPostDetailsDto } from 'src/auto-post/dto/response/auto-post-details';
-import { AutoProjectStatus } from 'src/auto-project/enum/auto-project-status.enum';
+import {
+  AutoProjectStatus,
+  PlatformStatus,
+  SharePlatform,
+} from '@prisma/client';
 
 export class AutoProjectDetailsDto {
   id: number;
   title: string;
   description: string;
   status: AutoProjectStatus;
-  platform_id: number;
   created_at: Date;
-  updated_at: Date;
-  userId: string;
-  autoPosts: AutoPostDetailsDto[];
-  platform?: {
+  updated_at: Date | null;
+  platform: {
     id: number;
-    name: string;
+    name: SharePlatform;
     external_page_id: string;
-    config: any;
+    token_expires_at: Date | null;
+    status: PlatformStatus;
   };
 }
