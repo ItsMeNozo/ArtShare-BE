@@ -14,13 +14,18 @@ WORKDIR /app
 
 # Copy package files
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
 
-# Copy prisma schema
+# Copy prisma schema before installing dependencies 
 COPY prisma ./prisma
 
-# Generate Prisma client with correct binary target
-RUN yarn prisma generate
+# Install dependencies 
+RUN yarn install --frozen-lockfile
+
+# Generate Prisma client with correct binary target and verify
+RUN yarn prisma generate && \
+    echo "Verifying Prisma client generation..." && \
+    ls -la node_modules/.prisma/client/ && \
+    echo "Prisma client generated successfully"
 
 # Copy source code
 COPY . .
