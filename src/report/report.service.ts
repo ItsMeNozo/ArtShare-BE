@@ -12,6 +12,10 @@ import { ViewTab } from './dto/view-report.dto';
 import { ResolveReportDto } from './dto/resolve-report.dto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { UserService } from 'src/user/user.service';
+import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
+import { BlogListItemResponseDto } from 'src/blog/dto/response/blog-list-item.dto';
+import { generatePaginatedResponse } from 'src/common/helpers/pagination.helper';
+import { plainToInstance } from 'class-transformer';
 
 export type ReportWithDetails = Report & {
   reporter: { id: string; username: string };
@@ -30,8 +34,14 @@ export class ReportService {
     createReportDto: CreateReportDto,
     reporterId: string,
   ): Promise<Report> {
-    const { target_id, target_type, reason, target_url, user_id, target_title } =
-      createReportDto;
+    const {
+      target_id,
+      target_type,
+      reason,
+      target_url,
+      user_id,
+      target_title,
+    } = createReportDto;
 
     try {
       const newReport = await this.prisma.report.create({
@@ -197,4 +207,31 @@ export class ReportService {
     });
     return updatedReport;
   }
+  
+  async getBlogsForAdmin(
+    page: number,
+    limit: number,
+  ): Promise<PaginatedResponseDto<BlogListItemResponseDto>> {
+    const skip = (page - 1) * limit;
+    try {
+      const [blogs, total] = await this.prisma.$transaction([
+        this.prisma.blog.findMany({
+          skip,
+          take: limit,
+          orderBy: { created_at: 'desc' },
+        }),
+        this.prisma.blog.count(),
+      ]);
+
+      const items = plainToInstance(BlogListItemResponseDto, blogs);
+
+      return generatePaginatedResponse(items, total, { page, limit });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      throw new InternalServerErrorException(
+        'Failed to retrieve paginated blogs',
+      );
+    }
+  }
 }
+ 

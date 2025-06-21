@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Get,
   InternalServerErrorException,
   Param,
@@ -83,12 +84,19 @@ export class ReportController {
   }
 
   @Patch(':id/resolve')
-  @ApiOperation({ summary: 'Resolve a pending report' })
   async resolve(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: ResolveReportDto,
     @CurrentUser() userInfo: CurrentUserType,
   ): Promise<Report> {
     return this.reportService.resolveReport(id, dto, userInfo.id);
+  }
+
+  @Get('blogs')
+  async getBlogsForAdmin(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+  ): Promise<any> {
+    return this.reportService.getBlogsForAdmin(page, limit);
   }
 }

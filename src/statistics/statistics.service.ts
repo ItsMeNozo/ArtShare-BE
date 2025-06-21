@@ -109,6 +109,10 @@ export class StatisticsService {
     return [{ key: 'token_usage', count: Number(rows[0]?.count ?? 0) }];
   }
 
+  async getTotalBlogs(daysBack?: number): Promise<StatCount[]> {
+    return this.rawStats('id', 'blog', 'key', daysBack);
+  }
+
   async getAll(daysBack?: number): Promise<{
     timeRange: { days: number; from: string; to: string };
     aspectRatios: StatCount[];
@@ -118,6 +122,7 @@ export class StatisticsService {
     top_posts_by_ai: any;
     trending_prompts: any[];
     token_usage: StatCount[];
+    total_blogs: StatCount[];
   }> {
     const [
       aspectRatios,
@@ -126,6 +131,7 @@ export class StatisticsService {
       total_ai_images,
       top_posts_by_ai,
       token_usage,
+      total_blogs,
     ] = await Promise.all([
       this.getAspectRatioStats(daysBack),
       this.getStyles(daysBack),
@@ -133,6 +139,7 @@ export class StatisticsService {
       this.getTotalAiImages(daysBack),
       this.getTop5PostsByAI(daysBack),
       this.getTotalTokenUsage(daysBack),
+      this.getTotalBlogs(daysBack),
     ]);
 
     const storedPrompts = await this.getStoredTrendingPrompts(
@@ -157,6 +164,7 @@ export class StatisticsService {
       top_posts_by_ai,
       trending_prompts: storedPrompts ?? [],
       token_usage,
+      total_blogs,
     };
   }
 
