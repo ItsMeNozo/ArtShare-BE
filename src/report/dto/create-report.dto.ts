@@ -28,4 +28,7 @@ export class CreateReportDto {
 
   @IsString()
   target_url: string;
+
+  @IsOptional()
+  target_title: string;
 }
