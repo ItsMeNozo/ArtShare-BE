@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Get,
   InternalServerErrorException,
   Param,
@@ -17,7 +18,6 @@ import { CurrentUserType } from 'src/auth/types/current-user.type';
 import { Report, ReportStatus } from 'src/generated';
 import { CreateReportDto } from './dto/create-report.dto';
 import { ResolveReportDto } from './dto/resolve-report.dto';
-import { ViewReportsDto, ViewTab } from './dto/view-report.dto';
 import { ReportService } from './report.service';
 
 @ApiTags('reports')
@@ -62,18 +62,6 @@ export class ReportController {
     return this.reportService.findPendingReports(options);
   }
 
-  @Post('/view')
-  async viewReports(@Body() viewReportsDto: ViewReportsDto): Promise<Report[]> {
-    const { tab = ViewTab.ALL, skip, take } = viewReportsDto;
-
-    const options = {
-      skip: skip ? parseInt(skip, 10) : undefined,
-      take: take ? parseInt(take, 10) : undefined,
-    };
-
-    return this.reportService.findReportsByTab(tab, options);
-  }
-
   @Patch(':id/status')
   async updateStatus(
     @Param('id', ParseIntPipe) id: number,
@@ -83,12 +71,19 @@ export class ReportController {
   }
 
   @Patch(':id/resolve')
-  @ApiOperation({ summary: 'Resolve a pending report' })
   async resolve(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: ResolveReportDto,
     @CurrentUser() userInfo: CurrentUserType,
   ): Promise<Report> {
     return this.reportService.resolveReport(id, dto, userInfo.id);
+  }
+
+  @Get('blogs')
+  async getBlogsForAdmin(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+  ): Promise<any> {
+    return this.reportService.getBlogsForAdmin(page, limit);
   }
 }
