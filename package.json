@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "generate:metadata": "npx tsx scripts/generate-metadata.ts",
-    "prebuild": "yarn generate:metadata",
+    "prebuild": "prisma generate && yarn generate:metadata",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start -b swc --type-check",
