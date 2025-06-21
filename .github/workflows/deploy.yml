@@ -36,7 +36,7 @@ jobs:
             echo "📦 Using pre-built image from registry"
             
             # Log in to registry
-            echo "${{ secrets.DO_KEY }}" | docker login $REGISTRY -u "${{ secrets.DO_KEY }}" --password-stdin
+            echo "${{ secrets.DIGITALOCEAN_REGISTRY_TOKEN }}" | docker login $REGISTRY -u "${{ secrets.DIGITALOCEAN_REGISTRY_TOKEN }}" --password-stdin
             
             # Navigate to project directory
             cd ArtShare-BE/

@@ -81,16 +81,16 @@ jobs:
           docker stop test-container || true
           docker rm test-container || true
 
-      - name: Debug DO_KEY format
+      - name: Debug DIGITALOCEAN_REGISTRY_TOKEN format
         run: |
-          echo "DO_KEY starts with: $(echo '${{ secrets.DO_KEY }}' | cut -c1-6)"
-          
+          echo "DIGITALOCEAN_REGISTRY_TOKEN starts with: $(echo '${{ secrets.DIGITALOCEAN_REGISTRY_TOKEN }}' | cut -c1-6)"
+
       - name: Log in to DigitalOcean Container Registry
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.DO_KEY }}
-          password: ${{ secrets.DO_KEY }}
+          username: ${{ secrets.DIGITALOCEAN_REGISTRY_TOKEN }}
+          password: ${{ secrets.DIGITALOCEAN_REGISTRY_TOKEN }}
 
       - name: Push to Registry
         run: |
