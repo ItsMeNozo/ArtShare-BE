@@ -34,12 +34,14 @@ import { AutoProjectModule } from './auto-project/auto-project.module';
 import { AutoPostModule } from './auto-post/auto-post.module';
 import { PlatformModule } from './platform/platform.module';
 import { CacheModule } from './infastructure/simple-cache.module';
-
+import embeddingConfig from './config/embedding.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true, // Makes ConfigService available globally
+      load: [embeddingConfig],
+      cache: true,
     }),
     EventEmitterModule.forRoot(),
     UserModule,

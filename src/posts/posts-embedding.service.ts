@@ -1,23 +1,29 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { MediaType } from '@prisma/client';
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 import { QdrantClient } from '@qdrant/js-client-rest';
 import { SyncEmbeddingResponseDto } from 'src/common/response/sync-embedding.dto';
 import { TryCatch } from 'src/common/try-catch.decorator';
+import embeddingConfig from 'src/config/embedding.config';
 import { EmbeddingService } from 'src/embedding/embedding.service';
-import { postsCollectionName } from 'src/embedding/embedding.utils';
 import { QdrantService } from 'src/embedding/qdrant.service';
+import { MediaType } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class PostsEmbeddingService {
+  private readonly logger = new Logger(PostsEmbeddingService.name);
+  private readonly postsCollectionName: string;
+
   constructor(
     private readonly embeddingService: EmbeddingService,
     private readonly qdrantClient: QdrantClient,
     private readonly qdrantService: QdrantService,
     private readonly prisma: PrismaService,
-  ) {}
-
-  private readonly logger = new Logger(PostsEmbeddingService.name); // Create an instance of Logger for this service
+    @Inject(embeddingConfig.KEY)
+    private embeddingConf: ConfigType<typeof embeddingConfig>,
+  ) {
+    this.postsCollectionName = this.embeddingConf.postsCollectionName;
+  }
 
   @TryCatch()
   async upsertPostEmbedding(
@@ -55,15 +61,18 @@ export class PostsEmbeddingService {
       vectorPayload.images = imagesEmbedding;
     }
 
-    const operationInfo = await this.qdrantClient.upsert(postsCollectionName, {
-      wait: true,
-      points: [
-        {
-          id: postId,
-          vector: vectorPayload,
-        },
-      ],
-    });
+    const operationInfo = await this.qdrantClient.upsert(
+      this.postsCollectionName,
+      {
+        wait: true,
+        points: [
+          {
+            id: postId,
+            vector: vectorPayload,
+          },
+        ],
+      },
+    );
 
     this.logger.log('Creating post embeddings completed', operationInfo);
   }
@@ -103,7 +112,7 @@ export class PostsEmbeddingService {
     }
 
     const operationInfo = await this.qdrantClient.updateVectors(
-      postsCollectionName,
+      this.postsCollectionName,
       {
         wait: true,
         points: [
@@ -180,7 +189,7 @@ export class PostsEmbeddingService {
     }
 
     const operationInfo = await this.qdrantClient.deleteVectors(
-      postsCollectionName,
+      this.postsCollectionName,
       {
         wait: true,
         points: [postId],
@@ -209,7 +218,7 @@ export class PostsEmbeddingService {
   @TryCatch()
   async syncPostsEmbeddings(): Promise<SyncEmbeddingResponseDto> {
     return this.qdrantService._syncEmbeddingsForModel(
-      postsCollectionName,
+      this.postsCollectionName,
       'post',
       () => this.prisma.post.findMany({ include: { medias: true } }),
       async (post) => ({

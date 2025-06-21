@@ -1,26 +1,33 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { PostListItemResponseDto } from './dto/response/post-list-item.dto';
-import { TryCatch } from 'src/common/try-catch.decorator';
-import { PrismaService } from 'src/prisma.service';
-import { Post, Prisma } from '@prisma/client';
-import { EmbeddingService } from 'src/embedding/embedding.service';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 import { QdrantClient } from '@qdrant/js-client-rest';
-import { PostDetailsResponseDto } from './dto/response/post-details.dto';
+import { TryCatch } from 'src/common/try-catch.decorator';
+import embeddingConfig from 'src/config/embedding.config';
+import { EmbeddingService } from 'src/embedding/embedding.service';
+import { Post, Prisma } from 'src/generated';
+import { PrismaService } from 'src/prisma.service';
 import { SearchPostDto } from './dto/request/search-post.dto';
+import { PostDetailsResponseDto } from './dto/response/post-details.dto';
+import { PostListItemResponseDto } from './dto/response/post-list-item.dto';
 import {
   mapPostListToDto,
   mapPostToDto,
   PostWithRelations,
 } from './mapper/posts-explore.mapper';
-import { postsCollectionName } from 'src/embedding/embedding.utils';
 
 @Injectable()
 export class PostsExploreService {
+  private readonly postsCollectionName: string;
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly embeddingService: EmbeddingService,
     private readonly qdrantClient: QdrantClient,
-  ) {}
+    @Inject(embeddingConfig.KEY)
+    private embeddingConf: ConfigType<typeof embeddingConfig>,
+  ) {
+    this.postsCollectionName = this.embeddingConf.postsCollectionName;
+  }
 
   private buildPostIncludes = (userId: string): Prisma.PostInclude => {
     return {
@@ -158,33 +165,36 @@ export class PostsExploreService {
 
     const queryEmbedding =
       await this.embeddingService.generateEmbeddingFromText(q);
-    const searchResponse = await this.qdrantClient.query(postsCollectionName, {
-      prefetch: [
-        {
-          query: queryEmbedding,
-          using: 'images',
+    const searchResponse = await this.qdrantClient.query(
+      this.postsCollectionName,
+      {
+        prefetch: [
+          {
+            query: queryEmbedding,
+            using: 'images',
+          },
+          {
+            query: queryEmbedding,
+            using: 'description',
+            limit: 1,
+          },
+          {
+            query: queryEmbedding,
+            using: 'title',
+            limit: 1,
+          },
+        ],
+        query: {
+          fusion: 'dbsf',
         },
-        {
-          query: queryEmbedding,
-          using: 'description',
-          limit: 1,
-        },
-        {
-          query: queryEmbedding,
-          using: 'title',
-          limit: 1,
-        },
-      ],
-      query: {
-        fusion: 'dbsf',
+        // query: queryEmbedding,
+        // using: 'images',
+        offset: (page - 1) * page_size,
+        limit: page_size,
+        // with_payload: true,
+        score_threshold: 0.54,
       },
-      // query: queryEmbedding,
-      // using: 'images',
-      offset: (page - 1) * page_size,
-      limit: page_size,
-      // with_payload: true,
-      score_threshold: 0.54,
-    });
+    );
 
     const pointIds: number[] = searchResponse.points
       .map((point) => Number(point.id))
@@ -227,27 +237,30 @@ export class PostsExploreService {
     const queryEmbedding =
       await this.embeddingService.generateEmbeddingFromText(relevantQueryText);
 
-    const searchResponse = await this.qdrantClient.query(postsCollectionName, {
-      prefetch: [
-        {
-          query: queryEmbedding,
-          using: 'images',
+    const searchResponse = await this.qdrantClient.query(
+      this.postsCollectionName,
+      {
+        prefetch: [
+          {
+            query: queryEmbedding,
+            using: 'images',
+          },
+          {
+            query: queryEmbedding,
+            using: 'description',
+          },
+          {
+            query: queryEmbedding,
+            using: 'title',
+          },
+        ],
+        query: {
+          fusion: 'dbsf',
         },
-        {
-          query: queryEmbedding,
-          using: 'description',
-        },
-        {
-          query: queryEmbedding,
-          using: 'title',
-        },
-      ],
-      query: {
-        fusion: 'dbsf',
+        offset: (page - 1) * page_size,
+        limit: page_size,
       },
-      offset: (page - 1) * page_size,
-      limit: page_size,
-    });
+    );
 
     const pointIds: number[] = searchResponse.points
       .map((point) => Number(point.id))

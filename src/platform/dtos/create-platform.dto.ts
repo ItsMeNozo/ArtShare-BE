@@ -1,4 +1,3 @@
-import { SharePlatform } from '@prisma/client';
 import { Type } from 'class-transformer';
 import {
   IsEnum,
@@ -8,6 +7,7 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
+import { SharePlatform } from 'src/generated';
 
 export class PlatformConfigInput {
   @IsNotEmpty()

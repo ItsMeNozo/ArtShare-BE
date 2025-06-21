@@ -1,17 +1,18 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { GeneratePostMetadataResponseDto } from './dto/response/generate-post-metadata.dto';
-import { PrismaService } from 'src/prisma.service';
-import OpenAI from 'openai';
-import { z } from 'zod';
-import { zodTextFormat } from 'openai/helpers/zod';
-import { EmbeddingService } from 'src/embedding/embedding.service';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { ConfigService, ConfigType } from '@nestjs/config';
 import { QdrantClient } from '@qdrant/js-client-rest';
 import { plainToInstance } from 'class-transformer';
-import { PostCategoryResponseDto } from './dto/response/category.dto';
-import { UsageService } from 'src/usage/usage.service';
+import OpenAI from 'openai';
+import { zodTextFormat } from 'openai/helpers/zod';
 import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
 import { TryCatch } from 'src/common/try-catch.decorator';
-import { ConfigService } from '@nestjs/config';
+import embeddingConfig from 'src/config/embedding.config';
+import { EmbeddingService } from 'src/embedding/embedding.service';
+import { PrismaService } from 'src/prisma.service';
+import { UsageService } from 'src/usage/usage.service';
+import { z } from 'zod';
+import { PostCategoryResponseDto } from './dto/response/category.dto';
+import { GeneratePostMetadataResponseDto } from './dto/response/generate-post-metadata.dto';
 
 const PostMetadata = z.object({
   title: z.string(),
@@ -20,10 +21,13 @@ const PostMetadata = z.object({
 
 @Injectable()
 export class WorkflowAssistService {
+  private readonly categoriesCollectionName: string;
   private readonly openai: OpenAI;
   aiCreditCost = 2;
 
   constructor(
+    @Inject(embeddingConfig.KEY)
+    private embeddingConf: ConfigType<typeof embeddingConfig>,
     private readonly prismaService: PrismaService,
     private readonly embeddingService: EmbeddingService,
     private readonly qdrantClient: QdrantClient,
@@ -33,9 +37,9 @@ export class WorkflowAssistService {
     this.openai = new OpenAI({
       apiKey: this.configService.get<string>('OPEN_AI_SECRET_KEY'),
     });
-  }
 
-  private readonly categoriesCollectionName = 'categories';
+    this.categoriesCollectionName = this.embeddingConf.categoriesCollectionName;
+  }
 
   @TryCatch()
   async generatePostMetadata(
@@ -126,12 +130,24 @@ export class WorkflowAssistService {
   ): Promise<{ id: number; name: string }[]> {
     const batchInput = await Promise.all(
       imageFiles.map(async (file) => {
-        return {
-          query: await this.embeddingService.generateEmbeddingFromImageBlob(
+        const queryEmbedding =
+          await this.embeddingService.generateEmbeddingFromImageBlob(
             new Blob([file.buffer]),
-          ),
-          using: 'description',
-          score_threshold: 0.22,
+          );
+        return {
+          prefetch: [
+            {
+              query: queryEmbedding,
+              using: 'name',
+            },
+            {
+              query: queryEmbedding,
+              using: 'description',
+            },
+          ],
+          query: {
+            fusion: 'dbsf',
+          },
           limit: 1,
           with_payload: true,
         };

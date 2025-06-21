@@ -1,19 +1,19 @@
 import {
-  Injectable,
-  NotFoundException,
   BadRequestException,
-  InternalServerErrorException,
   ForbiddenException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
-import { CreateCommentDto } from './dto/create-comment.dto';
-import { Comment, TargetType } from '@prisma/client';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { UpdateCommentDto } from './dto/update-comment.dto';
-import { CommentDto } from './dto/get-comment.dto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { NotificationUtils } from '../common/utils/notification.utils';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { TryCatch } from 'src/common/try-catch.decorator';
+import { Comment, TargetType } from 'src/generated';
+import { PrismaService } from 'src/prisma.service';
+import { NotificationUtils } from '../common/utils/notification.utils';
+import { CreateCommentDto } from './dto/create-comment.dto';
+import { CommentDto } from './dto/get-comment.dto';
+import { UpdateCommentDto } from './dto/update-comment.dto';
 
 @Injectable()
 export class CommentService {

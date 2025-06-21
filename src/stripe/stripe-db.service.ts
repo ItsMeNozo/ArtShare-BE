@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { PaidAccessLevel, Plan, User, UserAccess } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
-import { PaidAccessLevel, Plan, User, UserAccess } from '@prisma/client';
 
 @Injectable()
 export class StripeDbService {

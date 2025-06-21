@@ -1,6 +1,6 @@
 // src/statistics/statistics.service.ts
 import { Injectable, Logger } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 
 export interface StatCount {

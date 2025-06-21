@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CategoryResponseDto } from './dto/response/category.dto';
-import { PrismaService } from 'src/prisma.service';
-import { TryCatch } from 'src/common/try-catch.decorator';
 import { plainToInstance } from 'class-transformer';
+import { TryCatch } from 'src/common/try-catch.decorator';
+import { Prisma } from 'src/generated';
+import { PrismaService } from 'src/prisma.service';
 import { FindManyCategoriesDto } from './dto/request/find-many.dto';
-import { Prisma } from '@prisma/client';
+import { CategoryResponseDto } from './dto/response/category.dto';
 
 @Injectable()
 export class CategoriesSearchService {

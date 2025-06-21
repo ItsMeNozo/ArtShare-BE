@@ -1,32 +1,34 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Patch,
-  Delete,
-  Param,
   Body,
-  UseGuards,
-  ParseIntPipe,
-  Query,
+  Controller,
   DefaultValuePipe,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
+import { Public } from 'src/auth/decorators/public.decorator';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { SyncEmbeddingResponseDto } from '../common/response/sync-embedding.dto';
+import { CategoriesEmbeddingService } from './categories-embedding.service';
 import { CategoriesManagementService } from './categories-management.service';
+import { CategoriesSearchService } from './categories-search.service';
 import { CreateCategoryDto } from './dto/request/create-category.dto';
+import { FindManyCategoriesDto } from './dto/request/find-many.dto';
 import { UpdateCategoryDto } from './dto/request/update-category.dto';
 import { CategoryResponseDto } from './dto/response/category.dto';
-import { RolesGuard } from 'src/auth/roles.guard';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { CategoriesSearchService } from './categories-search.service';
-import { SyncEmbeddingResponseDto } from '../common/response/sync-embedding.dto';
-import { Public } from 'src/auth/decorators/public.decorator';
-import { FindManyCategoriesDto } from './dto/request/find-many.dto';
 
 @Controller('categories')
 export class CategoriesController {
   constructor(
     private readonly categoriesSearchService: CategoriesSearchService,
     private readonly categoriesManagementService: CategoriesManagementService,
+    private readonly categoriesEmbeddingService: CategoriesEmbeddingService,
   ) {}
 
   @Post()
@@ -83,6 +85,6 @@ export class CategoriesController {
 
   @Post('sync-embeddings')
   async syncEmbeddings(): Promise<SyncEmbeddingResponseDto> {
-    return this.categoriesManagementService.syncEmbeddings();
+    return this.categoriesEmbeddingService.syncCategoriesEmbeddings();
   }
 }

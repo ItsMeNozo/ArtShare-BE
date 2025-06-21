@@ -1,16 +1,16 @@
+import { Transform } from 'class-transformer';
 import {
-  IsNotEmpty,
-  IsString,
-  IsDateString,
   IsArray,
-  IsUrl,
-  IsOptional,
+  IsDateString,
   IsIn,
   IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUrl,
   Min,
 } from 'class-validator';
-import { AutoPostStatus } from '@prisma/client';
-import { Transform } from 'class-transformer';
+import { AutoPostStatus } from 'src/generated';
 
 export class ScheduleAutoPostDto {
   @IsNotEmpty()

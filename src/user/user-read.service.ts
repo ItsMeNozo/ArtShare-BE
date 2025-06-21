@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { PublicUserSearchResponseDto } from './dto/response/search-users.dto';
 import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
-import { Prisma } from '@prisma/client';
-import { mapToPublicUserSearchDto } from './mapper/user-read.mapper';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { generatePaginatedResponse } from 'src/common/helpers/pagination.helper';
+import { Prisma } from 'src/generated';
+import { PrismaService } from 'src/prisma.service';
+import { PublicUserSearchResponseDto } from './dto/response/search-users.dto';
+import { mapToPublicUserSearchDto } from './mapper/user-read.mapper';
 
 @Injectable()
 export class UserReadService {

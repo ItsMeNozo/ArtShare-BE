@@ -1,9 +1,16 @@
-import { CategoryType } from '@prisma/client';
-import { IsString, IsOptional, IsEnum, IsArray } from 'class-validator';
+import {
+  IsArray,
+  IsEnum,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
+import { CategoryType } from 'src/generated';
 
 export class UpdateCategoryDto {
   @IsString()
   @IsOptional()
+  @MinLength(3, { message: 'Name must be at least 3 characters long' })
   name?: string;
 
   @IsArray()
@@ -17,5 +24,6 @@ export class UpdateCategoryDto {
 
   @IsString()
   @IsOptional()
+  @MinLength(10, { message: 'Description must be at least 10 characters long' })
   description?: string;
 }

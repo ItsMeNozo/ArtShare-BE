@@ -11,6 +11,8 @@ import {
   HttpStatus,
   BadRequestException,
   RawBodyRequest,
+  Get,
+  UseGuards,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { StripeService } from './stripe.service';
@@ -20,6 +22,9 @@ import { Request } from 'express';
 import { CreateCheckoutSessionDto } from './dto/create-checkout-session';
 import { CurrentUser } from 'src/auth/decorators/users.decorator';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Roles } from 'src/auth/decorators/roles.decorators';
+import { Role } from 'src/auth/enums/role.enum';
 
 @Controller('api/stripe')
 export class StripeController {
@@ -182,5 +187,25 @@ export class StripeController {
     });
 
     return { received: true };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Roles(Role.ADMIN)
+  @Get('income-summary')
+  async getIncomeSummary() {
+    this.logger.log('Received request for income summary.');
+    try {
+      const summary = await this.stripeService.getIncomeSummary();
+      return summary;
+    } catch (error) {
+      this.logger.error(
+        `Error fetching income summary in controller: ${(error as Error).message}`,
+        (error as Error).stack,
+      );
+      throw new HttpException(
+        'Failed to retrieve Stripe income summary.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

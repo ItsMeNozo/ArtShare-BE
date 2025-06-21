@@ -1,31 +1,36 @@
 import {
   BadRequestException,
   ForbiddenException,
+  Inject,
   Injectable,
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import { ConfigType } from '@nestjs/config';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { plainToInstance } from 'class-transformer';
-import { StorageService } from 'src/storage/storage.service';
-import { MediaType, Post } from '@prisma/client';
 import { TryCatch } from 'src/common/try-catch.decorator';
-import { PostDetailsResponseDto } from './dto/response/post-details.dto';
-import { UpdatePostDto } from './dto/request/update-post.dto';
-import { FileUploadResponse } from 'src/storage/dto/response.dto';
-import { PatchThumbnailDto } from './dto/request/patch-thumbnail.dto';
+import embeddingConfig from 'src/config/embedding.config';
 import { QdrantService } from 'src/embedding/qdrant.service';
+import { MediaType, Post } from 'src/generated';
+import { PrismaService } from 'src/prisma.service';
+import { FileUploadResponse } from 'src/storage/dto/response.dto';
+import { StorageService } from 'src/storage/storage.service';
+import { FollowerDto } from 'src/user/dto/follower.dto';
+import { UserFollowService } from 'src/user/user.follow.service';
+import { NotificationUtils } from '../common/utils/notification.utils';
 import { CreatePostRequestDto } from './dto/request/create-post.dto';
+import { PatchThumbnailDto } from './dto/request/patch-thumbnail.dto';
+import { UpdatePostDto } from './dto/request/update-post.dto';
+import { PostDetailsResponseDto } from './dto/response/post-details.dto';
 import { PostsEmbeddingService } from './posts-embedding.service';
 import { PostsManagementValidator } from './validator/posts-management.validator';
-import { EventEmitter2 } from '@nestjs/event-emitter';
-import { UserFollowService } from 'src/user/user.follow.service';
-import { FollowerDto } from 'src/user/dto/follower.dto';
-import { NotificationUtils } from '../common/utils/notification.utils';
-import { postsCollectionName } from 'src/embedding/embedding.utils';
 
 @Injectable()
 export class PostsManagementService {
+  private readonly logger = new Logger(PostsManagementService.name);
+  private readonly postsCollectionName: string;
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly storageService: StorageService,
@@ -34,9 +39,11 @@ export class PostsManagementService {
     private readonly postsManagementValidator: PostsManagementValidator,
     private readonly followService: UserFollowService,
     private readonly eventEmitter: EventEmitter2,
-  ) {}
-
-  private readonly logger = new Logger(PostsManagementService.name);
+    @Inject(embeddingConfig.KEY)
+    private embeddingConf: ConfigType<typeof embeddingConfig>,
+  ) {
+    this.postsCollectionName = this.embeddingConf.postsCollectionName;
+  }
 
   @TryCatch()
   async createPost(
@@ -319,7 +326,7 @@ export class PostsManagementService {
     if (urls.length) {
       await this.storageService.deleteFiles(urls);
     }
-    await this.qdrantService.deletePoints(postsCollectionName, [postId]);
+    await this.qdrantService.deletePoints(this.postsCollectionName, [postId]);
   }
 
   async updateThumbnailCropMeta(

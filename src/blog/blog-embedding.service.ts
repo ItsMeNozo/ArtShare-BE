@@ -1,23 +1,28 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 import { QdrantClient } from '@qdrant/js-client-rest';
 import { SyncEmbeddingResponseDto } from 'src/common/response/sync-embedding.dto';
 import { TryCatch } from 'src/common/try-catch.decorator';
+import embeddingConfig from 'src/config/embedding.config';
 import { EmbeddingService } from 'src/embedding/embedding.service';
-import { blogsCollectionName } from 'src/embedding/embedding.utils';
 import { QdrantService } from 'src/embedding/qdrant.service';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class BlogEmbeddingService {
+  private readonly logger = new Logger(BlogEmbeddingService.name);
+  private readonly blogsCollectionName: string;
+
   constructor(
     private readonly embeddingService: EmbeddingService,
     private readonly qdrantClient: QdrantClient,
     private readonly qdrantService: QdrantService,
     private readonly prisma: PrismaService,
-  ) {}
-
-  private readonly logger = new Logger(BlogEmbeddingService.name);
-  private readonly qdrantCollectionName = 'blogs';
+    @Inject(embeddingConfig.KEY)
+    private embeddingConf: ConfigType<typeof embeddingConfig>,
+  ) {
+    this.blogsCollectionName = this.embeddingConf.blogsCollectionName;
+  }
 
   @TryCatch()
   async upsertBlogEmbeddings(
@@ -26,7 +31,7 @@ export class BlogEmbeddingService {
     content: string,
   ): Promise<void> {
     const operationInfo = await this.qdrantClient.upsert(
-      this.qdrantCollectionName,
+      this.blogsCollectionName,
       {
         wait: true,
         points: [
@@ -88,7 +93,7 @@ export class BlogEmbeddingService {
     }
 
     const operationInfo = await this.qdrantClient.updateVectors(
-      blogsCollectionName,
+      this.blogsCollectionName,
       {
         wait: true,
         points: [
@@ -109,7 +114,7 @@ export class BlogEmbeddingService {
   @TryCatch()
   async syncBlogsEmbeddings(): Promise<SyncEmbeddingResponseDto> {
     return this.qdrantService._syncEmbeddingsForModel(
-      blogsCollectionName,
+      this.blogsCollectionName,
       'blog',
       () => this.prisma.blog.findMany(),
       async (blog) => ({

@@ -1,6 +1,6 @@
-import { Collection, Post, Prisma } from '@prisma/client';
-import { PostSummaryDto } from '../dto/response/post-summary.dto';
+import { Collection, Post, Prisma } from 'src/generated';
 import { CollectionDto } from '../dto/response/collection.dto';
+import { PostSummaryDto } from '../dto/response/post-summary.dto';
 
 export type CollectionWithPosts = Collection & {
   posts: Post[];

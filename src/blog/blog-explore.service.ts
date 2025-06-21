@@ -1,32 +1,39 @@
-import { Prisma } from '@prisma/client';
-import { BlogListItemResponseDto } from './dto/response/blog-list-item.dto';
-import { PrismaService } from 'src/prisma.service';
-import { EmbeddingService } from 'src/embedding/embedding.service';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 import { QdrantClient } from '@qdrant/js-client-rest';
+import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
+import {
+  generatePaginatedResponse,
+  generatePaginatedResponseWithUnknownTotal,
+} from 'src/common/helpers/pagination.helper';
+import { TryCatch } from 'src/common/try-catch.decorator';
+import embeddingConfig from 'src/config/embedding.config';
+import { EmbeddingService } from 'src/embedding/embedding.service';
+import { Prisma } from 'src/generated';
+import { PrismaService } from 'src/prisma.service';
+import { GetBlogsQueryDto } from './dto/request/get-blogs-query.dto';
+import { BlogDetailsResponseDto } from './dto/response/blog-details.dto';
+import { BlogListItemResponseDto } from './dto/response/blog-list-item.dto';
 import {
   BlogForListItemPayload,
   blogListItemSelect,
   mapBlogToDetailsDto,
   mapBlogToListItemDto,
 } from './helpers/blog-mapping.helper';
-import { BlogDetailsResponseDto } from './dto/response/blog-details.dto';
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { TryCatch } from 'src/common/try-catch.decorator';
-import { GetBlogsQueryDto } from './dto/request/get-blogs-query.dto';
-import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
-import {
-  generatePaginatedResponse,
-  generatePaginatedResponseWithUnknownTotal,
-} from 'src/common/helpers/pagination.helper';
-import { blogsCollectionName } from 'src/embedding/embedding.utils';
 
 @Injectable()
 export class BlogExploreService {
+  private readonly blogsCollectionName: string;
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly embeddingService: EmbeddingService,
     private readonly qdrantClient: QdrantClient,
-  ) {}
+    @Inject(embeddingConfig.KEY)
+    private embeddingConf: ConfigType<typeof embeddingConfig>,
+  ) {
+    this.blogsCollectionName = this.embeddingConf.blogsCollectionName;
+  }
 
   private async applyCommonBlogFilters(
     baseWhere: Prisma.BlogWhereInput,
@@ -354,25 +361,28 @@ export class BlogExploreService {
     const queryEmbedding =
       await this.embeddingService.generateEmbeddingFromText(searchQuery);
 
-    const searchResponse = await this.qdrantClient.query(blogsCollectionName, {
-      prefetch: [
-        {
-          query: queryEmbedding,
-          using: 'title',
+    const searchResponse = await this.qdrantClient.query(
+      this.blogsCollectionName,
+      {
+        prefetch: [
+          {
+            query: queryEmbedding,
+            using: 'title',
+          },
+          {
+            query: queryEmbedding,
+            using: 'content',
+          },
+        ],
+        query: {
+          fusion: 'dbsf',
         },
-        {
-          query: queryEmbedding,
-          using: 'content',
-        },
-      ],
-      query: {
-        fusion: 'dbsf',
-      },
 
-      offset: (page - 1) * limit,
-      // get extra since we can't have exact total count
-      limit: limit + 1, // +1 to check if there's a next page
-    });
+        offset: (page - 1) * limit,
+        // get extra since we can't have exact total count
+        limit: limit + 1, // +1 to check if there's a next page
+      },
+    );
 
     const pointIds: number[] = searchResponse.points.map((point) =>
       Number(point.id),

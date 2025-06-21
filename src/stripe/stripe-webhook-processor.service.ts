@@ -1,14 +1,14 @@
 import {
-  Injectable,
-  Logger,
-  InternalServerErrorException,
   BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
+import { PaidAccessLevel, Plan, User } from 'src/generated';
 import Stripe from 'stripe';
 import { StripeCoreService } from './stripe-core.service';
 import { StripeDbService } from './stripe-db.service';
-import { PaidAccessLevel, Plan, User } from '@prisma/client';
 
 export interface SubscriptionProcessingResult {
   user?: User;

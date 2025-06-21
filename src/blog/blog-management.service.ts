@@ -1,32 +1,40 @@
 import {
-  Injectable,
-  NotFoundException,
   ForbiddenException,
+  Inject,
+  Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
+import { TryCatch } from 'src/common/try-catch.decorator';
+import embeddingConfig from 'src/config/embedding.config';
+import { QdrantService } from 'src/embedding/qdrant.service';
 import { PrismaService } from 'src/prisma.service';
+import { BlogEmbeddingService } from './blog-embedding.service';
 import { CreateBlogDto } from './dto/request/create-blog.dto';
 import { UpdateBlogDto } from './dto/request/update-blog.dto';
 import { BlogDetailsResponseDto } from './dto/response/blog-details.dto';
-import {
-  mapBlogToDetailsDto,
-  BlogWithRelations,
-} from './helpers/blog-mapping.helper';
 import { BookmarkResponseDto } from './dto/response/bookmark-response.dto';
 import { ProtectResponseDto } from './dto/response/protect-response.dto';
 import { RatingResponseDto } from './dto/response/rating-response.dto';
-import { TryCatch } from 'src/common/try-catch.decorator';
-import { BlogEmbeddingService } from './blog-embedding.service';
-import { QdrantService } from 'src/embedding/qdrant.service';
-import { blogsCollectionName } from 'src/embedding/embedding.utils';
+import {
+  BlogWithRelations,
+  mapBlogToDetailsDto,
+} from './helpers/blog-mapping.helper';
 
 @Injectable()
 export class BlogManagementService {
+  private readonly blogsCollectionName: string;
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly blogEmbeddingService: BlogEmbeddingService,
     private readonly qdrantService: QdrantService,
-  ) {}
+    @Inject(embeddingConfig.KEY)
+    private embeddingConf: ConfigType<typeof embeddingConfig>,
+  ) {
+    this.blogsCollectionName = this.embeddingConf.blogsCollectionName;
+  }
 
   @TryCatch()
   async createBlog(
@@ -159,7 +167,7 @@ export class BlogManagementService {
 
     const result = await this.prisma.blog.delete({ where: { id } });
 
-    void this.qdrantService.deletePoints(blogsCollectionName, [id]);
+    void this.qdrantService.deletePoints(this.blogsCollectionName, [id]);
 
     return result;
   }

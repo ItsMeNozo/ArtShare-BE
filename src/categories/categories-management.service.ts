@@ -1,41 +1,31 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
+import { plainToInstance } from 'class-transformer';
+import { TryCatch } from 'src/common/try-catch.decorator';
+import embeddingConfig from 'src/config/embedding.config';
+import { QdrantService } from 'src/embedding/qdrant.service';
+import { PrismaService } from 'src/prisma.service';
+import { CategoriesEmbeddingService } from './categories-embedding.service';
 import { CreateCategoryDto } from './dto/request/create-category.dto';
 import { UpdateCategoryDto } from './dto/request/update-category.dto';
-import { PrismaService } from 'src/prisma.service';
-import { TryCatch } from 'src/common/try-catch.decorator';
 import { CategoryResponseDto } from './dto/response/category.dto';
-import { plainToInstance } from 'class-transformer';
-import { QdrantClient } from '@qdrant/js-client-rest';
-import { EmbeddingService } from 'src/embedding/embedding.service';
-import { VECTOR_DIMENSION } from 'src/embedding/embedding.utils';
-import { SyncEmbeddingResponseDto } from '../common/response/sync-embedding.dto';
-import { Category } from '@prisma/client';
-import { QdrantService } from 'src/embedding/qdrant.service';
 
 @Injectable()
 export class CategoriesManagementService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly qdrantClient: QdrantClient,
-    private readonly embeddingService: EmbeddingService,
-    private readonly qdrantService: QdrantService,
-  ) {}
-
+  private readonly VECTOR_DIMENSION: number;
+  private readonly categoriesCollectionName;
   private readonly INVALID_DESCRIPTION_ERROR =
     'Description cannot be null or empty or contain only whitespace';
 
-  private readonly categoriesCollectionName = 'categories';
-
-  private async ensureCategoriesCollectionExists() {
-    const collectionExists = await this.qdrantService.collectionExists(this.categoriesCollectionName);
-    if (!collectionExists) {
-      await this.qdrantClient.createCollection(this.categoriesCollectionName, {
-        vectors: {
-          description: { size: VECTOR_DIMENSION, distance: 'Cosine' },
-        },
-      });
-      console.log('Collection categories created successfully');
-    }
+  constructor(
+    @Inject(embeddingConfig.KEY)
+    private embeddingConf: ConfigType<typeof embeddingConfig>,
+    private readonly prisma: PrismaService,
+    private readonly qdrantService: QdrantService,
+    private readonly categoriesEmbeddingService: CategoriesEmbeddingService,
+  ) {
+    this.VECTOR_DIMENSION = this.embeddingConf.vectorDimension;
+    this.categoriesCollectionName = this.embeddingConf.categoriesCollectionName;
   }
 
   @TryCatch()
@@ -44,13 +34,17 @@ export class CategoriesManagementService {
   ): Promise<CategoryResponseDto> {
     await this.validateCreateRequest(createCategoryDto);
 
-    await this.ensureCategoriesCollectionExists();
+    await this.categoriesEmbeddingService.ensureCategoriesCollectionExists();
 
     const createdCategory = await this.prisma.category.create({
       data: createCategoryDto,
     });
 
-    this.upsertCategoryEmbeddings([createdCategory]);
+    void this.categoriesEmbeddingService.upsertCategoryEmbeddings(
+      createdCategory.id,
+      createdCategory.name,
+      createdCategory.description,
+    );
 
     return plainToInstance(CategoryResponseDto, createdCategory);
   }
@@ -62,14 +56,22 @@ export class CategoriesManagementService {
   ): Promise<CategoryResponseDto> {
     await this.validateUpdateRequest(updateCategoryDto);
 
-    await this.checkCategoryExists(id);
+    const existingCategory = await this.checkCategoryExists(id);
 
     const updatedCategory = await this.prisma.category.update({
       where: { id },
       data: updateCategoryDto,
     });
 
-    this.upsertCategoryEmbeddings([updatedCategory]);
+    void this.categoriesEmbeddingService.updateCategoryEmbeddings(
+      id,
+      updateCategoryDto.name === existingCategory.name
+        ? undefined
+        : updateCategoryDto.name,
+      updateCategoryDto.description === existingCategory.description
+        ? undefined
+        : updateCategoryDto.description,
+    );
 
     return plainToInstance(CategoryResponseDto, updatedCategory);
   }
@@ -117,70 +119,6 @@ export class CategoriesManagementService {
     if (!category) {
       throw new BadRequestException(`Category with id ${id} not found`);
     }
-  }
-
-  @TryCatch()
-  async syncEmbeddings(): Promise<SyncEmbeddingResponseDto> {
-    await this.qdrantService.deleteAllPoints(this.categoriesCollectionName);
-
-    const categories: Category[] = await this.prisma.category.findMany();
-    if (categories.length === 0) {
-      return {
-        message: 'No categories found to sync',
-        count: 0,
-        syncedItems: [],
-      };
-    }
-
-    await this.upsertCategoryEmbeddings(categories);
-
-    return {
-      message: 'Category embeddings synced successfully',
-      count: categories.length,
-      syncedItems: categories.map((category) => category.name),
-    };
-  }
-
-  // Performs the insert + update action on specified points. Any point with an existing {id} will be overwritten.
-  @TryCatch()
-  async upsertCategoryEmbeddings(categories: Category[]): Promise<void> {
-    if (categories.length === 0) {
-      return;
-    }
-
-    const points = await Promise.all(
-      categories.map(async (c) => {
-        if (this.isInvalidDescription(c.description)) {
-          // If description is null or just whitespace, it's an issue.
-          // This should ideally be caught by DTO validation earlier for create/update.
-          // For sync operations, this might indicate legacy data that needs fixing.
-          throw new BadRequestException(
-            `Category '${c.name}' (ID: ${c.id}): ${this.INVALID_DESCRIPTION_ERROR}`,
-          );
-        }
-        const embedding = await this.embeddingService.generateEmbeddingFromText(
-          c.description,
-        );
-        return {
-          id: c.id,
-          vector: {
-            description: embedding,
-          },
-          payload: {
-            name: c.name,
-            description: c.description,
-          },
-        };
-      }),
-    );
-
-    const operationInfo = await this.qdrantClient.upsert(
-      this.categoriesCollectionName,
-      {
-        wait: true,
-        points: points,
-      },
-    );
-    console.log('Upsert category embedding operation info:', operationInfo);
+    return category;
   }
 }

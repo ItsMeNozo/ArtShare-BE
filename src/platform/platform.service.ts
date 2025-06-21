@@ -4,18 +4,13 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import {
-  Platform,
-  PlatformStatus,
-  Prisma,
-  SharePlatform,
-} from '@prisma/client';
-import { PlatformPageConfig } from './dtos/platform-config.interface';
-import { CreatePlatformDto } from './dtos/create-platform.dto';
-import { SyncPlatformInputDto } from './dtos/sync-platform-input.dto';
-import { PrismaService } from 'src/prisma.service';
 import { EncryptionService } from 'src/encryption/encryption.service';
+import { Platform, PlatformStatus, Prisma, SharePlatform } from 'src/generated';
+import { PrismaService } from 'src/prisma.service';
+import { CreatePlatformDto } from './dtos/create-platform.dto';
+import { PlatformPageConfig } from './dtos/platform-config.interface';
 import { PublicPlatformOutputDto } from './dtos/public-platform-output.dto';
+import { SyncPlatformInputDto } from './dtos/sync-platform-input.dto';
 import { UpdatePlatformConfigDto } from './dtos/update-platform-config.dto';
 
 @Injectable()
@@ -246,98 +241,109 @@ export class PlatformService {
     input: SyncPlatformInputDto,
   ): Promise<PublicPlatformOutputDto[]> {
     const { userId, platformName, pagesFromApi } = input;
-    const processedPublicPlatforms: PublicPlatformOutputDto[] = [];
 
     try {
-      await this.prisma.$transaction(async (tx) => {
-        const authorizedApiPageIds = new Set(pagesFromApi.map((p) => p.id));
-
-        const existingUserPlatforms = await tx.platform.findMany({
-          where: {
-            user_id: userId,
-            name: platformName,
-          },
-        });
-
-        for (const pageFromApi of pagesFromApi) {
-          const {
-            id: apiExternalId,
-            name: apiPageName,
-            access_token: apiAccessToken,
-            category: apiCategory,
-            token_expires_at,
-            ...remainingApiFields
-          } = pageFromApi;
-
-          const pageConfigForDb: PlatformPageConfig = {
-            ...remainingApiFields,
-            page_name: apiPageName,
-            encrypted_access_token:
-              this.encryptionService.encrypt(apiAccessToken),
-            category: apiCategory || '',
-          };
-
-          const upsertedPlatform = await tx.platform.upsert({
+      const synchronizedPlatforms = await this.prisma.$transaction(
+        async (tx) => {
+          const authorizedApiPageIds = new Set(pagesFromApi.map((p) => p.id));
+          const existingUserPlatforms = await tx.platform.findMany({
             where: {
-              user_id_name_external_page_id: {
+              user_id: userId,
+              name: platformName,
+            },
+          });
+
+          const upsertPromises = pagesFromApi.map((pageFromApi) => {
+            const {
+              id: apiExternalId,
+              name: apiPageName,
+              access_token: apiAccessToken,
+              category: apiCategory,
+              token_expires_at,
+              ...remainingApiFields
+            } = pageFromApi;
+
+            const pageConfigForDb: PlatformPageConfig = {
+              ...remainingApiFields,
+              page_name: apiPageName,
+              encrypted_access_token:
+                this.encryptionService.encrypt(apiAccessToken),
+              category: apiCategory || '',
+            };
+
+            return tx.platform.upsert({
+              where: {
+                user_id_name_external_page_id: {
+                  user_id: userId,
+                  name: platformName,
+                  external_page_id: apiExternalId,
+                },
+              },
+              create: {
                 user_id: userId,
                 name: platformName,
                 external_page_id: apiExternalId,
+                config: pageConfigForDb as unknown as Prisma.InputJsonValue,
+                status: PlatformStatus.ACTIVE,
+                token_expires_at: token_expires_at,
               },
-            },
-            create: {
-              user_id: userId,
-              name: platformName,
-              external_page_id: apiExternalId,
-              config: pageConfigForDb as unknown as Prisma.InputJsonValue,
-              status: PlatformStatus.ACTIVE,
-              token_expires_at: token_expires_at,
-            },
-            update: {
-              config: pageConfigForDb as unknown as Prisma.InputJsonValue,
-              updated_at: new Date(),
-              status: PlatformStatus.ACTIVE,
-              token_expires_at: token_expires_at,
-            },
+              update: {
+                config: pageConfigForDb as unknown as Prisma.InputJsonValue,
+                updated_at: new Date(),
+                status: PlatformStatus.ACTIVE,
+                token_expires_at: token_expires_at,
+              },
+            });
           });
 
-          processedPublicPlatforms.push({
-            id: upsertedPlatform.external_page_id,
-            name: apiPageName,
-            category: apiCategory || '',
-            platform_db_id: upsertedPlatform.id,
-            status: upsertedPlatform.status,
-          });
-        }
+          const upsertedPlatforms = await Promise.all(upsertPromises);
 
-        const platformsToDelete = existingUserPlatforms.filter(
-          (dbPlatform) =>
-            !authorizedApiPageIds.has(dbPlatform.external_page_id),
-        );
-
-        if (platformsToDelete.length > 0) {
-          this.logger.log(
-            `Removing ${platformsToDelete.length} de-authorized ${platformName} connections for user_id ${userId}. IDs: ${platformsToDelete.map((p) => p.id).join(', ')}`,
+          const platformsToDelete = existingUserPlatforms.filter(
+            (dbPlatform) =>
+              !authorizedApiPageIds.has(dbPlatform.external_page_id),
           );
-          await tx.platform.deleteMany({
-            where: {
-              id: {
-                in: platformsToDelete.map((p) => p.id),
-              },
-            },
-          });
-        }
+
+          if (platformsToDelete.length > 0) {
+            const idsToDelete = platformsToDelete.map((p) => p.id);
+            this.logger.log(
+              `Removing ${platformsToDelete.length} de-authorized ${platformName} connections for user_id ${userId}. IDs: ${idsToDelete.join(', ')}`,
+            );
+
+            await tx.platform.deleteMany({
+              where: { id: { in: idsToDelete } },
+            });
+          }
+
+          return upsertedPlatforms;
+        },
+        {
+          maxWait: 10000,
+          timeout: 20000,
+        },
+      );
+
+      const publicResults = synchronizedPlatforms.map((platform) => {
+        const platformConfig = platform.config as unknown as PlatformPageConfig;
+        return {
+          id: platform.external_page_id,
+          name: platformConfig.page_name,
+          category: platformConfig.category,
+          platform_db_id: platform.id,
+          status: platform.status,
+        };
       });
 
       this.logger.log(
-        `Successfully synchronized ${processedPublicPlatforms.length} ${platformName} connection(s) for user_id ${userId}.`,
+        `Successfully synchronized ${publicResults.length} ${platformName} connection(s) for user_id ${userId}.`,
       );
-      return processedPublicPlatforms;
+
+      return publicResults;
     } catch (dbError: any) {
       this.logger.error(
         `Database error during ${platformName} connection synchronization for user_id ${userId}: ${dbError.message}`,
         dbError.stack,
       );
+
       throw new InternalServerErrorException(
         `Failed to save/update ${platformName} connections.`,
       );
