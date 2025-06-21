@@ -1,5 +1,5 @@
 # Package management files require review from team leads or senior developers
-package.json @itsmenozo @tkjetng
+package.json @itsmenozo @kjetng
 yarn.lock @itsmenozo @kjetng
 package-lock.json @itsmenozo @kjetng
 
