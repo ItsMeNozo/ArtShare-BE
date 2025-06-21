@@ -1,13 +1,11 @@
 // src/reports/reports.service.ts
 
 import {
-  ConflictException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { EventEmitter2 } from '@nestjs/event-emitter';
-import { Prisma, Report, ReportStatus, ReportTargetType } from 'src/generated';
+import { Prisma, Report, ReportStatus } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { CreateReportDto } from './dto/create-report.dto';
 import { ResolveReportDto } from './dto/resolve-report.dto';
