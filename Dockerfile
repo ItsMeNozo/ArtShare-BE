@@ -14,12 +14,11 @@ RUN yarn install --frozen-lockfile --network-timeout 600000
 # Copy the rest of the source code.
 # This is the most frequently invalidated layer.
 COPY . .
-RUN npx prisma generate
-
 
 # Build the application.
 RUN yarn build
 
+RUN yarn install --production --frozen-lockfile --network-timeout 600000
 
 # ======================================================================================
 # Stage 2: Production - Create the final, small, and secure runtime image
@@ -41,25 +40,25 @@ RUN adduser --system --uid 1001 --group --shell /bin/bash nodejs
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
-RUN yarn install --production --frozen-lockfile --network-timeout 600000 && chown -R nodejs:nodejs /app/node_modules
-
 # Copy necessary artifacts from the builder stage.
 COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
+COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nodejs:nodejs /app/prisma ./prisma
 
-# Create cache directory for libraries like `@xenova/transformers`.
-#    We create the parent `/app` as root first, then chown.
+# Copy the entrypoint script and make it executable.
+COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint.sh
+
+# Create the cache directory that the entrypoint script defaults to.
 RUN mkdir -p /app/.cache && chown nodejs:nodejs /app/.cache
 
 # Switch to the non-root user.
 USER nodejs
 
 # Use dumb-init to properly handle process signals (like SIGTERM/SIGINT).
-ENTRYPOINT ["dumb-init", "--"]
+ENTRYPOINT ["dumb-init", "--", "entrypoint.sh"]
 
 # Set environment for production.
 ENV NODE_ENV=production
-ENV TRANSFORMERS_CACHE=/app/.cache
 
 # A lightweight healthcheck
 HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 \

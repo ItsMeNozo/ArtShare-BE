@@ -6,38 +6,37 @@ on:
     branches: ['main']
 
 env:
-  REGISTRY: docker.io  # Docker Hub
-  IMAGE_NAME: itsmestarlight/artshare-backend 
+  REGISTRY: docker.io # Docker Hub
+  IMAGE_NAME: itsmestarlight/artshare-backend
   DOCKER_IMAGE: artshare-backend
   CONTAINER_NAME: backend
+  VOLUME_NAME: artshare_model_cache
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@v1.0.3
-        env:
-          GITHUB_SHA: ${{ github.sha }}
-          REGISTRY: ${{ env.REGISTRY }}
-          IMAGE_NAME: ${{ env.IMAGE_NAME }}
-          DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
-          CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
         with:
           host: ${{ secrets.DO_HOST }}
           username: root
           key: ${{ secrets.DO_SSH_KEY }}
-          envs: GITHUB_SHA,REGISTRY,IMAGE_NAME,DOCKER_IMAGE,CONTAINER_NAME
+          envs: IMAGE_NAME,CONTAINER_NAME,VOLUME_NAME
           script: |
             set -e
-            
+
             echo "🚀 Starting deployment for commit: $GITHUB_SHA"
             echo "📦 Using Docker Hub free (public repo - unlimited storage!)"
-            
+
+            echo "📦 Ensuring cache volume '${VOLUME_NAME}' exists..."
+            docker volume create ${VOLUME_NAME} || true
+
+
             # Navigate to project directory
             cd ArtShare-BE/
-            
+
             # Create minimal backup (current running image)
             echo "📦 Creating backup of current deployment..."
             BACKUP_IMAGE="${DOCKER_IMAGE}:backup-current"
@@ -47,14 +46,14 @@ jobs:
               docker tag ${DOCKER_IMAGE}:latest $BACKUP_IMAGE
               echo "Single backup created: $BACKUP_IMAGE"
             fi
-            
+
             # Pull the pre-built image from Docker Hub (NO LOGIN NEEDED for public repos!)
             echo "📥 Pulling pre-built image from Docker Hub..."
             docker pull $IMAGE_NAME:latest
-            
+
             # Tag the Docker Hub image as our local latest
             docker tag $IMAGE_NAME:latest ${DOCKER_IMAGE}:latest
-            
+
             # Function to rollback on failure
             rollback() {
               echo "❌ Deployment failed, rolling back..."
@@ -67,7 +66,7 @@ jobs:
               fi
               exit 1
             }
-            
+
             # Health check function
             health_check() {
               echo "🔍 Performing health check..."
@@ -82,30 +81,27 @@ jobs:
               echo "❌ Health check failed"
               return 1
             }
-            
+
             # Zero-downtime deployment strategy
             echo "🔄 Starting zero-downtime deployment..."
-            
+
             # Start new container with temporary name
             TEMP_CONTAINER="${CONTAINER_NAME}-new"
-            
+
             echo "🚀 Starting new container: $TEMP_CONTAINER"
-            docker run -d --name $TEMP_CONTAINER \
-              --restart=unless-stopped \
-              --cap-drop=ALL \
-              --cap-add=CHOWN \
-              --cap-add=SETGID \
-              --cap-add=SETUID \
-              --security-opt=no-new-privileges:true \
-              -p 127.0.0.1:3001:3000 \
-              --env-file .env \
-              --entrypoint sh ${DOCKER_IMAGE}:latest \
-              -c "npx prisma migrate deploy && node dist/src/main.js" || rollback
-            
+            docker run -d \
+              --name ${CONTAINER_NAME} \
+              --restart unless-stopped \
+              -p 3001:3000 \
+              --env-file /root/ArtShare-BE/.env \
+              -v ${VOLUME_NAME}:/app/.cache \
+              --security-opt no-new-privileges:true \
+              ${IMAGE_NAME}:latest || rollback
+
             # Wait for new container to be ready
             echo "⏳ Waiting for new container to be ready..."
             sleep 10
-            
+
             # Check if new container is running
             if ! docker ps | grep -q $TEMP_CONTAINER; then
               echo "❌ New container failed to start"
@@ -113,7 +109,7 @@ jobs:
               docker rm -f $TEMP_CONTAINER 2>/dev/null || true
               rollback
             fi
-            
+
             # Test new container
             echo "🔍 Testing new container..."
             for i in {1..30}; do
@@ -130,54 +126,51 @@ jobs:
               echo "Waiting for new container... ($i/30)"
               sleep 2
             done
-            
+
             # Stop old container and start new one on correct port
             echo "🔄 Switching to new container..."
-            
+
             # Stop old container
             if docker ps | grep -q "$CONTAINER_NAME"; then
               docker stop $CONTAINER_NAME
               docker rm $CONTAINER_NAME
             fi
-            
+
             # Stop temp container
             docker stop $TEMP_CONTAINER
             docker rm $TEMP_CONTAINER
-            
+
             # Start final container on production port
             echo "🚀 Starting production container..."
-            docker run -d --name $CONTAINER_NAME \
-              --restart=unless-stopped \
-              --cap-drop=ALL \
-              --cap-add=CHOWN \
-              --cap-add=SETGID \
-              --cap-add=SETUID \
-              --security-opt=no-new-privileges:true \
-              -p 127.0.0.1:3000:3000 \
-              --env-file .env \
-              --entrypoint sh ${DOCKER_IMAGE}:latest \
-              -c "npx prisma migrate deploy && node dist/src/main.js" || rollback
-            
+            docker run -d \
+              --name ${CONTAINER_NAME} \
+              --restart unless-stopped \
+              -p 3000:3000 \
+              --env-file /root/ArtShare-BE/.env \
+              -v ${VOLUME_NAME}:/app/.cache \
+              --security-opt no-new-privileges:true \
+              ${IMAGE_NAME}:latest || rollback
+
             # Final health check
             sleep 10
             if ! health_check; then
               rollback
             fi
-            
+
             # Simple cleanup (no storage worries with Docker Hub free!)
             echo "🧹 Basic cleanup..."
-            
+
             # Remove old backup images (keep only current backup)
             docker images | grep "${DOCKER_IMAGE}:backup-" | grep -v "backup-current" | awk '{print $3}' | xargs -r docker rmi || true
-            
+
             # Remove dangling images
             docker image prune -f || true
-            
+
             echo "✅ Deployment completed successfully!"
             echo "💰 Using Docker Hub free - no storage costs!"
             echo "📊 Container status:"
             docker ps | grep $CONTAINER_NAME
-            
+
             echo "📝 Recent logs:"
             docker logs --tail 20 $CONTAINER_NAME
 
@@ -193,13 +186,13 @@ jobs:
           script: |
             # Final verification
             echo "🔍 Final deployment verification..."
-            
+
             # Check container is running
             if ! docker ps | grep -q "$CONTAINER_NAME"; then
               echo "❌ Container is not running!"
               exit 1
             fi
-            
+
             # Check application responds
             sleep 5
             if docker exec $CONTAINER_NAME curl -f http://localhost:3000 >/dev/null 2>&1; then
@@ -210,7 +203,7 @@ jobs:
               docker logs --tail 50 $CONTAINER_NAME
               exit 1
             fi
-            
+
             echo "🎉 Deployment verification successful!"
 
       - name: Notify Deployment Success
