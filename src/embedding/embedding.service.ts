@@ -18,7 +18,7 @@ export class EmbeddingService {
   private readonly logger = new Logger(EmbeddingService.name);
 
   async onModuleInit() {
-    console.log('onModuleInit: Starting to initialize embedding models...');
+    this.logger.log('onModuleInit: Starting to initialize embedding models...');
 
     const {
       AutoProcessor,
@@ -62,7 +62,7 @@ export class EmbeddingService {
 
       return Object.values(image_embeds.data);
     } catch (err) {
-      console.error(`Error processing ${image_url}:`, err);
+      this.logger.error(`Error processing ${image_url}:`, err);
       return [];
     }
   }
