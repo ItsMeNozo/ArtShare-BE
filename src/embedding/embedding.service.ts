@@ -1,63 +1,64 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+import {
+  CLIPTextModelWithProjection,
+  CLIPVisionModelWithProjection,
+  PreTrainedTokenizer,
+  Processor,
+  RawImage,
+} from '@xenova/transformers';
 import { TryCatch } from 'src/common/try-catch.decorator';
 
 @Injectable()
 export class EmbeddingService {
-  private processorPromise;
-  private visionModelPromise;
-  private tokenizerPromise;
-  private textModelPromise;
+  public processor: Processor;
+  public visionModel: CLIPVisionModelWithProjection;
+  public tokenizer: PreTrainedTokenizer;
+  public textModel: CLIPTextModelWithProjection;
 
-  constructor() {
+  private readonly logger = new Logger(EmbeddingService.name);
+
+  async onModuleInit() {
+    console.log('onModuleInit: Starting to initialize embedding models...');
+
+    const {
+      AutoProcessor,
+      CLIPVisionModelWithProjection,
+      AutoTokenizer,
+      CLIPTextModelWithProjection,
+    } = await new Function('return import("@xenova/transformers")')();
+
     const modelName = 'Xenova/clip-vit-large-patch14';
 
-    // Use Function constructor to ensure ESM import is not transformed to require()
-    const importTransformers = () =>
-      Function('return import("@xenova/transformers")')();
+    const [processor, visionModel, tokenizer, textModel] = await Promise.all([
+      AutoProcessor.from_pretrained(modelName),
+      CLIPVisionModelWithProjection.from_pretrained(modelName),
+      AutoTokenizer.from_pretrained(modelName),
+      CLIPTextModelWithProjection.from_pretrained(modelName),
+    ]);
 
-    this.processorPromise = importTransformers().then(
-      (module: { AutoProcessor: { from_pretrained: (arg0: string) => any } }) =>
-        module.AutoProcessor.from_pretrained(modelName),
-    );
-    this.visionModelPromise = importTransformers().then(
-      (module: {
-        CLIPVisionModelWithProjection: {
-          from_pretrained: (arg0: string) => any;
-        };
-      }) => module.CLIPVisionModelWithProjection.from_pretrained(modelName),
-    );
-    this.tokenizerPromise = importTransformers().then(
-      (module: { AutoTokenizer: { from_pretrained: (arg0: string) => any } }) =>
-        module.AutoTokenizer.from_pretrained(modelName),
-    );
-    this.textModelPromise = importTransformers().then(
-      (module: {
-        CLIPTextModelWithProjection: { from_pretrained: (arg0: string) => any };
-      }) => module.CLIPTextModelWithProjection.from_pretrained(modelName),
-    );
+    this.processor = processor;
+    this.visionModel = visionModel;
+    this.tokenizer = tokenizer;
+    this.textModel = textModel;
+
+    this.logger.log('Embedding models initialized and ready to use.');
   }
 
   async generateEmbeddingFromText(text: string): Promise<number[]> {
-    const tokenizer = await this.tokenizerPromise;
-    const textModel = await this.textModelPromise;
-
-    const textInputs = tokenizer([text], { padding: true, truncation: true });
-    const { text_embeds } = await textModel(textInputs);
+    const textInputs = this.tokenizer([text], {
+      padding: true,
+      truncation: true,
+    });
+    const { text_embeds } = await this.textModel(textInputs);
 
     return Array.from(text_embeds.data);
   }
 
   async generateEmbeddingFromImageUrl(image_url: string): Promise<number[]> {
-    const processor = await this.processorPromise;
-    const visionModel = await this.visionModelPromise;
-
     try {
-      const { RawImage } = await Function(
-        'return import("@xenova/transformers")',
-      )();
       const image = await RawImage.read(image_url);
-      const image_inputs = await processor(image);
-      const { image_embeds } = await visionModel(image_inputs);
+      const image_inputs = await this.processor(image);
+      const { image_embeds } = await this.visionModel(image_inputs);
 
       return Object.values(image_embeds.data);
     } catch (err) {
@@ -68,14 +69,10 @@ export class EmbeddingService {
 
   @TryCatch()
   async generateEmbeddingFromImageBlob(imageBlob: Blob): Promise<number[]> {
-    const processor = await this.processorPromise;
-    const visionModel = await this.visionModelPromise;
-
-    const { RawImage } = await Function(
-      'return import("@xenova/transformers")',
-    )();
-    const image_inputs = await processor(await RawImage.fromBlob(imageBlob));
-    const { image_embeds } = await visionModel(image_inputs);
+    const image_inputs = await this.processor(
+      await RawImage.fromBlob(imageBlob),
+    );
+    const { image_embeds } = await this.visionModel(image_inputs);
 
     return Object.values(image_embeds.data);
   }
