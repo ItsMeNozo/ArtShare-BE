@@ -1,14 +1,13 @@
 # Stage 1: Builder
-FROM node:22-alpine AS builder
+FROM node:22-slim AS builder
 
 # Install security updates and required packages
-RUN apk update && \
-    apk add --no-cache \
+RUN apt-get update && \
+    apt-get install -y \
     python3 \
-    make \
-    g++ \
-    openssl \
-    && apk upgrade
+    build-essential \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -34,16 +33,15 @@ COPY . .
 RUN yarn build
 
 # Stage 2: Production dependencies  
-FROM node:22-alpine AS deps
+FROM node:22-slim AS deps
 # Install security updates, openssl, and sharp dependencies
-RUN apk update && \
-    apk add --no-cache \
-    openssl \
-    vips-dev \
+RUN apt-get update && \
+    apt-get install -y \
+    libssl3 \
+    libvips-dev \
     python3 \
-    make \
-    g++ \
-    && apk upgrade
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -56,20 +54,20 @@ COPY prisma ./prisma
 RUN yarn prisma generate
 
 # Stage 3: Production runtime
-FROM node:22-alpine
+FROM node:22-slim
 
 # Install security updates, dumb-init, curl, openssl, and sharp runtime dependencies
-RUN apk update && \
-    apk add --no-cache \
+RUN apt-get update && \
+    apt-get install -y \
     dumb-init \
     curl \
-    openssl \
-    vips \
-    && apk upgrade
+    libssl3 \
+    libvips42 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -u 1001 -S -G nodejs -s /bin/sh nodejs
+RUN groupadd -g 1001 nodejs && \
+    useradd -u 1001 -g nodejs -m -s /bin/bash nodejs
 
 WORKDIR /app
 
