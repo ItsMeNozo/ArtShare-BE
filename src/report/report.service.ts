@@ -112,30 +112,6 @@ export class ReportService {
     }) as Promise<ReportWithDetails[]>; // Cast for now, or ensure include always matches
   }
 
-  async findReportsByTab(
-    tab: ViewTab,
-    options: { skip?: number; take?: number },
-  ): Promise<ReportWithDetails[]> {
-    const where: Prisma.ReportWhereInput = {};
-
-    if (tab !== ViewTab.ALL) {
-      if (tab !== ViewTab.USER) {
-        where.target_type = tab.toUpperCase() as ReportTargetType;
-      }
-    }
-
-    return this.prisma.report.findMany({
-      where,
-      include: {
-        reporter: { select: { id: true, username: true } },
-        moderator: { select: { id: true, username: true } }, // <<< INCLUDE MODERATOR
-      },
-      orderBy: { created_at: 'desc' },
-      skip: options.skip,
-      take: options.take,
-    }) as Promise<ReportWithDetails[]>;
-  }
-
   async updateReportStatus(
     reportId: number,
     status: ReportStatus,
