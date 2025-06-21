@@ -19,5 +19,9 @@
     "noFallthroughCasesInSwitch": true,
     "strict": true,
     "strictPropertyInitialization": false,
-  }
+    "rootDir": "./src",
+  },
+  "include": [
+    "src"
+  ]
 }
