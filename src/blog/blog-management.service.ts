@@ -19,7 +19,6 @@ import { TryCatch } from 'src/common/try-catch.decorator';
 import { BlogEmbeddingService } from './blog-embedding.service';
 import { QdrantService } from 'src/embedding/qdrant.service';
 import { blogsCollectionName } from 'src/embedding/embedding.utils';
-import { Blog } from '@prisma/client';
 
 @Injectable()
 export class BlogManagementService {
