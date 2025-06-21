@@ -33,7 +33,7 @@ jobs:
             set -e
             
             echo "🚀 Starting deployment for commit: $GITHUB_SHA"
-            echo "📦 Using pre-built image from registry"
+            echo "📦 Using pre-built image from registry (no building on main branch)"
             
             # Log in to registry
             echo "${{ secrets.DIGITALOCEAN_REGISTRY_TOKEN }}" | docker login $REGISTRY -u "${{ secrets.DIGITALOCEAN_REGISTRY_TOKEN }}" --password-stdin

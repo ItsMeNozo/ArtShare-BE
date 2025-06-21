@@ -1,9 +1,8 @@
-# .github/workflows/ci.yml
 name: ArtShare Backend CI
 
 on:
   push:
-    branches: ['main']
+    branches-ignore: ['main'] 
   pull_request:
     branches: ['main']
 
@@ -50,7 +49,7 @@ jobs:
             exit 1
           fi
 
-      - name: Build Docker Image with Cache
+      - name: Build Docker Image
         run: |
           # Build with layer caching for faster builds
           docker build \
@@ -58,13 +57,6 @@ jobs:
             --build-arg BUILDKIT_INLINE_CACHE=1 \
             -t ${{ env.DOCKER_IMAGE }}:${{ github.sha }} \
             -t ${{ env.DOCKER_IMAGE }}:test .
-
-      - name: Debug Branch Info
-        run: |
-          echo "Event name: ${{ github.event_name }}"
-          echo "Ref: ${{ github.ref }}"
-          echo "Branch: ${{ github.ref_name }}"
-          echo "Is main branch: ${{ github.ref == 'refs/heads/main' }}"
 
       - name: Test Docker Container
         run: |
@@ -81,6 +73,7 @@ jobs:
           docker stop test-container || true
           docker rm test-container || true
 
+      # Push to registry on all feature branches (so image is ready for deployment)
       - name: Log in to DigitalOcean Container Registry
         uses: docker/login-action@v3
         with:
@@ -88,21 +81,45 @@ jobs:
           username: ${{ secrets.DIGITALOCEAN_REGISTRY_TOKEN }}
           password: ${{ secrets.DIGITALOCEAN_REGISTRY_TOKEN }}
 
-      - name: Push to Registry
+      - name: Push to Registry (Feature Branches)
         run: |
           IMAGE_TAG=$(git rev-parse --short HEAD)
           
           # Tag for registry
           docker tag ${{ env.DOCKER_IMAGE }}:test ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${IMAGE_TAG}
+          docker tag ${{ env.DOCKER_IMAGE }}:test ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           
-          # Push commit-specific tag
+          # Push both tags
           echo "📤 Pushing ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${IMAGE_TAG}"
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${IMAGE_TAG}
           
-          # If main branch, also push latest
-          if [ "${{ github.ref }}" = "refs/heads/main" ] && [ "${{ github.event_name }}" = "push" ]; then
-            echo "🏷️ Tagging as latest for main branch"
-            docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${IMAGE_TAG} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-            echo "📤 Pushing ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
-            docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          echo "📤 Pushing ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: Clean up old registry tags
+        run: |
+          # Install doctl for registry management
+          sudo snap install doctl
+          echo "${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" | doctl auth init --access-token-stdin
+          
+          echo "🧹 Cleaning up old registry tags (keeping latest + 10 most recent)..."
+          
+          # Get tags sorted by update time, skip latest and keep only 10 recent commit tags
+          OLD_TAGS=$(doctl registry repository list-tags ${{ env.IMAGE_NAME }} --format Tag,UpdatedAt --no-header | grep -v "latest" | sort -k2 -r | tail -n +11 | awk '{print $1}')
+          
+          if [ -n "$OLD_TAGS" ]; then
+            echo "Deleting old tags: $OLD_TAGS"
+            for tag in $OLD_TAGS; do
+              doctl registry repository delete-tag ${{ env.IMAGE_NAME }} $tag --force || echo "Failed to delete $tag"
+            done
+            
+            # Run garbage collection to free space
+            echo "♻️ Running garbage collection..."
+            doctl registry garbage-collection start --force || echo "Garbage collection skipped"
+          else
+            echo "✅ No old tags to clean up"
           fi
+
+      - name: Report Status
+        run: |
+          echo "✅ Built, tested, and pushed to registry (ready for deployment when merged to main)"
