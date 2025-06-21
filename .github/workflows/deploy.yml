@@ -162,13 +162,40 @@ jobs:
               rollback
             fi
             
-            # Clean up old images (keep last 3)
-            echo "🧹 Cleaning up old Docker images..."
-            docker images $DOCKER_IMAGE --format "table {{.Repository}}:{{.Tag}}\t{{.CreatedAt}}" | \
-              grep -v "latest\|backup" | \
-              tail -n +4 | \
-              awk '{print $1}' | \
-              xargs -r docker rmi || true
+            # Comprehensive cleanup to prevent disk space issues
+            echo "🧹 Starting comprehensive Docker cleanup..."
+            
+            # Remove stopped containers
+            echo "📦 Removing stopped containers..."
+            docker container prune -f || true
+            
+            # Remove dangling images (build cache, orphaned layers)
+            echo "🖼️ Removing dangling images..."
+            docker image prune -f || true
+            
+            # Remove unused networks
+            echo "🌐 Removing unused networks..."
+            docker network prune -f || true
+            
+            # Remove unused volumes
+            echo "💾 Removing unused volumes..."
+            docker volume prune -f || true
+            
+            # Clean up old backup images (keep only last 3)
+            echo "🔄 Cleaning up old backup images..."
+            docker images | grep "${DOCKER_IMAGE}:backup" | tail -n +4 | awk '{print $3}' | xargs -r docker rmi || true
+            
+            # Clean up old registry cache (keep only latest + 2 recent)
+            echo "📥 Cleaning up old registry cache..."
+            docker images | grep "$REGISTRY/$IMAGE_NAME" | grep -v "latest" | tail -n +3 | awk '{print $3}' | xargs -r docker rmi || true
+            
+            # Remove any other dangling resources
+            echo "🧽 Final system cleanup..."
+            docker system prune -f || true
+            
+            # Show disk usage
+            echo "📊 Docker disk usage after cleanup:"
+            docker system df
             
             echo "✅ Deployment completed successfully!"
             echo "📊 Container status:"
