@@ -41,12 +41,14 @@ jobs:
             # Navigate to project directory
             cd ArtShare-BE/
             
-            # Backup current state for rollback
-            echo "📦 Creating backup of current deployment..."
-            BACKUP_IMAGE="${DOCKER_IMAGE}:backup-$(date +%s)"
+            # Create minimal backup (since we don't need extensive rollback)
+            echo "📦 Creating backup of current deployment (minimal for space efficiency)..."
+            BACKUP_IMAGE="${DOCKER_IMAGE}:backup-current"
             if docker images | grep -q "${DOCKER_IMAGE}:latest"; then
+              # Remove old backup first to save space
+              docker rmi ${DOCKER_IMAGE}:backup-current 2>/dev/null || true
               docker tag ${DOCKER_IMAGE}:latest $BACKUP_IMAGE
-              echo "Backup created: $BACKUP_IMAGE"
+              echo "Single backup created: $BACKUP_IMAGE"
             fi
             
             # Pull the pre-built image (NO BUILDING!)
@@ -56,12 +58,14 @@ jobs:
             # Tag the registry image as our local latest
             docker tag $REGISTRY/$IMAGE_NAME:latest ${DOCKER_IMAGE}:latest
             
-            # Function to rollback on failure
+            # Function to rollback on failure (simplified)
             rollback() {
               echo "❌ Deployment failed, rolling back..."
-              if docker images | grep -q "$BACKUP_IMAGE"; then
-                docker tag $BACKUP_IMAGE ${DOCKER_IMAGE}:latest
+              if docker images | grep -q "${DOCKER_IMAGE}:backup-current"; then
+                docker tag ${DOCKER_IMAGE}:backup-current ${DOCKER_IMAGE}:latest
                 echo "Rollback image restored"
+              else
+                echo "⚠️ No backup available (space-optimized setup)"
               fi
               exit 1
             }
@@ -162,40 +166,16 @@ jobs:
               rollback
             fi
             
-            # Comprehensive cleanup to prevent disk space issues
-            echo "🧹 Starting comprehensive Docker cleanup..."
+            # Minimal cleanup (space-optimized for Basic plan)
+            echo "🧹 Cleaning up Docker images (Basic plan optimization)..."
             
-            # Remove stopped containers
-            echo "📦 Removing stopped containers..."
-            docker container prune -f || true
+            # Remove any old backup images (keep only current backup)
+            docker images | grep "${DOCKER_IMAGE}:backup-" | grep -v "backup-current" | awk '{print $3}' | xargs -r docker rmi || true
             
-            # Remove dangling images (build cache, orphaned layers)
-            echo "🖼️ Removing dangling images..."
+            # Remove dangling images
             docker image prune -f || true
             
-            # Remove unused networks
-            echo "🌐 Removing unused networks..."
-            docker network prune -f || true
-            
-            # Remove unused volumes
-            echo "💾 Removing unused volumes..."
-            docker volume prune -f || true
-            
-            # Clean up old backup images (keep only last 3)
-            echo "🔄 Cleaning up old backup images..."
-            docker images | grep "${DOCKER_IMAGE}:backup" | tail -n +4 | awk '{print $3}' | xargs -r docker rmi || true
-            
-            # Clean up old registry cache (keep only latest + 2 recent)
-            echo "📥 Cleaning up old registry cache..."
-            docker images | grep "$REGISTRY/$IMAGE_NAME" | grep -v "latest" | tail -n +3 | awk '{print $3}' | xargs -r docker rmi || true
-            
-            # Remove any other dangling resources
-            echo "🧽 Final system cleanup..."
-            docker system prune -f || true
-            
-            # Show disk usage
-            echo "📊 Docker disk usage after cleanup:"
-            docker system df
+            echo "✅ Deployment completed successfully (space-optimized for Basic plan)!"
             
             echo "✅ Deployment completed successfully!"
             echo "📊 Container status:"
