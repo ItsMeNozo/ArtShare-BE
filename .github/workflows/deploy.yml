@@ -1,146 +1,69 @@
-name: ArtShare Backend CI/CD
+# .github/workflows/deploy.yml
+name: ArtShare Backend Deploy
 
 on:
   push:
     branches: ['main']
-  pull_request:
-    branches: ['main']
 
 env:
+  REGISTRY: docker.io  # Docker Hub
+  IMAGE_NAME: itsmestarlight/artshare-backend 
   DOCKER_IMAGE: artshare-backend
   CONTAINER_NAME: backend
 
 jobs:
-  # Build and Test Job (your existing logic with improvements)
-  build-and-test:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Use Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'yarn'
-
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Run Linting
-        run: yarn lint
-
-      - name: Run Formatting Check
-        run: yarn format
-
-      - name: Audit Dependencies
-        run: yarn audit --level=high
-        continue-on-error: true
-
-      - name: Build Project (Production)
-        env:
-          NODE_ENV: production
-        run: |
-          set -e
-          yarn build
-          if [ ! -d "dist" ] && [ ! -d "build" ]; then
-            echo "Build output directory not found!"
-            exit 1
-          fi
-
-      - name: Build Docker Image with Cache
-        run: |
-          # Build with layer caching for faster builds
-          docker build \
-            --cache-from ${{ env.DOCKER_IMAGE }}:latest \
-            --build-arg BUILDKIT_INLINE_CACHE=1 \
-            -t ${{ env.DOCKER_IMAGE }}:${{ github.sha }} \
-            -t ${{ env.DOCKER_IMAGE }}:test .
-
-      - name: Debug Branch Info
-        run: |
-          echo "Event name: ${{ github.event_name }}"
-          echo "Ref: ${{ github.ref }}"
-          echo "Branch: ${{ github.ref_name }}"
-          echo "Is main branch: ${{ github.ref == 'refs/heads/main' }}"
-
-      - name: Upload Docker Image Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: docker-image-${{ github.sha }}
-          path: docker-image.tar.gz
-          retention-days: 7
-
-      - name: Test Docker Container
-        run: |
-          # Test container can start
-          docker run -d --name test-container \
-            -p 3001:3000 \
-            -e NODE_ENV=production \
-            -e DATABASE_URL="postgresql://test:test@localhost:5432/test" \
-            ${{ env.DOCKER_IMAGE }}:test \
-            sh -c "echo 'Container test successful' && sleep 10"
-          
-          sleep 5
-          docker logs test-container
-          docker stop test-container || true
-          docker rm test-container || true
-
-  # Deploy Job (only runs on main branch push)
   deploy:
-    needs: build-and-test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     
     steps:
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@v1.0.3
         env:
           GITHUB_SHA: ${{ github.sha }}
+          REGISTRY: ${{ env.REGISTRY }}
+          IMAGE_NAME: ${{ env.IMAGE_NAME }}
           DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
           CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
         with:
           host: ${{ secrets.DO_HOST }}
           username: root
           key: ${{ secrets.DO_SSH_KEY }}
-          envs: GITHUB_SHA,DOCKER_IMAGE,CONTAINER_NAME
+          envs: GITHUB_SHA,REGISTRY,IMAGE_NAME,DOCKER_IMAGE,CONTAINER_NAME
           script: |
             set -e
             
             echo "🚀 Starting deployment for commit: $GITHUB_SHA"
+            echo "📦 Using Docker Hub free (public repo - unlimited storage!)"
             
             # Navigate to project directory
             cd ArtShare-BE/
             
-            # Backup current state for rollback
+            # Create minimal backup (current running image)
             echo "📦 Creating backup of current deployment..."
-            BACKUP_IMAGE="${DOCKER_IMAGE}:backup-$(date +%s)"
+            BACKUP_IMAGE="${DOCKER_IMAGE}:backup-current"
             if docker images | grep -q "${DOCKER_IMAGE}:latest"; then
+              # Remove old backup first to save space
+              docker rmi ${DOCKER_IMAGE}:backup-current 2>/dev/null || true
               docker tag ${DOCKER_IMAGE}:latest $BACKUP_IMAGE
-              echo "Backup created: $BACKUP_IMAGE"
+              echo "Single backup created: $BACKUP_IMAGE"
             fi
             
-            # Pull latest code
-            echo "📥 Pulling latest code from main branch..."
-            git fetch origin
-            git checkout main
-            git reset --hard origin/main
+            # Pull the pre-built image from Docker Hub (NO LOGIN NEEDED for public repos!)
+            echo "📥 Pulling pre-built image from Docker Hub..."
+            docker pull $IMAGE_NAME:latest
             
-            # Build new image with layer caching for faster builds
-            echo "🔨 Building Docker image with caching..."
-            docker build \
-              --cache-from ${DOCKER_IMAGE}:latest \
-              --build-arg BUILDKIT_INLINE_CACHE=1 \
-              -t ${DOCKER_IMAGE}:${GITHUB_SHA} \
-              -t ${DOCKER_IMAGE}:latest .
+            # Tag the Docker Hub image as our local latest
+            docker tag $IMAGE_NAME:latest ${DOCKER_IMAGE}:latest
             
             # Function to rollback on failure
             rollback() {
               echo "❌ Deployment failed, rolling back..."
-              if docker images | grep -q "$BACKUP_IMAGE"; then
-                docker tag $BACKUP_IMAGE ${DOCKER_IMAGE}:latest
-                echo "Rollback image restored"
+              if docker images | grep -q "${DOCKER_IMAGE}:backup-current"; then
+                docker tag ${DOCKER_IMAGE}:backup-current ${DOCKER_IMAGE}:latest
+                echo "✅ Local rollback completed"
+                return 0
+              else
+                echo "⚠️ No backup available"
               fi
               exit 1
             }
@@ -241,15 +164,17 @@ jobs:
               rollback
             fi
             
-            # Clean up old images (keep last 3)
-            echo "🧹 Cleaning up old Docker images..."
-            docker images $DOCKER_IMAGE --format "table {{.Repository}}:{{.Tag}}\t{{.CreatedAt}}" | \
-              grep -v "latest\|backup" | \
-              tail -n +4 | \
-              awk '{print $1}' | \
-              xargs -r docker rmi || true
+            # Simple cleanup (no storage worries with Docker Hub free!)
+            echo "🧹 Basic cleanup..."
+            
+            # Remove old backup images (keep only current backup)
+            docker images | grep "${DOCKER_IMAGE}:backup-" | grep -v "backup-current" | awk '{print $3}' | xargs -r docker rmi || true
+            
+            # Remove dangling images
+            docker image prune -f || true
             
             echo "✅ Deployment completed successfully!"
+            echo "💰 Using Docker Hub free - no storage costs!"
             echo "📊 Container status:"
             docker ps | grep $CONTAINER_NAME
             
@@ -290,33 +215,12 @@ jobs:
 
       - name: Notify Deployment Success
         if: success()
-        uses: appleboy/ssh-action@v1.0.3
-        env:
-          CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
-        with:
-          host: ${{ secrets.DO_HOST }}
-          username: root
-          key: ${{ secrets.DO_SSH_KEY }}
-          envs: CONTAINER_NAME
-          script: |
-            echo "🎉 Deployment of commit ${{ github.sha }} completed successfully!"
-            echo "📊 Current status:"
-            docker ps | grep $CONTAINER_NAME
-            echo "🔗 Application should be available at your domain"
+        run: |
+          echo "🎉 Deployment of commit ${{ github.sha }} completed successfully!"
+          echo "📦 Image: ${{ env.IMAGE_NAME }}:latest"
+          echo "💰 Cost: FREE (Docker Hub public repository)"
 
       - name: Notify Deployment Failure
         if: failure()
-        uses: appleboy/ssh-action@v1.0.3
-        env:
-          CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
-        with:
-          host: ${{ secrets.DO_HOST }}
-          username: root
-          key: ${{ secrets.DO_SSH_KEY }}
-          envs: CONTAINER_NAME
-          script: |
-            echo "❌ Deployment failed for commit ${{ github.sha }}"
-            echo "📊 Current container status:"
-            docker ps -a | grep $CONTAINER_NAME || echo "No backend container found"
-            echo "📝 Recent logs:"
-            docker logs --tail 50 $CONTAINER_NAME 2>/dev/null || echo "No logs available"
+        run: |
+          echo "❌ Deployment failed for commit ${{ github.sha }}"

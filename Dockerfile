@@ -1,14 +1,16 @@
 # Stage 1: Builder
-FROM node:22-alpine AS builder
+FROM node:22-slim AS builder
 
 # Install security updates and required packages
-RUN apk update && \
-    apk add --no-cache \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
     python3 \
     make \
     g++ \
     openssl \
-    && apk upgrade
+    && apt-get upgrade -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -29,42 +31,35 @@ COPY . .
 RUN yarn build
 
 # Stage 2: Production dependencies  
-FROM node:22-alpine AS deps
-# Install security updates, openssl, and sharp dependencies
-RUN apk update && \
-    apk add --no-cache \
-    openssl \
-    vips-dev \
-    python3 \
-    make \
-    g++ \
-    && apk upgrade
+FROM node:22-slim AS deps
+
+# Install security updates and openssl
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends openssl && \
+    apt-get upgrade -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Set Sharp configuration to use local binaries
-ENV SHARP_IGNORE_GLOBAL_LIBVIPS=1
-
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile --production --network-timeout 600000
+RUN yarn install --frozen-lockfile --production
 COPY prisma ./prisma
 RUN yarn prisma generate
 
 # Stage 3: Production runtime
-FROM node:22-alpine
+FROM node:22-slim
 
-# Install security updates, dumb-init, curl, openssl, and sharp runtime dependencies
-RUN apk update && \
-    apk add --no-cache \
-    dumb-init \
-    curl \
-    openssl \
-    vips \
-    && apk upgrade
+# Install security updates, dumb-init, curl, and openssl
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends dumb-init curl openssl && \
+    apt-get upgrade -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -u 1001 -S -G nodejs -s /bin/sh nodejs
+RUN groupadd --gid 1001 --system nodejs && \
+    useradd --uid 1001 --system --gid nodejs --shell /bin/bash nodejs
 
 WORKDIR /app
 
