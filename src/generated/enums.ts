@@ -72,7 +72,8 @@ export type TargetType = (typeof TargetType)[keyof typeof TargetType]
 
 export const SharePlatform = {
   FACEBOOK: 'FACEBOOK',
-  GOOGLE: 'GOOGLE'
+  GOOGLE: 'GOOGLE',
+  INSTAGRAM: 'INSTAGRAM'
 } as const
 
 export type SharePlatform = (typeof SharePlatform)[keyof typeof SharePlatform]
@@ -118,7 +119,8 @@ export const AutoProjectStatus = {
   ACTIVE: 'ACTIVE',
   COMPLETED: 'COMPLETED',
   CANCELLED: 'CANCELLED',
-  FAILED: 'FAILED'
+  FAILED: 'FAILED',
+  DRAFT: 'DRAFT'
 } as const
 
 export type AutoProjectStatus = (typeof AutoProjectStatus)[keyof typeof AutoProjectStatus]

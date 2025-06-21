@@ -21,7 +21,8 @@ module.exports = {
     'dist/',
     './github/',
     'src/metadata.ts',
-    "src/generated/**/*"
+    "src/generated/**/*",
+    "test/"
   ],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',

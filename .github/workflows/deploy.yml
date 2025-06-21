@@ -7,46 +7,46 @@ on:
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: itsmestarlight/artshare-backend 
+  IMAGE_NAME: itsmestarlight/artshare-backend
   DOCKER_IMAGE: artshare-backend
   CONTAINER_NAME: backend
+  VOLUME_NAME: artshare_model_cache
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@v1.0.3
-        env:
-          GITHUB_SHA: ${{ github.sha }}
-          REGISTRY: ${{ env.REGISTRY }}
-          IMAGE_NAME: ${{ env.IMAGE_NAME }}
-          DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
-          CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
         with:
           host: ${{ secrets.DO_HOST }}
           username: root
           key: ${{ secrets.DO_SSH_KEY }}
-          envs: GITHUB_SHA,REGISTRY,IMAGE_NAME,DOCKER_IMAGE,CONTAINER_NAME
+          envs: IMAGE_NAME,CONTAINER_NAME,VOLUME_NAME
           script: |
             set -e
-            
+
             echo "🚀 Starting deployment for commit: $GITHUB_SHA"
-            
+            echo "📦 Using Docker Hub free (public repo - unlimited storage!)"
+
+            echo "📦 Ensuring cache volume '${VOLUME_NAME}' exists..."
+            docker volume create ${VOLUME_NAME} || true
+
+
             # Navigate to project directory
             cd ArtShare-BE/
-            
+
             # Memory cleanup before deployment
             echo "🧹 Cleaning up memory and Docker cache..."
             docker stop $CONTAINER_NAME 2>/dev/null || true
             docker rm $CONTAINER_NAME 2>/dev/null || true
             docker system prune -af --volumes || true
             sync && echo 3 > /proc/sys/vm/drop_caches || true
-            
+
             echo "💾 Available memory after cleanup:"
             free -h
-            
+
             # Create backup
             echo "📦 Creating backup of current deployment..."
             BACKUP_IMAGE="${DOCKER_IMAGE}:backup-current"
@@ -55,12 +55,12 @@ jobs:
               docker tag ${DOCKER_IMAGE}:latest $BACKUP_IMAGE
               echo "Backup created: $BACKUP_IMAGE"
             fi
-            
+
             # Pull fresh image
             echo "📥 Pulling latest image from Docker Hub..."
             docker pull $IMAGE_NAME:latest
             docker tag $IMAGE_NAME:latest ${DOCKER_IMAGE}:latest
-            
+
             # Rollback function
             rollback() {
               echo "❌ Deployment failed, rolling back..."
@@ -73,7 +73,7 @@ jobs:
               fi
               exit 1
             }
-            
+
             # Simple deployment - stop old, start new
             echo "🚀 Starting new container..."
             docker run -d --name $CONTAINER_NAME \
@@ -85,18 +85,15 @@ jobs:
               --security-opt=no-new-privileges:true \
               -p 127.0.0.1:3000:3000 \
               --env-file .env \
+              -v ${VOLUME_NAME}:/app/.cache \
               -e OMP_NUM_THREADS=2 \
               -e ONNX_DISABLE_OPTIMIZATION=1 \
-              -e TRANSFORMERS_CACHE=/app/.cache \
-              -e TRANSFORMERS_OFFLINE=0 \
-              --no-healthcheck \
-              --entrypoint sh ${DOCKER_IMAGE}:latest \
-              -c "npx prisma migrate deploy && node dist/src/main.js" || rollback
-            
+              --no-healthcheck || rollback
+
             # Wait for app to start
             echo "⏳ Waiting for application to start..."
             sleep 30
-            
+
             # Health check
             echo "🔍 Performing health check..."
             for i in {1..60}; do
@@ -112,12 +109,12 @@ jobs:
               echo "Waiting for application to respond... ($i/60)"
               sleep 3
             done
-            
+
             # Cleanup
             echo "🧹 Cleaning up..."
             docker images | grep "${DOCKER_IMAGE}:backup-" | grep -v "backup-current" | awk '{print $3}' | xargs -r docker rmi || true
             docker image prune -f || true
-            
+
             echo "✅ Deployment completed successfully!"
             echo "📊 Container status:"
             docker ps | grep $CONTAINER_NAME
@@ -135,13 +132,13 @@ jobs:
           envs: CONTAINER_NAME
           script: |
             echo "🔍 Final deployment verification..."
-            
+
             # Check container is running
             if ! docker ps | grep -q "$CONTAINER_NAME"; then
               echo "❌ Container is not running!"
               exit 1
             fi
-            
+
             # Test application response
             sleep 10
             if docker exec $CONTAINER_NAME curl -f http://localhost:3000/ >/dev/null 2>&1; then
@@ -152,7 +149,7 @@ jobs:
               docker logs --tail 50 $CONTAINER_NAME
               exit 1
             fi
-            
+
             echo "🎉 Deployment verification successful!"
 
       - name: Notify Deployment Success
