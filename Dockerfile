@@ -20,8 +20,11 @@ COPY prisma ./prisma
 # Install dependencies 
 RUN yarn install --frozen-lockfile
 
-# Generate Prisma client with correct binary target and verify
-RUN yarn prisma generate && \
+# Force clean Prisma installation and generate
+RUN rm -rf node_modules/.prisma || true && \
+    rm -rf node_modules/@prisma/client || true && \
+    yarn add @prisma/client@^6.7.0 --exact && \
+    yarn prisma generate && \
     echo "Verifying Prisma client generation..." && \
     ls -la node_modules/.prisma/client/ && \
     echo "Prisma client generated successfully"
@@ -34,6 +37,7 @@ RUN yarn build
 
 # Stage 2: Production dependencies  
 FROM node:22-slim AS deps
+
 # Install security updates, openssl, and sharp dependencies
 RUN apt-get update && \
     apt-get install -y \
@@ -51,7 +55,12 @@ ENV SHARP_IGNORE_GLOBAL_LIBVIPS=1
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --production --network-timeout 600000
 COPY prisma ./prisma
-RUN yarn prisma generate
+
+# Fix Prisma production installation
+RUN rm -rf node_modules/.prisma || true && \
+    rm -rf node_modules/@prisma/client || true && \
+    yarn add @prisma/client@^6.7.0 --exact && \
+    yarn prisma generate
 
 # Stage 3: Production runtime
 FROM node:22-slim
