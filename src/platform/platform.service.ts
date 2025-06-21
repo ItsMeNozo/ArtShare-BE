@@ -119,6 +119,14 @@ export class PlatformService {
   async findPlatformsByUserId(userId: string): Promise<Platform[]> {
     return this.prisma.platform.findMany({
       where: { user_id: userId },
+      include: {
+        autoProjects: {
+          select: {
+            id: true, 
+            title: true, 
+          },
+        },
+      },
       orderBy: { created_at: 'desc' },
     });
   }
@@ -134,6 +142,14 @@ export class PlatformService {
       where: {
         user_id: userId,
         name: platformName,
+      },
+      include: {
+        autoProjects: {
+          select: {
+            id: true, 
+            title: true, 
+          },
+        },
       },
       orderBy: { created_at: 'desc' },
     });
