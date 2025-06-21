@@ -77,7 +77,11 @@ export class NotificationService {
         'Your report regarding "{{reason}}" has been reviewed and resolved',
       fallback: 'Your report has been resolved',
     },
-    // Add more templates as needed
+    report_created: {
+      template:
+        '{{user:from}} have reported {{report.target_type}} {{report.target_title}}',
+      fallback: 'A new user have filed a report',
+    },
   };
 
   /**
@@ -85,21 +89,29 @@ export class NotificationService {
    */
   async createAndPush(userId: string, type: string, payload: object) {
     const startTime = Date.now();
-    this.logger.debug(`[${startTime}] Creating and pushing notification to user ${userId}, type: ${type}`);
-    
+    this.logger.debug(
+      `[${startTime}] Creating and pushing notification to user ${userId}, type: ${type}`,
+    );
+
     const notification = await this.create(userId, type, payload);
     const createTime = Date.now();
-    this.logger.debug(`[${createTime}] Notification ${notification.id} created in ${createTime - startTime}ms`);
+    this.logger.debug(
+      `[${createTime}] Notification ${notification.id} created in ${createTime - startTime}ms`,
+    );
 
-    this.logger.debug(`[${createTime}] Sending notification ${notification.id} to user ${userId} via WebSocket`);
+    this.logger.debug(
+      `[${createTime}] Sending notification ${notification.id} to user ${userId} via WebSocket`,
+    );
     this.notificationsGateway.sendToUser(
       userId,
       'new-notification',
       notification,
     );
-    
+
     const endTime = Date.now();
-    this.logger.log(`[${endTime}] Notification ${notification.id} sent to user ${userId} - Total time: ${endTime - startTime}ms`);
+    this.logger.log(
+      `[${endTime}] Notification ${notification.id} sent to user ${userId} - Total time: ${endTime - startTime}ms`,
+    );
     return notification;
   }
 
@@ -163,7 +175,10 @@ export class NotificationService {
       users: userMap,
     };
 
-    const resultString =  this.interpolateWithContext(template.template, fullContext);
+    const resultString = this.interpolateWithContext(
+      template.template,
+      fullContext,
+    );
     return resultString;
   }
 
@@ -311,24 +326,32 @@ export class NotificationService {
   async getAllConnections() {
     this.logger.log('Getting all WebSocket connections');
     const gateway = this.notificationsGateway;
-    const connectedClients = gateway['connectedClients'] as Map<string, Set<any>>;
-    
-    const connections = Array.from(connectedClients.entries()).map(([userId, sockets]) => ({
-      userId,
-      connectionCount: sockets.size,
-      connections: Array.from(sockets).map((socket: any) => ({
-        id: socket.id,
-        connected: socket.connected,
-        address: socket.handshake?.address,
-        userAgent: socket.handshake?.headers?.['user-agent'],
-        origin: socket.handshake?.headers?.origin
-      }))
-    }));
-    
+    const connectedClients = gateway['connectedClients'] as Map<
+      string,
+      Set<any>
+    >;
+
+    const connections = Array.from(connectedClients.entries()).map(
+      ([userId, sockets]) => ({
+        userId,
+        connectionCount: sockets.size,
+        connections: Array.from(sockets).map((socket: any) => ({
+          id: socket.id,
+          connected: socket.connected,
+          address: socket.handshake?.address,
+          userAgent: socket.handshake?.headers?.['user-agent'],
+          origin: socket.handshake?.headers?.origin,
+        })),
+      }),
+    );
+
     return {
       totalUsers: connections.length,
-      totalConnections: connections.reduce((sum, user) => sum + user.connectionCount, 0),
-      connections
+      totalConnections: connections.reduce(
+        (sum, user) => sum + user.connectionCount,
+        0,
+      ),
+      connections,
     };
   }
 
@@ -342,7 +365,7 @@ export class NotificationService {
     this.logger.log('Caught report.resolved event, creating notification...');
 
     const notificationType = 'REPORT_RESOLVED';
-    
+
     // Check if a notification for this report resolution already exists
     // to prevent duplicate notifications
     const existingNotification = await this.prisma.notification.findFirst({
@@ -358,7 +381,7 @@ export class NotificationService {
 
     if (existingNotification) {
       this.logger.log(
-        `Notification for report ${payload.reportId} already exists for user ${payload.reporterId}, skipping duplicate`
+        `Notification for report ${payload.reportId} already exists for user ${payload.reporterId}, skipping duplicate`,
       );
       return;
     }
@@ -390,11 +413,12 @@ export class NotificationService {
     try {
       // The template interpolation happens automatically in create() method
       // based on the payload.type
-      await this.createAndPush(
+      const newNotification = await this.createAndPush(
         payload.to,
         payload.type, // Use the specific type for template selection
         payload,
       );
+      console.log(newNotification);
       this.logger.log(
         `Notification (${payload.type}) successfully created & pushed to user ${payload.to}`,
       );
