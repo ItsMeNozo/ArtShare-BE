@@ -1,0 +1,13 @@
+# Package management files require review from team leads or senior developers
+package.json @itsmenozo @kjetng
+yarn.lock @itsmenozo @kjetng
+package-lock.json @itsmenozo @kjetng
+
+# Prisma schema changes also need review
+prisma/schema.prisma @itsmenozo @kjetng
+
+Dockerfile @itsmenozo @kjetng
+docker-compose.yml @itsmenozo @kjetng
+
+# CI/CD files
+.github/workflows/* @itsmenozo @kjetng
