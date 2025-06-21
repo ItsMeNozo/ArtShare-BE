@@ -7,8 +7,8 @@ on:
     branches: ['main']
 
 env:
-  REGISTRY: registry.digitalocean.com/artshare-be
-  IMAGE_NAME: artshare-backend
+  REGISTRY: docker.io  # Docker Hub
+  IMAGE_NAME: itsmestarlight/artshare-backend 
   DOCKER_IMAGE: artshare-backend
 
 jobs:
@@ -53,10 +53,10 @@ jobs:
         run: |
           # Build with layer caching for faster builds
           docker build \
-            --cache-from ${{ env.DOCKER_IMAGE }}:latest \
+            --cache-from ${{ env.IMAGE_NAME }}:latest \
             --build-arg BUILDKIT_INLINE_CACHE=1 \
-            -t ${{ env.DOCKER_IMAGE }}:${{ github.sha }} \
-            -t ${{ env.DOCKER_IMAGE }}:test .
+            -t ${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            -t ${{ env.IMAGE_NAME }}:test .
 
       - name: Test Docker Container
         run: |
@@ -65,7 +65,7 @@ jobs:
             -p 3001:3000 \
             -e NODE_ENV=production \
             -e DATABASE_URL="postgresql://test:test@localhost:5432/test" \
-            ${{ env.DOCKER_IMAGE }}:test \
+            ${{ env.IMAGE_NAME }}:test \
             sh -c "echo 'Container test successful' && sleep 10"
           
           sleep 5
@@ -73,69 +73,30 @@ jobs:
           docker stop test-container || true
           docker rm test-container || true
 
-      # Push to registry on all feature branches (so image is ready for deployment)
-      - name: Log in to DigitalOcean Container Registry
+      - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.DIGITALOCEAN_REGISTRY_TOKEN }}
-          password: ${{ secrets.DIGITALOCEAN_REGISTRY_TOKEN }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Push to Registry (Feature Branches)
+      - name: Push to Docker Hub (Public Repository)
         run: |
           IMAGE_TAG=$(git rev-parse --short HEAD)
           
-          # Tag for registry
-          docker tag ${{ env.DOCKER_IMAGE }}:test ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${IMAGE_TAG}
-          docker tag ${{ env.DOCKER_IMAGE }}:test ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          # Tag for Docker Hub
+          docker tag ${{ env.IMAGE_NAME }}:test ${{ env.IMAGE_NAME }}:${IMAGE_TAG}
+          docker tag ${{ env.IMAGE_NAME }}:test ${{ env.IMAGE_NAME }}:latest
           
           # Push both tags
-          echo "📤 Pushing ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${IMAGE_TAG}"
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${IMAGE_TAG}
+          echo "📤 Pushing ${{ env.IMAGE_NAME }}:${IMAGE_TAG}"
+          docker push ${{ env.IMAGE_NAME }}:${IMAGE_TAG}
           
-          echo "📤 Pushing ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          echo "📤 Pushing ${{ env.IMAGE_NAME }}:latest"
+          docker push ${{ env.IMAGE_NAME }}:latest
 
-      - name: Clean up old registry tags
-        run: |
-          # Install doctl for registry management
-          sudo snap install doctl
-          echo "${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" | doctl auth init --access-token-stdin
-          
-          echo "🧹 Balanced cleanup for DO Basic plan (5GB, 1.6GB images)..."
-          
-          # Balanced strategy: Keep latest + 1 recent (total ~3.2GB = 64% of Basic plan)
-          # This gives you rollback capability while staying safely under limit
-          OLD_TAGS=$(doctl registry repository list-tags ${{ env.IMAGE_NAME }} --format Tag,UpdatedAt --no-header | grep -v "latest" | sort -k2 -r | tail -n +2 | awk '{print $1}')
-          
-          if [ -n "$OLD_TAGS" ]; then
-            echo "🗑️ Deleting old tags (keeping latest + 1 recent): $OLD_TAGS"
-            echo "💾 Target storage: ~3.2GB (64% of DO Basic plan)"
-            
-            for tag in $OLD_TAGS; do
-              doctl registry repository delete-tag ${{ env.IMAGE_NAME }} $tag --force || echo "Failed to delete $tag"
-            done
-            
-            # Run garbage collection to free space
-            echo "♻️ Running garbage collection..."
-            doctl registry garbage-collection start --force || echo "Garbage collection skipped"
-            
-            echo "📊 Expected result: 'latest' + 1 recent commit tag (~3.2GB total)"
-          else
-            echo "✅ Already optimal (latest + 1 recent or fewer)"
-          fi
-          
-          # Check storage usage
-          TOTAL_STORAGE=$(doctl registry get --format StorageUsageBytes --no-header 2>/dev/null || echo "0")
-          if [ "$TOTAL_STORAGE" != "0" ]; then
-            TOTAL_STORAGE_MB=$((TOTAL_STORAGE / 1024 / 1024))
-            echo "📊 Current usage: ${TOTAL_STORAGE_MB}MB of 5GB DO Basic plan"
-            
-            if [ $TOTAL_STORAGE_MB -gt 4000 ]; then
-              echo "⚠️ WARNING: Approaching 80% of DO Basic plan limit"
-            fi
-          fi
-
+      # NO CLEANUP NEEDED! Docker Hub free = unlimited storage for public repos
       - name: Report Status
         run: |
-          echo "✅ Built, tested, and pushed to registry (ready for deployment when merged to main)"
+          echo "✅ Built, tested, and pushed to Docker Hub (public repo - unlimited storage!)"
+          echo "📦 Image: ${{ env.IMAGE_NAME }}:latest"
+          echo "💰 Cost: FREE (public repository)"

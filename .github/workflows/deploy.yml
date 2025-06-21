@@ -6,8 +6,8 @@ on:
     branches: ['main']
 
 env:
-  REGISTRY: registry.digitalocean.com/artshare-be
-  IMAGE_NAME: artshare-backend
+  REGISTRY: docker.io  # Docker Hub
+  IMAGE_NAME: itsmestarlight/artshare-backend 
   DOCKER_IMAGE: artshare-backend
   CONTAINER_NAME: backend
 
@@ -33,16 +33,13 @@ jobs:
             set -e
             
             echo "🚀 Starting deployment for commit: $GITHUB_SHA"
-            echo "📦 Using pre-built image from registry (no building on main branch)"
-            
-            # Log in to registry
-            echo "${{ secrets.DIGITALOCEAN_REGISTRY_TOKEN }}" | docker login $REGISTRY -u "${{ secrets.DIGITALOCEAN_REGISTRY_TOKEN }}" --password-stdin
+            echo "📦 Using Docker Hub free (public repo - unlimited storage!)"
             
             # Navigate to project directory
             cd ArtShare-BE/
             
-            # Create minimal backup (since we don't need extensive rollback)
-            echo "📦 Creating backup of current deployment (minimal for space efficiency)..."
+            # Create minimal backup (current running image)
+            echo "📦 Creating backup of current deployment..."
             BACKUP_IMAGE="${DOCKER_IMAGE}:backup-current"
             if docker images | grep -q "${DOCKER_IMAGE}:latest"; then
               # Remove old backup first to save space
@@ -51,21 +48,22 @@ jobs:
               echo "Single backup created: $BACKUP_IMAGE"
             fi
             
-            # Pull the pre-built image (NO BUILDING!)
-            echo "📥 Pulling pre-built image..."
-            docker pull $REGISTRY/$IMAGE_NAME:latest
+            # Pull the pre-built image from Docker Hub (NO LOGIN NEEDED for public repos!)
+            echo "📥 Pulling pre-built image from Docker Hub..."
+            docker pull $IMAGE_NAME:latest
             
-            # Tag the registry image as our local latest
-            docker tag $REGISTRY/$IMAGE_NAME:latest ${DOCKER_IMAGE}:latest
+            # Tag the Docker Hub image as our local latest
+            docker tag $IMAGE_NAME:latest ${DOCKER_IMAGE}:latest
             
-            # Function to rollback on failure (simplified)
+            # Function to rollback on failure
             rollback() {
               echo "❌ Deployment failed, rolling back..."
               if docker images | grep -q "${DOCKER_IMAGE}:backup-current"; then
                 docker tag ${DOCKER_IMAGE}:backup-current ${DOCKER_IMAGE}:latest
-                echo "Rollback image restored"
+                echo "✅ Local rollback completed"
+                return 0
               else
-                echo "⚠️ No backup available (space-optimized setup)"
+                echo "⚠️ No backup available"
               fi
               exit 1
             }
@@ -166,18 +164,17 @@ jobs:
               rollback
             fi
             
-            # Minimal cleanup (space-optimized for Basic plan)
-            echo "🧹 Cleaning up Docker images (Basic plan optimization)..."
+            # Simple cleanup (no storage worries with Docker Hub free!)
+            echo "🧹 Basic cleanup..."
             
-            # Remove any old backup images (keep only current backup)
+            # Remove old backup images (keep only current backup)
             docker images | grep "${DOCKER_IMAGE}:backup-" | grep -v "backup-current" | awk '{print $3}' | xargs -r docker rmi || true
             
             # Remove dangling images
             docker image prune -f || true
             
-            echo "✅ Deployment completed successfully (space-optimized for Basic plan)!"
-            
             echo "✅ Deployment completed successfully!"
+            echo "💰 Using Docker Hub free - no storage costs!"
             echo "📊 Container status:"
             docker ps | grep $CONTAINER_NAME
             
@@ -220,7 +217,8 @@ jobs:
         if: success()
         run: |
           echo "🎉 Deployment of commit ${{ github.sha }} completed successfully!"
-          echo "📦 Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
+          echo "📦 Image: ${{ env.IMAGE_NAME }}:latest"
+          echo "💰 Cost: FREE (Docker Hub public repository)"
 
       - name: Notify Deployment Failure
         if: failure()
