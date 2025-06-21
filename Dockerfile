@@ -3,31 +3,26 @@ FROM node:22-slim AS builder
 
 # Install security updates and required packages
 RUN apt-get update && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends \
     python3 \
-    build-essential \
-    libssl-dev \
+    make \
+    g++ \
+    openssl \
+    && apt-get upgrade -y \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 # Copy package files
 COPY package.json yarn.lock ./
-
-# Copy prisma schema before installing dependencies 
-COPY prisma ./prisma
-
-# Install dependencies 
 RUN yarn install --frozen-lockfile
 
-# Force clean Prisma installation and generate
-RUN rm -rf node_modules/.prisma || true && \
-    rm -rf node_modules/@prisma/client || true && \
-    yarn add @prisma/client@^6.7.0 --exact && \
-    yarn prisma generate && \
-    echo "Verifying Prisma client generation..." && \
-    ls -la node_modules/.prisma/client/ && \
-    echo "Prisma client generated successfully"
+# Copy prisma schema
+COPY prisma ./prisma
+
+# Generate Prisma client with correct binary target
+RUN yarn prisma generate
 
 # Copy source code
 COPY . .
@@ -38,45 +33,33 @@ RUN yarn build
 # Stage 2: Production dependencies  
 FROM node:22-slim AS deps
 
-# Install security updates, openssl, and sharp dependencies
+# Install security updates and openssl
 RUN apt-get update && \
-    apt-get install -y \
-    libssl3 \
-    libvips-dev \
-    python3 \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
+    apt-get install -y --no-install-recommends openssl && \
+    apt-get upgrade -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Set Sharp configuration to use local binaries
-ENV SHARP_IGNORE_GLOBAL_LIBVIPS=1
-
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile --production --network-timeout 600000
+RUN yarn install --frozen-lockfile --production
 COPY prisma ./prisma
-
-# Fix Prisma production installation
-RUN rm -rf node_modules/.prisma || true && \
-    rm -rf node_modules/@prisma/client || true && \
-    yarn add @prisma/client@^6.7.0 --exact && \
-    yarn prisma generate
+RUN yarn prisma generate
 
 # Stage 3: Production runtime
 FROM node:22-slim
 
-# Install security updates, dumb-init, curl, openssl, and sharp runtime dependencies
+# Install security updates, dumb-init, curl, and openssl
 RUN apt-get update && \
-    apt-get install -y \
-    dumb-init \
-    curl \
-    libssl3 \
-    libvips42 \
-    && rm -rf /var/lib/apt/lists/*
+    apt-get install -y --no-install-recommends dumb-init curl openssl && \
+    apt-get upgrade -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
-RUN groupadd -g 1001 nodejs && \
-    useradd -u 1001 -g nodejs -m -s /bin/bash nodejs
+RUN groupadd --gid 1001 --system nodejs && \
+    useradd --uid 1001 --system --gid nodejs --shell /bin/bash nodejs
 
 WORKDIR /app
 
