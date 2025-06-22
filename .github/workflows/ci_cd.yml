@@ -189,10 +189,9 @@ jobs:
               echo "Backup created: $BACKUP_IMAGE"
             fi
 
-            # Pull fresh image
-            echo "📥 Pulling latest image from Docker Hub..."
-            docker pull $IMAGE_NAME:latest
-            docker tag $IMAGE_NAME:latest ${DOCKER_IMAGE}:latest
+            echo "📥 Pulling image for commit ${GITHUB_SHA}..."
+            docker pull $IMAGE_NAME:${GITHUB_SHA}
+            docker tag $IMAGE_NAME:${GITHUB_SHA} ${DOCKER_IMAGE}:latest
 
             # Rollback function
             rollback() {
