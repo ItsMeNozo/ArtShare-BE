@@ -1,48 +1,47 @@
 import {
-  Controller,
-  Get,
-  Post,
+  BadRequestException,
   Body,
-  Param,
+  Controller,
   Delete,
-  UseGuards,
-  Patch,
+  Get,
   HttpCode,
   HttpStatus,
-  NotFoundException,
-  Logger,
-  UseInterceptors,
-  BadRequestException,
-  UploadedFile,
   InternalServerErrorException,
+  Logger,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
   Query,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
-import { DeleteUsersDTO } from './dto/delete-users.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { Roles } from 'src/auth/decorators/roles.decorators';
-import { Role } from 'src/auth/enums/role.enum';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
+  ApiBearerAuth,
   ApiBody,
+  ApiConsumes,
   ApiOperation,
   ApiParam,
   ApiTags,
-  ApiResponse as SwaggerApiResponse,
-  ApiBearerAuth,
-  ApiConsumes,
 } from '@nestjs/swagger';
-import { UpdateUserAdminDTO } from './dto/update-user-admin.dto';
+import { Roles } from 'src/auth/decorators/roles.decorators';
+import { Role } from 'src/auth/enums/role.enum';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { StorageService } from 'src/storage/storage.service';
+import { Readable } from 'stream';
 import { CreateUserAdminDTO } from './dto/create-user-admin.dto';
+import { DeleteUsersDTO } from './dto/delete-users.dto';
+import { PaginatedUsersResponseDto } from './dto/paginated-users-response.dto';
+import { UpdateUserAdminDTO } from './dto/update-user-admin.dto';
 import {
   DeleteMultipleUsersResponseDto,
   DeleteUserByIdResponseDto,
   UserResponseDto,
 } from './dto/user-response.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { StorageService } from 'src/storage/storage.service';
-import { Readable } from 'stream';
 import { UserAdminService } from './user.admin.service';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { PaginatedUsersResponseDto } from './dto/paginated-users-response.dto';
 
 @ApiTags('Users (Admin)')
 @Controller('admin/users')
@@ -60,15 +59,6 @@ export class UserAdminController {
   @Get('all')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'ADMIN - Get all users with details (paginated)' })
-  @SwaggerApiResponse({
-    status: HttpStatus.OK,
-    description: 'Paginated list of users with their details.',
-    type: PaginatedUsersResponseDto,
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.FORBIDDEN,
-    description: 'Forbidden resource. Admin role required.',
-  })
   async adminFindAllUsers(
     @Query() paginationQuery: PaginationQueryDto,
   ): Promise<PaginatedUsersResponseDto> {
@@ -79,23 +69,6 @@ export class UserAdminController {
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'ADMIN - Create a new user (expects Firebase UID)' })
   @ApiBody({ type: CreateUserAdminDTO })
-  @SwaggerApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'User created successfully by admin.',
-    type: UserResponseDto,
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: 'Bad Request (e.g., validation error, missing roles).',
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.FORBIDDEN,
-    description: 'Forbidden resource. Admin role required.',
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.CONFLICT,
-    description: 'Conflict (e.g., user ID, email, or username already exists).',
-  })
   async adminCreateUser(
     @Body() createUserAdminDto: CreateUserAdminDTO,
   ): Promise<UserResponseDto> {
@@ -109,19 +82,6 @@ export class UserAdminController {
     name: 'userId',
     description: 'The ID of the user to retrieve',
     type: String,
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.OK,
-    description: 'User details.',
-    type: UserResponseDto,
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: 'User not found.',
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.FORBIDDEN,
-    description: 'Forbidden resource. Admin role required.',
   })
   async adminFindOneUser(
     @Param('userId' /*, new ParseUUIDPipe() if applicable */) userId: string,
@@ -143,27 +103,6 @@ export class UserAdminController {
   })
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: UpdateUserAdminDTO })
-  @SwaggerApiResponse({
-    status: HttpStatus.OK,
-    description: 'User updated successfully by admin.',
-    type: UserResponseDto,
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: 'User not found.',
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: 'Bad Request (e.g., invalid roles, validation error).',
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.FORBIDDEN,
-    description: 'Forbidden resource. Admin role required.',
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.CONFLICT,
-    description: 'Conflict (e.g., email or username taken by another user).',
-  })
   @UseInterceptors(
     FileInterceptor('profilePictureFile', {
       fileFilter: (req, file, callback) => {
@@ -298,24 +237,6 @@ export class UserAdminController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'ADMIN - Delete multiple users by IDs' })
   @ApiBody({ type: DeleteUsersDTO })
-  @SwaggerApiResponse({
-    status: HttpStatus.OK,
-    description:
-      'Users deletion process completed. Check response for details.',
-    type: DeleteMultipleUsersResponseDto,
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: 'Invalid input data (e.g., empty userIds array).',
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.FORBIDDEN,
-    description: 'Forbidden resource. Admin role required.',
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error during deletion.',
-  })
   async adminDeleteMultipleUsers(
     @Body() deleteUsersDTO: DeleteUsersDTO,
   ): Promise<DeleteMultipleUsersResponseDto> {
@@ -329,23 +250,6 @@ export class UserAdminController {
     name: 'userId',
     description: 'The ID of the user to delete',
     type: String,
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.OK,
-    description: 'User deletion status.',
-    type: DeleteUserByIdResponseDto,
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: 'User not found in either Firebase or Database.',
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.FORBIDDEN,
-    description: 'Forbidden resource. Admin role required.',
-  })
-  @SwaggerApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error during deletion.',
   })
   async adminDeleteUserById(
     @Param('userId' /*, new ParseUUIDPipe() if applicable */) userId: string,
