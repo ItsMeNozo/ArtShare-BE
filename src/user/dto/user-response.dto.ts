@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Role } from 'src/auth/enums/role.enum';
-import { UserStatus } from 'src/generated';
+import { UserAccess, UserStatus } from 'src/generated';
 
 export class UserResponseDto {
   @ApiProperty({ example: 'clx2k1z9z0000q8pjh9g1c2d3', description: 'User ID' })
@@ -73,6 +73,8 @@ export class UserResponseDto {
     description: "The user's account status.",
   })
   status: UserStatus;
+
+  userAccess: UserAccess | null;
 }
 
 export class DeleteUserByIdResponseDto {
