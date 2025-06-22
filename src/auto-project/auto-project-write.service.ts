@@ -15,6 +15,7 @@ import { UsageService } from 'src/usage/usage.service';
 import { CreateAutoProjectDto } from './dto/request/create-project.dto';
 import { UpdateAutoProjectDto } from './dto/request/update-project.dto';
 import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
+import { mapToAutoProjectDetailsDto } from './mapper/index.mapper';
 
 @Injectable()
 export class AutoProjectWriteService {
@@ -34,7 +35,12 @@ export class AutoProjectWriteService {
     createDto: CreateAutoProjectDto,
     userId: string,
   ): Promise<AutoProjectDetailsDto> {
-    const { title, description, platform_id, auto_post_meta_list } = createDto;
+    const {
+      title,
+      description,
+      platform_id,
+      auto_post_meta_list = [],
+    } = createDto;
 
     const validatedPlatformRecord = await this.validatePlatform(
       platform_id,
@@ -71,27 +77,11 @@ export class AutoProjectWriteService {
         },
       },
       include: {
-        autoPosts: true,
         platform: true,
       },
     });
 
-    const resultDto = plainToInstance(
-      AutoProjectDetailsDto,
-      createdAutoProject,
-    );
-
-    if (createdAutoProject.platform) {
-      resultDto.platform = {
-        id: createdAutoProject.platform.id,
-        name: createdAutoProject.platform.name.toString() as SharePlatform,
-        external_page_id: createdAutoProject.platform.external_page_id,
-        token_expires_at: createdAutoProject.platform.token_expires_at,
-        status: createdAutoProject.platform.status,
-      };
-    }
-
-    return resultDto;
+    return mapToAutoProjectDetailsDto(createdAutoProject);
   }
 
   private async validatePlatform(
@@ -126,8 +116,6 @@ export class AutoProjectWriteService {
     updateDto: UpdateAutoProjectDto,
     userId: string,
   ): Promise<AutoProjectDetailsDto> {
-    const { title, description } = updateDto;
-
     const existingProject = await this.prisma.autoProject.findFirst({
       where: { id, user_id: userId },
     });
@@ -140,10 +128,7 @@ export class AutoProjectWriteService {
 
     const updatedProject = await this.prisma.autoProject.update({
       where: { id },
-      data: {
-        title,
-        description,
-      },
+      data: updateDto,
       include: { autoPosts: true },
     });
 
