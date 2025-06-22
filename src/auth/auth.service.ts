@@ -5,16 +5,16 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import * as admin from 'firebase-admin'; // Firebase Admin SDK
-import { PrismaService } from 'src/prisma.service';
-import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { JwtPayload } from './types/jwtPayload.type';
-import { Tokens } from './types/tokens.type';
-import { PaidAccessLevel, Prisma } from '@prisma/client';
-import { Role } from './enums/role.enum';
+import { JwtService } from '@nestjs/jwt';
+import * as admin from 'firebase-admin'; // Firebase Admin SDK
 import { nanoid } from 'nanoid';
 import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
+import { PaidAccessLevel, Prisma } from 'src/generated';
+import { PrismaService } from 'src/prisma.service';
+import { Role } from './enums/role.enum';
+import { JwtPayload } from './types/jwtPayload.type';
+import { Tokens } from './types/tokens.type';
 
 @Injectable()
 export class AuthService {

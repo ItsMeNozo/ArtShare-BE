@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserStatus } from '@prisma/client';
 import { Role } from 'src/auth/enums/role.enum';
+import { UserStatus } from 'src/generated';
 
 export class UserResponseDto {
   @ApiProperty({ example: 'clx2k1z9z0000q8pjh9g1c2d3', description: 'User ID' })

@@ -1,21 +1,21 @@
 import {
-  Injectable,
-  NotFoundException,
-  ForbiddenException,
-  InternalServerErrorException,
   BadRequestException,
+  ForbiddenException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
+import { Collection, Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
-import { Collection, Prisma } from '@prisma/client';
-import {
-  mapCollectionToDto,
-  collectionWithPostsSelect,
-  SelectedCollectionPayload,
-  CollectionWithPosts,
-} from './helpers/collection-mapping.helper';
-import { CollectionDto } from './dto/response/collection.dto';
 import { CreateCollectionDto } from './dto/request/create-collection.dto';
 import { UpdateCollectionDto } from './dto/request/update-collection.dto';
+import { CollectionDto } from './dto/response/collection.dto';
+import {
+  CollectionWithPosts,
+  collectionWithPostsSelect,
+  mapCollectionToDto,
+  SelectedCollectionPayload,
+} from './helpers/collection-mapping.helper';
 
 @Injectable()
 export class CollectionService {

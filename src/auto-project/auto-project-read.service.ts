@@ -1,11 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { plainToInstance } from 'class-transformer';
 import { TryCatch } from 'src/common/try-catch.decorator';
+import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
 import { AutoProjectListResponseDto } from './dto/response/auto-project-list-item.dto';
-import { mapToAutoProjectDetailsDto } from './mapper/index.mapper';
 
 type SortableProjectKey = 'title' | 'status' | 'created_at';
 const allowedSortKeys: SortableProjectKey[] = ['title', 'status', 'created_at'];
@@ -93,15 +92,12 @@ export class AutoProjectReadService {
         id,
         user_id: userId,
       },
-      include: {
-        platform: true,
-      },
     });
 
     if (!autoProject) {
       throw new BadRequestException('Auto project not found');
     }
 
-    return mapToAutoProjectDetailsDto(autoProject);
+    return plainToInstance(AutoProjectDetailsDto, autoProject);
   }
 }

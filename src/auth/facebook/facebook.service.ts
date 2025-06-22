@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { FacebookAccount, SharePlatform } from '@prisma/client';
 import { firstValueFrom } from 'rxjs';
+import { FacebookAccount, SharePlatform } from 'src/generated';
 import { ApiPageData } from 'src/platform/dtos/sync-platform-input.dto';
 import { PlatformService } from 'src/platform/platform.service';
 import { PrismaService } from 'src/prisma.service';

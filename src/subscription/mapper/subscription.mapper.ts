@@ -1,10 +1,13 @@
-import { Plan, UserAccess, UserUsage } from "@prisma/client";
-import { SubscriptionInfoResponseDto, SubscriptionPlan } from "../dto/response/subscription-info.dto";
+import { Plan, UserAccess, UserUsage } from 'src/generated';
+import {
+  SubscriptionInfoResponseDto,
+  SubscriptionPlan,
+} from '../dto/response/subscription-info.dto';
 
 export const subscriptionInfoResponseMapper = (
   access: UserAccess,
   plan: Plan,
-  userUsage: UserUsage
+  userUsage: UserUsage,
 ): SubscriptionInfoResponseDto => {
   return {
     plan: SubscriptionPlan[plan.id],
@@ -13,4 +16,4 @@ export const subscriptionInfoResponseMapper = (
     createdAt: access.createdAt,
     expiresAt: access.expiresAt,
   };
-}
+};

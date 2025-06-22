@@ -6,14 +6,14 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { User, Prisma } from '@prisma/client';
-import { UserProfileDTO } from './dto/user-profile.dto';
-import { UpdateUserDTO } from './dto/update-users.dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { Role } from 'src/auth/enums/role.enum';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
+import { Prisma, User } from 'src/generated';
+import { PrismaService } from '../prisma.service';
 import { UserProfileMeDTO } from './dto/get-user-me.dto';
+import { UpdateUserDTO } from './dto/update-users.dto';
+import { UserProfileDTO } from './dto/user-profile.dto';
 
 @Injectable()
 export class UserService {
@@ -269,5 +269,16 @@ export class UserService {
     // Consider if this generic update is still needed or if all updates
     // should go through more specific DTO-validated methods.
     return this.prisma.user.update({ where: { id }, data });
+  }
+
+  async getAdminUserIds(): Promise<string[]> {
+    const result = await this.prisma.$queryRaw<{id: string}[]>`
+      select u.id
+      from "user" u
+      where u.id in (
+        select user_id from user_role ur where ur.role_id = 1
+      )
+    `;
+    return result.map(row => row.id);
   }
 }

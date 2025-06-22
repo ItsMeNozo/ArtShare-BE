@@ -1,10 +1,10 @@
+import { CategoryType } from 'src/categories/dto/request/create-category.dto';
 import {
-  PrismaClient,
-  Prisma,
   ImageQuality,
   PaidAccessLevel,
-} from '@prisma/client';
-import { CategoryType } from 'src/categories/dto/request/create-category.dto';
+  Prisma,
+  PrismaClient,
+} from 'src/generated';
 
 const planData: Prisma.PlanCreateInput[] = [
   {

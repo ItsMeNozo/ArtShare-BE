@@ -1,10 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { PaidAccessLevel } from '@prisma/client';
 import { endOfDay, startOfDay } from 'date-fns';
 import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
 import { TryCatch } from 'src/common/try-catch.decorator';
+import { PaidAccessLevel } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import Stripe from 'stripe';
 

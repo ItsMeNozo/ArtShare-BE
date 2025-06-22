@@ -4,17 +4,17 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
+import { startOfDay } from 'date-fns';
 import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
+import { TryCatch } from 'src/common/try-catch.decorator';
+import { PaidAccessLevel, Prisma, UserUsage } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { UserAccessWithPlan } from './types/user-access.type';
-import { TryCatch } from 'src/common/try-catch.decorator';
-import { PaidAccessLevel, Prisma, UserUsage } from '@prisma/client';
-import { startOfDay } from 'date-fns';
 
 @Injectable()
 export class UsageService {
-  constructor(private readonly prismaService: PrismaService) { }
-  
+  constructor(private readonly prismaService: PrismaService) {}
+
   private logger = new Logger(UsageService.name);
 
   @TryCatch()
@@ -45,7 +45,11 @@ export class UsageService {
     }
   }
 
-  private async getUserUsage(userId: string, featureKey: FeatureKey, userAccess: UserAccessWithPlan): Promise<UserUsage> {
+  private async getUserUsage(
+    userId: string,
+    featureKey: FeatureKey,
+    userAccess: UserAccessWithPlan,
+  ): Promise<UserUsage> {
     const todayStart = startOfDay(new Date());
 
     // build a `where` filter that only includes `cycleStartedAt` for paid plans

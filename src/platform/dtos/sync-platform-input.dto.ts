@@ -1,4 +1,4 @@
-import { SharePlatform } from '@prisma/client';
+import { SharePlatform } from 'src/generated';
 
 export interface ApiPageData {
   id: string;

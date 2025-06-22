@@ -4,13 +4,8 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import {
-  Platform,
-  PlatformStatus,
-  Prisma,
-  SharePlatform,
-} from '@prisma/client';
 import { EncryptionService } from 'src/encryption/encryption.service';
+import { Platform, PlatformStatus, Prisma, SharePlatform } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { CreatePlatformDto } from './dtos/create-platform.dto';
 import { PlatformPageConfig } from './dtos/platform-config.interface';
