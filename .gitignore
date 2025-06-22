@@ -61,3 +61,4 @@ firebase-config.json
 src/metadata.ts
 package-lock.json
 serviceKey.json
+tsconfig.build.tsbuildinfo

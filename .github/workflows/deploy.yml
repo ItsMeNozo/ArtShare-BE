@@ -4,6 +4,8 @@ name: ArtShare Backend Deploy
 on:
   push:
     branches: ['main']
+  pull_request:
+    branches: ['main']
 
 env:
   REGISTRY: docker.io
@@ -91,26 +93,29 @@ jobs:
               -e TRANSFORMERS_OFFLINE=0 \
               --no-healthcheck \
               --entrypoint sh ${DOCKER_IMAGE}:latest \
-              -c "npx prisma migrate deploy && node dist/src/main.js" || rollback
+              -c "npx prisma migrate deploy && node --max-old-space-size=3072 dist/src/main.js" || rollback
             
-            # Wait for app to start
-            echo "⏳ Waiting for application to start..."
-            sleep 30
+            # Wait for app to start (longer for AI model loading)
+            echo "⏳ Waiting for application to start (including AI models)..."
+            sleep 60 
             
-            # Health check
+            # Health check with much longer timeout for AI loading
             echo "🔍 Performing health check..."
-            for i in {1..60}; do
+            for i in {1..120}; do  # 4 minutes total timeout
               if docker exec $CONTAINER_NAME curl -f http://localhost:3000/ >/dev/null 2>&1; then
                 echo "✅ Health check passed"
                 break
               fi
-              if [ $i -eq 60 ]; then
+              if [ $i -eq 120 ]; then
                 echo "❌ Health check failed"
-                docker logs --tail 50 $CONTAINER_NAME || true
+                echo "📋 Container logs:"
+                docker logs --tail 100 $CONTAINER_NAME || true
+                echo "📊 Container stats:"
+                docker stats $CONTAINER_NAME --no-stream || true
                 rollback
               fi
-              echo "Waiting for application to respond... ($i/60)"
-              sleep 3
+              echo "Waiting for application to respond... ($i/120)"
+              sleep 2
             done
             
             # Cleanup
@@ -142,16 +147,24 @@ jobs:
               exit 1
             fi
             
-            # Test application response
-            sleep 10
-            if docker exec $CONTAINER_NAME curl -f http://localhost:3000/ >/dev/null 2>&1; then
-              echo "✅ Application is responding with 'Hello World!'"
-            else
-              echo "❌ Application is not responding"
-              echo "Container logs:"
-              docker logs --tail 50 $CONTAINER_NAME
-              exit 1
-            fi
+            # Test application response with longer timeout for AI loading
+            sleep 30  # Give extra time for AI models to fully load
+            for i in {1..60}; do  # Longer verification timeout
+              if docker exec $CONTAINER_NAME curl -f http://localhost:3000/ >/dev/null 2>&1; then
+                echo "✅ Application is responding with 'Hello World!'"
+                break
+              fi
+              if [ $i -eq 60 ]; then
+                echo "❌ Application is not responding"
+                echo "Container logs:"
+                docker logs --tail 100 $CONTAINER_NAME
+                echo "Container stats:"
+                docker stats $CONTAINER_NAME --no-stream || true
+                exit 1
+              fi
+              echo "Verifying application... ($i/60)"
+              sleep 3
+            done
             
             echo "🎉 Deployment verification successful!"
 
