@@ -114,6 +114,14 @@ export class PlatformService {
   async findPlatformsByUserId(userId: string): Promise<Platform[]> {
     return this.prisma.platform.findMany({
       where: { user_id: userId },
+      include: {
+        autoProjects: {
+          select: {
+            id: true, 
+            title: true, 
+          },
+        },
+      },
       orderBy: { created_at: 'desc' },
     });
   }
@@ -129,6 +137,14 @@ export class PlatformService {
       where: {
         user_id: userId,
         name: platformName,
+      },
+      include: {
+        autoProjects: {
+          select: {
+            id: true, 
+            title: true, 
+          },
+        },
       },
       orderBy: { created_at: 'desc' },
     });
@@ -240,7 +256,7 @@ export class PlatformService {
   async synchronizePlatforms(
     input: SyncPlatformInputDto,
   ): Promise<PublicPlatformOutputDto[]> {
-    const { userId, platformName, pagesFromApi } = input;
+    const { userId, platformName, pagesFromApi, facebookAccountId } = input;
 
     try {
       const synchronizedPlatforms = await this.prisma.$transaction(
@@ -260,6 +276,7 @@ export class PlatformService {
               access_token: apiAccessToken,
               category: apiCategory,
               token_expires_at,
+              picture_url: apiPictureUrl,
               ...remainingApiFields
             } = pageFromApi;
 
@@ -286,12 +303,16 @@ export class PlatformService {
                 config: pageConfigForDb as unknown as Prisma.InputJsonValue,
                 status: PlatformStatus.ACTIVE,
                 token_expires_at: token_expires_at,
+                picture_url: apiPictureUrl || null,
+                facebook_account_id: facebookAccountId,
               },
               update: {
                 config: pageConfigForDb as unknown as Prisma.InputJsonValue,
                 updated_at: new Date(),
                 status: PlatformStatus.ACTIVE,
                 token_expires_at: token_expires_at,
+                picture_url: apiPictureUrl || null,
+                facebook_account_id: facebookAccountId,
               },
             });
           });

@@ -47,15 +47,17 @@ export class AutoProjectWriteService {
       userId,
     );
 
+    const safeAutoPostMetaList = auto_post_meta_list ?? [];
+
     await this.usageService.handleCreditUsage(
       userId,
       FeatureKey.AI_CREDITS,
-      this.textCost + this.imageCost * auto_post_meta_list.length,
+      this.textCost + this.imageCost * safeAutoPostMetaList.length,
     );
 
     const generatedAutoPosts =
       await this.autoPostGenerateService.generateAutoPosts(
-        auto_post_meta_list,
+        safeAutoPostMetaList,
         { project_title: title, project_description: description },
         userId,
       );

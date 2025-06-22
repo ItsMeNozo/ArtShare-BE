@@ -8,25 +8,17 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { firstValueFrom } from 'rxjs';
-import { SharePlatform } from 'src/generated';
-import { PublicPlatformOutputDto } from 'src/platform/dtos/public-platform-output.dto';
+import { FacebookAccount, SharePlatform } from 'src/generated';
 import { ApiPageData } from 'src/platform/dtos/sync-platform-input.dto';
 import { PlatformService } from 'src/platform/platform.service';
+import { PrismaService } from 'src/prisma.service';
 import { v4 as uuidv4 } from 'uuid';
 import {
-  FacebookPageApiResponseData,
   FacebookPagesApiResponse,
+  FacebookStatePayload,
   FacebookUserTokenResponse,
   PublicFacebookPageData,
 } from './facebook.type';
-
-interface FacebookStatePayload {
-  sub: string;
-  nonce: string;
-  purpose: 'facebook_page_connection_state';
-  successRedirectUrl: string;
-  errorRedirectUrl: string;
-}
 
 @Injectable()
 export class FacebookAuthService {
@@ -43,6 +35,7 @@ export class FacebookAuthService {
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
     private readonly platformService: PlatformService,
+    private readonly prisma: PrismaService,
   ) {
     this.FB_APP_ID = this.configService.get<string>('FACEBOOK_APP_ID');
     this.FB_APP_SECRET = this.configService.get<string>('FACEBOOK_APP_SECRET');
@@ -79,7 +72,12 @@ export class FacebookAuthService {
       expiresIn: '10m',
     });
 
-    const scopes = ['pages_show_list', 'pages_manage_posts'].join(',');
+    const scopes = [
+      'public_profile',
+      'email',
+      'pages_show_list',
+      'pages_manage_posts',
+    ].join(',');
     const loginUrl = `https://www.facebook.com/${this.API_VERSION}/dialog/oauth?client_id=${this.FB_APP_ID}&redirect_uri=${encodeURIComponent(this.FB_REDIRECT_URI)}&state=${stateJwt}&scope=${scopes}&response_type=code`;
 
     this.logger.log(`Generated Facebook login URL for user ${userId}.`);
@@ -121,45 +119,123 @@ export class FacebookAuthService {
     code: string,
     receivedStateJwt: string,
   ): Promise<string | null> {
-    let statePayload: FacebookStatePayload;
     try {
-      statePayload = await this.jwtService.verifyAsync(receivedStateJwt, {
-        secret: this.OAUTH_STATE_JWT_SECRET,
+      const statePayload = await this._verifyState(receivedStateJwt);
+      const internalUserId = statePayload.sub;
+      const { longLivedUserToken, tokenExpiresAt } =
+        await this._exchangeCodeForTokens(code);
+
+      const facebookAccount = await this._upsertFacebookAccount(
+        internalUserId,
+        longLivedUserToken,
+        tokenExpiresAt,
+      );
+
+      const pagesFromApi = await this._fetchFacebookPages(longLivedUserToken);
+
+      await this.platformService.synchronizePlatforms({
+        userId: internalUserId,
+        platformName: SharePlatform.FACEBOOK,
+        pagesFromApi: pagesFromApi,
+        facebookAccountId: facebookAccount.id,
       });
-      if (statePayload.purpose !== 'facebook_page_connection_state') {
+
+      return statePayload.successRedirectUrl || null;
+    } catch (error) {
+      this.logger.error(
+        `Facebook callback processing failed: ${(error as any).message}`,
+        (error as any).stack,
+      );
+      throw error;
+    }
+  }
+
+  /**
+   * @description Retrieves all Facebook accounts and their associated platforms for a given user.
+   * @param userId The internal ID of the user.
+   * @returns A list of Facebook account details and their platforms.
+   */
+  async getFacebookAccountInfo(userId: string): Promise<
+    Array<{
+      name: string;
+      picture_url: string | null;
+      platforms: PublicFacebookPageData[];
+    }>
+  > {
+    const accounts = await this.prisma.facebookAccount.findMany({
+      where: { user_id: userId },
+      include: {
+        platforms: {
+          where: { name: SharePlatform.FACEBOOK },
+          select: {
+            id: true,
+            external_page_id: true,
+            status: true,
+            config: true,
+          },
+        },
+      },
+    });
+
+    return accounts.map((account) => {
+      const formattedPlatforms: PublicFacebookPageData[] =
+        account.platforms.map((p) => ({
+          platform_db_id: p.id,
+          id: p.external_page_id,
+          name: (p.config as any)?.page_name || 'Unknown Page',
+          category: (p.config as any)?.category || 'Unknown Category',
+          status: p.status,
+        }));
+
+      return {
+        name: account.name,
+        picture_url: account.picture_url,
+        platforms: formattedPlatforms,
+      };
+    });
+  }
+
+  private async _verifyState(
+    receivedStateJwt: string,
+  ): Promise<FacebookStatePayload> {
+    try {
+      const payload = await this.jwtService.verifyAsync<FacebookStatePayload>(
+        receivedStateJwt,
+        { secret: this.OAUTH_STATE_JWT_SECRET },
+      );
+      if (payload.purpose !== 'facebook_page_connection_state') {
         throw new Error('Invalid state JWT purpose.');
       }
       this.logger.log(
-        `Valid OAuth state JWT received for user ID: ${statePayload.sub}`,
+        `Valid OAuth state JWT received for user ID: ${payload.sub}`,
       );
+      return payload;
     } catch (error) {
       this.logger.warn(
-        `Invalid or expired OAuth state JWT for Facebook callback:`,
-        (error as any).message,
+        `Invalid or expired OAuth state JWT: ${(error as any).message}`,
       );
       throw new UnauthorizedException(
         'Invalid OAuth state. CSRF attempt or expired session.',
       );
     }
+  }
 
-    const internalUserId = statePayload.sub;
-
+  private async _exchangeCodeForTokens(
+    code: string,
+  ): Promise<{ longLivedUserToken: string; tokenExpiresAt: Date | null }> {
     const tokenUrl = `https://graph.facebook.com/${this.API_VERSION}/oauth/access_token`;
+
     const tokenParams = {
       client_id: this.FB_APP_ID,
       redirect_uri: this.FB_REDIRECT_URI,
       client_secret: this.FB_APP_SECRET,
       code,
     };
-    let userTokenResponse: FacebookUserTokenResponse;
-    try {
-      const response = await firstValueFrom(
-        this.httpService.get<FacebookUserTokenResponse>(tokenUrl, {
-          params: tokenParams,
-        }),
-      );
-      userTokenResponse = response.data;
-    } catch (error) {
+    const response = await firstValueFrom(
+      this.httpService.get<FacebookUserTokenResponse>(tokenUrl, {
+        params: tokenParams,
+      }),
+    ).catch((error) => {
       this.logger.error(
         `Error exchanging code for user token:`,
         (error as any).response?.data || (error as any).message,
@@ -167,103 +243,123 @@ export class FacebookAuthService {
       throw new InternalServerErrorException(
         'Failed to get user token from Facebook.',
       );
-    }
+    });
+    const shortLivedToken = response.data.access_token;
 
-    const longLivedTokenUrl = `https://graph.facebook.com/${this.API_VERSION}/oauth/access_token`;
     const longLivedParams = {
       grant_type: 'fb_exchange_token',
       client_id: this.FB_APP_ID,
       client_secret: this.FB_APP_SECRET,
-      fb_exchange_token: userTokenResponse.access_token,
+      fb_exchange_token: shortLivedToken,
     };
 
-    let longLivedUserToken: string;
-    let tokenExpiresAt: Date | null = null;
-
-    try {
-      const response = await firstValueFrom(
-        this.httpService.get<FacebookUserTokenResponse>(longLivedTokenUrl, {
-          params: longLivedParams,
-        }),
-      );
-      const { access_token, expires_in } = response.data;
-      longLivedUserToken = access_token;
-
-      if (expires_in) {
-        const expirationDate = new Date();
-        expirationDate.setSeconds(expirationDate.getSeconds() + expires_in);
-        tokenExpiresAt = expirationDate;
-        this.logger.log(
-          `Token for user ${internalUserId} will expire at ${tokenExpiresAt.toISOString()}`,
-        );
-      }
-    } catch (error) {
+    const longLivedResponse = await firstValueFrom(
+      this.httpService.get<FacebookUserTokenResponse>(tokenUrl, {
+        params: longLivedParams,
+      }),
+    ).catch((error) => {
       this.logger.error(
         'Error exchanging for long-lived user token:',
         (error as any).response?.data || (error as any).message,
       );
+      return null;
+    });
 
-      longLivedUserToken = userTokenResponse.access_token;
+    if (!longLivedResponse) {
+      return { longLivedUserToken: shortLivedToken, tokenExpiresAt: null };
     }
 
-    const pagesUrl = `https://graph.facebook.com/${this.API_VERSION}/me/accounts`;
-    const pagesParams = {
+    const { access_token, expires_in } = longLivedResponse.data;
+    let tokenExpiresAt: Date | null = null;
+    if (expires_in) {
+      tokenExpiresAt = new Date();
+      tokenExpiresAt.setSeconds(tokenExpiresAt.getSeconds() + expires_in);
+    }
+
+    return { longLivedUserToken: access_token, tokenExpiresAt };
+  }
+
+  private async _upsertFacebookAccount(
+    internalUserId: string,
+    longLivedUserToken: string,
+    tokenExpiresAt: Date | null,
+  ): Promise<FacebookAccount> {
+    const userProfileUrl = `https://graph.facebook.com/${this.API_VERSION}/me`;
+    const userProfileParams = {
+      fields: 'id,name,picture.type(large)',
       access_token: longLivedUserToken,
-      fields: 'id,name,access_token,category,tasks',
     };
-
-    let authorizedPagesFromApi: FacebookPageApiResponseData[];
-    try {
-      const response = await firstValueFrom(
-        this.httpService.get<FacebookPagesApiResponse>(pagesUrl, {
-          params: pagesParams,
-        }),
-      );
-      authorizedPagesFromApi = response.data.data || [];
-    } catch (error) {
-      this.logger.error(
-        `Error fetching user's authorized pages for user_id ${internalUserId}:`,
-        (error as any).response?.data || (error as any).message,
-      );
-      throw new InternalServerErrorException(
-        'Failed to fetch authorized Facebook pages.',
-      );
-    }
-
-    this.logger.log(
-      `User ${internalUserId} authorized ${authorizedPagesFromApi.length} page(s) via Facebook UI.`,
+    const userProfileResponse = await firstValueFrom(
+      this.httpService.get(userProfileUrl, { params: userProfileParams }),
     );
 
-    const pagesToSync: ApiPageData[] = authorizedPagesFromApi.map(
-      (apiPage) => ({
+    const {
+      id: fbUserId,
+      name: fbUserName,
+      picture,
+    } = userProfileResponse.data;
+    const fbUserAvatarUrl = picture?.data?.url;
+
+    if (!fbUserId) {
+      throw new InternalServerErrorException(
+        'Could not retrieve Facebook User ID from profile.',
+      );
+    }
+
+    const facebookAccount = await this.prisma.facebookAccount.upsert({
+      where: { facebook_user_id: fbUserId },
+      create: {
+        user_id: internalUserId,
+        facebook_user_id: fbUserId,
+        name: fbUserName,
+        picture_url: fbUserAvatarUrl,
+        long_lived_user_access_token: longLivedUserToken,
+        token_expires_at: tokenExpiresAt,
+      },
+      update: {
+        name: fbUserName,
+        picture_url: fbUserAvatarUrl,
+        long_lived_user_access_token: longLivedUserToken,
+        token_expires_at: tokenExpiresAt,
+        user_id: internalUserId,
+      },
+    });
+
+    this.logger.log(
+      `Upserted Facebook Account for ${fbUserName} (ID: ${facebookAccount.id})`,
+    );
+    return facebookAccount;
+  }
+
+  private async _fetchFacebookPages(
+    userAccessToken: string,
+  ): Promise<ApiPageData[]> {
+    const pagesUrl = `https://graph.facebook.com/${this.API_VERSION}/me/accounts`;
+    const pagesParams = {
+      access_token: userAccessToken,
+      fields: 'id,name,access_token,category,picture.type(large)',
+    };
+
+    const response = await firstValueFrom(
+      this.httpService.get<FacebookPagesApiResponse>(pagesUrl, {
+        params: pagesParams,
+      }),
+    );
+    const pages = response.data.data || [];
+
+    this.logger.log(`User authorized ${pages.length} page(s) via Facebook UI.`);
+
+    const formattedPages: ApiPageData[] = pages.map((apiPage) => {
+      return {
         id: apiPage.id,
         name: apiPage.name,
         access_token: apiPage.access_token,
         category: apiPage.category,
-        token_expires_at: tokenExpiresAt,
-      }),
-    );
+        picture_url: apiPage.picture?.data?.url,
+        token_expires_at: null,
+      };
+    });
 
-    const synchronizedPlatforms: PublicPlatformOutputDto[] =
-      await this.platformService.synchronizePlatforms({
-        userId: internalUserId,
-        platformName: SharePlatform.FACEBOOK,
-        pagesFromApi: pagesToSync,
-      });
-
-    const publicFacebookPages: PublicFacebookPageData[] =
-      synchronizedPlatforms.map((p) => ({
-        id: p.id,
-        name: p.name,
-        category: p.category,
-        platform_db_id: p.platform_db_id,
-        status: p.status,
-      }));
-
-    this.logger.log(
-      `Successfully synchronized ${publicFacebookPages.length} Facebook page(s) for user_id ${internalUserId}.`,
-    );
-
-    return statePayload.successRedirectUrl || null;
+    return formattedPages;
   }
 }

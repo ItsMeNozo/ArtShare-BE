@@ -1,12 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
-import {
+import { TryCatch } from 'src/common/try-catch.decorator';
+
+import type {
   CLIPTextModelWithProjection,
   CLIPVisionModelWithProjection,
   PreTrainedTokenizer,
   Processor,
   RawImage,
 } from '@xenova/transformers';
-import { TryCatch } from 'src/common/try-catch.decorator';
+
+type RawImageClass = typeof RawImage;
 
 @Injectable()
 export class EmbeddingService {
@@ -14,6 +17,7 @@ export class EmbeddingService {
   public visionModel: CLIPVisionModelWithProjection;
   public tokenizer: PreTrainedTokenizer;
   public textModel: CLIPTextModelWithProjection;
+  private RawImage: RawImageClass;
 
   private readonly logger = new Logger(EmbeddingService.name);
 
@@ -25,9 +29,12 @@ export class EmbeddingService {
       CLIPVisionModelWithProjection,
       AutoTokenizer,
       CLIPTextModelWithProjection,
+      RawImage,
     } = await new Function('return import("@xenova/transformers")')();
 
     const modelName = 'Xenova/clip-vit-large-patch14';
+
+    this.RawImage = RawImage;
 
     const [processor, visionModel, tokenizer, textModel] = await Promise.all([
       AutoProcessor.from_pretrained(modelName),
@@ -56,11 +63,11 @@ export class EmbeddingService {
 
   async generateEmbeddingFromImageUrl(image_url: string): Promise<number[]> {
     try {
-      const image = await RawImage.read(image_url);
+      const image = await this.RawImage.read(image_url);
       const image_inputs = await this.processor(image);
       const { image_embeds } = await this.visionModel(image_inputs);
 
-      return Object.values(image_embeds.data);
+      return Array.from(image_embeds.data);
     } catch (err) {
       this.logger.error(`Error processing ${image_url}:`, err);
       return [];
@@ -69,11 +76,10 @@ export class EmbeddingService {
 
   @TryCatch()
   async generateEmbeddingFromImageBlob(imageBlob: Blob): Promise<number[]> {
-    const image_inputs = await this.processor(
-      await RawImage.fromBlob(imageBlob),
-    );
+    const image = await this.RawImage.fromBlob(imageBlob);
+    const image_inputs = await this.processor(image);
     const { image_embeds } = await this.visionModel(image_inputs);
 
-    return Object.values(image_embeds.data);
+    return Array.from(image_embeds.data);
   }
 }
