@@ -23,6 +23,8 @@ jobs:
   # It builds the app, runs checks, and pushes a Docker image.
   build-and-test:
     runs-on: ubuntu-latest
+    env:
+      SECRETS_CONTEXT: ${{ toJSON(secrets) }}
 
     services:
       postgres:
@@ -69,8 +71,26 @@ jobs:
         run: |
           # Build with layer caching for faster builds
           docker build \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
             --cache-from ${{ env.IMAGE_NAME }}:latest \
             -t ${{ env.IMAGE_NAME }}:test .
+
+      - name: Create .env file from secrets context
+        # This step requires `jq`, a command-line JSON processor
+        run: |
+          echo "🧪 Installing jq..."
+          sudo apt-get update && sudo apt-get install -y jq
+
+          echo "🧪 Dynamically creating .env file from secrets..."
+          # This command parses the JSON string and converts it to KEY=VALUE format
+          echo "${SECRETS_CONTEXT}" | jq -r 'to_entries[] | .key + "=" + (.value|tostring)' > .env.ci
+
+          # Manually add the non-secret variables needed for the test
+          echo 'NODE_ENV=production' >> .env.ci
+          echo 'DATABASE_URL="postgresql://test:test@host.docker.internal:5432/test"' >> .env.ci
+
+          echo "--- .env.ci content created (values are masked) ---"
+          cat .env.ci
 
       - name: Verify Container in a Production-like Environment
         run: |
@@ -81,9 +101,8 @@ jobs:
           # The container's entrypoint.sh will automatically run migrations
           docker run -d --name test-container \
             -p 3000:3000 \
-            -e NODE_ENV=production \
             --add-host=host.docker.internal:host-gateway \
-            -e DATABASE_URL="postgresql://test:test@host.docker.internal:5432/test" \
+            --env-file .env.ci \
             ${{ env.IMAGE_NAME }}:test
 
           # Wait for the application to become healthy
