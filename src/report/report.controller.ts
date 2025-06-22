@@ -87,4 +87,16 @@ export class ReportController {
   ): Promise<any> {
     return this.reportService.getBlogsForAdmin(page, limit);
   }
+
+  @Post('/view')
+  async viewReports(@Body() viewReportsDto: ViewReportsDto): Promise<Report[]> {
+    const { tab = ViewTab.ALL, skip, take } = viewReportsDto;
+
+    const options = {
+      skip: skip ? parseInt(skip, 10) : undefined,
+      take: take ? parseInt(take, 10) : undefined,
+    };
+
+    return this.reportService.findReportsByTab(tab, options);
+  }
 }
