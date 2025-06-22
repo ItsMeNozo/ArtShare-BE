@@ -24,6 +24,21 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test
+        ports:
+          - 5432:5432 # Expose port 5432 on the runner
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -67,7 +82,7 @@ jobs:
           docker run -d --name test-container \
             -p 3001:3000 \
             -e NODE_ENV=production \
-            -e DATABASE_URL="postgresql://test:test@localhost:5432/test" \
+            -e DATABASE_URL="postgresql://test:test@host.docker.internal:5432/test" \
             ${{ env.IMAGE_NAME }}:test
 
           # Wait for the application to become healthy
