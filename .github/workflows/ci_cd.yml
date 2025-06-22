@@ -83,13 +83,14 @@ jobs:
           # This command parses the JSON string and converts it to KEY=VALUE format
           echo "${SECRETS_CONTEXT}" | jq -r '
             to_entries[] |
-              # First, check for the multi-line value
               if (.value | contains("\n")) then
-                # If multi-line, substitute newlines with `\n` AND wrap in single quotes
                 "\(.key)='\''\(.value | gsub("\n"; "\\n"))'\''"
               else
-                # For ALL single-line values, output KEY=VALUE exactly as is
-                "\(.key)=\(.value)"
+                if (.value | startswith("\"")) and (.value | endswith("\"")) then
+                  "\(.key)=\(.value[1:-1])"
+                else
+                  "\(.key)=\(.value)"
+                end
               end
           ' > .env.ci
 
@@ -116,7 +117,7 @@ jobs:
           # Wait for the application to become healthy
           echo "⏳ Waiting for container to start and pass health check..."
           sleep 10  # Initial wait for container to start
-          for i in {1..30}; do
+          for i in {1..5}; do
             if docker exec test-container curl -f http://localhost:3000/ >/dev/null 2>&1; then
               echo "✅ Container is healthy and responding!"
               docker logs test-container
