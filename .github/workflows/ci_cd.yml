@@ -79,14 +79,12 @@ jobs:
           echo "🧪 Installing jq..."
           sudo apt-get update && sudo apt-get install -y jq
 
-          echo "🧪 Dynamically creating .env file from secrets..."
-          # This command parses the JSON string and converts it to KEY=VALUE format
           echo "${SECRETS_CONTEXT}" | jq -r '
             to_entries[] |
               if (.value | contains("\n")) then
                 "\(.key)='\''\(.value | gsub("\n"; "\\n"))'\''"
               else
-                if (.value | startswith("\"")) and (.value | endswith("\"")) then
+                if (.value | type == "string") and (.value | startswith("\"")) and (.value | endswith("\"")) then
                   "\(.key)=\(.value[1:-1])"
                 else
                   "\(.key)=\(.value)"
