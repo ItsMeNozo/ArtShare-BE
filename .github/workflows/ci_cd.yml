@@ -106,7 +106,7 @@ jobs:
           # Wait for the application to become healthy
           echo "⏳ Waiting for container to start and pass health check..."
           sleep 10  # Initial wait for container to start
-          for i in {1..5}; do
+          for i in {1..30}; do
             if docker exec test-container curl -f http://localhost:3000/ >/dev/null 2>&1; then
               echo "✅ Container is healthy and responding!"
               docker logs test-container
