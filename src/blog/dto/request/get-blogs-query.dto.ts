@@ -1,15 +1,13 @@
-import { IsOptional, IsInt, Min, IsString, IsArray } from 'class-validator';
-import { Type, Transform } from 'class-transformer';
+import { Transform } from 'class-transformer';
+import { IsArray, IsInt, IsOptional, IsString, Min } from 'class-validator';
 
 export class GetBlogsQueryDto {
   @IsOptional()
-  @Type(() => Number)
   @IsInt()
   @Min(1)
   limit?: number;
 
   @IsOptional()
-  @Type(() => Number)
   @IsInt()
   @Min(1)
   page?: number;

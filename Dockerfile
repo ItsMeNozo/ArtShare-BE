@@ -1,94 +1,68 @@
-# Stage 1: Builder
-FROM node:22-alpine AS builder
-
-# Install security updates and required packages
-RUN apk update && \
-    apk add --no-cache \
-    python3 \
-    make \
-    g++ \
-    openssl \
-    && apk upgrade
-
+# ======================================================================================
+# Stage 1: Builder - Build the application and prepare production node_modules
+# ======================================================================================
+# Use your pre-built image instead of the generic node:22-alpine
+FROM kiet03/artshare-base:latest AS builder
 WORKDIR /app
 
-# Copy package files
+# Install ALL dependencies (including devDependencies).
+#    This layer is cached as long as package.json and yarn.lock don't change.
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+RUN yarn install --frozen-lockfile --network-timeout 600000
 
-# Copy prisma schema
-COPY prisma ./prisma
 
-# Generate Prisma client with correct binary target
-RUN yarn prisma generate
-
-# Copy source code
+# Copy the rest of the source code.
+# This is the most frequently invalidated layer.
 COPY . .
 
-# Build application
+# Build the application.
 RUN yarn build
 
-# Stage 2: Production dependencies  
-FROM node:22-alpine AS deps
-# Install security updates, openssl, and sharp dependencies
-RUN apk update && \
-    apk add --no-cache \
-    openssl \
-    vips-dev \
-    python3 \
-    make \
-    g++ \
-    && apk upgrade
+RUN yarn install --production --frozen-lockfile --network-timeout 600000
 
-WORKDIR /app
+# ======================================================================================
+# Stage 2: Production - Create the final, small, and secure runtime image
+# ======================================================================================
+FROM node:22-slim
 
-# Set Sharp configuration to use local binaries
-ENV SHARP_IGNORE_GLOBAL_LIBVIPS=1
-
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile --production --network-timeout 600000
-COPY prisma ./prisma
-RUN yarn prisma generate
-
-# Stage 3: Production runtime
-FROM node:22-alpine
-
-# Install security updates, dumb-init, curl, openssl, and sharp runtime dependencies
-RUN apk update && \
-    apk add --no-cache \
+# Install only RUNTIME OS dependencies.
+#    - `vips` is the runtime library for `sharp`.
+#    - `dumb-init` is a lightweight init system.
+#    - `openssl` is often needed for HTTPS/TLS connections.
+RUN apt-get update && apt-get install -y --no-install-recommends \
     dumb-init \
+    libvips \
     curl \
-    openssl \
-    vips \
-    && apk upgrade
+    && rm -rf /var/lib/apt/lists/* 
 
-# Create non-root user
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -u 1001 -S -G nodejs -s /bin/sh nodejs
+# Create a non-root user for security.
+RUN adduser --system --uid 1001 --group --shell /bin/bash nodejs
 
 WORKDIR /app
 
-# Copy built application
+# Copy necessary artifacts from the builder stage.
 COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
-COPY --from=deps --chown=nodejs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nodejs:nodejs /app/prisma ./prisma
-COPY --chown=nodejs:nodejs package.json ./
 
-# Create cache directory for transformers
-RUN mkdir -p /app/.cache && chown -R nodejs:nodejs /app/.cache
+# Copy the entrypoint script and make it executable.
+COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint.sh
 
-# Switch to non-root user
+# Create the cache directory that the entrypoint script defaults to.
+RUN mkdir -p /app/.cache && chown nodejs:nodejs /app/.cache
+
+# Switch to the non-root user.
 USER nodejs
 
-# Use dumb-init to handle signals properly
-ENTRYPOINT ["dumb-init", "--"]
+# Use dumb-init to properly handle process signals (like SIGTERM/SIGINT).
+ENTRYPOINT ["dumb-init", "--", "entrypoint.sh"]
 
-# Set environment
+# Set environment for production.
 ENV NODE_ENV=production
-ENV TRANSFORMERS_CACHE=/app/.cache
 
-# Health check
+# A lightweight healthcheck
 HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 \
-    CMD node -e "require('http').get('http://localhost:3000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })" || exit 1
+    CMD curl --fail http://localhost:3000/health || exit 1
 
-CMD ["node", "dist/src/main.js"]
+# Start the application.
+CMD ["node", "dist/main.js"]

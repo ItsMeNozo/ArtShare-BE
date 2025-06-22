@@ -270,4 +270,15 @@ export class UserService {
     // should go through more specific DTO-validated methods.
     return this.prisma.user.update({ where: { id }, data });
   }
+
+  async getAdminUserIds(): Promise<string[]> {
+    const result = await this.prisma.$queryRaw<{id: string}[]>`
+      select u.id
+      from "user" u
+      where u.id in (
+        select user_id from user_role ur where ur.role_id = 1
+      )
+    `;
+    return result.map(row => row.id);
+  }
 }

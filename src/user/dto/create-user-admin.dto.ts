@@ -35,12 +35,12 @@ export class CreateUserAdminDTO {
   @ApiProperty({ required: false, example: 'New User John Doe' })
   @IsOptional()
   @IsString()
-  full_name?: string;
+  fullName?: string;
 
   @ApiProperty({ required: false, example: 'https://i.pravatar.cc/150?img=10' })
   @IsOptional()
   @IsString()
-  profile_picture_url?: string;
+  profilePictureUrl?: string;
 
   @ApiProperty({ required: false, example: 'Bio of the new user.' })
   @IsOptional()
