@@ -16,30 +16,30 @@ import {
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
-import { PostDetailsResponseDto } from './dto/response/post-details.dto';
-import { UpdatePostDto } from './dto/request/update-post.dto';
-import { PostListItemResponseDto } from './dto/response/post-list-item.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { CurrentUser } from 'src/auth/decorators/users.decorator';
-import { CurrentUserType } from 'src/auth/types/current-user.type';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Public } from 'src/auth/decorators/public.decorator';
-import { PostsManagementService } from './posts-management.service';
-import { PostsExploreService } from './posts-explore.service';
+import { Roles } from 'src/auth/decorators/roles.decorators';
+import { CurrentUser } from 'src/auth/decorators/users.decorator';
+import { Role } from 'src/auth/enums/role.enum';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CurrentUserType } from 'src/auth/types/current-user.type';
+import { TargetType } from 'src/common/enum/target-type.enum';
+import { SyncEmbeddingResponseDto } from 'src/common/response/sync-embedding.dto';
+import { LikingUserResponseDto } from 'src/likes/dto/response/liking-user-response.dto';
+import { LikesService } from 'src/likes/likes.service';
+import { CreatePostRequestDto } from './dto/request/create-post.dto';
+import { GetAllPostsAdminQueryDto } from './dto/request/get-all-posts-admin.dto';
 import { PatchThumbnailDto } from './dto/request/patch-thumbnail.dto';
 import { SearchPostDto } from './dto/request/search-post.dto';
-import { WorkflowAssistService } from './workflow-assist.service';
+import { UpdatePostDto } from './dto/request/update-post.dto';
 import { GeneratePostMetadataResponseDto } from './dto/response/generate-post-metadata.dto';
-import { SyncEmbeddingResponseDto } from 'src/common/response/sync-embedding.dto';
-import { CreatePostRequestDto } from './dto/request/create-post.dto';
-import { PostsEmbeddingService } from './posts-embedding.service';
-import { LikingUserResponseDto } from 'src/likes/dto/response/liking-user-response.dto';
-import { TargetType } from 'src/common/enum/target-type.enum';
-import { LikesService } from 'src/likes/likes.service';
-import { Roles } from 'src/auth/decorators/roles.decorators';
-import { Role } from 'src/auth/enums/role.enum';
+import { PostDetailsResponseDto } from './dto/response/post-details.dto';
+import { PostListItemResponseDto } from './dto/response/post-list-item.dto';
 import { AdminPostListItemDto, PostsAdminService } from './posts-admin.service';
-import { GetAllPostsAdminQueryDto } from './dto/request/get-all-posts-admin.dto';
+import { PostsEmbeddingService } from './posts-embedding.service';
+import { PostsExploreService } from './posts-explore.service';
+import { PostsManagementService } from './posts-management.service';
+import { WorkflowAssistService } from './workflow-assist.service';
 
 @Controller('posts')
 @UseGuards(JwtAuthGuard)
@@ -256,6 +256,7 @@ export class PostsController {
             : undefined,
       sortBy: queryDto.sortBy ?? 'created_at',
       sortOrder: queryDto.sortOrder ?? 'desc',
+      categoryId: queryDto.categoryId,
     };
 
     return this.postsAdminService.getAllPostsForAdmin(

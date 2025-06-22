@@ -49,6 +49,7 @@ export class UserAdminService {
       followingsCount: userWithRelations.followings_count,
       roles: userWithRelations.roles.map((ur) => ur.role.role_name as Role),
       status: userWithRelations.status,
+      userAccess: userWithRelations.userAccess,
     };
   }
 
@@ -147,8 +148,8 @@ export class UserAdminService {
       id,
       username,
       email,
-      full_name,
-      profile_picture_url,
+      fullName,
+      profilePictureUrl,
       bio,
       birthday,
       roles: roleNames,
@@ -192,8 +193,8 @@ export class UserAdminService {
           id,
           username,
           email,
-          full_name: full_name || null,
-          profile_picture_url: profile_picture_url || null,
+          full_name: fullName || null,
+          profile_picture_url: profilePictureUrl || null,
           bio: bio || null,
           birthday: birthday ? new Date(birthday) : null,
           status: status,

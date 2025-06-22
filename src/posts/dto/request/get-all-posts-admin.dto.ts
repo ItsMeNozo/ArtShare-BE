@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsString, IsOptional, IsIn, IsInt, Min } from 'class-validator';
+import { IsIn, IsInt, IsOptional, IsString, Min } from 'class-validator';
 
 export class GetAllPostsAdminQueryDto {
   @IsOptional()
@@ -38,4 +38,10 @@ export class GetAllPostsAdminQueryDto {
   @IsString()
   @IsIn(['asc', 'desc'])
   sortOrder?: 'asc' | 'desc';
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  categoryId?: number;
 }

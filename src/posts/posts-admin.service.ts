@@ -26,6 +26,7 @@ export class AdminPostListItemDto {
   view_count: number;
   created_at: Date;
   user: AdminPostListItemUserDto;
+  categories: PostCategoryResponseDto[];
 }
 
 type PrismaPostForDetails = Prisma.PostGetPayload<{
@@ -39,6 +40,7 @@ type PrismaPostForDetails = Prisma.PostGetPayload<{
 type PrismaPostForList = Prisma.PostGetPayload<{
   include: {
     user: true;
+    categories: true;
   };
 }>;
 
@@ -111,6 +113,13 @@ export class PostsAdminService {
         username: post.user.username,
         profile_picture_url: post.user.profile_picture_url ?? null,
       },
+      categories: (post.categories ?? []).map((category) => {
+        const categoryDto = new PostCategoryResponseDto();
+        categoryDto.id = category.id;
+        categoryDto.name = category.name;
+        categoryDto.type = category.type;
+        return categoryDto;
+      }),
     };
   }
 
@@ -123,6 +132,7 @@ export class PostsAdminService {
     isPrivate?: boolean;
     sortBy: string;
     sortOrder: 'asc' | 'desc';
+    categoryId?: number;
   }): Promise<{ posts: AdminPostListItemDto[]; total: number }> {
     const {
       page,
@@ -133,6 +143,7 @@ export class PostsAdminService {
       isPrivate,
       sortBy,
       sortOrder,
+      categoryId,
     } = params;
     const skip = (page - 1) * pageSize;
     const where: Prisma.PostWhereInput = {};
@@ -147,6 +158,13 @@ export class PostsAdminService {
     if (userId) where.user_id = userId;
     if (isPublished !== undefined) where.is_published = isPublished;
     if (isPrivate !== undefined) where.is_private = isPrivate;
+    if (categoryId) {
+      where.categories = {
+        some: {
+          id: categoryId,
+        },
+      };
+    }
 
     const validSortByFields = [
       'created_at',
@@ -165,7 +183,7 @@ export class PostsAdminService {
       skip,
       take: pageSize,
       orderBy: { [orderByField]: sortOrder },
-      include: { user: true },
+      include: { user: true, categories: true },
     });
 
     const total = await this.prisma.post.count({ where });
