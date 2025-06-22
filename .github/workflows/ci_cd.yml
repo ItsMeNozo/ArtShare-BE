@@ -54,10 +54,8 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Run Linting & Formatting
-        run: |
-          yarn lint
-          yarn format
+      - name: Run Linting
+        run: yarn lint
 
       - name: Audit Dependencies
         run: yarn audit --level=high
@@ -83,7 +81,7 @@ jobs:
 
           echo "🧪 Dynamically creating .env file from secrets..."
           # This command parses the JSON string and converts it to KEY=VALUE format
-          echo "${SECRETS_CONTEXT}" | jq -r 'to_entries[] | .key + "=" + (.value|@json)' > .env.ci
+          echo "${SECRETS_CONTEXT}" | jq -r 'to_entries[] | .key + "=" + if (.value | contains("\n")) then "'" + . + "'" else . end' > .env.ci
 
           # Manually add the non-secret variables needed for the test
           echo 'NODE_ENV=production' >> .env.ci
@@ -109,7 +107,7 @@ jobs:
           echo "⏳ Waiting for container to start and pass health check..."
           sleep 10  # Initial wait for container to start
           for i in {1..30}; do
-            if docker exec $CONTAINER_NAME curl -f http://localhost:3000/ >/dev/null 2>&1; then
+            if docker exec test-container curl -f http://localhost:3000/ >/dev/null 2>&1; then
               echo "✅ Container is healthy and responding!"
               docker logs test-container
               docker stop test-container
