@@ -81,7 +81,7 @@ jobs:
           # The container's entrypoint.sh will automatically run migrations
           docker run -d --name test-container \
             -p 3000:3000 \
-            -e DATABASE_URL=postgresql://test:test@localhost:5432/test \
+            -e DATABASE_URL=postgresql://test:test@postgres:5432/test \
             ${{ env.IMAGE_NAME }}:test
 
           # Wait for the application to become healthy
