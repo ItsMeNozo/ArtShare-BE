@@ -20,7 +20,7 @@ import {
   ScheduleAutoPostDto,
   UpdateAutoPostDto,
   UpdateAutoPostStatusDto,
-} from './dto/auto-post.dto.ts';
+} from './dto/auto-post.dto';
 
 export interface PlatformConfig {
   encryptedFacebookAccessToken?: string;

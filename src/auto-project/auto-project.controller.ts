@@ -1,27 +1,28 @@
 // src/auto-project/auto-project.controller.ts
 
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
+  Controller,
   Delete,
-  Patch,
+  Get,
+  Param,
   ParseIntPipe,
-  UseGuards,
-  DefaultValuePipe,
+  Post,
+  Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
-import { AutoProjectReadService } from './auto-project-read.service';
-import { CreateAutoProjectDto } from './dto/request/create-project.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUser } from 'src/auth/decorators/users.decorator';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
+import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
+import { AutoProjectReadService } from './auto-project-read.service';
 import { AutoProjectWriteService } from './auto-project-write.service';
-import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
-import { AutoProjectListResponseDto } from './dto/response/auto-project-list-item.dto';
+import { CreateAutoProjectDto } from './dto/request/create-project.dto';
+import { GetProjectsQuery } from './dto/request/get-projects-query.dto';
 import { UpdateAutoProjectDto } from './dto/request/update-project.dto';
+import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
+import { AutoProjectListItemDto } from './dto/response/auto-project-list-item.dto';
 
 @Controller('auto-project')
 @UseGuards(JwtAuthGuard)
@@ -41,21 +42,10 @@ export class AutoProjectController {
 
   @Get()
   async findAll(
-    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-    @Query('page_size', new DefaultValuePipe(10), ParseIntPipe)
-    pageSize: number,
-    @Query('sort_by', new DefaultValuePipe('created_at')) sortBy: string,
-    @Query('sort_order', new DefaultValuePipe('desc'))
-    sortOrder: 'asc' | 'desc',
+    @Query() query: GetProjectsQuery,
     @CurrentUser() user: CurrentUserType,
-  ): Promise<AutoProjectListResponseDto> {
-    return this.autoProjectReadService.findAll(
-      page,
-      pageSize,
-      user.id,
-      sortBy,
-      sortOrder,
-    );
+  ): Promise<PaginatedResponseDto<AutoProjectListItemDto>> {
+    return this.autoProjectReadService.findAll(query, user.id);
   }
 
   @Get(':id')
@@ -66,7 +56,7 @@ export class AutoProjectController {
     return this.autoProjectReadService.findOne(id, user.id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateDto: UpdateAutoProjectDto,

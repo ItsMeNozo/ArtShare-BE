@@ -1,11 +1,12 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class UpdateAutoProjectDto {
   @IsString()
-  @IsOptional()
-  title?: string;
+  title: string;
 
   @IsString()
-  @IsOptional()
-  description?: string;
+  description: string;
+
+  @IsNumber()
+  platform_id: number;
 }

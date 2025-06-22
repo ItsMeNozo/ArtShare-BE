@@ -542,6 +542,7 @@ enum TargetType {
 enum SharePlatform {
   FACEBOOK
   GOOGLE
+  INSTAGRAM
 }
 
 enum CategoryType {
@@ -573,6 +574,7 @@ enum AutoProjectStatus {
   COMPLETED
   CANCELLED
   FAILED
+  DRAFT
 }
 
 enum AutoPostStatus {

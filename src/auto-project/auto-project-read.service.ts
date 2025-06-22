@@ -1,13 +1,18 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
+import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
+import { generatePaginatedResponse } from 'src/common/helpers/pagination.helper';
 import { TryCatch } from 'src/common/try-catch.decorator';
 import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
+import { GetProjectsQuery } from './dto/request/get-projects-query.dto';
 import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
-import { AutoProjectListResponseDto } from './dto/response/auto-project-list-item.dto';
-
-type SortableProjectKey = 'title' | 'status' | 'created_at';
-const allowedSortKeys: SortableProjectKey[] = ['title', 'status', 'created_at'];
+import { AutoProjectListItemDto } from './dto/response/auto-project-list-item.dto';
+import { SortableProjectKey } from './enum/index.enum';
+import {
+  mapToAutoProjectDetailsDto,
+  mapToAutoProjectListItemsDto,
+} from './mapper/index.mapper';
+import { RawProjectResult } from './types/index.type';
 
 @Injectable()
 export class AutoProjectReadService {
@@ -15,74 +20,91 @@ export class AutoProjectReadService {
 
   @TryCatch()
   async findAll(
-    page: number,
-    pageSize: number,
+    query: GetProjectsQuery,
     userId: string,
-    sortBy: string = 'created_at',
-    sortOrder: 'asc' | 'desc' = 'desc',
-  ): Promise<AutoProjectListResponseDto> {
-    const skip = (page - 1) * pageSize;
-    const take = pageSize;
+  ): Promise<PaginatedResponseDto<AutoProjectListItemDto>> {
+    const {
+      page = 1,
+      limit = 10,
+      sortBy = SortableProjectKey.CREATED_AT,
+      sortOrder = 'desc',
+    } = query;
 
-    let orderByCondition: Prisma.AutoProjectOrderByWithRelationInput = {
-      created_at: 'desc',
-    };
-
-    if (allowedSortKeys.includes(sortBy as SortableProjectKey)) {
-      orderByCondition = { [sortBy]: sortOrder };
-    } else if (sortBy === 'autoPosts') {
-      orderByCondition = { autoPosts: { _count: sortOrder } };
-    }
-
+    const offset = (page - 1) * limit;
     const where: Prisma.AutoProjectWhereInput = { user_id: userId };
+    const orderByClause = this.getOrderByClause(sortBy, sortOrder);
+
+    const projectsQuery = Prisma.sql`
+      SELECT
+        p.id,
+        p.title,
+        p.status,
+        plat.id AS "platformId",
+        plat.name AS "platformName",
+        p.created_at AS "createdAt",
+        p.updated_at AS "updatedAt",
+        
+        (SELECT COUNT(*) FROM "auto_post" WHERE "auto_project_id" = p.id)::INT AS "postCount",
+        
+        -- Subquery to get the next scheduled post date
+        (
+          SELECT MIN(ap.scheduled_at)
+          FROM "auto_post" ap
+          WHERE ap.auto_project_id = p.id
+            AND ap.status = 'PENDING'
+            AND ap.scheduled_at > NOW()
+        ) AS "nextPostAt"
+      FROM
+        "auto_project" AS p
+      LEFT JOIN
+        "platform" AS plat ON p.platform_id = plat.id
+      WHERE
+        p.user_id = ${userId}
+      ${orderByClause}
+      LIMIT ${limit}
+      OFFSET ${offset}
+    `;
 
     const [projects, total] = await this.prisma.$transaction([
-      this.prisma.autoProject.findMany({
-        skip,
-        take,
-        where,
-        orderBy: orderByCondition,
-        include: {
-          platform: true,
-          _count: {
-            select: {
-              autoPosts: true,
-            },
-          },
-        },
-      }),
+      this.prisma.$queryRaw<RawProjectResult[]>(projectsQuery),
       this.prisma.autoProject.count({ where }),
     ]);
 
-    const projectIds = projects.map((p) => p.id);
-    let nextPostMap = new Map<number, Date | null>();
-
-    if (projectIds.length > 0) {
-      const nextPosts = await this.prisma.autoPost.groupBy({
-        by: ['auto_project_id'],
-        where: {
-          auto_project_id: { in: projectIds },
-          status: 'PENDING',
-          scheduled_at: { gt: new Date() },
-        },
-        _min: {
-          scheduled_at: true,
-        },
-      });
-      nextPostMap = new Map(
-        nextPosts.map((p) => [p.auto_project_id, p._min.scheduled_at]),
-      );
+    if (total === 0) {
+      return generatePaginatedResponse([], 0, { page, limit });
     }
 
-    const projectsWithNextPost = projects.map((p) => ({
-      ...p,
-      nextPostAt: nextPostMap.get(p.id) || null,
-    }));
+    const mappedProjects = mapToAutoProjectListItemsDto(projects);
 
-    return plainToInstance(AutoProjectListResponseDto, {
-      projects: projectsWithNextPost,
-      total,
+    return generatePaginatedResponse(mappedProjects, total, {
+      page,
+      limit,
     });
+  }
+
+  private getOrderByClause(
+    sortBy: SortableProjectKey,
+    sortOrder: 'asc' | 'desc',
+  ): Prisma.Sql {
+    const columnMap: Record<SortableProjectKey, string> = {
+      [SortableProjectKey.TITLE]: 'p.title',
+      [SortableProjectKey.STATUS]: 'p.status',
+      [SortableProjectKey.CREATED_AT]: 'p.created_at',
+      [SortableProjectKey.POST_COUNT]: '"postCount"',
+      [SortableProjectKey.NEXT_POST_AT]: '"nextPostAt"',
+    };
+    const sortColumn = columnMap[sortBy];
+
+    const nullsClause =
+      sortBy === SortableProjectKey.NEXT_POST_AT
+        ? sortOrder === 'desc'
+          ? 'NULLS LAST'
+          : 'NULLS FIRST'
+        : '';
+
+    return Prisma.sql`ORDER BY ${Prisma.raw(
+      sortColumn,
+    )} ${Prisma.raw(sortOrder)} ${Prisma.raw(nullsClause)}`;
   }
 
   @TryCatch()
@@ -92,12 +114,15 @@ export class AutoProjectReadService {
         id,
         user_id: userId,
       },
+      include: {
+        platform: true,
+      },
     });
 
     if (!autoProject) {
       throw new BadRequestException('Auto project not found');
     }
 
-    return plainToInstance(AutoProjectDetailsDto, autoProject);
+    return mapToAutoProjectDetailsDto(autoProject);
   }
 }
