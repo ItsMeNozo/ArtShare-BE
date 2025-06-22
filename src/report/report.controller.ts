@@ -19,6 +19,7 @@ import { Report, ReportStatus } from 'src/generated';
 import { CreateReportDto } from './dto/create-report.dto';
 import { ResolveReportDto } from './dto/resolve-report.dto';
 import { ReportService } from './report.service';
+import { ViewReportsDto, ViewTab } from './dto/view-report.dto';
 
 @ApiTags('reports')
 @Controller('reports')
@@ -85,5 +86,17 @@ export class ReportController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
   ): Promise<any> {
     return this.reportService.getBlogsForAdmin(page, limit);
+  }
+
+  @Post('/view')
+  async viewReports(@Body() viewReportsDto: ViewReportsDto): Promise<Report[]> {
+    const { tab = ViewTab.ALL, skip, take } = viewReportsDto;
+
+    const options = {
+      skip: skip ? parseInt(skip, 10) : undefined,
+      take: take ? parseInt(take, 10) : undefined,
+    };
+
+    return this.reportService.findReportsByTab(tab, options);
   }
 }
