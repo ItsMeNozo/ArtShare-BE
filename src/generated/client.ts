@@ -47,10 +47,6 @@ path.join(process.cwd(), "src/generated/libquery_engine-debian-openssl-1.1.x.so.
 path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node")
 path.join(process.cwd(), "src/generated/libquery_engine-debian-openssl-3.0.x.so.node")
 
-// file annotations for bundling tools to include these files
-path.join(__dirname, "libquery_engine-linux-musl-arm64-openssl-3.0.x.so.node")
-path.join(process.cwd(), "src/generated/libquery_engine-linux-musl-arm64-openssl-3.0.x.so.node")
-
 /**
  * Model Role
  * 
