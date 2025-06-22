@@ -82,19 +82,15 @@ jobs:
           echo "${SECRETS_CONTEXT}" | jq -r '
             to_entries[] |
               if (.value | contains("\n")) then
-                "\(.key)='\''\(.value | gsub("\n"; "\\n"))'\''"
+                (.key + "='\''" + (.value | gsub("\n"; "\\n")) + "'\''")
               else
-                if (.value | type == "string") and (.value | startswith("\"")) and (.value | endswith("\"")) then
-                  "\(.key)=\(.value[1:-1])"
-                else
-                  "\(.key)=\(.value)"
-                end
+                (.key + "=" + (.value | gsub("^['\''\"]+|['\''\"]+$"; "")))
               end
           ' > .env.ci
 
           # Manually add the non-secret variables needed for the test
           echo 'NODE_ENV=production' >> .env.ci
-          echo 'DATABASE_URL="postgresql://test:test@host.docker.internal:5432/test"' >> .env.ci
+          echo 'DATABASE_URL=postgresql://test:test@host.docker.internal:5432/test' >> .env.ci
 
           echo "--- .env.ci content created (values are masked) ---"
           cat .env.ci
