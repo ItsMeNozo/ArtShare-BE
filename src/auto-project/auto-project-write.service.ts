@@ -9,7 +9,7 @@ import { plainToInstance } from 'class-transformer';
 import { AutoPostGenerateService } from 'src/auto-post/auto-post-generate.service';
 import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
 import { TryCatch } from 'src/common/try-catch.decorator';
-import { Platform, SharePlatform } from 'src/generated';
+import { Platform } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { UsageService } from 'src/usage/usage.service';
 import { CreateAutoProjectDto } from './dto/request/create-project.dto';
