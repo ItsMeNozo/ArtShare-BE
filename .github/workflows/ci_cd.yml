@@ -24,20 +24,20 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    # services:
-    #   postgres:
-    #     image: postgres:15-alpine
-    #     env:
-    #       POSTGRES_USER: test
-    #       POSTGRES_PASSWORD: test
-    #       POSTGRES_DB: test
-    #     ports:
-    #       - 5432:5432 # Expose port 5432 on the runner
-    #     options: >-
-    #       --health-cmd pg_isready
-    #       --health-interval 10s
-    #       --health-timeout 5s
-    #       --health-retries 5
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test
+        ports:
+          - 5432:5432 # Expose port 5432 on the runner
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout Repository
@@ -113,18 +113,12 @@ jobs:
         # This step only runs on pushes to main to protect the 'latest' tag
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          IMAGE_TAG=$(git rev-parse --short HEAD)
-
-          # Tag for Docker Hub
-          docker tag ${{ env.IMAGE_NAME }}:test ${{ env.IMAGE_NAME }}:${IMAGE_TAG}
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          docker tag ${{ env.IMAGE_NAME }}:test ${{ env.IMAGE_NAME }}:${SHORT_SHA}
+          docker tag ${{ env.IMAGE_NAME }}:test ${{ env.IMAGE_NAME }}:${{ github.sha }}
           docker tag ${{ env.IMAGE_NAME }}:test ${{ env.IMAGE_NAME }}:latest
-
-          # Push both tags
-          echo "📤 Pushing ${{ env.IMAGE_NAME }}:${IMAGE_TAG}"
-          docker push ${{ env.IMAGE_NAME }}:${IMAGE_TAG}
-
-          echo "📤 Pushing ${{ env.IMAGE_NAME }}:latest"
-          docker push ${{ env.IMAGE_NAME }}:latest
+          echo "📤 Pushing the following tags: latest, ${SHORT_SHA}, ${{ github.sha }}"
+          docker push --all-tags ${{ env.IMAGE_NAME }}
 
       - name: Report Status
         run: echo "✅ CI Job Completed."
