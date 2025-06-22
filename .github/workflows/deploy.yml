@@ -3,7 +3,7 @@ name: ArtShare Backend Deploy
 
 on:
   push:
-    branches: ['main']
+    branches: ['main', 'feature/improve_and_fix_dockerfile']
 
 env:
   REGISTRY: docker.io
@@ -85,10 +85,11 @@ jobs:
               --security-opt=no-new-privileges:true \
               -p 127.0.0.1:3000:3000 \
               --env-file .env \
-              -v ${VOLUME_NAME}:/app/.cache \
               -e OMP_NUM_THREADS=2 \
               -e ONNX_DISABLE_OPTIMIZATION=1 \
-              --no-healthcheck || rollback
+              -v ${VOLUME_NAME}:/app/.cache \
+              --no-healthcheck \
+              ${IMAGE_NAME}:latest || rollback|| rollback
 
             # Wait for app to start
             echo "⏳ Waiting for application to start..."
