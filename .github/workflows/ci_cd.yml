@@ -75,7 +75,7 @@ jobs:
 
       - name: Create .env file from secrets context
         env:
-          ENV_VARS: ${{ secrets.ENV_FILE_CONTENT }}
+          ENV_VARS: ${{ secrets.DOT_ENV_FILE }}
         run: |
           echo "🧪 Creating .env.ci file..."
 
@@ -86,6 +86,8 @@ jobs:
           echo "✅ .env.ci file created successfully."
           echo "--- .env.ci keys (values are masked) ---"
           cut -d'=' -f1 .env.ci
+          echo 'NODE_ENV=production' >> .env.ci
+          echo 'DATABASE_URL=postgresql://test:test@host.docker.internal:5432/test' >> .env.ci
           echo "----------------------------------------"
 
       - name: Verify Container in a Production-like Environment
