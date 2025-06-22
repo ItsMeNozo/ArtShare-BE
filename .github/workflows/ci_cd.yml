@@ -80,8 +80,9 @@ jobs:
           # Run the container, connecting it to the service database
           # The container's entrypoint.sh will automatically run migrations
           docker run -d --name test-container \
-            -p 3001:3000 \
+            -p 3000:3000 \
             -e NODE_ENV=production \
+            --add-host=host.docker.internal:host-gateway \
             -e DATABASE_URL="postgresql://test:test@host.docker.internal:5432/test" \
             ${{ env.IMAGE_NAME }}:test
 
