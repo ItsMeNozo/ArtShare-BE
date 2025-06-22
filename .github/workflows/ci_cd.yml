@@ -83,7 +83,7 @@ jobs:
 
           echo "🧪 Dynamically creating .env file from secrets..."
           # This command parses the JSON string and converts it to KEY=VALUE format
-          echo "${SECRETS_CONTEXT}" | jq -r 'to_entries[] | .key + "=" + (.value|tostring)' > .env.ci
+          echo "${SECRETS_CONTEXT}" | jq -r 'to_entries[] | .key + "=" + (.value|@json)' > .env.ci
 
           # Manually add the non-secret variables needed for the test
           echo 'NODE_ENV=production' >> .env.ci
