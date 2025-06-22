@@ -5,7 +5,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { Prisma, Report, ReportStatus } from 'src/generated';
+import { Prisma, Report, ReportStatus, ReportTargetType } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { CreateReportDto } from './dto/create-report.dto';
 import { ResolveReportDto } from './dto/resolve-report.dto';
@@ -15,6 +15,7 @@ import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
 import { BlogListItemResponseDto } from 'src/blog/dto/response/blog-list-item.dto';
 import { generatePaginatedResponse } from 'src/common/helpers/pagination.helper';
 import { plainToInstance } from 'class-transformer';
+import { ViewTab } from './dto/view-report.dto';
 
 export type ReportWithDetails = Report & {
   reporter: { id: string; username: string };
@@ -208,5 +209,29 @@ export class ReportService {
       );
     }
   }
+
+  async findReportsByTab(
+        tab: ViewTab,
+        options: { skip?: number; take?: number },
+      ): Promise<ReportWithDetails[]> {
+        const where: Prisma.ReportWhereInput = {};
+    
+        if (tab !== ViewTab.ALL) {
+          if (tab !== ViewTab.USER) {
+            where.target_type = tab.toUpperCase() as ReportTargetType;
+          }
+        }
+    
+        return this.prisma.report.findMany({
+          where,
+          include: {
+            reporter: { select: { id: true, username: true } },
+            moderator: { select: { id: true, username: true } }, // <<< INCLUDE MODERATOR
+          },
+          orderBy: { created_at: 'desc' },
+          skip: options.skip,
+          take: options.take,
+        }) as Promise<ReportWithDetails[]>;
+      }
 }
  
