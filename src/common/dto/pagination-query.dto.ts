@@ -1,6 +1,13 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsInt, IsOptional, IsString, Min, Max } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import {
+  IsInt,
+  IsObject,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
 
 export class PaginationQueryDto {
   @ApiPropertyOptional({
@@ -50,4 +57,19 @@ export class PaginationQueryDto {
   @IsOptional()
   @IsString()
   search?: string;
+
+  @ApiPropertyOptional({
+    type: String,
+  })
+  @IsOptional()
+  @Transform(({ value }) => {
+    try {
+      return JSON.parse(value);
+    } catch (error) {
+      console.log(error);
+      return value;
+    }
+  })
+  @IsObject()
+  filter?: Record<string, any>;
 }

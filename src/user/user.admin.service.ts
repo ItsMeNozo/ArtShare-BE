@@ -62,17 +62,36 @@ export class UserAdminService {
       sortBy = 'created_at',
       sortOrder = 'desc',
       search,
+      filter,
     } = query;
 
     const skip = (page - 1) * limit;
 
     const whereClause: any = {};
+
     if (search) {
       whereClause.OR = [
         { username: { contains: search, mode: 'insensitive' } },
         { email: { contains: search, mode: 'insensitive' } },
         { full_name: { contains: search, mode: 'insensitive' } },
       ];
+    }
+
+    if (filter) {
+      const { roles, status } = filter;
+
+      if (roles) {
+        whereClause.roles = {
+          some: {
+            role: {
+              role_name: roles[0],
+            },
+          },
+        };
+      }
+      if (status) {
+        whereClause.status = status;
+      }
     }
 
     let prismaSortBy = sortBy;
