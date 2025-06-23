@@ -420,7 +420,8 @@ export const ModelName = {
   AutoProject: 'AutoProject',
   AutoPost: 'AutoPost',
   Conversation: 'Conversation',
-  Message: 'Message'
+  Message: 'Message',
+  FacebookAccount: 'FacebookAccount'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -436,7 +437,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "role" | "userRole" | "user" | "post" | "blog" | "media" | "category" | "like" | "commentLike" | "comment" | "share" | "follow" | "bookmark" | "rating" | "collection" | "report" | "userAccess" | "plan" | "userUsage" | "artGeneration" | "trendingPrompt" | "notification" | "platform" | "autoProject" | "autoPost" | "conversation" | "message"
+    modelProps: "role" | "userRole" | "user" | "post" | "blog" | "media" | "category" | "like" | "commentLike" | "comment" | "share" | "follow" | "bookmark" | "rating" | "collection" | "report" | "userAccess" | "plan" | "userUsage" | "artGeneration" | "trendingPrompt" | "notification" | "platform" | "autoProject" | "autoPost" | "conversation" | "message" | "facebookAccount"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2438,6 +2439,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    FacebookAccount: {
+      payload: Prisma.$FacebookAccountPayload<ExtArgs>
+      fields: Prisma.FacebookAccountFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FacebookAccountFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FacebookAccountPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FacebookAccountFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FacebookAccountPayload>
+        }
+        findFirst: {
+          args: Prisma.FacebookAccountFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FacebookAccountPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FacebookAccountFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FacebookAccountPayload>
+        }
+        findMany: {
+          args: Prisma.FacebookAccountFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FacebookAccountPayload>[]
+        }
+        create: {
+          args: Prisma.FacebookAccountCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FacebookAccountPayload>
+        }
+        createMany: {
+          args: Prisma.FacebookAccountCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FacebookAccountCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FacebookAccountPayload>[]
+        }
+        delete: {
+          args: Prisma.FacebookAccountDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FacebookAccountPayload>
+        }
+        update: {
+          args: Prisma.FacebookAccountUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FacebookAccountPayload>
+        }
+        deleteMany: {
+          args: Prisma.FacebookAccountDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FacebookAccountUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FacebookAccountUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FacebookAccountPayload>[]
+        }
+        upsert: {
+          args: Prisma.FacebookAccountUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FacebookAccountPayload>
+        }
+        aggregate: {
+          args: Prisma.FacebookAccountAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFacebookAccount>
+        }
+        groupBy: {
+          args: Prisma.FacebookAccountGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FacebookAccountGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FacebookAccountCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FacebookAccountCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2794,14 +2869,16 @@ export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[k
 
 export const PlatformScalarFieldEnum = {
   id: 'id',
-  name: 'name',
   config: 'config',
   user_id: 'user_id',
   external_page_id: 'external_page_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  status: 'status',
-  token_expires_at: 'token_expires_at'
+  token_expires_at: 'token_expires_at',
+  picture_url: 'picture_url',
+  facebook_account_id: 'facebook_account_id',
+  name: 'name',
+  status: 'status'
 } as const
 
 export type PlatformScalarFieldEnum = (typeof PlatformScalarFieldEnum)[keyof typeof PlatformScalarFieldEnum]
@@ -2862,6 +2939,21 @@ export const MessageScalarFieldEnum = {
 } as const
 
 export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
+
+
+export const FacebookAccountScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  facebook_user_id: 'facebook_user_id',
+  name: 'name',
+  picture_url: 'picture_url',
+  long_lived_user_access_token: 'long_lived_user_access_token',
+  token_expires_at: 'token_expires_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type FacebookAccountScalarFieldEnum = (typeof FacebookAccountScalarFieldEnum)[keyof typeof FacebookAccountScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -3292,6 +3384,7 @@ export type GlobalOmitConfig = {
   autoPost?: Prisma.AutoPostOmit
   conversation?: Prisma.ConversationOmit
   message?: Prisma.MessageOmit
+  facebookAccount?: Prisma.FacebookAccountOmit
 }
 
 /* Types for Logging */

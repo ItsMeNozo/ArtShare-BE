@@ -186,6 +186,11 @@ export type Conversation = Prisma.ConversationModel
  * 
  */
 export type Message = Prisma.MessageModel
+/**
+ * Model FacebookAccount
+ * 
+ */
+export type FacebookAccount = Prisma.FacebookAccountModel
 
 export type MessageRole = $Enums.MessageRole
 export const MessageRole = $Enums.MessageRole
