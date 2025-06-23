@@ -113,6 +113,18 @@ export class StatisticsService {
     return this.rawStats('id', 'blog', 'key', daysBack);
   }
 
+  async getTop3RecentReports(): Promise<any> {
+    const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
+      SELECT *
+      FROM report
+      WHERE status = 'PENDING'
+      ORDER BY created_at
+      LIMIT 3
+    `;
+
+    return rows;
+  }
+
   async getAll(daysBack?: number): Promise<{
     timeRange: { days: number; from: string; to: string };
     aspectRatios: StatCount[];
@@ -123,6 +135,7 @@ export class StatisticsService {
     trending_prompts: any[];
     token_usage: StatCount[];
     total_blogs: StatCount[];
+    recent_3_reports: any;
   }> {
     const [
       aspectRatios,
@@ -132,6 +145,7 @@ export class StatisticsService {
       top_posts_by_ai,
       token_usage,
       total_blogs,
+      recent_3_reports,
     ] = await Promise.all([
       this.getAspectRatioStats(daysBack),
       this.getStyles(daysBack),
@@ -140,6 +154,7 @@ export class StatisticsService {
       this.getTop5PostsByAI(daysBack),
       this.getTotalTokenUsage(daysBack),
       this.getTotalBlogs(daysBack),
+      this.getTop3RecentReports(),
     ]);
 
     const storedPrompts = await this.getStoredTrendingPrompts(
@@ -165,6 +180,7 @@ export class StatisticsService {
       trending_prompts: storedPrompts ?? [],
       token_usage,
       total_blogs,
+      recent_3_reports,
     };
   }
 
