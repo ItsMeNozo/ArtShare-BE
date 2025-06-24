@@ -1,6 +1,14 @@
+import { BadRequestException } from '@nestjs/common';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsInt, IsOptional, IsString, Min, Max } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import {
+  IsInt,
+  IsObject,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
 
 export class PaginationQueryDto {
   @ApiPropertyOptional({
@@ -50,4 +58,18 @@ export class PaginationQueryDto {
   @IsOptional()
   @IsString()
   search?: string;
+
+  @ApiPropertyOptional({
+    type: String,
+  })
+  @IsOptional()
+  @Transform(({ value }) => {
+    try {
+      return JSON.parse(value);
+    } catch {
+      throw new BadRequestException('Invalid JSON format in filter field');
+    }
+  })
+  @IsObject()
+  filter?: Record<string, any>;
 }
