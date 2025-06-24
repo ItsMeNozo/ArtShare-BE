@@ -64,11 +64,14 @@ export class PaginationQueryDto {
   })
   @IsOptional()
   @Transform(({ value }) => {
-    try {
-      return JSON.parse(value);
-    } catch {
-      throw new BadRequestException('Invalid JSON format in filter field');
+    if (typeof value === 'string') {
+      try {
+        return JSON.parse(value);
+      } catch {
+        throw new BadRequestException('Invalid JSON format in filter field');
+      }
     }
+    return value;
   })
   @IsObject()
   filter?: Record<string, any>;
