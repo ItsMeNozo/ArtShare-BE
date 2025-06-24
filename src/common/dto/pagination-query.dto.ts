@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import {
@@ -65,7 +66,7 @@ export class PaginationQueryDto {
   @Transform(({ value }) => {
     try {
       return JSON.parse(value);
-    } catch (error) {
+    } catch {
       throw new BadRequestException('Invalid JSON format in filter field');
     }
   })
