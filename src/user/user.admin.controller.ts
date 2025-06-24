@@ -71,7 +71,6 @@ export class UserAdminController {
         forbidNonWhitelisted: true,
       }),
     )
-    @Query()
     paginationQuery: PaginationQueryDto,
   ): Promise<PaginatedUsersResponseDto> {
     return this.userAdminService.findAllWithDetailsPaginated(paginationQuery);
