@@ -66,8 +66,7 @@ export class PaginationQueryDto {
     try {
       return JSON.parse(value);
     } catch (error) {
-      console.log(error);
-      return value;
+      throw new BadRequestException('Invalid JSON format in filter field');
     }
   })
   @IsObject()
