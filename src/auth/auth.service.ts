@@ -4,6 +4,8 @@ import {
   Logger,
   NotFoundException,
   UnauthorizedException,
+  InternalServerErrorException,
+  ConflictException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
@@ -105,7 +107,15 @@ export class AuthService {
 
       return { message_type: 'SIGNUP_SUCCESS', newUser };
     } catch (error) {
-      throw new Error(`Error creating user: ${(error as Error).message}`);
+      // If it's already an HTTP exception, re-throw it
+      if (error instanceof NotFoundException || 
+          error instanceof ConflictException || 
+          error instanceof InternalServerErrorException) {
+        throw error;
+      }
+
+      this.logger.error('Error creating user:', (error as Error).stack);
+      throw new InternalServerErrorException(`Failed to create user: ${(error as Error).message}`);
     }
   }
 
@@ -117,6 +127,7 @@ export class AuthService {
         'Decoded token successfully from login: ' +
           JSON.stringify(decodedToken),
       );
+      
       const userFromDb = await this.prisma.user.findUnique({
         where: { id: decodedToken.uid },
         include: {
@@ -127,9 +138,13 @@ export class AuthService {
           },
         },
       });
+      
       if (!userFromDb) {
-        throw new Error(
-          `User with email ${decodedToken.email}, and id ${decodedToken.uid} not found in database`,
+        this.logger.error(
+          `User with email ${decodedToken.email} and id ${decodedToken.uid} not found in database`,
+        );
+        throw new NotFoundException(
+          `User not found. Please sign up first.`,
         );
       }
 
@@ -144,13 +159,12 @@ export class AuthService {
         decodedToken.email!,
         roleNames,
       );
-      // Create access_token, refresh_token
-      let user = null;
-      this.logger.log(user);
+      
+      // Update refresh token in database
       try {
-        user = await this.prisma.user.update({
-          where: { id: decodedToken.uid }, // Tìm user theo email từ Firebase token
-          data: { refresh_token: tokens.refresh_token }, // Cập nhật refresh_token
+        await this.prisma.user.update({
+          where: { id: decodedToken.uid },
+          data: { refresh_token: tokens.refresh_token },
         });
         this.logger.log(
           `Refresh token updated for user with email: ${decodedToken.email}`,
@@ -159,33 +173,50 @@ export class AuthService {
         this.logger.error(
           'Error updating refresh token in database:',
           (dbError as Error).stack,
-        ); // Quyết định xem bạn có muốn throw lỗi ở đây hay không.
-        // Nếu việc cập nhật refresh token thất bại, có thể ảnh hưởng đến việc làm mới token sau này.
-        // Tùy thuộc vào yêu cầu nghiệp vụ của bạn.
-        // Có thể bạn chỉ muốn log lỗi và tiếp tục.
+        );
+        // Continue even if refresh token update fails
+        // This is not critical for the login process
       }
 
-      // Store access_token, refresh_token
-      // Return user information (can be customized to return more details or save to DB)
+      // Return tokens
       return {
         access_token: tokens.access_token,
         refresh_token: tokens.refresh_token,
       };
     } catch (error) {
-      this.logger.error(
-        'Error during token verification',
-        (error as Error).stack,
-      ); // Log the error message and stack trace
-
-      // Handle specific Firebase error codes if necessary
-      if ((error as admin.FirebaseError).code === 'auth/argument-error') {
-        this.logger.error('The ID token is invalid or malformed.');
-        throw new Error('The ID token is invalid or malformed.');
+      // If it's already an HTTP exception, re-throw it
+      if (error instanceof NotFoundException || 
+          error instanceof UnauthorizedException || 
+          error instanceof ForbiddenException) {
+        throw error;
       }
 
-      // General error handling
-      this.logger.error('Invalid token', (error as Error).stack);
-      throw new Error('Invalid token');
+      this.logger.error(
+        'Error during login process:',
+        (error as Error).stack,
+      );
+
+      // Handle specific Firebase error codes
+      if (error && typeof error === 'object' && 'code' in error) {
+        const firebaseError = error as admin.FirebaseError;
+        switch (firebaseError.code) {
+          case 'auth/argument-error':
+          case 'auth/invalid-id-token':
+          case 'auth/id-token-expired':
+            this.logger.error(`Firebase auth error: ${firebaseError.code}`);
+            throw new UnauthorizedException('Invalid or expired authentication token');
+          case 'auth/id-token-revoked':
+            this.logger.error('Firebase auth error: Token has been revoked');
+            throw new UnauthorizedException('Authentication token has been revoked');
+          default:
+            this.logger.error(`Unhandled Firebase error: ${firebaseError.code}`);
+            throw new UnauthorizedException('Authentication failed');
+        }
+      }
+
+      // General error handling for unexpected errors
+      this.logger.error('Unexpected error during login', (error as Error).message);
+      throw new UnauthorizedException('Authentication failed');
     }
   }
 
@@ -215,7 +246,8 @@ export class AuthService {
       await admin.auth().revokeRefreshTokens(uid);
       return { message: 'User signed out successfully' };
     } catch (error) {
-      throw new Error(`Error signing out: ${(error as Error).message}`);
+      this.logger.error('Error signing out user:', (error as Error).stack);
+      throw new InternalServerErrorException(`Error signing out: ${(error as Error).message}`);
     }
   }
 
