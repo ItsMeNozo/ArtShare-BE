@@ -84,7 +84,7 @@ export class UserAdminService {
         whereClause.roles = {
           some: {
             role: {
-              role_name: roles[0],
+              role_name: { in: roles },
             },
           },
         };
