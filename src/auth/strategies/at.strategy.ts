@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -6,6 +6,8 @@ import { JwtPayload } from '../types/jwtPayload.type';
 
 @Injectable()
 export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
+  private readonly logger = new Logger(AtStrategy.name);
+  
   constructor(config: ConfigService) {
     const secret = config.get<string>('AT_SECRET');
     
@@ -26,7 +28,7 @@ export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
       roles: payload.roles,
     };
     
-    console.log('AT Strategy returning:', result);
+    this.logger.debug(`AT Strategy returning: ${JSON.stringify(result)}`);
     return result;
   }
 }
