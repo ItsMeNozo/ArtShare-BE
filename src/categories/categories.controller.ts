@@ -9,10 +9,11 @@ import {
   Patch,
   Post,
   Query,
+  Request,
   UseGuards,
 } from '@nestjs/common';
-import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { OptionalJwtAuthGuard } from 'src/auth/optional-jwt-auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { SyncEmbeddingResponseDto } from '../common/response/sync-embedding.dto';
 import { CategoriesEmbeddingService } from './categories-embedding.service';
@@ -41,20 +42,24 @@ export class CategoriesController {
   }
 
   @Get()
+  @UseGuards(OptionalJwtAuthGuard)
   async findAll(
+    @Request() req: any,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
     @Query('page_size', new DefaultValuePipe(25), ParseIntPipe)
     page_size: number,
   ): Promise<CategoryResponseDto[]> {
-    return this.categoriesSearchService.findAll(page, page_size);
+   
+    return this.categoriesSearchService.findAll(page, page_size, req.user);
   }
 
   @Get('v2')
-  @Public()
+  @UseGuards(OptionalJwtAuthGuard)
   async findAllV2(
+    @Request() req: any,
     @Query() query: FindManyCategoriesDto,
   ): Promise<CategoryResponseDto[]> {
-    return this.categoriesSearchService.findAllV2(query);
+    return this.categoriesSearchService.findAllV2(query, req.user);
   }
 
   @Get(':id')

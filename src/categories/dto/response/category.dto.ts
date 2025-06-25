@@ -8,4 +8,5 @@ export class CategoryResponseDto {
   type: CategoryType;
   created_at: Date;
   updated_at: Date;
+  posts_count?: number; // Optional field for admin users
 }
