@@ -8,7 +8,7 @@ import { JwtPayload } from '../types/jwtPayload.type';
 export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(config: ConfigService) {
     const secret = config.get<string>('AT_SECRET');
-
+    
     if (!secret) {
       throw new Error('AT_SECRET is not defined in configuration');
     }
@@ -20,9 +20,13 @@ export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   validate(req: Request, payload: JwtPayload) {
-    return {
+    const result = {
       userId: payload.userId,
       email: payload.email,
+      roles: payload.roles,
     };
+    
+    console.log('AT Strategy returning:', result);
+    return result;
   }
 }
