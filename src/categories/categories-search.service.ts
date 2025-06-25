@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { TryCatch } from 'src/common/try-catch.decorator';
 import { Prisma } from 'src/generated';
@@ -10,6 +10,8 @@ import { CategoryResponseDto } from './dto/response/category.dto';
 
 @Injectable()
 export class CategoriesSearchService {
+  private readonly logger = new Logger(CategoriesSearchService.name);
+  
   constructor(private readonly prisma: PrismaService) {}
 
   @TryCatch()
@@ -19,10 +21,10 @@ export class CategoriesSearchService {
     user?: JwtPayload,
   ): Promise<CategoryResponseDto[]> {
     const isAdmin = user?.roles?.includes(Role.ADMIN);
-    console.log('Is admin check result:', isAdmin);
+    this.logger.debug(`Is admin check result: ${isAdmin}`);
     
     if (isAdmin) {
-      console.log('Fetching categories WITH post counts for admin...');
+      this.logger.debug('Fetching categories WITH post counts for admin...');
       // For admin users, include post counts
       const categories = await this.prisma.category.findMany({
         skip: (page - 1) * page_size,
@@ -37,7 +39,7 @@ export class CategoriesSearchService {
         },
       });
 
-      console.log('Categories with count data:', categories[0]?._count);
+      this.logger.debug(`Categories with count data: ${JSON.stringify(categories[0]?._count)}`);
       
       const result = categories.map(category => ({
         ...category,
@@ -45,10 +47,10 @@ export class CategoriesSearchService {
         _count: undefined, // Remove the _count object from the response
       })) as CategoryResponseDto[];
       
-      console.log('Final result sample:', result[0]);
+      this.logger.debug(`Final result sample: ${JSON.stringify(result[0])}`);
       return result;
     } else {
-      console.log('Fetching categories WITHOUT post counts for non-admin...');
+      this.logger.debug('Fetching categories WITHOUT post counts for non-admin...');
       // For non-admin users, return categories without post counts
       const categories = await this.prisma.category.findMany({
         skip: (page - 1) * page_size,
