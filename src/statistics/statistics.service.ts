@@ -110,7 +110,29 @@ export class StatisticsService {
   }
 
   async getTotalBlogs(daysBack?: number): Promise<StatCount[]> {
-    return this.rawStats('id', 'blog', 'key', daysBack);
+    const dateFilter = daysBack
+      ? `WHERE "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
+      : '';
+
+    const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
+      SELECT COUNT(id) as count
+      FROM blog
+      ${Prisma.raw(dateFilter)}
+    `;
+    return [{ key: 'total_blogs', count: Number(rows[0]?.count ?? 0) }];
+  }
+
+  async getTotalPosts(daysBack?: number) : Promise<StatCount[]> {
+    const dateFilter = daysBack
+      ? `WHERE "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
+      : '';
+
+    const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
+      SELECT COUNT(id) as count
+      FROM post
+      ${Prisma.raw(dateFilter)}
+    `;
+    return [{ key: 'total_blogs', count: Number(rows[0]?.count ?? 0) }];
   }
 
   async getTop3RecentReports(): Promise<any> {
@@ -136,6 +158,7 @@ export class StatisticsService {
     token_usage: StatCount[];
     total_blogs: StatCount[];
     recent_3_reports: any;
+    total_posts: StatCount[];
   }> {
     const [
       aspectRatios,
@@ -146,6 +169,7 @@ export class StatisticsService {
       token_usage,
       total_blogs,
       recent_3_reports,
+      total_posts,
     ] = await Promise.all([
       this.getAspectRatioStats(daysBack),
       this.getStyles(daysBack),
@@ -155,6 +179,7 @@ export class StatisticsService {
       this.getTotalTokenUsage(daysBack),
       this.getTotalBlogs(daysBack),
       this.getTop3RecentReports(),
+      this.getTotalPosts(daysBack),
     ]);
 
     const storedPrompts = await this.getStoredTrendingPrompts(
@@ -181,6 +206,7 @@ export class StatisticsService {
       token_usage,
       total_blogs,
       recent_3_reports,
+      total_posts,
     };
   }
 
