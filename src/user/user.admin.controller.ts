@@ -16,6 +16,7 @@ import {
   UploadedFile,
   UseGuards,
   UseInterceptors,
+  ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
@@ -60,7 +61,17 @@ export class UserAdminController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'ADMIN - Get all users with details (paginated)' })
   async adminFindAllUsers(
-    @Query() paginationQuery: PaginationQueryDto,
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        transformOptions: {
+          enableImplicitConversion: true,
+        },
+        whitelist: true,
+        forbidNonWhitelisted: true,
+      }),
+    )
+    paginationQuery: PaginationQueryDto,
   ): Promise<PaginatedUsersResponseDto> {
     return this.userAdminService.findAllWithDetailsPaginated(paginationQuery);
   }

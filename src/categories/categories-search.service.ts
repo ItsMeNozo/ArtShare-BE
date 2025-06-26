@@ -1,32 +1,71 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { TryCatch } from 'src/common/try-catch.decorator';
 import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
+import { Role } from 'src/auth/enums/role.enum';
+import { JwtPayload } from 'src/auth/types/jwtPayload.type';
 import { FindManyCategoriesDto } from './dto/request/find-many.dto';
 import { CategoryResponseDto } from './dto/response/category.dto';
 
 @Injectable()
 export class CategoriesSearchService {
+  private readonly logger = new Logger(CategoriesSearchService.name);
+  
   constructor(private readonly prisma: PrismaService) {}
 
   @TryCatch()
   async findAll(
     page: number,
     page_size: number,
+    user?: JwtPayload,
   ): Promise<CategoryResponseDto[]> {
-    const categories = await this.prisma.category.findMany({
-      skip: (page - 1) * page_size,
-      take: page_size,
-      orderBy: { created_at: 'desc' },
-    });
+    const isAdmin = user?.roles?.includes(Role.ADMIN);
+    this.logger.debug(`Is admin check result: ${isAdmin}`);
+    
+    if (isAdmin) {
+      this.logger.debug('Fetching categories WITH post counts for admin...');
+      // For admin users, include post counts
+      const categories = await this.prisma.category.findMany({
+        skip: (page - 1) * page_size,
+        take: page_size,
+        orderBy: { created_at: 'desc' },
+        include: {
+          _count: {
+            select: {
+              posts: true,
+            },
+          },
+        },
+      });
 
-    return plainToInstance(CategoryResponseDto, categories);
+      this.logger.debug(`Categories with count data: ${JSON.stringify(categories[0]?._count)}`);
+      
+      const result = categories.map(category => ({
+        ...category,
+        posts_count: category._count.posts,
+        _count: undefined, // Remove the _count object from the response
+      })) as CategoryResponseDto[];
+      
+      this.logger.debug(`Final result sample: ${JSON.stringify(result[0])}`);
+      return result;
+    } else {
+      this.logger.debug('Fetching categories WITHOUT post counts for non-admin...');
+      // For non-admin users, return categories without post counts
+      const categories = await this.prisma.category.findMany({
+        skip: (page - 1) * page_size,
+        take: page_size,
+        orderBy: { created_at: 'desc' },
+      });
+
+      return plainToInstance(CategoryResponseDto, categories);
+    }
   }
 
   @TryCatch()
-  async findAllV2(query: FindManyCategoriesDto) {
+  async findAllV2(query: FindManyCategoriesDto, user?: JwtPayload) {
     const { type, search_query, page = 1, page_size = 25 } = query;
+    const isAdmin = user?.roles?.includes(Role.ADMIN);
 
     const where: Prisma.CategoryWhereInput = {};
     if (type) {
@@ -39,14 +78,38 @@ export class CategoriesSearchService {
       };
     }
 
-    const categories = await this.prisma.category.findMany({
-      skip: (page - 1) * page_size,
-      take: page_size,
-      where,
-      orderBy: { created_at: 'desc' },
-    });
+    if (isAdmin) {
+      // For admin users, include post counts
+      const categories = await this.prisma.category.findMany({
+        skip: (page - 1) * page_size,
+        take: page_size,
+        where,
+        orderBy: { created_at: 'desc' },
+        include: {
+          _count: {
+            select: {
+              posts: true,
+            },
+          },
+        },
+      });
 
-    return plainToInstance(CategoryResponseDto, categories);
+      return categories.map(category => ({
+        ...category,
+        posts_count: category._count.posts,
+        _count: undefined, // Remove the _count object from the response
+      })) as CategoryResponseDto[];
+    } else {
+      // For non-admin users, return categories without post counts
+      const categories = await this.prisma.category.findMany({
+        skip: (page - 1) * page_size,
+        take: page_size,
+        where,
+        orderBy: { created_at: 'desc' },
+      });
+
+      return plainToInstance(CategoryResponseDto, categories);
+    }
   }
 
   @TryCatch()
