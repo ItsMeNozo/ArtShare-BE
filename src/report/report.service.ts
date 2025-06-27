@@ -195,6 +195,11 @@ export class ReportService {
           skip,
           take: limit,
           orderBy: { created_at: 'desc' },
+          include: {
+            user: {
+              select : {username: true},
+            }
+          }
         }),
         this.prisma.blog.count(),
       ]);
@@ -226,7 +231,7 @@ export class ReportService {
           where,
           include: {
             reporter: { select: { id: true, username: true } },
-            moderator: { select: { id: true, username: true } }, // <<< INCLUDE MODERATOR
+            moderator: { select: { id: true, username: true } },
           },
           orderBy: { created_at: 'desc' },
           skip: options.skip,
