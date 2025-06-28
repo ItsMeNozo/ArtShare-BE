@@ -101,17 +101,16 @@ jobs:
           }
 
 
-          # Run the container, connecting it to the service database
           # The container's entrypoint.sh will automatically run migrations
           docker run -d --name test-container \
             -p 3000:3000 \
             --add-host=host.docker.internal:host-gateway \
             --env-file .env.ci \
+            -e ENABLE_SWAGGER_FOR_CI=true \
             ${{ env.IMAGE_NAME }}:test
 
-          # Wait for the application to become healthy
           echo "⏳ Waiting for container to start and pass health check..."
-          sleep 10  # Initial wait for container to start
+          sleep 10 
           for i in {1..30}; do
             if docker exec test-container curl -f http://localhost:3000/ >/dev/null 2>&1; then
               echo "✅ Container is responsive."
