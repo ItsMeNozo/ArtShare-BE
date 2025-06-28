@@ -59,18 +59,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: 'Debug: List files and show .dockerignore content'
-        run: |
-          echo "--- 1. Listing all files recursively ---"
-          # This shows every file that the checkout contains
-          ls -laR
-
-          echo ""
-          echo "--- 2. Displaying the EXACT content of .dockerignore ---"
-          # This will prove whether your changes were pushed
-          cat .dockerignore
-          echo "---------------------------------------------"
-
       - name: Build Docker Image with GHA Cache
         uses: docker/build-push-action@v6
         with:
