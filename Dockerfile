@@ -2,7 +2,7 @@
 # Stage 1: Builder - Build the application and prepare production node_modules
 # ======================================================================================
 # Use your pre-built image instead of the generic node:22-alpine
-FROM kiet03/artshare-base:latest AS builder
+FROM kiet03/artshare-base:1.0.0 AS builder
 WORKDIR /app
 
 # Install ALL dependencies (including devDependencies).

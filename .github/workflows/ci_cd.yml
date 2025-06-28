@@ -59,10 +59,6 @@ jobs:
         run: yarn audit --level=high
         continue-on-error: true
 
-      - name: Build Project (Production)
-        env: { NODE_ENV: production }
-        run: yarn build
-
       - name: Build Docker Image
         run: |
           # Build with layer caching for faster builds
