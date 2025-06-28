@@ -111,7 +111,7 @@ export class StatisticsService {
 
   async getTotalBlogs(daysBack?: number): Promise<StatCount[]> {
     const dateFilter = daysBack
-      ? `WHERE "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
+      ? `WHERE "created_at" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
       : '';
 
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
@@ -124,7 +124,7 @@ export class StatisticsService {
 
   async getTotalPosts(daysBack?: number) : Promise<StatCount[]> {
     const dateFilter = daysBack
-      ? `WHERE "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
+      ? `WHERE "created_at" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
       : '';
 
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
