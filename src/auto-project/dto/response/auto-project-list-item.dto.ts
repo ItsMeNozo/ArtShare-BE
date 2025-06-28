@@ -1,7 +1,10 @@
+import { IsEnum } from 'class-validator';
 import { AutoProjectStatus, SharePlatform } from 'src/generated';
 
 class PlatformInfo {
   id: number;
+
+  @IsEnum(SharePlatform)
   name: SharePlatform;
 }
 

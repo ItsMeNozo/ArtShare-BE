@@ -1,5 +1,5 @@
 import { IsEnum, IsInt, IsOptional } from 'class-validator';
-import { TargetType } from 'src/common/enum/target-type.enum';
+import { TargetType } from 'src/generated';
 
 export class GetCommentsDto {
   @IsInt()

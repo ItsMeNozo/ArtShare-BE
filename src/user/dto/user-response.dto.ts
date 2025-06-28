@@ -74,6 +74,10 @@ export class UserResponseDto {
   })
   status: UserStatus;
 
+  @ApiProperty({
+    description: 'User access information',
+    nullable: true,
+  })
   userAccess: UserAccess | null;
 }
 
