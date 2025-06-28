@@ -19,8 +19,6 @@ jobs:
   # ==================================
   #      CI Job: Build and Test
   # ==================================
-  # This job runs on every push and PR to main.
-  # It builds the app, runs checks, and pushes a Docker image.
   build-and-test:
     runs-on: ubuntu-latest
     env:
@@ -93,6 +91,14 @@ jobs:
       - name: Verify Container in a Production-like Environment
         run: |
           echo "🧪 Starting full container verification..."
+          function handle_failure() {
+            echo "❌ Verification failed: $1"
+            echo "--- Container Logs ---"
+            docker logs test-container
+            echo "----------------------"
+            docker stop test-container
+            exit 1
+          }
 
 
           # Run the container, connecting it to the service database
@@ -108,30 +114,22 @@ jobs:
           sleep 10  # Initial wait for container to start
           for i in {1..30}; do
             if docker exec test-container curl -f http://localhost:3000/ >/dev/null 2>&1; then
-              echo "✅ Container is healthy and responding!"
+              echo "✅ Container is responsive."
 
               if docker exec test-container curl -f http://localhost:3000/api/swagger-ui-init.js >/dev/null 2>&1; then
-                echo "✅ Swagger UI is initialized and accessible."
-                docker logs test-container
+                echo "✅ Swagger UI is accessible."
+                echo "✅ All container checks passed!"
                 docker stop test-container
                 exit 0
-              else
-                echo "❌ Swagger UI initialization failed!"
-                docker logs test-container
-                docker stop test-container
-                exit 1
               fi
               
+              handle_failure "Swagger UI endpoint is not accessible."
             fi
             echo "Waiting... (attempt $i/30)"
             sleep 5
           done
 
-          echo "❌ Container verification failed!"
-          docker logs test-container
-          docker stop test-container
-          exit 1
-
+          handle_failure "Container never became healthy."
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
