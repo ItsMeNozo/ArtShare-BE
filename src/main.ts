@@ -17,17 +17,17 @@ async function bootstrap() {
     logger: ['log', 'fatal', 'error', 'warn', 'debug', 'verbose'],
   });
   
-  // Configure Socket.IO adapter for WebSocket support
-  app.useWebSocketAdapter(new IoAdapter(app));
-  
-  // Trust proxy for rate limiting and IP detection
-  const expressApp = app.getHttpAdapter().getInstance();
-  expressApp.set('trust proxy', 1);
-  
   const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT') ?? 3000;
   const isProduction = configService.get<string>('NODE_ENV') === 'production';
   const logger = new Logger('Bootstrap');
+
+  // Configure Socket.IO adapter for WebSocket support
+  app.useWebSocketAdapter(new IoAdapter(app));
+
+  // Trust proxy for rate limiting and IP detection
+  const expressApp = app.getHttpAdapter().getInstance();
+  expressApp.set('trust proxy', 1);
 
   // Security Headers with Helmet
   app.use(helmet({
@@ -98,9 +98,11 @@ async function bootstrap() {
         if (origin.match(/^https?:\/\/localhost:\d+$/)) {
           callback(null, true);
         } else {
+          logger.warn(`CORS blocked origin: ${origin}`);
           callback(new Error('Not allowed by CORS'));
         }
       } else {
+        logger.warn(`CORS blocked origin in production: ${origin}`);
         callback(new Error('Not allowed by CORS'));
       }
     },
@@ -173,23 +175,18 @@ async function bootstrap() {
   const webhookRawBodyMiddleware = express.raw({ type: 'application/json' });
   app.use(
     '/api/stripe/webhook',
-    (req: express.Request, res: express.Response, next: express.NextFunction) => {
-      // Enhanced webhook logging
-      logger.log(`Webhook request received: ${req.method} ${req.originalUrl} from ${req.ip}`);
-      webhookRawBodyMiddleware(req, res, next);
-    },
+    webhookRawBodyMiddleware,
   );
 
   // Security logging
   app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-    // Log suspicious requests
-    if (req.headers['user-agent']?.includes('bot') || 
-        req.headers['user-agent']?.includes('crawler') ||
-        req.path.includes('admin') ||
-        req.path.includes('..') ||
-        req.path.includes('wp-') ||
-        req.path.includes('php')) {
-      logger.warn(`Suspicious request: ${req.method} ${req.path} from ${req.ip} - User-Agent: ${req.headers['user-agent']}`);
+    // Log only critical suspicious requests to reduce log noise
+    if (req.path.includes('..') || 
+        req.path.includes('wp-') || 
+        req.path.includes('.php') ||
+        req.path.includes('admin/') ||
+        (req.headers['user-agent']?.includes('bot') && !req.headers['user-agent']?.includes('Google'))) {
+      logger.warn(`Suspicious request: ${req.method} ${req.path} from ${req.ip}`);
     }
     next();
   });

@@ -74,11 +74,7 @@ export class NotificationsController {
   @ApiResponse({ status: 200, description: 'Connection status retrieved successfully' })
   getConnectionStatus(@Req() req: any) {
     const userId = req.user.id;
-    this.logger.log(`Connection status check requested by user ${userId}`);
-    
     const status = this.notificationsService.getConnectionStatus(userId);
-    
-    this.logger.log(`Connection status for user ${userId}: ${JSON.stringify(status)}`);
     
     return {
       success: true,
@@ -92,7 +88,6 @@ export class NotificationsController {
   @ApiResponse({ status: 200, description: 'Debug connection check completed' })
   async debugForceConnect(@Req() req: any) {
     const userId = req.user.id;
-    this.logger.log(`Debug force connect requested by user ${userId}`);
     
     // Check current connection status
     const status = this.notificationsService.getConnectionStatus(userId);
@@ -131,7 +126,23 @@ export class NotificationsController {
       environment: process.env.NODE_ENV || 'development',
       currentOrigins: {
         frontend: process.env.FRONTEND_URL,
-        admin: process.env.ADMIN_FRONTEND_URL
+        admin: process.env.ADMIN_FRONTEND_URL,
+      }
+    };
+  }
+
+  @Get('test/cors')
+  @ApiOperation({ summary: 'Test CORS configuration' })
+  @ApiResponse({ status: 200, description: 'CORS test successful' })
+  async testCors(@Req() req: any) {
+    return {
+      message: 'CORS is working',
+      origin: req.headers.origin,
+      timestamp: new Date().toISOString(),
+      headers: {
+        'user-agent': req.headers['user-agent'],
+        'origin': req.headers.origin,
+        'referer': req.headers.referer,
       }
     };
   }
