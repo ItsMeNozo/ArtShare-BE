@@ -13,14 +13,17 @@ import { IoAdapter } from '@nestjs/platform-socket.io';
 import { WebSocketJwtAuthGuard } from './auth/websocket-jwt-auth.guard';
 
 async function bootstrap() {
-  const configService = new ConfigService();
+  const app = await NestFactory.create(AppModule, {
+    logger: ['log', 'fatal', 'error', 'warn', 'debug'],
+  });
+  
+  const configService = app.get(ConfigService);
   const isProduction = configService.get<string>('NODE_ENV') === 'production';
   
-  const app = await NestFactory.create(AppModule, {
-    logger: isProduction 
-      ? ['log', 'fatal', 'error', 'warn'] 
-      : ['log', 'fatal', 'error', 'warn', 'debug'],
-  });
+  // Update logger configuration based on environment
+  if (isProduction) {
+    app.useLogger(['log', 'fatal', 'error', 'warn']);
+  }
   
   const port = configService.get<number>('PORT') ?? 3000;
   const logger = new Logger('Bootstrap');
