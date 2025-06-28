@@ -13,7 +13,30 @@ import { NotificationService } from './notification.service';
 @WebSocketGateway({ 
   namespace: '/notifications', 
   cors: {
-    origin: true, // Let the main CORS configuration handle this
+    origin: (origin: string | undefined, callback: (error: Error | null, allow?: boolean) => void) => {
+      const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+      const adminUrl = process.env.ADMIN_FRONTEND_URL || 'http://localhost:1574';
+      const isProduction = process.env.NODE_ENV === 'production';
+      
+      const allowedOrigins = [
+        frontendUrl,
+        adminUrl,
+      ];
+      
+      // Allow same-origin requests and specified origins
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else if (!isProduction) {
+        // In development, allow localhost with any port
+        if (origin.match(/^https?:\/\/localhost:\d+$/)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: ['GET', 'POST'],
     credentials: true,
   },
