@@ -11,7 +11,6 @@ import { ConfigService } from '@nestjs/config';
 import { NotificationService } from './notification.service';
 
 @WebSocketGateway({ 
-  namespace: '/notifications', 
   cors: {
     origin: (origin: string | undefined, callback: (error: Error | null, allow?: boolean) => void) => {
       const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
