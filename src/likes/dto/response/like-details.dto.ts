@@ -1,4 +1,4 @@
-import { TargetType } from "src/common/enum/target-type.enum";
+import { TargetType } from 'src/generated';
 
 export class LikeDetailsDto {
   user_id: string;

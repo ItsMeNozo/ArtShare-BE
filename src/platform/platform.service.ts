@@ -117,8 +117,8 @@ export class PlatformService {
       include: {
         autoProjects: {
           select: {
-            id: true, 
-            title: true, 
+            id: true,
+            title: true,
           },
         },
       },
@@ -141,8 +141,8 @@ export class PlatformService {
       include: {
         autoProjects: {
           select: {
-            id: true, 
-            title: true, 
+            id: true,
+            title: true,
           },
         },
       },

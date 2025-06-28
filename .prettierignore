@@ -1,2 +1,6 @@
 src/metadata.ts
 src/generated/*
+dist
+node_modules
+tsconfig.build.tsbuildinfo
+package-lock.json

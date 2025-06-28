@@ -20,8 +20,9 @@ import { CurrentUser } from 'src/auth/decorators/users.decorator';
 import { Role } from 'src/auth/enums/role.enum';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
-import { Platform, SharePlatform } from 'src/generated';
+import { Platform } from 'src/generated';
 import { CreatePlatformDto } from './dtos/create-platform.dto';
+import { FindAllUserQuery } from './dtos/request/find-all-user-query.dto';
 import { UpdatePlatformConfigDto } from './dtos/update-platform-config.dto';
 import { PlatformService } from './platform.service';
 
@@ -49,8 +50,9 @@ export class PlatformController {
   @Get()
   async findAllForUser(
     @CurrentUser() user: CurrentUserType,
-    @Query('platformName') platformName?: SharePlatform,
+    @Query() query: FindAllUserQuery,
   ): Promise<Platform[]> {
+    const platformName = query.platformName;
     if (platformName) {
       return this.platformService.findPlatformsByUserIdAndName(
         user.id,

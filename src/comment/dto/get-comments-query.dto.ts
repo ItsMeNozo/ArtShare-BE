@@ -1,6 +1,6 @@
-import { IsEnum, IsInt, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
-import { TargetType } from 'src/common/enum/target-type.enum';
+import { IsEnum, IsInt, IsOptional } from 'class-validator';
+import { TargetType } from 'src/generated';
 
 export class GetCommentsQueryDto {
   @Type(() => Number)
@@ -8,7 +8,7 @@ export class GetCommentsQueryDto {
   target_id: number;
 
   @IsEnum(TargetType, {
-    message: `target_type must be one of: ${Object.values(TargetType).join(', ')}`
+    message: `target_type must be one of: ${Object.values(TargetType).join(', ')}`,
   })
   target_type: TargetType;
 
