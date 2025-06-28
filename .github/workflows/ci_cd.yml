@@ -59,13 +59,13 @@ jobs:
         run: yarn audit --level=high
         continue-on-error: true
 
-      - name: Build Docker Image
-        run: |
-          # Build with layer caching for faster builds
-          docker build \
-            --build-arg BUILDKIT_INLINE_CACHE=1 \
-            --cache-from ${{ env.IMAGE_NAME }}:latest \
-            -t ${{ env.IMAGE_NAME }}:test .
+      - name: Build Docker Image with GHA Cache
+        uses: docker/build-push-action@v5
+        with:
+          load: true
+          tags: ${{ env.IMAGE_NAME }}:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Create .env file from secrets context
         env:
