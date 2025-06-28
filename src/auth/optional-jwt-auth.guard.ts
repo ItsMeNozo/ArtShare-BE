@@ -37,7 +37,7 @@ export class OptionalJwtAuthGuard implements CanActivate {
         secret: secret,
       });
       
-      this.logger.debug(`JWT verified successfully: ${JSON.stringify(payload)}`);
+      this.logger.debug(`JWT verified successfully for user: ${payload.userId}`);
       
       // Set user on request with same structure as JwtAuthGuard
       request.user = {
@@ -45,7 +45,7 @@ export class OptionalJwtAuthGuard implements CanActivate {
         id: payload.userId, // Map userId from payload to id
       };
       
-      this.logger.debug(`User set on request: ${JSON.stringify(request.user)}`);
+      this.logger.debug(`User set on request: ${payload.userId}`);
       return true;
     } catch (error: any) {
       this.logger.debug(`JWT verification failed: ${error.message}`);

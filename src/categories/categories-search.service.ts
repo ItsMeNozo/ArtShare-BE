@@ -39,7 +39,7 @@ export class CategoriesSearchService {
         },
       });
 
-      this.logger.debug(`Categories with count data: ${JSON.stringify(categories[0]?._count)}`);
+      this.logger.debug(`Categories with count data: ${categories[0]?._count?.posts || 0} posts`);
       
       const result = categories.map(category => ({
         ...category,
@@ -47,7 +47,7 @@ export class CategoriesSearchService {
         _count: undefined, // Remove the _count object from the response
       })) as CategoryResponseDto[];
       
-      this.logger.debug(`Final result sample: ${JSON.stringify(result[0])}`);
+      this.logger.debug(`Final result: ${result.length} categories returned`);
       return result;
     } else {
       this.logger.debug('Fetching categories WITHOUT post counts for non-admin...');
