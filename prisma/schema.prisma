@@ -455,7 +455,7 @@ model AutoPost {
   auto_project_id Int
   content         String
   image_urls      String[]       @default([])
-  scheduled_at    DateTime
+  scheduled_at    DateTime?
   status          AutoPostStatus @default(PENDING)
   created_at      DateTime       @default(now())
   updated_at      DateTime       @updatedAt

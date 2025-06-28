@@ -1,6 +1,5 @@
 import { IsEnum, IsInt } from 'class-validator';
-import { SharePlatform } from 'src/common/enum/share-platform.enum';
-import { TargetType } from 'src/common/enum/target-type.enum';
+import { SharePlatform, TargetType } from 'src/generated';
 
 export class CreateShareDto {
   @IsInt()
@@ -10,5 +9,5 @@ export class CreateShareDto {
   target_type: TargetType; // e.g., POST or BLOG
 
   @IsEnum(SharePlatform)
-  share_platform: SharePlatform; // e.g., FACEBOOK, TWITTER, etc.
+  share_platform: SharePlatform;
 }

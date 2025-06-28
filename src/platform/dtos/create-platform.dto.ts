@@ -28,8 +28,8 @@ export class CreatePlatformDto {
   @IsString()
   userId: string;
 
-  @IsNotEmpty()
   @IsEnum(SharePlatform)
+  @IsNotEmpty()
   name: SharePlatform;
 
   @IsNotEmpty()

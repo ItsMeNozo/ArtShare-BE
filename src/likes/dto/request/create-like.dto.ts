@@ -1,5 +1,5 @@
-import { IsInt, IsEnum } from 'class-validator';
-import { TargetType } from 'src/common/enum/target-type.enum';
+import { IsEnum, IsInt } from 'class-validator';
+import { TargetType } from 'src/generated';
 
 export class CreateLikeDto {
   @IsInt()

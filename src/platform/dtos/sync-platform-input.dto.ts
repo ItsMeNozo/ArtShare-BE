@@ -1,3 +1,4 @@
+import { IsEnum } from 'class-validator';
 import { SharePlatform } from 'src/generated';
 
 export interface ApiPageData {
@@ -12,7 +13,10 @@ export interface ApiPageData {
 
 export class SyncPlatformInputDto {
   userId: string;
+
+  @IsEnum(SharePlatform)
   platformName: SharePlatform;
+
   pagesFromApi: ApiPageData[];
   facebookAccountId: number;
 }

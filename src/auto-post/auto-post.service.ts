@@ -11,10 +11,13 @@ import { ConfigService } from '@nestjs/config';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
+import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
+import { generatePaginatedResponse } from 'src/common/helpers/pagination.helper';
 import { EncryptionService } from 'src/encryption/encryption.service';
 import { AutoPost, AutoPostStatus, Prisma, SharePlatform } from 'src/generated';
 import { PlatformPageConfig } from 'src/platform/dtos/platform-config.interface.js';
 import { PrismaService } from 'src/prisma.service';
+import { StorageService } from 'src/storage/storage.service';
 import {
   GetAutoPostsQueryDto,
   ScheduleAutoPostDto,
@@ -37,6 +40,7 @@ export class AutoPostService {
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
     private readonly encryptionService: EncryptionService,
+    private readonly storageService: StorageService,
   ) {
     this.n8nExecutePostWebhookUrl = this.configService.get<string>(
       'N8N_EXECUTE_FACEBOOK_POST_WEBHOOK_URL',
@@ -100,7 +104,7 @@ export class AutoPostService {
 
   async getAllAutoPosts(
     query: GetAutoPostsQueryDto,
-  ): Promise<{ data: AutoPost[]; count: number }> {
+  ): Promise<PaginatedResponseDto<AutoPost>> {
     this.logger.log('Fetching all AutoPosts with query:', query);
     const {
       page = 1,
@@ -133,10 +137,10 @@ export class AutoPostService {
       this.prisma.autoPost.count({ where }),
     ]);
 
-    return {
-      data: posts,
-      count,
-    };
+    return generatePaginatedResponse(posts, count, {
+      page,
+      limit,
+    });
   }
 
   async updateAutoPost(id: number, dto: UpdateAutoPostDto): Promise<AutoPost> {
@@ -156,7 +160,17 @@ export class AutoPostService {
     if (dto.content !== undefined) dataToUpdate.content = dto.content;
     if (dto.scheduledAt !== undefined)
       dataToUpdate.scheduled_at = new Date(dto.scheduledAt);
-    if (dto.imageUrls !== undefined) dataToUpdate.image_urls = dto.imageUrls;
+    if (dto.imageUrls !== undefined) {
+      dataToUpdate.image_urls = dto.imageUrls;
+
+      const existingImageUrls = existingPost.image_urls || [];
+      const urlsToDelete = existingImageUrls.filter(
+        (url) => !dto.imageUrls!.includes(url),
+      );
+      if (urlsToDelete.length > 0) {
+        this.storageService.deleteFiles(urlsToDelete);
+      }
+    }
 
     const hasSubstantiveChanges =
       dto.content || dto.scheduledAt || dto.imageUrls;
