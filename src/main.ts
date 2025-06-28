@@ -14,12 +14,18 @@ import { WebSocketJwtAuthGuard } from './auth/websocket-jwt-auth.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    logger: ['log', 'fatal', 'error', 'warn', 'debug', 'verbose'],
+    logger: ['log', 'fatal', 'error', 'warn', 'debug'],
   });
   
   const configService = app.get(ConfigService);
-  const port = configService.get<number>('PORT') ?? 3000;
   const isProduction = configService.get<string>('NODE_ENV') === 'production';
+  
+  // Update logger configuration based on environment
+  if (isProduction) {
+    app.useLogger(['log', 'fatal', 'error', 'warn']);
+  }
+  
+  const port = configService.get<number>('PORT') ?? 3000;
   const logger = new Logger('Bootstrap');
 
   // Configure Socket.IO adapter for WebSocket support
@@ -85,24 +91,32 @@ async function bootstrap() {
   // Enable CORS with security considerations
   app.enableCors({
     origin: (origin: string | undefined, callback: (error: Error | null, allow?: boolean) => void) => {
+      const frontendUrl = configService.get<string>('FRONTEND_URL') || 'http://localhost:5173';
+      const adminUrl = configService.get<string>('ADMIN_FRONTEND_URL') || 'http://localhost:1574';
+      
       const allowedOrigins = [
-        configService.get<string>('FRONTEND_URL') || 'http://localhost:5173',
-        configService.get<string>('ADMIN_FRONTEND_URL') || 'http://localhost:1574',
+        frontendUrl,
+        adminUrl,
+        // Add production URLs explicitly as fallback
+        'https://artsharezone-black.vercel.app',
+        'https://artsharebe.id.vn',
       ];
       
       // Allow same-origin requests and specified origins
       if (!origin || allowedOrigins.includes(origin)) {
+        logger.log(`CORS allowed origin: ${origin || 'same-origin'}`);
         callback(null, true);
       } else if (!isProduction) {
         // In development, allow localhost with any port
         if (origin.match(/^https?:\/\/localhost:\d+$/)) {
+          logger.log(`CORS allowed localhost origin: ${origin}`);
           callback(null, true);
         } else {
-          logger.warn(`CORS blocked origin: ${origin}`);
+          logger.warn(`CORS blocked origin in development: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`);
           callback(new Error('Not allowed by CORS'));
         }
       } else {
-        logger.warn(`CORS blocked origin in production: ${origin}`);
+        logger.warn(`CORS blocked origin in production: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`);
         callback(new Error('Not allowed by CORS'));
       }
     },

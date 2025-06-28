@@ -28,7 +28,7 @@ export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
       roles: payload.roles,
     };
     
-    this.logger.debug(`AT Strategy returning: ${JSON.stringify(result)}`);
+    this.logger.debug(`AT Strategy returning user: ${payload.userId}`);
     return result;
   }
 }
