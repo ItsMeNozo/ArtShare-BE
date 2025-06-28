@@ -74,7 +74,6 @@ export class UsageService {
       );
     }
 
-    this.logger.debug('@@@@@@@@ userUsage', usage);
     return usage;
   }
 
@@ -91,7 +90,6 @@ export class UsageService {
       throw new InternalServerErrorException('User access not found');
     }
 
-    this.logger.debug('@@@@@@@@ userAccess', userAccess);
     return userAccess;
   }
 }
