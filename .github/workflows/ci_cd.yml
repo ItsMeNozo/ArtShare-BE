@@ -109,9 +109,19 @@ jobs:
           for i in {1..30}; do
             if docker exec test-container curl -f http://localhost:3000/ >/dev/null 2>&1; then
               echo "✅ Container is healthy and responding!"
-              docker logs test-container
-              docker stop test-container
-              exit 0
+
+              if docker exec test-container curl -f http://localhost:3000/api/swagger-ui-init.js >/dev/null 2>&1; then
+                echo "✅ Swagger UI is initialized and accessible."
+                docker logs test-container
+                docker stop test-container
+                exit 0
+              else
+                echo "❌ Swagger UI initialization failed!"
+                docker logs test-container
+                docker stop test-container
+                exit 1
+              fi
+              
             fi
             echo "Waiting... (attempt $i/30)"
             sleep 5
