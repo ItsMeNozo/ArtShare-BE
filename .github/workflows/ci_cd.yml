@@ -109,7 +109,6 @@ jobs:
             ${{ env.IMAGE_NAME }}:test
 
           echo "⏳ Waiting for container to start and pass health check..."
-          sleep 10 
           for i in {1..30}; do
             if docker exec test-container curl -f http://localhost:3000/ >/dev/null 2>&1; then
               echo "✅ Container is responsive."
