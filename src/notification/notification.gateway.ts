@@ -37,7 +37,7 @@ export class NotificationsGateway
   ) {}
 
   async handleConnection(client: Socket) {
-    this.logger.log(`WebSocket connection from: ${client.handshake.headers.origin}`);
+    this.logger.log(`WebSocket connection from origin: ${client.handshake.headers.origin}, IP: ${client.handshake.address}, Socket ID: ${client.id}`);
     
     try {
       // Manually verify the JWT token since guards have timing issues with handleConnection

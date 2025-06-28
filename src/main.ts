@@ -186,7 +186,7 @@ async function bootstrap() {
         req.path.includes('.php') ||
         req.path.includes('admin/') ||
         (req.headers['user-agent']?.includes('bot') && !req.headers['user-agent']?.includes('Google'))) {
-      logger.warn(`Suspicious request: ${req.method} ${req.path} from ${req.ip}`);
+      logger.warn(`Suspicious request: ${req.method} ${req.path} from ${req.ip}, User-Agent: ${req.headers['user-agent'] || 'Unknown'}`);
     }
     next();
   });
