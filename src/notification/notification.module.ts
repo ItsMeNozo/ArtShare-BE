@@ -5,6 +5,7 @@ import { NotificationsController } from './notification.controller';
 import { NotificationsGateway } from './notification.gateway';
 import { AuthModule } from 'src/auth/auth.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { CorsService } from '../common/cors.service';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     ConfigModule,
   ],
   controllers: [NotificationsController],
-  providers: [NotificationService, NotificationsGateway],
+  providers: [NotificationService, NotificationsGateway, CorsService],
   exports: [NotificationService, NotificationsGateway],
 })
 export class NotificationModule {}
