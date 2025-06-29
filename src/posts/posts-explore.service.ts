@@ -54,7 +54,7 @@ export class PostsExploreService {
         : {};
 
     const [posts, total] = await Promise.all([
-      await this.prisma.post.findMany({
+      this.prisma.post.findMany({
         where: whereClause,
         orderBy: [{ share_count: 'desc' }, { id: 'desc' }],
         take: limit,
@@ -97,7 +97,7 @@ export class PostsExploreService {
     };
 
     const [posts, total] = await Promise.all([
-      await this.prisma.post.findMany({
+      this.prisma.post.findMany({
         where: whereClause,
         skip,
         take: limit,
