@@ -9,47 +9,45 @@ import { forwardRef, Inject, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { NotificationService } from './notification.service';
+import { CorsService } from '../common/cors.service';
 
 @WebSocketGateway({ 
   cors: {
     origin: (origin: string | undefined, callback: (error: Error | null, allow?: boolean) => void) => {
-      // Use the same CORS logic as main.ts for consistency
-      const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-      const adminUrl = process.env.ADMIN_FRONTEND_URL || 'http://localhost:1574';
-      const isProduction = process.env.NODE_ENV === 'production';
+      // Use static methods from CorsService for consistency
+      const isProduction = CorsService.isProductionStatic();
+      const allowedOrigins = CorsService.getAllowedOriginsStatic();
       
-      const allowedOrigins = [
-        frontendUrl,
-        adminUrl,
-        // Add production URLs explicitly as fallback
-        'https://artsharezone-black.vercel.app',
-      ];
+      // Use a static logger since this runs before class instantiation
+      const logger = NotificationsGateway.getStaticLogger();
       
-      // Debug logging for WebSocket CORS
-      console.log(`=== WebSocket CORS DEBUG ===`);
-      console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
-      console.log(`isProduction: ${isProduction}`);
-      console.log(`FRONTEND_URL from env: ${process.env.FRONTEND_URL}`);
-      console.log(`ADMIN_FRONTEND_URL from env: ${process.env.ADMIN_FRONTEND_URL}`);
-      console.log(`WebSocket origin: ${origin}`);
-      console.log(`Allowed origins: ${allowedOrigins.join(', ')}`);
-      console.log(`=== END WebSocket CORS DEBUG ===`);
+      // Debug logging for WebSocket CORS (only in non-production)
+      if (!isProduction) {
+        logger.debug(`=== WebSocket CORS DEBUG ===`);
+        logger.debug(`NODE_ENV: ${process.env.NODE_ENV}`);
+        logger.debug(`isProduction: ${isProduction}`);
+        logger.debug(`FRONTEND_URL from env: ${process.env.FRONTEND_URL}`);
+        logger.debug(`ADMIN_FRONTEND_URL from env: ${process.env.ADMIN_FRONTEND_URL}`);
+        logger.debug(`WebSocket origin: ${origin}`);
+        logger.debug(`Allowed origins: ${allowedOrigins.join(', ')}`);
+        logger.debug(`=== END WebSocket CORS DEBUG ===`);
+      }
       
       // Allow same-origin requests and specified origins
       if (!origin || allowedOrigins.includes(origin)) {
-        console.log(`✅ WebSocket CORS allowed origin: ${origin || 'same-origin'}`);
+        logger.log(`✅ WebSocket CORS allowed origin: ${origin || 'same-origin'}`);
         callback(null, true);
       } else if (!isProduction) {
         // In development, allow localhost with any port
         if (origin.match(/^https?:\/\/localhost:\d+$/)) {
-          console.log(`✅ WebSocket CORS allowed localhost origin: ${origin}`);
+          logger.log(`✅ WebSocket CORS allowed localhost origin: ${origin}`);
           callback(null, true);
         } else {
-          console.warn(`❌ WebSocket CORS blocked origin in development: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`);
+          logger.warn(`❌ WebSocket CORS blocked origin in development: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`);
           callback(new Error('Not allowed by CORS'));
         }
       } else {
-        console.warn(`❌ WebSocket CORS blocked origin in production: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`);
+        logger.warn(`❌ WebSocket CORS blocked origin in production: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`);
         callback(new Error('Not allowed by CORS'));
       }
     },
@@ -65,9 +63,17 @@ export class NotificationsGateway
   @WebSocketServer()
   server: Server;
 
+  // Static logger for use in decorator context
+  private static readonly staticLogger = new Logger('NotificationsGateway');
+
   // Changed to store multiple connections per user
   private connectedClients = new Map<string, Set<Socket>>();
   private readonly logger = new Logger(NotificationsGateway.name);
+
+  // Static method to access the logger from decorator context
+  static getStaticLogger() {
+    return NotificationsGateway.staticLogger;
+  }
 
   constructor(
     @Inject(forwardRef(() => NotificationService)) private readonly notificationService: NotificationService,

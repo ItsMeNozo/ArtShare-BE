@@ -3,13 +3,17 @@
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
-# Check if TRANSFORMERS_CACHE is set. If not, set it to the default /app/.cache
-# This is the core logic. It uses the value of the variable if it exists,
-# otherwise it uses the value after `:-`.
-export TRANSFORMERS_CACHE=${TRANSFORMERS_CACHE:-/app/.cache}
+# Set up transformers cache directories with fallbacks
+export TRANSFORMERS_CACHE=${TRANSFORMERS_CACHE:-/app/.transformers-cache}
+export HF_HOME=${HF_HOME:-/app/.transformers-cache}
+export HF_DATASETS_CACHE=${HF_DATASETS_CACHE:-/app/.transformers-cache}
 
-# Log the value being used for easier debugging.
+# Ensure cache directories exist and are writable
+mkdir -p "${TRANSFORMERS_CACHE}" "${HF_HOME}" "${HF_DATASETS_CACHE}"
+
+# Log the values being used for easier debugging.
 echo "[entrypoint.sh] Using TRANSFORMERS_CACHE: ${TRANSFORMERS_CACHE}"
+echo "[entrypoint.sh] Using HF_HOME: ${HF_HOME}"
 
 # --- Run Prisma migrations before starting the app ---
 echo "[entrypoint.sh] Running database migrations..."
