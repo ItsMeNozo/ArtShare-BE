@@ -1,4 +1,6 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { UpdatePostDto } from './dto/request/update-post.dto';
@@ -123,47 +125,39 @@ export class PostsAdminService {
     };
   }
 
-  async getAllPostsForAdmin(params: {
-    page: number;
-    pageSize: number;
-    searchTerm?: string;
-    userId?: string;
-    isPublished?: boolean;
-    isPrivate?: boolean;
-    sortBy: string;
-    sortOrder: 'asc' | 'desc';
-    categoryId?: number;
-  }): Promise<{ posts: AdminPostListItemDto[]; total: number }> {
+  async getAllPostsForAdmin(
+    params: PaginationQueryDto,
+  ): Promise<PaginatedResponse<AdminPostListItemDto>> {
     const {
-      page,
-      pageSize,
-      searchTerm,
-      userId,
-      isPublished,
-      isPrivate,
-      sortBy,
-      sortOrder,
-      categoryId,
+      page = 1,
+      limit = 10,
+      search,
+      sortBy = 'created_at',
+      sortOrder = 'desc',
+      filter,
     } = params;
-    const skip = (page - 1) * pageSize;
+
+    const { userId, isPublished, isPrivate, categoryId, aiCreated } =
+      filter || {};
+
+    const skip = (page - 1) * limit;
     const where: Prisma.PostWhereInput = {};
 
-    if (searchTerm) {
+    if (search) {
       where.OR = [
-        { title: { contains: searchTerm, mode: 'insensitive' } },
-        { description: { contains: searchTerm, mode: 'insensitive' } },
-        { user: { username: { contains: searchTerm, mode: 'insensitive' } } },
+        { title: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+        { user: { username: { contains: search, mode: 'insensitive' } } },
       ];
     }
     if (userId) where.user_id = userId;
     if (isPublished !== undefined) where.is_published = isPublished;
     if (isPrivate !== undefined) where.is_private = isPrivate;
     if (categoryId) {
-      where.categories = {
-        some: {
-          id: categoryId,
-        },
-      };
+      where.categories = { some: { id: categoryId } };
+    }
+    if (aiCreated !== undefined) {
+      where.ai_created = aiCreated;
     }
 
     const validSortByFields = [
@@ -178,19 +172,31 @@ export class PostsAdminService {
       ? sortBy
       : 'created_at';
 
-    const prismaPosts = await this.prisma.post.findMany({
-      where,
-      skip,
-      take: pageSize,
-      orderBy: { [orderByField]: sortOrder },
-      include: { user: true, categories: true },
-    });
+    const [prismaPosts, total] = await this.prisma.$transaction([
+      this.prisma.post.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { [orderByField]: sortOrder },
+        include: { user: true, categories: true },
+      }),
+      this.prisma.post.count({ where }),
+    ]);
 
-    const total = await this.prisma.post.count({ where });
     const responsePosts: AdminPostListItemDto[] = prismaPosts.map((p) =>
-      this.mapPrismaPostToAdminPostListItemDto(p as PrismaPostForList),
+      this.mapPrismaPostToAdminPostListItemDto(p as any),
     );
-    return { posts: responsePosts, total };
+
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      data: responsePosts,
+      total,
+      page,
+      limit,
+      totalPages,
+      hasNextPage: page < totalPages,
+    };
   }
 
   async updatePostByAdmin(
