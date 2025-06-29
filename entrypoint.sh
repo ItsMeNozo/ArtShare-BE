@@ -9,7 +9,7 @@ export HF_HOME=${HF_HOME:-/app/.transformers-cache}
 export HF_DATASETS_CACHE=${HF_DATASETS_CACHE:-/app/.transformers-cache}
 
 # Ensure cache directories exist and are writable
-mkdir -p "${TRANSFORMERS_CACHE}" "${HF_HOME}"
+mkdir -p "${TRANSFORMERS_CACHE}" "${HF_HOME}" "${HF_DATASETS_CACHE}"
 
 # Log the values being used for easier debugging.
 echo "[entrypoint.sh] Using TRANSFORMERS_CACHE: ${TRANSFORMERS_CACHE}"
