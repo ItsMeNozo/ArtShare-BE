@@ -1,4 +1,4 @@
-export class PaginatedResponseDto<T> {
+export class PaginatedResponse<T> {
   readonly data: T[];
   readonly total: number | null;
   readonly page: number;

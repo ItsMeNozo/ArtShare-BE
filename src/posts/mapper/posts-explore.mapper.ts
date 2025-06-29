@@ -1,7 +1,7 @@
 import { plainToInstance } from 'class-transformer';
 import { Prisma } from 'src/generated';
 import { PostDetailsResponseDto } from '../dto/response/post-details.dto';
-import { PostListItemResponseDto } from '../dto/response/post-list-item.dto';
+import { PostListItemResponse } from '../dto/response/post-list-item.dto';
 
 export type PostWithRelations = Prisma.PostGetPayload<{
   include: {
@@ -14,7 +14,7 @@ export type PostWithRelations = Prisma.PostGetPayload<{
 
 export const mapPostListToDto = (
   posts: PostWithRelations[],
-): PostListItemResponseDto[] => {
+): PostListItemResponse[] => {
   const pojos = posts.map((p) => {
     const { likes, ...rest } = p;
     return {
@@ -23,7 +23,7 @@ export const mapPostListToDto = (
     };
   });
 
-  return plainToInstance(PostListItemResponseDto, pojos);
+  return plainToInstance(PostListItemResponse, pojos);
 };
 
 export const mapPostToDto = (

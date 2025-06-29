@@ -1,41 +1,36 @@
 import {
+  BadRequestException,
+  Body,
   Controller,
   Get,
-  Post,
-  Body,
-  Param,
-  UseGuards,
-  Patch,
   HttpCode,
   HttpStatus,
-  BadRequestException,
+  Param,
+  Patch,
+  Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UserProfileDTO } from './dto/user-profile.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from 'src/auth/decorators/users.decorator';
-import { UpdateUserDTO } from './dto/update-users.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
-import {
-  ApiBody,
-  ApiOperation,
-  ApiTags,
-  ApiBearerAuth,
-} from '@nestjs/swagger';
 import {
   FollowUserResponseDto,
   UnfollowUserResponseDto,
 } from 'src/common/dto/api-response.dto';
+import { UpdateUserDTO } from './dto/update-users.dto';
+import { UserProfileDTO } from './dto/user-profile.dto';
+import { UserService } from './user.service';
 
-import { FollowerDto } from './dto/follower.dto';
-import { UserFollowService } from './user.follow.service';
-import { UserProfileMeDTO } from './dto/get-user-me.dto';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { UserReadService } from './user-read.service';
-import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
-import { PublicUserSearchResponseDto } from './dto/response/search-users.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { FollowerDto } from './dto/follower.dto';
+import { UserProfileMeDTO } from './dto/get-user-me.dto';
+import { PublicUserSearchResponseDto } from './dto/response/search-users.dto';
+import { UserReadService } from './user-read.service';
+import { UserFollowService } from './user.follow.service';
 
 @ApiTags('Users')
 @Controller('users')
@@ -53,7 +48,7 @@ export class UserController {
   async searchUsers(
     @Query() paginationQuery: PaginationQueryDto,
     @CurrentUser() user: CurrentUserType,
-  ): Promise<PaginatedResponseDto<PublicUserSearchResponseDto>> {
+  ): Promise<PaginatedResponse<PublicUserSearchResponseDto>> {
     return this.userReadService.searchUsers(paginationQuery, user?.id);
   }
 

@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
+import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
 import { generatePaginatedResponse } from 'src/common/helpers/pagination.helper';
 import { TryCatch } from 'src/common/try-catch.decorator';
 import { Prisma } from 'src/generated';
@@ -22,7 +22,7 @@ export class AutoProjectReadService {
   async findAll(
     query: GetProjectsQuery,
     userId: string,
-  ): Promise<PaginatedResponseDto<AutoProjectListItemDto>> {
+  ): Promise<PaginatedResponse<AutoProjectListItemDto>> {
     const {
       page = 1,
       limit = 10,

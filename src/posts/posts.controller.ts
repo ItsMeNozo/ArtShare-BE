@@ -23,18 +23,20 @@ import { CurrentUser } from 'src/auth/decorators/users.decorator';
 import { Role } from 'src/auth/enums/role.enum';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
+import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
 import { SyncEmbeddingResponseDto } from 'src/common/response/sync-embedding.dto';
 import { TargetType } from 'src/generated';
 import { LikingUserResponseDto } from 'src/likes/dto/response/liking-user-response.dto';
 import { LikesService } from 'src/likes/likes.service';
 import { CreatePostRequestDto } from './dto/request/create-post.dto';
 import { GetAllPostsAdminQueryDto } from './dto/request/get-all-posts-admin.dto';
+import { GetPostsDto } from './dto/request/get-posts.dto';
 import { PatchThumbnailDto } from './dto/request/patch-thumbnail.dto';
 import { SearchPostDto } from './dto/request/search-post.dto';
 import { UpdatePostDto } from './dto/request/update-post.dto';
 import { GeneratePostMetadataResponseDto } from './dto/response/generate-post-metadata.dto';
 import { PostDetailsResponseDto } from './dto/response/post-details.dto';
-import { PostListItemResponseDto } from './dto/response/post-list-item.dto';
+import { PostListItemResponse } from './dto/response/post-list-item.dto';
 import { AdminPostListItemDto, PostsAdminService } from './posts-admin.service';
 import { PostsEmbeddingService } from './posts-embedding.service';
 import { PostsExploreService } from './posts-explore.service';
@@ -90,39 +92,25 @@ export class PostsController {
   async searchPosts(
     @Query() query: SearchPostDto,
     @CurrentUser() user?: CurrentUserType,
-  ): Promise<PostListItemResponseDto[]> {
+  ): Promise<PaginatedResponse<PostListItemResponse>> {
     return this.postsExploreService.searchPosts(query, user?.id ?? '');
   }
 
   @Public()
-  @Post('for-you')
+  @Get('for-you')
   async getForYouPosts(
-    @Body() body: { page: number; page_size: number; filter: string[] },
+    @Query() query: GetPostsDto,
     @CurrentUser() user?: CurrentUserType,
-  ): Promise<PostListItemResponseDto[]> {
-    const { page = 1, page_size = 25, filter } = body;
-
-    return this.postsExploreService.getForYouPosts(
-      user?.id ?? '',
-      page,
-      page_size,
-      filter,
-    );
+  ): Promise<PaginatedResponse<PostListItemResponse>> {
+    return this.postsExploreService.getForYouPosts(user?.id ?? '', query);
   }
 
-  @Post('following')
+  @Get('following')
   async getFollowingPosts(
-    @Body() body: { page: number; page_size: number; filter: string[] },
+    @Query() query: GetPostsDto,
     @CurrentUser() user: CurrentUserType,
-  ): Promise<PostListItemResponseDto[]> {
-    const { page = 1, page_size = 24, filter } = body;
-
-    return this.postsExploreService.getFollowingPosts(
-      user.id,
-      page,
-      page_size,
-      filter,
-    );
+  ): Promise<PaginatedResponse<PostListItemResponse>> {
+    return this.postsExploreService.getFollowingPosts(user.id, query);
   }
 
   @Public()
@@ -131,7 +119,7 @@ export class PostsController {
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
     @Query('page_size', new DefaultValuePipe(25), ParseIntPipe)
     pageSize: number,
-  ): Promise<PostListItemResponseDto[]> {
+  ): Promise<PostListItemResponse[]> {
     return this.postsExploreService.getAiTrendingPosts(page, pageSize);
   }
 
@@ -152,7 +140,7 @@ export class PostsController {
     @Query('page_size', new DefaultValuePipe(25), ParseIntPipe)
     pageSize: number,
     @CurrentUser() user?: CurrentUserType,
-  ): Promise<PostListItemResponseDto[]> {
+  ): Promise<PostListItemResponse[]> {
     return this.postsExploreService.findPostsByUsername(
       username,
       page,
@@ -182,7 +170,7 @@ export class PostsController {
     @Query('page_size', new DefaultValuePipe(25), ParseIntPipe)
     pageSize: number,
     @CurrentUser() user?: CurrentUserType,
-  ): Promise<PostListItemResponseDto[]> {
+  ): Promise<PostListItemResponse[]> {
     return this.postsExploreService.getRelevantPosts(
       postId,
       page,
