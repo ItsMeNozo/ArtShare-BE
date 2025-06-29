@@ -24,12 +24,12 @@ import { Role } from 'src/auth/enums/role.enum';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
 import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { SyncEmbeddingResponseDto } from 'src/common/response/sync-embedding.dto';
 import { TargetType } from 'src/generated';
 import { LikingUserResponseDto } from 'src/likes/dto/response/liking-user-response.dto';
 import { LikesService } from 'src/likes/likes.service';
 import { CreatePostRequestDto } from './dto/request/create-post.dto';
-import { GetAllPostsAdminQueryDto } from './dto/request/get-all-posts-admin.dto';
 import { GetPostsDto } from './dto/request/get-posts.dto';
 import { PatchThumbnailDto } from './dto/request/patch-thumbnail.dto';
 import { SearchPostDto } from './dto/request/search-post.dto';
@@ -222,34 +222,9 @@ export class PostsController {
         forbidNonWhitelisted: true,
       }),
     )
-    queryDto: GetAllPostsAdminQueryDto,
-  ): Promise<{ posts: AdminPostListItemDto[]; total: number }> {
-    const params = {
-      page: queryDto.page ?? 1,
-      pageSize: queryDto.pageSize ?? 10,
-      searchTerm: queryDto.searchTerm,
-      userId: queryDto.userId,
-
-      isPublished:
-        queryDto.isPublished === 'true'
-          ? true
-          : queryDto.isPublished === 'false'
-            ? false
-            : undefined,
-      isPrivate:
-        queryDto.isPrivate === 'true'
-          ? true
-          : queryDto.isPrivate === 'false'
-            ? false
-            : undefined,
-      sortBy: queryDto.sortBy ?? 'created_at',
-      sortOrder: queryDto.sortOrder ?? 'desc',
-      categoryId: queryDto.categoryId,
-    };
-
-    return this.postsAdminService.getAllPostsForAdmin(
-      params /*, adminUser.id */,
-    );
+    queryDto: PaginationQueryDto,
+  ): Promise<PaginatedResponse<AdminPostListItemDto>> {
+    return this.postsAdminService.getAllPostsForAdmin(queryDto);
   }
 
   @Patch('admin/:post_id')
