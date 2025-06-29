@@ -1,13 +1,20 @@
-# Git
+# =========================================
+# Version Control & CI/CD
+# =========================================
 .git
 .gitignore
-.github
+.github/
 
-# Docker
+# =========================================
+# Docker-related files
+# =========================================
 .dockerignore
 Dockerfile
+base.Dockerfile
 
-# Node
+# =========================================
+# Node.js generated folders and logs
+# =========================================
 node_modules
 dist
 .cache
@@ -16,14 +23,34 @@ yarn-debug.log*
 yarn-error.log*
 *.tsbuildinfo
 
-# Environment
+# =========================================
+# Environment & Secrets
+# =========================================
 .env
 .env.*
 !/.env.example
 
-# IDEs and OS files
-.idea
-.vscode
+# =========================================
+# Project-specific files not needed in production
+# =========================================
+test/
+mock-data.sql
+README.md
+# You use yarn.lock, so ignore the npm lockfile
+package-lock.json
+
+# =========================================
+# Linting and Formatting (Dev tools)
+# =========================================
+.eslintrc.js
+.prettierrc
+.prettierignore
+
+# =========================================
+# IDE & OS specific files
+# =========================================
+.idea/
+.vscode/
 *.suo
 *.user
 *.userosscache

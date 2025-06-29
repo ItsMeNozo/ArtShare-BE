@@ -16,12 +16,27 @@ env:
   VOLUME_NAME: artshare_model_cache
 
 jobs:
-  # ==================================
-  #      CI Job: Build and Test
-  # ==================================
-  # This job runs on every push and PR to main.
-  # It builds the app, runs checks, and pushes a Docker image.
+  static-analysis:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'yarn'
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run Linting
+        run: yarn lint
+      - name: Audit for High Severity Vulnerabilities
+        run: yarn audit --level=high
+        continue-on-error: true
+
   build-and-test:
+    name: Build and Verify Container
     runs-on: ubuntu-latest
     env:
       SECRETS_CONTEXT: ${{ toJSON(secrets) }}
@@ -29,41 +44,20 @@ jobs:
     services:
       postgres:
         image: postgres:15-alpine
-        env:
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test
-          POSTGRES_DB: test
-        ports:
-          - 5432:5432 # Expose port 5432 on the runner
+        env: { POSTGRES_USER: test, POSTGRES_PASSWORD: test, POSTGRES_DB: test }
+        ports: ['5432:5432']
         options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Use Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'yarn'
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Run Linting
-        run: yarn lint
-
-      - name: Audit Dependencies
-        run: yarn audit --level=high
-        continue-on-error: true
-
-      - name: Build Project (Production)
-        env: { NODE_ENV: production }
-        run: yarn build
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Build Docker Image
         run: |
@@ -93,55 +87,75 @@ jobs:
       - name: Verify Container in a Production-like Environment
         run: |
           echo "🧪 Starting full container verification..."
+          function handle_failure() {
+            echo "❌ Verification failed: $1"
+            echo "--- Container Logs ---"
+            docker logs test-container
+            echo "----------------------"
+            docker stop test-container
+            exit 1
+          }
 
 
-          # Run the container, connecting it to the service database
           # The container's entrypoint.sh will automatically run migrations
           docker run -d --name test-container \
             -p 3000:3000 \
             --add-host=host.docker.internal:host-gateway \
             --env-file .env.ci \
+            -e ENABLE_SWAGGER_FOR_CI=true \
             ${{ env.IMAGE_NAME }}:test
 
-          # Wait for the application to become healthy
           echo "⏳ Waiting for container to start and pass health check..."
-          sleep 10  # Initial wait for container to start
           for i in {1..30}; do
             if docker exec test-container curl -f http://localhost:3000/ >/dev/null 2>&1; then
-              echo "✅ Container is healthy and responding!"
-              docker logs test-container
-              docker stop test-container
-              exit 0
+              echo "✅ Container is responsive."
+
+              if docker exec test-container curl -f http://localhost:3000/api/swagger-ui-init.js >/dev/null 2>&1; then
+                echo "✅ Swagger UI is accessible."
+                echo "✅ All container checks passed!"
+                docker stop test-container
+                exit 0
+              fi
+              
+              handle_failure "Swagger UI endpoint is not accessible."
             fi
             echo "Waiting... (attempt $i/30)"
             sleep 5
           done
 
-          echo "❌ Container verification failed!"
-          docker logs test-container
-          docker stop test-container
-          exit 1
+          handle_failure "Container never became healthy."
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Push to Docker Hub
-        # This step only runs on pushes to main to protect the 'latest' tag
+      - name: Login and Push to Docker Hub
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          SHORT_SHA=$(git rev-parse --short HEAD)
-          docker tag ${{ env.IMAGE_NAME }}:test ${{ env.IMAGE_NAME }}:${SHORT_SHA}
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin  
+
+          echo "🏷️  Tagging image with 'latest' and '${{ github.sha }}'"
           docker tag ${{ env.IMAGE_NAME }}:test ${{ env.IMAGE_NAME }}:${{ github.sha }}
           docker tag ${{ env.IMAGE_NAME }}:test ${{ env.IMAGE_NAME }}:latest
-          echo "📤 Pushing the following tags: latest, ${SHORT_SHA}, ${{ github.sha }}"
+
+          echo "📤 Pushing all tags to Docker Hub..."
           docker push --all-tags ${{ env.IMAGE_NAME }}
 
       - name: Report Status
         run: echo "✅ CI Job Completed."
 
+  ci-result:
+    name: CI Result
+    runs-on: ubuntu-latest
+    needs: [static-analysis, build-and-test]
+    if: always()
+    steps:
+      - name: Check status of previous jobs
+        run: |
+          echo "Static Analysis Result: ${{ needs.static-analysis.result }}"
+          echo "Build and Test Result: ${{ needs.build-and-test.result }}"
+          if [[ "${{ needs.static-analysis.result }}" == "failure" || "${{ needs.build-and-test.result }}" == "failure" ]]; then
+            echo "❌ One or more jobs failed."
+            exit 1
+          else
+            echo "✅ All jobs passed."
+          fi
   # ==================================
   #      CD Job: Deploy
   # ==================================
