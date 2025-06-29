@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
+import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { generatePaginatedResponse } from 'src/common/helpers/pagination.helper';
 import { Prisma } from 'src/generated';
@@ -14,7 +14,7 @@ export class UserReadService {
   async searchUsers(
     query: PaginationQueryDto,
     currentUserId?: string,
-  ): Promise<PaginatedResponseDto<PublicUserSearchResponseDto>> {
+  ): Promise<PaginatedResponse<PublicUserSearchResponseDto>> {
     const { page = 1, limit = 10, search } = query;
     const skip = (page - 1) * limit;
 

@@ -15,7 +15,7 @@ import {
 import { CurrentUser } from 'src/auth/decorators/users.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
-import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
+import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
 import { AutoProjectReadService } from './auto-project-read.service';
 import { AutoProjectWriteService } from './auto-project-write.service';
 import { CreateAutoProjectDto } from './dto/request/create-project.dto';
@@ -44,7 +44,7 @@ export class AutoProjectController {
   async findAll(
     @Query() query: GetProjectsQuery,
     @CurrentUser() user: CurrentUserType,
-  ): Promise<PaginatedResponseDto<AutoProjectListItemDto>> {
+  ): Promise<PaginatedResponse<AutoProjectListItemDto>> {
     return this.autoProjectReadService.findAll(query, user.id);
   }
 

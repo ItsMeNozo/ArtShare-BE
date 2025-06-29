@@ -1,17 +1,27 @@
 import { Transform } from 'class-transformer';
-import { IsArray, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Min,
+} from 'class-validator';
 
 export class SearchPostDto {
   @IsString()
+  @IsNotEmpty()
   q: string;
 
   @IsNumber()
   @IsOptional()
-  page?: number = 1;
+  @Min(1)
+  page?: number;
 
   @IsNumber()
   @IsOptional()
-  page_size?: number = 25;
+  @Min(1)
+  limit?: number;
 
   @IsOptional()
   @Transform(({ value }) =>

@@ -1,14 +1,20 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { QdrantClient } from '@qdrant/js-client-rest';
+import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
+import {
+  generatePaginatedResponse,
+  generatePaginatedResponseWithUnknownTotal,
+} from 'src/common/helpers/pagination.helper';
 import { TryCatch } from 'src/common/try-catch.decorator';
 import embeddingConfig from 'src/config/embedding.config';
 import { EmbeddingService } from 'src/embedding/embedding.service';
 import { Post, Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
+import { GetPostsDto } from './dto/request/get-posts.dto';
 import { SearchPostDto } from './dto/request/search-post.dto';
 import { PostDetailsResponseDto } from './dto/response/post-details.dto';
-import { PostListItemResponseDto } from './dto/response/post-list-item.dto';
+import { PostListItemResponse } from './dto/response/post-list-item.dto';
 import {
   mapPostListToDto,
   mapPostToDto,
@@ -29,50 +35,50 @@ export class PostsExploreService {
     this.postsCollectionName = this.embeddingConf.postsCollectionName;
   }
 
-  private buildPostIncludes = (userId: string): Prisma.PostInclude => {
-    return {
-      medias: true,
-      user: true,
-      categories: true,
-      likes: {
-        where: { user_id: userId },
-        take: 1,
-        select: { id: true }, // only need existence
-      },
-    };
-  };
-
   @TryCatch()
   async getForYouPosts(
     userId: string,
-    page: number,
-    page_size: number,
-    filter: string[],
-  ): Promise<PostListItemResponseDto[]> {
-    const skip = (page - 1) * page_size;
+    query: GetPostsDto,
+  ): Promise<PaginatedResponse<PostListItemResponse>> {
+    const { page = 1, limit = 25, filter = [] } = query;
+    console.log('getForYouPosts', {
+      userId,
+      page,
+      limit,
+      filter,
+    });
 
     const whereClause =
       filter && filter.length > 0
         ? { categories: { some: { name: { in: filter } } } }
         : {};
 
-    const posts = await this.prisma.post.findMany({
-      where: whereClause,
-      orderBy: [{ share_count: 'desc' }, { id: 'desc' }],
-      take: page_size,
-      skip,
-      include: this.buildPostIncludes(userId),
-    });
+    const [posts, total] = await Promise.all([
+      await this.prisma.post.findMany({
+        where: whereClause,
+        orderBy: [{ share_count: 'desc' }, { id: 'desc' }],
+        take: limit,
+        skip: (page - 1) * limit,
+        include: this.buildPostIncludes(userId),
+      }),
+      this.prisma.post.count({
+        where: whereClause,
+      }),
+    ]);
 
-    return mapPostListToDto(posts);
+    const mappedPosts = mapPostListToDto(posts);
+
+    return generatePaginatedResponse(mappedPosts, total, {
+      page,
+      limit,
+    });
   }
 
   async getFollowingPosts(
     userId: string,
-    page: number,
-    page_size: number,
-    filter: string[],
-  ): Promise<PostListItemResponseDto[]> {
+    query: GetPostsDto,
+  ): Promise<PaginatedResponse<PostListItemResponse>> {
+    const { page = 1, limit = 24, filter = [] } = query;
     const followingUsers = await this.prisma.follow.findMany({
       where: { follower_id: userId },
       select: { following_id: true },
@@ -80,7 +86,7 @@ export class PostsExploreService {
 
     const followingIds = followingUsers.map((follow) => follow.following_id);
 
-    const skip = (page - 1) * page_size;
+    const skip = (page - 1) * limit;
 
     const whereClause = {
       user_id: { in: followingIds },
@@ -90,17 +96,27 @@ export class PostsExploreService {
         }),
     };
 
-    const posts = await this.prisma.post.findMany({
-      where: whereClause,
-      skip,
-      take: page_size,
-      include: this.buildPostIncludes(userId),
-      orderBy: {
-        created_at: 'desc',
-      },
-    });
+    const [posts, total] = await Promise.all([
+      await this.prisma.post.findMany({
+        where: whereClause,
+        skip,
+        take: limit,
+        include: this.buildPostIncludes(userId),
+        orderBy: {
+          created_at: 'desc',
+        },
+      }),
+      this.prisma.post.count({
+        where: whereClause,
+      }),
+    ]);
 
-    return mapPostListToDto(posts);
+    const mappedPosts = mapPostListToDto(posts);
+
+    return generatePaginatedResponse(mappedPosts, total, {
+      page,
+      limit,
+    });
   }
 
   @TryCatch()
@@ -131,7 +147,7 @@ export class PostsExploreService {
     page: number,
     page_size: number,
     userId: string = '',
-  ): Promise<PostListItemResponseDto[]> {
+  ): Promise<PostListItemResponse[]> {
     const user = await this.prisma.user.findUnique({
       where: { username: username },
       select: { id: true },
@@ -160,8 +176,8 @@ export class PostsExploreService {
   async searchPosts(
     body: SearchPostDto,
     userId: string,
-  ): Promise<PostListItemResponseDto[]> {
-    const { q, page = 1, page_size = 25, filter } = body;
+  ): Promise<PaginatedResponse<PostListItemResponse>> {
+    const { q, page = 1, limit = 25, filter } = body;
 
     const queryEmbedding =
       await this.embeddingService.generateEmbeddingFromText(q);
@@ -189,8 +205,8 @@ export class PostsExploreService {
         },
         // query: queryEmbedding,
         // using: 'images',
-        offset: (page - 1) * page_size,
-        limit: page_size,
+        offset: (page - 1) * limit,
+        limit: limit + 1, // +1 to check if there's a next page
         // with_payload: true,
         score_threshold: 0.54,
       },
@@ -215,7 +231,12 @@ export class PostsExploreService {
         post.categories.some((category) => filter.includes(category.name)),
       );
     }
-    return mapPostListToDto(sortedPosts);
+    const mappedPosts = mapPostListToDto(sortedPosts);
+
+    return generatePaginatedResponseWithUnknownTotal(mappedPosts, {
+      page,
+      limit,
+    });
   }
 
   @TryCatch()
@@ -224,7 +245,7 @@ export class PostsExploreService {
     page: number,
     page_size: number,
     userId: string,
-  ): Promise<PostListItemResponseDto[]> {
+  ): Promise<PostListItemResponse[]> {
     const post: Post | null = await this.prisma.post.findUnique({
       where: { id: postId },
     });
@@ -283,7 +304,7 @@ export class PostsExploreService {
   async getAiTrendingPosts(
     page: number,
     page_size: number,
-  ): Promise<PostListItemResponseDto[]> {
+  ): Promise<PostListItemResponse[]> {
     const skip = (page - 1) * page_size;
 
     const customIncludes: Prisma.PostInclude = {
@@ -307,4 +328,17 @@ export class PostsExploreService {
 
     return mapPostListToDto(posts);
   }
+
+  private buildPostIncludes = (userId: string): Prisma.PostInclude => {
+    return {
+      medias: true,
+      user: true,
+      categories: true,
+      likes: {
+        where: { user_id: userId },
+        take: 1,
+        select: { id: true }, // only need existence
+      },
+    };
+  };
 }

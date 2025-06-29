@@ -11,7 +11,7 @@ import { ConfigService } from '@nestjs/config';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
-import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
+import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
 import { generatePaginatedResponse } from 'src/common/helpers/pagination.helper';
 import { EncryptionService } from 'src/encryption/encryption.service';
 import { AutoPost, AutoPostStatus, Prisma, SharePlatform } from 'src/generated';
@@ -104,7 +104,7 @@ export class AutoPostService {
 
   async getAllAutoPosts(
     query: GetAutoPostsQueryDto,
-  ): Promise<PaginatedResponseDto<AutoPost>> {
+  ): Promise<PaginatedResponse<AutoPost>> {
     this.logger.log('Fetching all AutoPosts with query:', query);
     const {
       page = 1,

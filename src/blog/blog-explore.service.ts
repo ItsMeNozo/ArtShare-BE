@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { QdrantClient } from '@qdrant/js-client-rest';
-import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
+import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
 import {
   generatePaginatedResponse,
   generatePaginatedResponseWithUnknownTotal,
@@ -59,7 +59,7 @@ export class BlogExploreService {
   @TryCatch()
   async getBlogs(
     queryDto: GetBlogsQueryDto,
-  ): Promise<PaginatedResponseDto<BlogListItemResponseDto>> {
+  ): Promise<PaginatedResponse<BlogListItemResponseDto>> {
     const { page = 1, limit = 10, search } = queryDto;
 
     const whereClause: Prisma.BlogWhereInput = {
@@ -203,7 +203,7 @@ export class BlogExploreService {
   async getTrendingBlogs(
     queryDto: GetBlogsQueryDto,
     requestingUserId?: string | null,
-  ): Promise<PaginatedResponseDto<BlogListItemResponseDto>> {
+  ): Promise<PaginatedResponse<BlogListItemResponseDto>> {
     const { page = 1, limit = 10, categories } = queryDto;
     const baseWhere: Prisma.BlogWhereInput = {
       is_published: true,
@@ -246,7 +246,7 @@ export class BlogExploreService {
   async getFollowingBlogs(
     queryDto: GetBlogsQueryDto,
     userId: string,
-  ): Promise<PaginatedResponseDto<BlogListItemResponseDto>> {
+  ): Promise<PaginatedResponse<BlogListItemResponseDto>> {
     const { page = 1, limit = 10, categories } = queryDto;
     const followedUsers = await this.prisma.follow.findMany({
       where: { follower_id: userId },
@@ -329,7 +329,7 @@ export class BlogExploreService {
     blogId: number,
     page: number,
     limit: number,
-  ): Promise<PaginatedResponseDto<BlogListItemResponseDto>> {
+  ): Promise<PaginatedResponse<BlogListItemResponseDto>> {
     const blog = await this.prisma.blog.findUnique({
       where: { id: blogId },
     });
@@ -357,7 +357,7 @@ export class BlogExploreService {
     searchQuery: string,
     page: number,
     limit: number,
-  ): Promise<PaginatedResponseDto<BlogListItemResponseDto>> {
+  ): Promise<PaginatedResponse<BlogListItemResponseDto>> {
     const queryEmbedding =
       await this.embeddingService.generateEmbeddingFromText(searchQuery);
 

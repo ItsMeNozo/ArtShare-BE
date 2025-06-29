@@ -1,4 +1,4 @@
-import { PaginatedResponseDto } from '../dto/paginated-response.dto';
+import { PaginatedResponse } from '../dto/paginated-response.dto';
 
 interface PaginationOptions {
   page: number;
@@ -9,7 +9,7 @@ export function generatePaginatedResponse<T>(
   data: T[],
   total: number,
   options: PaginationOptions,
-): PaginatedResponseDto<T> {
+): PaginatedResponse<T> {
   const { page, limit } = options;
   const totalPages = Math.ceil(total / limit);
 
@@ -32,7 +32,7 @@ export function generatePaginatedResponse<T>(
 export function generatePaginatedResponseWithUnknownTotal<T>(
   dataWithExtra: T[],
   options: PaginationOptions,
-): PaginatedResponseDto<T> {
+): PaginatedResponse<T> {
   const { page, limit } = options;
 
   const hasNextPage = dataWithExtra.length > limit;

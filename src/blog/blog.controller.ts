@@ -30,7 +30,7 @@ import { Public } from 'src/auth/decorators/public.decorator';
 import { CurrentUser } from 'src/auth/decorators/users.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
-import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
+import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
 import { SyncEmbeddingResponseDto } from 'src/common/response/sync-embedding.dto';
 import { TargetType } from 'src/generated';
 import { LikingUserResponseDto } from 'src/likes/dto/response/liking-user-response.dto';
@@ -58,7 +58,7 @@ export class BlogController {
   async getTrendingBlogs(
     @Query() query: GetBlogsQueryDto,
     @CurrentUser() user?: CurrentUserType,
-  ): Promise<PaginatedResponseDto<BlogListItemResponseDto>> {
+  ): Promise<PaginatedResponse<BlogListItemResponseDto>> {
     return this.blogExploreService.getTrendingBlogs(query, user?.id);
   }
 
@@ -69,7 +69,7 @@ export class BlogController {
   async getFollowingBlogs(
     @Query() query: GetBlogsQueryDto,
     @CurrentUser() user: CurrentUserType,
-  ): Promise<PaginatedResponseDto<BlogListItemResponseDto>> {
+  ): Promise<PaginatedResponse<BlogListItemResponseDto>> {
     return this.blogExploreService.getFollowingBlogs(query, user.id);
   }
 
@@ -80,7 +80,7 @@ export class BlogController {
   @Public()
   async fetchBlogs(
     @Query() queryDto: GetBlogsQueryDto,
-  ): Promise<PaginatedResponseDto<BlogListItemResponseDto>> {
+  ): Promise<PaginatedResponse<BlogListItemResponseDto>> {
     return this.blogExploreService.getBlogs(queryDto);
   }
 
@@ -230,7 +230,7 @@ export class BlogController {
     @Param('blogId', ParseIntPipe) blogId: number,
     @Query('page', new DefaultValuePipe(0), ParseIntPipe) page: number,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
-  ): Promise<PaginatedResponseDto<BlogListItemResponseDto>> {
+  ): Promise<PaginatedResponse<BlogListItemResponseDto>> {
     return this.blogExploreService.getRelevantBlogs(blogId, page, limit);
   }
 

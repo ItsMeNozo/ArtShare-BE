@@ -5,16 +5,16 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { plainToInstance } from 'class-transformer';
+import { BlogListItemResponseDto } from 'src/blog/dto/response/blog-list-item.dto';
+import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
+import { generatePaginatedResponse } from 'src/common/helpers/pagination.helper';
 import { Prisma, Report, ReportStatus, ReportTargetType } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
+import { UserService } from 'src/user/user.service';
 import { CreateReportDto } from './dto/create-report.dto';
 import { ResolveReportDto } from './dto/resolve-report.dto';
-import { EventEmitter2 } from '@nestjs/event-emitter';
-import { UserService } from 'src/user/user.service';
-import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
-import { BlogListItemResponseDto } from 'src/blog/dto/response/blog-list-item.dto';
-import { generatePaginatedResponse } from 'src/common/helpers/pagination.helper';
-import { plainToInstance } from 'class-transformer';
 import { ViewTab } from './dto/view-report.dto';
 
 export type ReportWithDetails = Report & {
@@ -183,11 +183,11 @@ export class ReportService {
     });
     return updatedReport;
   }
-  
+
   async getBlogsForAdmin(
     page: number,
     limit: number,
-  ): Promise<PaginatedResponseDto<BlogListItemResponseDto>> {
+  ): Promise<PaginatedResponse<BlogListItemResponseDto>> {
     const skip = (page - 1) * limit;
     try {
       const [blogs, total] = await this.prisma.$transaction([
@@ -197,9 +197,9 @@ export class ReportService {
           orderBy: { created_at: 'desc' },
           include: {
             user: {
-              select : {username: true},
-            }
-          }
+              select: { username: true },
+            },
+          },
         }),
         this.prisma.blog.count(),
       ]);
@@ -207,7 +207,7 @@ export class ReportService {
       const items = plainToInstance(BlogListItemResponseDto, blogs);
 
       return generatePaginatedResponse(items, total, { page, limit });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       throw new InternalServerErrorException(
         'Failed to retrieve paginated blogs',
@@ -216,27 +216,26 @@ export class ReportService {
   }
 
   async findReportsByTab(
-        tab: ViewTab,
-        options: { skip?: number; take?: number },
-      ): Promise<ReportWithDetails[]> {
-        const where: Prisma.ReportWhereInput = {};
-    
-        if (tab !== ViewTab.ALL) {
-          if (tab !== ViewTab.USER) {
-            where.target_type = tab.toUpperCase() as ReportTargetType;
-          }
-        }
-    
-        return this.prisma.report.findMany({
-          where,
-          include: {
-            reporter: { select: { id: true, username: true } },
-            moderator: { select: { id: true, username: true } },
-          },
-          orderBy: { created_at: 'desc' },
-          skip: options.skip,
-          take: options.take,
-        }) as Promise<ReportWithDetails[]>;
+    tab: ViewTab,
+    options: { skip?: number; take?: number },
+  ): Promise<ReportWithDetails[]> {
+    const where: Prisma.ReportWhereInput = {};
+
+    if (tab !== ViewTab.ALL) {
+      if (tab !== ViewTab.USER) {
+        where.target_type = tab.toUpperCase() as ReportTargetType;
       }
+    }
+
+    return this.prisma.report.findMany({
+      where,
+      include: {
+        reporter: { select: { id: true, username: true } },
+        moderator: { select: { id: true, username: true } },
+      },
+      orderBy: { created_at: 'desc' },
+      skip: options.skip,
+      take: options.take,
+    }) as Promise<ReportWithDetails[]>;
+  }
 }
- 
