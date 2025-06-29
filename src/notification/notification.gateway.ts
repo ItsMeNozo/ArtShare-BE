@@ -18,9 +18,11 @@ import { CorsService } from '../common/cors.service';
       const isProduction = CorsService.isProductionStatic();
       const allowedOrigins = CorsService.getAllowedOriginsStatic();
       
+      // Use a static logger since this runs before class instantiation
+      const logger = NotificationsGateway.getStaticLogger();
+      
       // Debug logging for WebSocket CORS (only in non-production)
       if (!isProduction) {
-        const logger = new Logger('WebSocketGateway');
         logger.debug(`=== WebSocket CORS DEBUG ===`);
         logger.debug(`NODE_ENV: ${process.env.NODE_ENV}`);
         logger.debug(`isProduction: ${isProduction}`);
@@ -30,8 +32,6 @@ import { CorsService } from '../common/cors.service';
         logger.debug(`Allowed origins: ${allowedOrigins.join(', ')}`);
         logger.debug(`=== END WebSocket CORS DEBUG ===`);
       }
-      
-      const logger = new Logger('WebSocketGateway');
       
       // Allow same-origin requests and specified origins
       if (!origin || allowedOrigins.includes(origin)) {
@@ -63,15 +63,22 @@ export class NotificationsGateway
   @WebSocketServer()
   server: Server;
 
+  // Static logger for use in decorator context
+  private static readonly staticLogger = new Logger('NotificationsGateway');
+
   // Changed to store multiple connections per user
   private connectedClients = new Map<string, Set<Socket>>();
   private readonly logger = new Logger(NotificationsGateway.name);
+
+  // Static method to access the logger from decorator context
+  static getStaticLogger() {
+    return NotificationsGateway.staticLogger;
+  }
 
   constructor(
     @Inject(forwardRef(() => NotificationService)) private readonly notificationService: NotificationService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
-    private readonly corsService: CorsService,
   ) {}
 
   async handleConnection(client: Socket) {
