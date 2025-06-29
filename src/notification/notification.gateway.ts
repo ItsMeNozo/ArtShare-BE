@@ -25,17 +25,31 @@ import { NotificationService } from './notification.service';
         'https://artsharezone-black.vercel.app',
       ];
       
+      // Debug logging for WebSocket CORS
+      console.log(`=== WebSocket CORS DEBUG ===`);
+      console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+      console.log(`isProduction: ${isProduction}`);
+      console.log(`FRONTEND_URL from env: ${process.env.FRONTEND_URL}`);
+      console.log(`ADMIN_FRONTEND_URL from env: ${process.env.ADMIN_FRONTEND_URL}`);
+      console.log(`WebSocket origin: ${origin}`);
+      console.log(`Allowed origins: ${allowedOrigins.join(', ')}`);
+      console.log(`=== END WebSocket CORS DEBUG ===`);
+      
       // Allow same-origin requests and specified origins
       if (!origin || allowedOrigins.includes(origin)) {
+        console.log(`✅ WebSocket CORS allowed origin: ${origin || 'same-origin'}`);
         callback(null, true);
       } else if (!isProduction) {
         // In development, allow localhost with any port
         if (origin.match(/^https?:\/\/localhost:\d+$/)) {
+          console.log(`✅ WebSocket CORS allowed localhost origin: ${origin}`);
           callback(null, true);
         } else {
+          console.warn(`❌ WebSocket CORS blocked origin in development: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`);
           callback(new Error('Not allowed by CORS'));
         }
       } else {
+        console.warn(`❌ WebSocket CORS blocked origin in production: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`);
         callback(new Error('Not allowed by CORS'));
       }
     },

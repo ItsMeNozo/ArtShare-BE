@@ -111,24 +111,34 @@ async function bootstrap() {
         'https://artsharezone-black.vercel.app',
       ];
 
+      // Debug logging for CORS
+      logger.log(`=== CORS DEBUG ===`);
+      logger.log(`NODE_ENV: ${configService.get<string>('NODE_ENV')}`);
+      logger.log(`isProduction: ${isProduction}`);
+      logger.log(`FRONTEND_URL from env: ${configService.get<string>('FRONTEND_URL')}`);
+      logger.log(`ADMIN_FRONTEND_URL from env: ${configService.get<string>('ADMIN_FRONTEND_URL')}`);
+      logger.log(`Request origin: ${origin}`);
+      logger.log(`Allowed origins: ${allowedOrigins.join(', ')}`);
+      logger.log(`=== END CORS DEBUG ===`);
+
       // Allow same-origin requests and specified origins
       if (!origin || allowedOrigins.includes(origin)) {
-        logger.log(`CORS allowed origin: ${origin || 'same-origin'}`);
+        logger.log(`✅ CORS allowed origin: ${origin || 'same-origin'}`);
         callback(null, true);
       } else if (!isProduction) {
         // In development, allow localhost with any port
         if (origin.match(/^https?:\/\/localhost:\d+$/)) {
-          logger.log(`CORS allowed localhost origin: ${origin}`);
+          logger.log(`✅ CORS allowed localhost origin: ${origin}`);
           callback(null, true);
         } else {
           logger.warn(
-            `CORS blocked origin in development: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`,
+            `❌ CORS blocked origin in development: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`,
           );
           callback(new Error('Not allowed by CORS'));
         }
       } else {
         logger.warn(
-          `CORS blocked origin in production: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`,
+          `❌ CORS blocked origin in production: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`,
         );
         callback(new Error('Not allowed by CORS'));
       }
