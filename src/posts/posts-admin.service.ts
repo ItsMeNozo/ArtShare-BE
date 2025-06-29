@@ -184,7 +184,7 @@ export class PostsAdminService {
     ]);
 
     const responsePosts: AdminPostListItemDto[] = prismaPosts.map((p) =>
-      this.mapPrismaPostToAdminPostListItemDto(p as any),
+      this.mapPrismaPostToAdminPostListItemDto(p as PrismaPostForList),
     );
 
     const totalPages = Math.ceil(total / limit);
