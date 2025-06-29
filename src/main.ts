@@ -109,7 +109,6 @@ async function bootstrap() {
         adminUrl,
         // Add production URLs explicitly as fallback
         'https://artsharezone-black.vercel.app',
-        'https://artsharebe.id.vn',
       ];
 
       // Allow same-origin requests and specified origins
