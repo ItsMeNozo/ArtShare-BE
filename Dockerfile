@@ -30,19 +30,27 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Create a non-root user for security.
 RUN adduser --system --uid 1001 --group --shell /bin/bash nodejs
-USER nodejs
 
 WORKDIR /app
 ENV NODE_ENV=production
 
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/prisma ./prisma
+# Copy files from builder
+COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
+COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nodejs:nodejs /app/prisma ./prisma
 # Copy the entrypoint script and make it executable.
 COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint.sh
 
-# Create the cache directory that the entrypoint script defaults to.
-RUN mkdir -p /app/.cache && chown nodejs:nodejs /app/.cache
+# Create cache directories for transformers and set proper ownership
+RUN mkdir -p /app/.cache /app/.transformers-cache && \
+    chown -R nodejs:nodejs /app/.cache /app/.transformers-cache
+
+# Set transformers cache environment variables
+ENV TRANSFORMERS_CACHE=/app/.transformers-cache
+ENV HF_HOME=/app/.transformers-cache
+
+# Switch to non-root user
+USER nodejs
 
 # Use dumb-init to properly handle process signals (like SIGTERM/SIGINT).
 ENTRYPOINT ["dumb-init", "--", "entrypoint.sh"]

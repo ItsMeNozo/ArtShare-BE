@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CorsService } from './common/cors.service';
 import { ArtGenerationModule } from './art-generation/art-generation.module';
 import { AuthModule } from './auth/auth.module';
 import { BlogModule } from './blog/blog.module';
@@ -75,6 +76,6 @@ import { PlatformModule } from './platform/platform.module';
     CacheModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, CorsService],
 })
 export class AppModule {}
