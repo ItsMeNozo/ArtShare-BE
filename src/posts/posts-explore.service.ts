@@ -74,6 +74,45 @@ export class PostsExploreService {
     });
   }
 
+  @TryCatch()
+  async getTrendingPosts(
+    userId: string,
+    query: GetPostsDto,
+  ): Promise<PaginatedResponse<PostListItemResponse>> {
+    const { page = 1, limit = 25, filter = [] } = query;
+    console.log('getForYouPosts', {
+      userId,
+      page,
+      limit,
+      filter,
+    });
+
+    const whereClause =
+      filter && filter.length > 0
+        ? { categories: { some: { name: { in: filter } } } }
+        : {};
+
+    const [posts, total] = await Promise.all([
+      this.prisma.post.findMany({
+        where: whereClause,
+        orderBy: [{ share_count: 'desc' }, { id: 'desc' }],
+        take: limit,
+        skip: (page - 1) * limit,
+        include: this.buildPostIncludes(userId),
+      }),
+      this.prisma.post.count({
+        where: whereClause,
+      }),
+    ]);
+
+    const mappedPosts = mapPostListToDto(posts);
+
+    return generatePaginatedResponse(mappedPosts, total, {
+      page,
+      limit,
+    });
+  }
+
   async getFollowingPosts(
     userId: string,
     query: GetPostsDto,

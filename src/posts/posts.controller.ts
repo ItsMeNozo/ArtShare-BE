@@ -105,6 +105,15 @@ export class PostsController {
     return this.postsExploreService.getForYouPosts(user?.id ?? '', query);
   }
 
+  @Public()
+  @Get('trending')
+  async getTrendingPosts(
+    @Query() query: GetPostsDto,
+    @CurrentUser() user?: CurrentUserType,
+  ): Promise<PaginatedResponse<PostListItemResponse>> {
+    return this.postsExploreService.getTrendingPosts(user?.id ?? '', query);
+  }
+
   @Get('following')
   async getFollowingPosts(
     @Query() query: GetPostsDto,
