@@ -8,6 +8,7 @@ import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { WebSocketJwtAuthGuard } from './auth/websocket-jwt-auth.guard';
+import { CorsService } from './common/cors.service';
 import metadata from './metadata';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const compression = require('compression');
@@ -98,37 +99,37 @@ async function bootstrap() {
       origin: string | undefined,
       callback: (error: Error | null, allow?: boolean) => void,
     ) => {
-      const frontendUrl =
-        configService.get<string>('FRONTEND_URL') || 'http://localhost:5173';
-      const adminUrl =
-        configService.get<string>('ADMIN_FRONTEND_URL') ||
-        'http://localhost:1574';
+      // Use CorsService static methods for consistency
+      const allowedOrigins = CorsService.getAllowedOriginsStatic();
 
-      const allowedOrigins = [
-        frontendUrl,
-        adminUrl,
-        // Add production URLs explicitly as fallback
-        'https://artsharezone-black.vercel.app',
-      ];
+      // Debug logging for CORS
+      logger.debug(`=== CORS DEBUG ===`);
+      logger.debug(`NODE_ENV: ${configService.get<string>('NODE_ENV')}`);
+      logger.debug(`isProduction: ${isProduction}`);
+      logger.debug(`FRONTEND_URL from env: ${configService.get<string>('FRONTEND_URL')}`);
+      logger.debug(`ADMIN_FRONTEND_URL from env: ${configService.get<string>('ADMIN_FRONTEND_URL')}`);
+      logger.debug(`Request origin: ${origin}`);
+      logger.debug(`Allowed origins: ${allowedOrigins.join(', ')}`);
+      logger.debug(`=== END CORS DEBUG ===`);
 
       // Allow same-origin requests and specified origins
       if (!origin || allowedOrigins.includes(origin)) {
-        logger.log(`CORS allowed origin: ${origin || 'same-origin'}`);
+        logger.log(`✅ CORS allowed origin: ${origin || 'same-origin'}`);
         callback(null, true);
       } else if (!isProduction) {
         // In development, allow localhost with any port
         if (origin.match(/^https?:\/\/localhost:\d+$/)) {
-          logger.log(`CORS allowed localhost origin: ${origin}`);
+          logger.log(`✅ CORS allowed localhost origin: ${origin}`);
           callback(null, true);
         } else {
           logger.warn(
-            `CORS blocked origin in development: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`,
+            `❌ CORS blocked origin in development: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`,
           );
           callback(new Error('Not allowed by CORS'));
         }
       } else {
         logger.warn(
-          `CORS blocked origin in production: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`,
+          `❌ CORS blocked origin in production: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`,
         );
         callback(new Error('Not allowed by CORS'));
       }
