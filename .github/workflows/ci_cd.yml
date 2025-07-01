@@ -232,6 +232,7 @@ jobs:
               --env-file .env \
               -e OMP_NUM_THREADS=2 \
               -e ONNX_DISABLE_OPTIMIZATION=1 \
+              -e TZ=Asia/Ho_Chi_Minh
               -v ${VOLUME_NAME}:/app/.cache \
               --no-healthcheck \
               ${IMAGE_NAME}:latest || rollback
