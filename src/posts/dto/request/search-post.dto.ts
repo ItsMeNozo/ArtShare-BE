@@ -1,6 +1,7 @@
 import { Transform } from 'class-transformer';
 import {
   IsArray,
+  IsBoolean,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -35,4 +36,12 @@ export class SearchPostDto {
   @IsArray()
   @IsString({ each: true })
   filter?: string[];
+
+  @IsOptional()
+  @IsBoolean()
+  isAi?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  isMature?: boolean;
 }
