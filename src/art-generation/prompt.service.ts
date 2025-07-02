@@ -2,8 +2,10 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { plainToInstance } from "class-transformer";
 import { PrismaService } from "src/prisma.service";
 import { UpdatePromptHistoryDto } from "./dto/request/update-prompt-history.dto";
+import { GetPromptHistoryQueryDto } from "./dto/request/get-prompt-history-query.dto";
 import { TryCatch } from "src/common/try-catch.decorator";
 import { ImageGenerationResponseDto } from "./dto/response/image-generation.dto";
+import { PaginatedResponse } from "src/common/dto/paginated-response.dto";
 
 @Injectable()
 export class PromptService {
@@ -12,17 +14,43 @@ export class PromptService {
   ) {}
 
   @TryCatch()
-  async getPromptHistory(userId: string): Promise<ImageGenerationResponseDto[]> {
-    const promptHistory = await this.prismaService.artGeneration.findMany({
-      where: {
-        user_id: userId,
-      },
-      orderBy: {
-        created_at: 'desc',
-      },
-    });
+  async getPromptHistory(
+    userId: string,
+    query: GetPromptHistoryQueryDto,
+  ): Promise<PaginatedResponse<ImageGenerationResponseDto>> {
+    const limit = query.limit || 10;
+    const page = query.page || 1;
+    const skip = (page - 1) * limit;
 
-    return plainToInstance(ImageGenerationResponseDto, promptHistory);
+    const [promptHistory, totalCount] = await Promise.all([
+      this.prismaService.artGeneration.findMany({
+        where: {
+          user_id: userId,
+        },
+        orderBy: {
+          created_at: 'desc',
+        },
+        take: limit,
+        skip: skip,
+      }),
+      this.prismaService.artGeneration.count({
+        where: {
+          user_id: userId,
+        },
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalCount / limit);
+    const hasNextPage = page < totalPages;
+
+    return {
+      data: plainToInstance(ImageGenerationResponseDto, promptHistory),
+      total: totalCount,
+      page,
+      limit,
+      totalPages,
+      hasNextPage,
+    };
   }
 
   @TryCatch()
