@@ -594,6 +594,7 @@ enum AutoProjectStatus {
   CANCELLED
   FAILED
   DRAFT
+  PAUSED
 }
 
 enum AutoPostStatus {
