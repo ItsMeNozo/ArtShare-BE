@@ -137,10 +137,13 @@ export class StatisticsService {
 
   async getTop3RecentReports(): Promise<any> {
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
-      SELECT *
-      FROM report
-      WHERE status = 'PENDING'
-      ORDER BY created_at
+      SELECT 
+        r.id, r.reason, r.reporter_id, r.status,
+        u.username
+      FROM report r
+      JOIN "user" u on u.id = r.reporter_id
+      WHERE r.status = 'PENDING'
+      ORDER BY r.created_at
       LIMIT 3
     `;
 
