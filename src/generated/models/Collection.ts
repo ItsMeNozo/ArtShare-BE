@@ -240,7 +240,7 @@ export type CollectionWhereInput = {
   created_at?: Prisma.DateTimeFilter<"Collection"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Collection"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  posts?: Prisma.PostListRelationFilter
+  posts?: Prisma.PostsOnCollectionsListRelationFilter
 }
 
 export type CollectionOrderByWithRelationInput = {
@@ -253,7 +253,7 @@ export type CollectionOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
-  posts?: Prisma.PostOrderByRelationAggregateInput
+  posts?: Prisma.PostsOnCollectionsOrderByRelationAggregateInput
 }
 
 export type CollectionWhereUniqueInput = Prisma.AtLeast<{
@@ -269,7 +269,7 @@ export type CollectionWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"Collection"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Collection"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  posts?: Prisma.PostListRelationFilter
+  posts?: Prisma.PostsOnCollectionsListRelationFilter
 }, "id">
 
 export type CollectionOrderByWithAggregationInput = {
@@ -310,7 +310,7 @@ export type CollectionCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCollectionsInput
-  posts?: Prisma.PostCreateNestedManyWithoutCollectionInput
+  posts?: Prisma.PostsOnCollectionsCreateNestedManyWithoutCollectionInput
 }
 
 export type CollectionUncheckedCreateInput = {
@@ -322,7 +322,7 @@ export type CollectionUncheckedCreateInput = {
   user_id: string
   created_at?: Date | string
   updated_at?: Date | string
-  posts?: Prisma.PostUncheckedCreateNestedManyWithoutCollectionInput
+  posts?: Prisma.PostsOnCollectionsUncheckedCreateNestedManyWithoutCollectionInput
 }
 
 export type CollectionUpdateInput = {
@@ -333,7 +333,7 @@ export type CollectionUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCollectionsNestedInput
-  posts?: Prisma.PostUpdateManyWithoutCollectionNestedInput
+  posts?: Prisma.PostsOnCollectionsUpdateManyWithoutCollectionNestedInput
 }
 
 export type CollectionUncheckedUpdateInput = {
@@ -345,7 +345,7 @@ export type CollectionUncheckedUpdateInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  posts?: Prisma.PostUncheckedUpdateManyWithoutCollectionNestedInput
+  posts?: Prisma.PostsOnCollectionsUncheckedUpdateManyWithoutCollectionNestedInput
 }
 
 export type CollectionCreateManyInput = {
@@ -389,11 +389,6 @@ export type CollectionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type CollectionNullableScalarRelationFilter = {
-  is?: Prisma.CollectionWhereInput | null
-  isNot?: Prisma.CollectionWhereInput | null
-}
-
 export type CollectionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -433,6 +428,11 @@ export type CollectionMinOrderByAggregateInput = {
 
 export type CollectionSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+}
+
+export type CollectionScalarRelationFilter = {
+  is?: Prisma.CollectionWhereInput
+  isNot?: Prisma.CollectionWhereInput
 }
 
 export type CollectionCreateNestedManyWithoutUserInput = {
@@ -483,12 +483,10 @@ export type CollectionCreateNestedOneWithoutPostsInput = {
   connect?: Prisma.CollectionWhereUniqueInput
 }
 
-export type CollectionUpdateOneWithoutPostsNestedInput = {
+export type CollectionUpdateOneRequiredWithoutPostsNestedInput = {
   create?: Prisma.XOR<Prisma.CollectionCreateWithoutPostsInput, Prisma.CollectionUncheckedCreateWithoutPostsInput>
   connectOrCreate?: Prisma.CollectionCreateOrConnectWithoutPostsInput
   upsert?: Prisma.CollectionUpsertWithoutPostsInput
-  disconnect?: Prisma.CollectionWhereInput | boolean
-  delete?: Prisma.CollectionWhereInput | boolean
   connect?: Prisma.CollectionWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.CollectionUpdateToOneWithWhereWithoutPostsInput, Prisma.CollectionUpdateWithoutPostsInput>, Prisma.CollectionUncheckedUpdateWithoutPostsInput>
 }
@@ -500,7 +498,7 @@ export type CollectionCreateWithoutUserInput = {
   thumbnail_url?: string | null
   created_at?: Date | string
   updated_at?: Date | string
-  posts?: Prisma.PostCreateNestedManyWithoutCollectionInput
+  posts?: Prisma.PostsOnCollectionsCreateNestedManyWithoutCollectionInput
 }
 
 export type CollectionUncheckedCreateWithoutUserInput = {
@@ -511,7 +509,7 @@ export type CollectionUncheckedCreateWithoutUserInput = {
   thumbnail_url?: string | null
   created_at?: Date | string
   updated_at?: Date | string
-  posts?: Prisma.PostUncheckedCreateNestedManyWithoutCollectionInput
+  posts?: Prisma.PostsOnCollectionsUncheckedCreateNestedManyWithoutCollectionInput
 }
 
 export type CollectionCreateOrConnectWithoutUserInput = {
@@ -629,7 +627,7 @@ export type CollectionUpdateWithoutUserInput = {
   thumbnail_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  posts?: Prisma.PostUpdateManyWithoutCollectionNestedInput
+  posts?: Prisma.PostsOnCollectionsUpdateManyWithoutCollectionNestedInput
 }
 
 export type CollectionUncheckedUpdateWithoutUserInput = {
@@ -640,7 +638,7 @@ export type CollectionUncheckedUpdateWithoutUserInput = {
   thumbnail_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  posts?: Prisma.PostUncheckedUpdateManyWithoutCollectionNestedInput
+  posts?: Prisma.PostsOnCollectionsUncheckedUpdateManyWithoutCollectionNestedInput
 }
 
 export type CollectionUncheckedUpdateManyWithoutUserInput = {
@@ -680,7 +678,7 @@ export type CollectionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.E
  * CollectionCountOutputType without action
  */
 export type CollectionCountOutputTypeCountPostsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PostWhereInput
+  where?: Prisma.PostsOnCollectionsWhereInput
 }
 
 
@@ -750,7 +748,7 @@ export type $CollectionPayload<ExtArgs extends runtime.Types.Extensions.Internal
   name: "Collection"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
-    posts: Prisma.$PostPayload<ExtArgs>[]
+    posts: Prisma.$PostsOnCollectionsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1156,7 +1154,7 @@ readonly fields: CollectionFieldRefs;
 export interface Prisma__CollectionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  posts<T extends Prisma.Collection$postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Collection$postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  posts<T extends Prisma.Collection$postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Collection$postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostsOnCollectionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1594,23 +1592,23 @@ export type CollectionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
  */
 export type Collection$postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Post
+   * Select specific fields to fetch from the PostsOnCollections
    */
-  select?: Prisma.PostSelect<ExtArgs> | null
+  select?: Prisma.PostsOnCollectionsSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Post
+   * Omit specific fields from the PostsOnCollections
    */
-  omit?: Prisma.PostOmit<ExtArgs> | null
+  omit?: Prisma.PostsOnCollectionsOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.PostInclude<ExtArgs> | null
-  where?: Prisma.PostWhereInput
-  orderBy?: Prisma.PostOrderByWithRelationInput | Prisma.PostOrderByWithRelationInput[]
-  cursor?: Prisma.PostWhereUniqueInput
+  include?: Prisma.PostsOnCollectionsInclude<ExtArgs> | null
+  where?: Prisma.PostsOnCollectionsWhereInput
+  orderBy?: Prisma.PostsOnCollectionsOrderByWithRelationInput | Prisma.PostsOnCollectionsOrderByWithRelationInput[]
+  cursor?: Prisma.PostsOnCollectionsWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.PostScalarFieldEnum | Prisma.PostScalarFieldEnum[]
+  distinct?: Prisma.PostsOnCollectionsScalarFieldEnum | Prisma.PostsOnCollectionsScalarFieldEnum[]
 }
 
 /**

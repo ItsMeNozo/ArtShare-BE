@@ -421,7 +421,8 @@ export const ModelName = {
   AutoPost: 'AutoPost',
   Conversation: 'Conversation',
   Message: 'Message',
-  FacebookAccount: 'FacebookAccount'
+  FacebookAccount: 'FacebookAccount',
+  PostsOnCollections: 'PostsOnCollections'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -437,7 +438,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "role" | "userRole" | "user" | "post" | "blog" | "media" | "category" | "like" | "commentLike" | "comment" | "share" | "follow" | "bookmark" | "rating" | "collection" | "report" | "userAccess" | "plan" | "userUsage" | "artGeneration" | "trendingPrompt" | "notification" | "platform" | "autoProject" | "autoPost" | "conversation" | "message" | "facebookAccount"
+    modelProps: "role" | "userRole" | "user" | "post" | "blog" | "media" | "category" | "like" | "commentLike" | "comment" | "share" | "follow" | "bookmark" | "rating" | "collection" | "report" | "userAccess" | "plan" | "userUsage" | "artGeneration" | "trendingPrompt" | "notification" | "platform" | "autoProject" | "autoPost" | "conversation" | "message" | "facebookAccount" | "postsOnCollections"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2513,6 +2514,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PostsOnCollections: {
+      payload: Prisma.$PostsOnCollectionsPayload<ExtArgs>
+      fields: Prisma.PostsOnCollectionsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PostsOnCollectionsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostsOnCollectionsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PostsOnCollectionsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostsOnCollectionsPayload>
+        }
+        findFirst: {
+          args: Prisma.PostsOnCollectionsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostsOnCollectionsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PostsOnCollectionsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostsOnCollectionsPayload>
+        }
+        findMany: {
+          args: Prisma.PostsOnCollectionsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostsOnCollectionsPayload>[]
+        }
+        create: {
+          args: Prisma.PostsOnCollectionsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostsOnCollectionsPayload>
+        }
+        createMany: {
+          args: Prisma.PostsOnCollectionsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PostsOnCollectionsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostsOnCollectionsPayload>[]
+        }
+        delete: {
+          args: Prisma.PostsOnCollectionsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostsOnCollectionsPayload>
+        }
+        update: {
+          args: Prisma.PostsOnCollectionsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostsOnCollectionsPayload>
+        }
+        deleteMany: {
+          args: Prisma.PostsOnCollectionsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PostsOnCollectionsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PostsOnCollectionsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostsOnCollectionsPayload>[]
+        }
+        upsert: {
+          args: Prisma.PostsOnCollectionsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostsOnCollectionsPayload>
+        }
+        aggregate: {
+          args: Prisma.PostsOnCollectionsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePostsOnCollections>
+        }
+        groupBy: {
+          args: Prisma.PostsOnCollectionsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostsOnCollectionsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PostsOnCollectionsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostsOnCollectionsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2609,8 +2684,7 @@ export const PostScalarFieldEnum = {
   is_mature: 'is_mature',
   ai_created: 'ai_created',
   art_generation_id: 'art_generation_id',
-  thumbnail_crop_meta: 'thumbnail_crop_meta',
-  collectionId: 'collectionId'
+  thumbnail_crop_meta: 'thumbnail_crop_meta'
 } as const
 
 export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
@@ -2954,6 +3028,15 @@ export const FacebookAccountScalarFieldEnum = {
 } as const
 
 export type FacebookAccountScalarFieldEnum = (typeof FacebookAccountScalarFieldEnum)[keyof typeof FacebookAccountScalarFieldEnum]
+
+
+export const PostsOnCollectionsScalarFieldEnum = {
+  postId: 'postId',
+  collectionId: 'collectionId',
+  assignedAt: 'assignedAt'
+} as const
+
+export type PostsOnCollectionsScalarFieldEnum = (typeof PostsOnCollectionsScalarFieldEnum)[keyof typeof PostsOnCollectionsScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -3385,6 +3468,7 @@ export type GlobalOmitConfig = {
   conversation?: Prisma.ConversationOmit
   message?: Prisma.MessageOmit
   facebookAccount?: Prisma.FacebookAccountOmit
+  postsOnCollections?: Prisma.PostsOnCollectionsOmit
 }
 
 /* Types for Logging */

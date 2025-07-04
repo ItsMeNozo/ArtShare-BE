@@ -16,47 +16,47 @@ export const collectionWithPostsSelect = {
   created_at: true,
   updated_at: true,
   posts: {
-    select: {
-      id: true,
-      title: true,
-      thumbnail_url: true,
-      created_at: true,
-    },
-
     orderBy: {
-      created_at: 'desc',
+      post: {
+        created_at: 'desc',
+      },
+    },
+    select: {
+      post: {
+        select: {
+          id: true,
+          title: true,
+          thumbnail_url: true,
+          created_at: true,
+        },
+      },
     },
   },
 } satisfies Prisma.CollectionSelect;
+
+/**
+ * This file contains the mapping functions and types for collections with posts.
+ * The main exported function is `mapCollectionToDto`, which transforms the
+ * selected collection payload into a `CollectionDto` object.
+ */
 
 export type SelectedCollectionPayload = Prisma.CollectionGetPayload<{
   select: typeof collectionWithPostsSelect;
 }>;
 
 const mapSelectedPostToSummaryDto = (
-  post: SelectedCollectionPayload['posts'][number],
+  postOnCollection: SelectedCollectionPayload['posts'][number],
 ): PostSummaryDto => ({
-  id: post.id,
-  title: post.title,
-  thumbnail_url: post.thumbnail_url ?? undefined,
-  created_at: post.created_at,
+  id: postOnCollection.post.id,
+  title: postOnCollection.post.title,
+  thumbnail_url: postOnCollection.post.thumbnail_url ?? undefined,
+  created_at: postOnCollection.post.created_at,
 });
 
 export const mapCollectionToDto = (
   collection: SelectedCollectionPayload,
 ): CollectionDto => {
-  const sortedPosts = [...collection.posts]
-    .sort(
-      (a, b) =>
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-    )
-    .map(mapSelectedPostToSummaryDto)
-    .map((post) => ({
-      id: post.id,
-      title: post.title,
-      thumbnail_url: post.thumbnail_url ?? undefined,
-      created_at: post.created_at,
-    }));
+  const sortedPosts = collection.posts.map(mapSelectedPostToSummaryDto);
 
   return {
     id: collection.id,
