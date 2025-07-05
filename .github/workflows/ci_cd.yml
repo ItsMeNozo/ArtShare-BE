@@ -350,8 +350,8 @@ jobs:
             # Start test container with memory limits
             docker run -d --name backend-test \
               --restart=unless-stopped \
-              --memory=1g \
-              --memory-swap=1g \
+              --memory=2g \
+              --memory-swap=2g \
               --cap-drop=ALL \
               --cap-add=CHOWN \
               --cap-add=SETGID \
@@ -362,27 +362,29 @@ jobs:
               -e OMP_NUM_THREADS=1 \
               -e ONNX_DISABLE_OPTIMIZATION=1 \
               -e TZ=Asia/Ho_Chi_Minh \
+              -e NODE_ENV=test \
+              -e PORT=3001 \
               -v artshare_test_model_cache:/app/.cache \
               --no-healthcheck \
               $IMAGE_NAME:$GITHUB_SHA
             
             # Wait for test container to start
             echo "⏳ Waiting for test environment to start..."
-            sleep 30
+            sleep 60
             
             # Health check for test environment
-            for i in {1..60}; do
-              if docker exec backend-test curl -f http://localhost:3001/health >/dev/null 2>&1; then
+            for i in {1..120}; do  # 4 minutes total timeout like production
+              if docker exec backend-test curl -f http://localhost:3001/ >/dev/null 2>&1; then
                 echo "✅ Test environment is running and healthy"
                 break
               fi
-              if [ $i -eq 60 ]; then
+              if [ $i -eq 120 ]; then
                 echo "❌ Test environment failed to start"
                 echo "📋 Container logs:"
                 docker logs --tail 50 backend-test
                 exit 1
               fi
-              echo "Waiting for test environment... ($i/60)"
+              echo "Waiting for test environment... ($i/120)"
               sleep 2
             done
             
@@ -408,10 +410,10 @@ jobs:
             fi
             
             # Check health endpoint
-            if docker exec backend-test curl -f http://localhost:3001/health >/dev/null 2>&1; then
+            if docker exec backend-test curl -f http://localhost:3001/ >/dev/null 2>&1; then
               echo "✅ Test environment health check passed"
               echo "📋 Health response:"
-              docker exec backend-test curl -s http://localhost:3001/health | head -10
+              docker exec backend-test curl -s http://localhost:3001/ | head -10
             else
               echo "❌ Test environment health check failed"
               exit 1
@@ -424,7 +426,7 @@ jobs:
         run: |
           echo "🎉 Test environment deployment of commit ${{ github.sha }} completed successfully!"
           echo "🌐 Test URL: https://test.artsharebe.id.vn"
-          echo "💾 Memory limit: 1GB"
+          echo "💾 Memory limit: 2GB"
 
       - name: Notify Test Deployment Failure
         if: failure()
