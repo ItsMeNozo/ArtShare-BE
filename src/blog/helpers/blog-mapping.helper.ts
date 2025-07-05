@@ -1,6 +1,5 @@
 import { Prisma } from 'src/generated';
 import { BlogDetailsResponseDto } from '../dto/response/blog-details.dto';
-import { BlogListItemResponseDto } from '../dto/response/blog-list-item.dto';
 
 type UserSelect = {
   id: true;
@@ -95,30 +94,5 @@ export const mapBlogToDetailsDto = (
       isFollowing: isFollowedByCurrentUser,
     },
     isLikedByCurrentUser: likeArray.length > 0,
-  };
-};
-
-export const mapBlogToListItemDto = (
-  blog: BlogForListItemPayload,
-): BlogListItemResponseDto => {
-  return {
-    id: blog.id,
-    title: blog.title,
-    content: blog.content,
-    createdAt: blog.createdAt,
-    updatedAt: blog.updatedAt,
-    likeCount: blog.likeCount,
-    commentCount: blog.commentCount,
-    shareCount: blog.shareCount,
-    viewCount: blog.viewCount,
-    isPublished: blog.isPublished,
-    pictures: blog.pictures,
-    user: {
-      id: blog.user.id,
-      username: blog.user.username,
-      profilePictureUrl: blog.user.profilePictureUrl,
-      fullName: blog.user.fullName,
-      followersCount: blog.user.followersCount,
-    },
   };
 };

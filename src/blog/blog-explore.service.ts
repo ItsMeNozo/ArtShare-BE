@@ -18,7 +18,6 @@ import {
   BlogForListItemPayload,
   blogListItemSelect,
   mapBlogToDetailsDto,
-  mapBlogToListItemDto,
 } from './helpers/blog-mapping.helper';
 
 @Injectable()
@@ -84,11 +83,7 @@ export class BlogExploreService {
       }),
     ]);
 
-    const mappedBlogs = blogs
-      .map(mapBlogToListItemDto)
-      .filter((b): b is BlogListItemResponseDto => b !== null);
-
-    return generatePaginatedResponse(mappedBlogs, totalBlogs, {
+    return generatePaginatedResponse(blogs, totalBlogs, {
       page,
       limit,
     });
@@ -100,9 +95,7 @@ export class BlogExploreService {
       select: blogListItemSelect,
       orderBy: { createdAt: 'desc' },
     });
-    return blogs
-      .map(mapBlogToListItemDto)
-      .filter((b): b is BlogListItemResponseDto => b !== null);
+    return blogs;
   }
 
   async findBlogById(
@@ -233,11 +226,7 @@ export class BlogExploreService {
       }),
     ]);
 
-    const mappedBlogs = blogs
-      .map(mapBlogToListItemDto)
-      .filter((b): b is BlogListItemResponseDto => b !== null);
-
-    return generatePaginatedResponse(mappedBlogs, totalBlogs, {
+    return generatePaginatedResponse(blogs, totalBlogs, {
       page,
       limit,
     });
@@ -288,11 +277,8 @@ export class BlogExploreService {
         where: finalWhere,
       }),
     ]);
-    const mappedBlogs = blogs
-      .map(mapBlogToListItemDto)
-      .filter((b): b is BlogListItemResponseDto => b !== null);
 
-    return generatePaginatedResponse(mappedBlogs, totalBlogs, {
+    return generatePaginatedResponse(blogs, totalBlogs, {
       page,
       limit,
     });
@@ -319,9 +305,7 @@ export class BlogExploreService {
       skip: skip,
     });
 
-    return blogs
-      .map(mapBlogToListItemDto)
-      .filter((b): b is BlogListItemResponseDto => b !== null);
+    return blogs;
   }
 
   @TryCatch()
@@ -397,11 +381,7 @@ export class BlogExploreService {
       .map((id) => blogs.find((blog) => blog.id === id))
       .filter((blog) => blog !== undefined);
 
-    const mappedBlogs = sortedBlogs
-      .map(mapBlogToListItemDto)
-      .filter((b): b is BlogListItemResponseDto => b !== null);
-
-    return generatePaginatedResponseWithUnknownTotal(mappedBlogs, {
+    return generatePaginatedResponseWithUnknownTotal(sortedBlogs, {
       page,
       limit,
     });

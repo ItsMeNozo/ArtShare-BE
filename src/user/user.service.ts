@@ -272,13 +272,13 @@ export class UserService {
   }
 
   async getAdminUserIds(): Promise<string[]> {
-    const result = await this.prisma.$queryRaw<{id: string}[]>`
+    const result = await this.prisma.$queryRaw<{ id: string }[]>`
       select u.id
       from "user" u
       where u.id in (
         select "userId" from user_role ur where ur."roleId" = 1
       )
     `;
-    return result.map(row => row.id);
+    return result.map((row) => row.id);
   }
 }

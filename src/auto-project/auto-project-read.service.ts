@@ -8,10 +8,7 @@ import { GetProjectsQuery } from './dto/request/get-projects-query.dto';
 import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
 import { AutoProjectListItemDto } from './dto/response/auto-project-list-item.dto';
 import { SortableProjectKey } from './enum/index.enum';
-import {
-  mapToAutoProjectDetailsDto,
-  mapToAutoProjectListItemsDto,
-} from './mapper/index.mapper';
+import { mapToAutoProjectListItemsDto } from './mapper/index.mapper';
 import { RawProjectResult } from './types/index.type';
 
 @Injectable()
@@ -123,6 +120,6 @@ export class AutoProjectReadService {
       throw new BadRequestException('Auto project not found');
     }
 
-    return mapToAutoProjectDetailsDto(autoProject);
+    return autoProject;
   }
 }
