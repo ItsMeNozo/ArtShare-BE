@@ -18,8 +18,7 @@ export class PromptService {
     userId: string,
     query: GetPromptHistoryQueryDto,
   ): Promise<PaginatedResponse<ImageGenerationResponseDto>> {
-    const limit = query.limit || 10;
-    const page = query.page || 1;
+    const { limit = 10, page = 1 } = query;
     const skip = (page - 1) * limit;
 
     const [promptHistory, totalCount] = await Promise.all([
