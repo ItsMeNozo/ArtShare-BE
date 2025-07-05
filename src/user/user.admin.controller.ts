@@ -251,7 +251,7 @@ export class UserAdminController {
   async adminDeleteMultipleUsers(
     @Body() deleteUsersDTO: DeleteUsersDTO,
   ): Promise<DeleteMultipleUsersResponseDto> {
-    return this.userAdminService.deleteMultipleUsers(deleteUsersDTO);
+    return this.userAdminService.deleteUsers(deleteUsersDTO);
   }
 
   @Delete(':userId')

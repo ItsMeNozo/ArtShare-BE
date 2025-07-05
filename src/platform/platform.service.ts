@@ -29,24 +29,24 @@ export class PlatformService {
   async createPlatform(data: CreatePlatformDto): Promise<Platform> {
     const { userId, name, externalPageId, config: rawConfig } = data;
 
-    const { page_name, access_token, category, ...otherConfigFields } =
+    const { pageName, accessToken, category, ...otherConfigFields } =
       rawConfig;
 
     const platformConfig: PlatformPageConfig = {
       ...otherConfigFields,
-      page_name: page_name,
-      encrypted_access_token: this.encryptionService.encrypt(access_token),
+      pageName: pageName,
+      encryptedAccessToken: this.encryptionService.encrypt(accessToken),
       category: category || '',
     };
 
-    delete (platformConfig as any).access_token;
+    delete (platformConfig as any).accessToken;
 
     try {
       return await this.prisma.platform.create({
         data: {
-          user_id: userId,
+          userId: userId,
           name,
-          external_page_id: externalPageId,
+          externalPageId: externalPageId,
           config: platformConfig as unknown as Prisma.InputJsonValue,
         },
       });
@@ -93,10 +93,10 @@ export class PlatformService {
   ): Promise<Platform | null> {
     const platform = await this.prisma.platform.findUnique({
       where: {
-        user_id_name_external_page_id: {
-          user_id: userId,
+        userId_name_externalPageId: {
+          userId: userId,
           name: platformName,
-          external_page_id: externalPageId,
+          externalPageId: externalPageId,
         },
       },
     });
@@ -113,7 +113,7 @@ export class PlatformService {
    */
   async findPlatformsByUserId(userId: string): Promise<Platform[]> {
     return this.prisma.platform.findMany({
-      where: { user_id: userId },
+      where: { userId: userId },
       include: {
         autoProjects: {
           select: {
@@ -122,7 +122,7 @@ export class PlatformService {
           },
         },
       },
-      orderBy: { created_at: 'desc' },
+      orderBy: { createdAt: 'desc' },
     });
   }
 
@@ -135,7 +135,7 @@ export class PlatformService {
   ): Promise<Platform[]> {
     return this.prisma.platform.findMany({
       where: {
-        user_id: userId,
+        userId: userId,
         name: platformName,
       },
       include: {
@@ -146,7 +146,7 @@ export class PlatformService {
           },
         },
       },
-      orderBy: { created_at: 'desc' },
+      orderBy: { createdAt: 'desc' },
     });
   }
 
@@ -169,8 +169,8 @@ export class PlatformService {
     const { config: newConfigDataFromDto } = dto;
 
     const {
-      page_name: newPageName,
-      access_token: newAccessToken,
+      pageName: newPageName,
+      accessToken: newAccessToken,
       category: newCategory,
       ...otherNewConfigFields
     } = newConfigDataFromDto;
@@ -181,22 +181,22 @@ export class PlatformService {
     };
 
     if (newPageName !== undefined) {
-      updatedConfig.page_name = newPageName;
+      updatedConfig.pageName = newPageName;
     }
     if (newCategory !== undefined) {
       updatedConfig.category = newCategory;
     }
 
     if (newAccessToken) {
-      updatedConfig.encrypted_access_token =
+      updatedConfig.encryptedAccessToken =
         this.encryptionService.encrypt(newAccessToken);
     } else if (
-      !updatedConfig.encrypted_access_token &&
-      currentConfig.encrypted_access_token
+      !updatedConfig.encryptedAccessToken &&
+      currentConfig.encryptedAccessToken
     ) {
-      updatedConfig.encrypted_access_token = newAccessToken
+      updatedConfig.encryptedAccessToken = newAccessToken
         ? this.encryptionService.encrypt(newAccessToken)
-        : currentConfig.encrypted_access_token;
+        : currentConfig.encryptedAccessToken;
     }
 
     try {
@@ -264,7 +264,7 @@ export class PlatformService {
           const authorizedApiPageIds = new Set(pagesFromApi.map((p) => p.id));
           const existingUserPlatforms = await tx.platform.findMany({
             where: {
-              user_id: userId,
+              userId: userId,
               name: platformName,
             },
           });
@@ -273,46 +273,46 @@ export class PlatformService {
             const {
               id: apiExternalId,
               name: apiPageName,
-              access_token: apiAccessToken,
+              accessToken: apiAccessToken,
               category: apiCategory,
-              token_expires_at,
-              picture_url: apiPictureUrl,
+              tokenExpiresAt: tokenExpiresAt,
+              pictureUrl: apiPictureUrl,
               ...remainingApiFields
             } = pageFromApi;
 
             const pageConfigForDb: PlatformPageConfig = {
               ...remainingApiFields,
-              page_name: apiPageName,
-              encrypted_access_token:
+              pageName: apiPageName,
+              encryptedAccessToken:
                 this.encryptionService.encrypt(apiAccessToken),
               category: apiCategory || '',
             };
 
             return tx.platform.upsert({
               where: {
-                user_id_name_external_page_id: {
-                  user_id: userId,
+                userId_name_externalPageId: {
+                  userId: userId,
                   name: platformName,
-                  external_page_id: apiExternalId,
+                  externalPageId: apiExternalId,
                 },
               },
               create: {
-                user_id: userId,
+                userId: userId,
                 name: platformName,
-                external_page_id: apiExternalId,
+                externalPageId: apiExternalId,
                 config: pageConfigForDb as unknown as Prisma.InputJsonValue,
                 status: PlatformStatus.ACTIVE,
-                token_expires_at: token_expires_at,
-                picture_url: apiPictureUrl || null,
-                facebook_account_id: facebookAccountId,
+                tokenExpiresAt: tokenExpiresAt,
+                pictureUrl: apiPictureUrl || null,
+                facebookAccountId: facebookAccountId,
               },
               update: {
                 config: pageConfigForDb as unknown as Prisma.InputJsonValue,
-                updated_at: new Date(),
+                updatedAt: new Date(),
                 status: PlatformStatus.ACTIVE,
-                token_expires_at: token_expires_at,
-                picture_url: apiPictureUrl || null,
-                facebook_account_id: facebookAccountId,
+                tokenExpiresAt: tokenExpiresAt,
+                pictureUrl: apiPictureUrl || null,
+                facebookAccountId: facebookAccountId,
               },
             });
           });
@@ -321,7 +321,7 @@ export class PlatformService {
 
           const platformsToDelete = existingUserPlatforms.filter(
             (dbPlatform) =>
-              !authorizedApiPageIds.has(dbPlatform.external_page_id),
+              !authorizedApiPageIds.has(dbPlatform.externalPageId),
           );
 
           if (platformsToDelete.length > 0) {
@@ -346,10 +346,10 @@ export class PlatformService {
       const publicResults = synchronizedPlatforms.map((platform) => {
         const platformConfig = platform.config as unknown as PlatformPageConfig;
         return {
-          id: platform.external_page_id,
-          name: platformConfig.page_name,
+          id: platform.externalPageId,
+          name: platformConfig.pageName,
           category: platformConfig.category,
-          platform_db_id: platform.id,
+          platformDbId: platform.id,
           status: platform.status,
         };
       });
@@ -392,10 +392,10 @@ export class PlatformService {
 
     const decryptedConfig: PlatformPageConfig = { ...config };
 
-    if (config.encrypted_access_token) {
+    if (config.encryptedAccessToken) {
       try {
-        (decryptedConfig as any).access_token = this.encryptionService.decrypt(
-          config.encrypted_access_token,
+        (decryptedConfig as any).accessToken = this.encryptionService.decrypt(
+          config.encryptedAccessToken,
         );
       } catch (error) {
         this.logger.error(

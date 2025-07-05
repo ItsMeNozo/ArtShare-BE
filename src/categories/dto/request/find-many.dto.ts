@@ -9,7 +9,7 @@ export class FindManyCategoriesDto {
 
   @IsOptional()
   @IsString()
-  search_query?: string;
+  searchQuery?: string;
 
   @IsOptional()
   @Type(() => Number)
@@ -19,5 +19,5 @@ export class FindManyCategoriesDto {
   @IsOptional()
   @Type(() => Number)
   @IsInt()
-  page_size?: number;
+  pageSize?: number;
 }

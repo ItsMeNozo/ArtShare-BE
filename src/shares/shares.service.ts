@@ -13,29 +13,29 @@ export class SharesService {
     dto: CreateShareDto,
     userId: string,
   ): Promise<ShareDetailsDto> {
-    await this.verifyTargetExists(dto.target_id, dto.target_type);
+    await this.verifyTargetExists(dto.targetId, dto.targetType);
     await this.verifyShareAlreadyExists(dto, userId);
 
     const share = await this.prisma.$transaction(async (tx) => {
       const created = await tx.share.create({
         data: {
-          user_id: userId,
-          share_platform: dto.share_platform,
-          ...(dto.target_type === TargetType.POST
-            ? { post_id: dto.target_id }
-            : { blog_id: dto.target_id }),
+          userId: userId,
+          sharePlatform: dto.sharePlatform,
+          ...(dto.targetType === TargetType.POST
+            ? { postId: dto.targetId }
+            : { blogId: dto.targetId }),
         },
       });
 
-      if (dto.target_type === TargetType.POST) {
+      if (dto.targetType === TargetType.POST) {
         await tx.post.update({
-          where: { id: dto.target_id },
-          data: { share_count: { increment: 1 } },
+          where: { id: dto.targetId },
+          data: { shareCount: { increment: 1 } },
         });
       } else {
         await tx.blog.update({
-          where: { id: dto.target_id },
-          data: { share_count: { increment: 1 } },
+          where: { id: dto.targetId },
+          data: { shareCount: { increment: 1 } },
         });
       }
 
@@ -61,8 +61,8 @@ export class SharesService {
 
   private async verifyShareAlreadyExists(dto: CreateShareDto, userId: string) {
     const existing = await this.findShare(
-      dto.target_id,
-      dto.target_type,
+      dto.targetId,
+      dto.targetType,
       userId,
     );
     if (existing) throw new BadRequestException('You have already shared this');
@@ -75,11 +75,11 @@ export class SharesService {
   ) {
     if (targetType === TargetType.POST) {
       return this.prisma.share.findFirst({
-        where: { user_id: userId, post_id: targetId },
+        where: { userId: userId, postId: targetId },
       });
     } else {
       return this.prisma.share.findFirst({
-        where: { user_id: userId, blog_id: targetId },
+        where: { userId: userId, blogId: targetId },
       });
     }
   }

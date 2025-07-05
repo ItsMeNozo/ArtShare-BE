@@ -30,9 +30,9 @@ export class ReportController {
   @Post()
   async submitReport(
     @Body() createReportDto: CreateReportDto,
-    @CurrentUser() userInfo: CurrentUserType,
+    @CurrentUser() user: CurrentUserType,
   ): Promise<{ message: string; reportId: number }> {
-    const reporterId = userInfo?.id;
+    const reporterId = user?.id;
     if (!reporterId) {
       throw new InternalServerErrorException(
         'Could not identify reporter from token.',
@@ -75,9 +75,9 @@ export class ReportController {
   async resolve(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: ResolveReportDto,
-    @CurrentUser() userInfo: CurrentUserType,
+    @CurrentUser() user: CurrentUserType,
   ): Promise<Report> {
-    return this.reportService.resolveReport(id, dto, userInfo.id);
+    return this.reportService.resolveReport(id, dto, user.id);
   }
 
   @Get('blogs')

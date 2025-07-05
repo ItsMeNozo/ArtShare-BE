@@ -34,31 +34,31 @@ export type CategorySumAggregateOutputType = {
 }
 
 export type CategoryMinAggregateOutputType = {
-  created_at: Date | null
+  createdAt: Date | null
   id: number | null
   name: string | null
   description: string | null
   type: $Enums.CategoryType | null
-  updated_at: Date | null
+  updatedAt: Date | null
 }
 
 export type CategoryMaxAggregateOutputType = {
-  created_at: Date | null
+  createdAt: Date | null
   id: number | null
   name: string | null
   description: string | null
   type: $Enums.CategoryType | null
-  updated_at: Date | null
+  updatedAt: Date | null
 }
 
 export type CategoryCountAggregateOutputType = {
-  created_at: number
+  createdAt: number
   id: number
   name: number
   description: number
-  example_images: number
+  exampleImages: number
   type: number
-  updated_at: number
+  updatedAt: number
   _all: number
 }
 
@@ -72,31 +72,31 @@ export type CategorySumAggregateInputType = {
 }
 
 export type CategoryMinAggregateInputType = {
-  created_at?: true
+  createdAt?: true
   id?: true
   name?: true
   description?: true
   type?: true
-  updated_at?: true
+  updatedAt?: true
 }
 
 export type CategoryMaxAggregateInputType = {
-  created_at?: true
+  createdAt?: true
   id?: true
   name?: true
   description?: true
   type?: true
-  updated_at?: true
+  updatedAt?: true
 }
 
 export type CategoryCountAggregateInputType = {
-  created_at?: true
+  createdAt?: true
   id?: true
   name?: true
   description?: true
-  example_images?: true
+  exampleImages?: true
   type?: true
-  updated_at?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -187,13 +187,13 @@ export type CategoryGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 export type CategoryGroupByOutputType = {
-  created_at: Date
+  createdAt: Date
   id: number
   name: string
   description: string
-  example_images: string[]
+  exampleImages: string[]
   type: $Enums.CategoryType
-  updated_at: Date | null
+  updatedAt: Date | null
   _count: CategoryCountAggregateOutputType | null
   _avg: CategoryAvgAggregateOutputType | null
   _sum: CategorySumAggregateOutputType | null
@@ -220,25 +220,25 @@ export type CategoryWhereInput = {
   AND?: Prisma.CategoryWhereInput | Prisma.CategoryWhereInput[]
   OR?: Prisma.CategoryWhereInput[]
   NOT?: Prisma.CategoryWhereInput | Prisma.CategoryWhereInput[]
-  created_at?: Prisma.DateTimeFilter<"Category"> | Date | string
+  createdAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   id?: Prisma.IntFilter<"Category"> | number
   name?: Prisma.StringFilter<"Category"> | string
   description?: Prisma.StringFilter<"Category"> | string
-  example_images?: Prisma.StringNullableListFilter<"Category">
+  exampleImages?: Prisma.StringNullableListFilter<"Category">
   type?: Prisma.EnumCategoryTypeFilter<"Category"> | $Enums.CategoryType
-  updated_at?: Prisma.DateTimeNullableFilter<"Category"> | Date | string | null
+  updatedAt?: Prisma.DateTimeNullableFilter<"Category"> | Date | string | null
   blogs?: Prisma.BlogListRelationFilter
   posts?: Prisma.PostListRelationFilter
 }
 
 export type CategoryOrderByWithRelationInput = {
-  created_at?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  example_images?: Prisma.SortOrder
+  exampleImages?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   blogs?: Prisma.BlogOrderByRelationAggregateInput
   posts?: Prisma.PostOrderByRelationAggregateInput
 }
@@ -249,23 +249,23 @@ export type CategoryWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.CategoryWhereInput | Prisma.CategoryWhereInput[]
   OR?: Prisma.CategoryWhereInput[]
   NOT?: Prisma.CategoryWhereInput | Prisma.CategoryWhereInput[]
-  created_at?: Prisma.DateTimeFilter<"Category"> | Date | string
+  createdAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   description?: Prisma.StringFilter<"Category"> | string
-  example_images?: Prisma.StringNullableListFilter<"Category">
+  exampleImages?: Prisma.StringNullableListFilter<"Category">
   type?: Prisma.EnumCategoryTypeFilter<"Category"> | $Enums.CategoryType
-  updated_at?: Prisma.DateTimeNullableFilter<"Category"> | Date | string | null
+  updatedAt?: Prisma.DateTimeNullableFilter<"Category"> | Date | string | null
   blogs?: Prisma.BlogListRelationFilter
   posts?: Prisma.PostListRelationFilter
 }, "id" | "name">
 
 export type CategoryOrderByWithAggregationInput = {
-  created_at?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  example_images?: Prisma.SortOrder
+  exampleImages?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.CategoryCountOrderByAggregateInput
   _avg?: Prisma.CategoryAvgOrderByAggregateInput
   _max?: Prisma.CategoryMaxOrderByAggregateInput
@@ -277,88 +277,88 @@ export type CategoryScalarWhereWithAggregatesInput = {
   AND?: Prisma.CategoryScalarWhereWithAggregatesInput | Prisma.CategoryScalarWhereWithAggregatesInput[]
   OR?: Prisma.CategoryScalarWhereWithAggregatesInput[]
   NOT?: Prisma.CategoryScalarWhereWithAggregatesInput | Prisma.CategoryScalarWhereWithAggregatesInput[]
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"Category"> | Date | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Category"> | Date | string
   id?: Prisma.IntWithAggregatesFilter<"Category"> | number
   name?: Prisma.StringWithAggregatesFilter<"Category"> | string
   description?: Prisma.StringWithAggregatesFilter<"Category"> | string
-  example_images?: Prisma.StringNullableListFilter<"Category">
+  exampleImages?: Prisma.StringNullableListFilter<"Category">
   type?: Prisma.EnumCategoryTypeWithAggregatesFilter<"Category"> | $Enums.CategoryType
-  updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"Category"> | Date | string | null
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Category"> | Date | string | null
 }
 
 export type CategoryCreateInput = {
-  created_at?: Date | string
+  createdAt?: Date | string
   name: string
   description: string
-  example_images?: Prisma.CategoryCreateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryCreateexampleImagesInput | string[]
   type?: $Enums.CategoryType
-  updated_at?: Date | string | null
+  updatedAt?: Date | string | null
   blogs?: Prisma.BlogCreateNestedManyWithoutCategoriesInput
   posts?: Prisma.PostCreateNestedManyWithoutCategoriesInput
 }
 
 export type CategoryUncheckedCreateInput = {
-  created_at?: Date | string
+  createdAt?: Date | string
   id?: number
   name: string
   description: string
-  example_images?: Prisma.CategoryCreateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryCreateexampleImagesInput | string[]
   type?: $Enums.CategoryType
-  updated_at?: Date | string | null
+  updatedAt?: Date | string | null
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutCategoriesInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutCategoriesInput
 }
 
 export type CategoryUpdateInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  example_images?: Prisma.CategoryUpdateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryUpdateexampleImagesInput | string[]
   type?: Prisma.EnumCategoryTypeFieldUpdateOperationsInput | $Enums.CategoryType
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   blogs?: Prisma.BlogUpdateManyWithoutCategoriesNestedInput
   posts?: Prisma.PostUpdateManyWithoutCategoriesNestedInput
 }
 
 export type CategoryUncheckedUpdateInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  example_images?: Prisma.CategoryUpdateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryUpdateexampleImagesInput | string[]
   type?: Prisma.EnumCategoryTypeFieldUpdateOperationsInput | $Enums.CategoryType
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutCategoriesNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutCategoriesNestedInput
 }
 
 export type CategoryCreateManyInput = {
-  created_at?: Date | string
+  createdAt?: Date | string
   id?: number
   name: string
   description: string
-  example_images?: Prisma.CategoryCreateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryCreateexampleImagesInput | string[]
   type?: $Enums.CategoryType
-  updated_at?: Date | string | null
+  updatedAt?: Date | string | null
 }
 
 export type CategoryUpdateManyMutationInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  example_images?: Prisma.CategoryUpdateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryUpdateexampleImagesInput | string[]
   type?: Prisma.EnumCategoryTypeFieldUpdateOperationsInput | $Enums.CategoryType
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type CategoryUncheckedUpdateManyInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  example_images?: Prisma.CategoryUpdateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryUpdateexampleImagesInput | string[]
   type?: Prisma.EnumCategoryTypeFieldUpdateOperationsInput | $Enums.CategoryType
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type CategoryListRelationFilter = {
@@ -372,13 +372,13 @@ export type CategoryOrderByRelationAggregateInput = {
 }
 
 export type CategoryCountOrderByAggregateInput = {
-  created_at?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  example_images?: Prisma.SortOrder
+  exampleImages?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type CategoryAvgOrderByAggregateInput = {
@@ -386,21 +386,21 @@ export type CategoryAvgOrderByAggregateInput = {
 }
 
 export type CategoryMaxOrderByAggregateInput = {
-  created_at?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type CategoryMinOrderByAggregateInput = {
-  created_at?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type CategorySumOrderByAggregateInput = {
@@ -483,11 +483,11 @@ export type CategoryUncheckedUpdateManyWithoutBlogsNestedInput = {
   deleteMany?: Prisma.CategoryScalarWhereInput | Prisma.CategoryScalarWhereInput[]
 }
 
-export type CategoryCreateexample_imagesInput = {
+export type CategoryCreateexampleImagesInput = {
   set: string[]
 }
 
-export type CategoryUpdateexample_imagesInput = {
+export type CategoryUpdateexampleImagesInput = {
   set?: string[]
   push?: string | string[]
 }
@@ -497,23 +497,23 @@ export type EnumCategoryTypeFieldUpdateOperationsInput = {
 }
 
 export type CategoryCreateWithoutPostsInput = {
-  created_at?: Date | string
+  createdAt?: Date | string
   name: string
   description: string
-  example_images?: Prisma.CategoryCreateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryCreateexampleImagesInput | string[]
   type?: $Enums.CategoryType
-  updated_at?: Date | string | null
+  updatedAt?: Date | string | null
   blogs?: Prisma.BlogCreateNestedManyWithoutCategoriesInput
 }
 
 export type CategoryUncheckedCreateWithoutPostsInput = {
-  created_at?: Date | string
+  createdAt?: Date | string
   id?: number
   name: string
   description: string
-  example_images?: Prisma.CategoryCreateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryCreateexampleImagesInput | string[]
   type?: $Enums.CategoryType
-  updated_at?: Date | string | null
+  updatedAt?: Date | string | null
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutCategoriesInput
 }
 
@@ -542,33 +542,33 @@ export type CategoryScalarWhereInput = {
   AND?: Prisma.CategoryScalarWhereInput | Prisma.CategoryScalarWhereInput[]
   OR?: Prisma.CategoryScalarWhereInput[]
   NOT?: Prisma.CategoryScalarWhereInput | Prisma.CategoryScalarWhereInput[]
-  created_at?: Prisma.DateTimeFilter<"Category"> | Date | string
+  createdAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   id?: Prisma.IntFilter<"Category"> | number
   name?: Prisma.StringFilter<"Category"> | string
   description?: Prisma.StringFilter<"Category"> | string
-  example_images?: Prisma.StringNullableListFilter<"Category">
+  exampleImages?: Prisma.StringNullableListFilter<"Category">
   type?: Prisma.EnumCategoryTypeFilter<"Category"> | $Enums.CategoryType
-  updated_at?: Prisma.DateTimeNullableFilter<"Category"> | Date | string | null
+  updatedAt?: Prisma.DateTimeNullableFilter<"Category"> | Date | string | null
 }
 
 export type CategoryCreateWithoutBlogsInput = {
-  created_at?: Date | string
+  createdAt?: Date | string
   name: string
   description: string
-  example_images?: Prisma.CategoryCreateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryCreateexampleImagesInput | string[]
   type?: $Enums.CategoryType
-  updated_at?: Date | string | null
+  updatedAt?: Date | string | null
   posts?: Prisma.PostCreateNestedManyWithoutCategoriesInput
 }
 
 export type CategoryUncheckedCreateWithoutBlogsInput = {
-  created_at?: Date | string
+  createdAt?: Date | string
   id?: number
   name: string
   description: string
-  example_images?: Prisma.CategoryCreateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryCreateexampleImagesInput | string[]
   type?: $Enums.CategoryType
-  updated_at?: Date | string | null
+  updatedAt?: Date | string | null
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutCategoriesInput
 }
 
@@ -594,65 +594,65 @@ export type CategoryUpdateManyWithWhereWithoutBlogsInput = {
 }
 
 export type CategoryUpdateWithoutPostsInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  example_images?: Prisma.CategoryUpdateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryUpdateexampleImagesInput | string[]
   type?: Prisma.EnumCategoryTypeFieldUpdateOperationsInput | $Enums.CategoryType
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   blogs?: Prisma.BlogUpdateManyWithoutCategoriesNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutPostsInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  example_images?: Prisma.CategoryUpdateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryUpdateexampleImagesInput | string[]
   type?: Prisma.EnumCategoryTypeFieldUpdateOperationsInput | $Enums.CategoryType
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutCategoriesNestedInput
 }
 
 export type CategoryUncheckedUpdateManyWithoutPostsInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  example_images?: Prisma.CategoryUpdateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryUpdateexampleImagesInput | string[]
   type?: Prisma.EnumCategoryTypeFieldUpdateOperationsInput | $Enums.CategoryType
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type CategoryUpdateWithoutBlogsInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  example_images?: Prisma.CategoryUpdateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryUpdateexampleImagesInput | string[]
   type?: Prisma.EnumCategoryTypeFieldUpdateOperationsInput | $Enums.CategoryType
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   posts?: Prisma.PostUpdateManyWithoutCategoriesNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutBlogsInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  example_images?: Prisma.CategoryUpdateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryUpdateexampleImagesInput | string[]
   type?: Prisma.EnumCategoryTypeFieldUpdateOperationsInput | $Enums.CategoryType
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   posts?: Prisma.PostUncheckedUpdateManyWithoutCategoriesNestedInput
 }
 
 export type CategoryUncheckedUpdateManyWithoutBlogsInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  example_images?: Prisma.CategoryUpdateexample_imagesInput | string[]
+  exampleImages?: Prisma.CategoryUpdateexampleImagesInput | string[]
   type?: Prisma.EnumCategoryTypeFieldUpdateOperationsInput | $Enums.CategoryType
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -696,49 +696,49 @@ export type CategoryCountOutputTypeCountPostsArgs<ExtArgs extends runtime.Types.
 
 
 export type CategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  created_at?: boolean
+  createdAt?: boolean
   id?: boolean
   name?: boolean
   description?: boolean
-  example_images?: boolean
+  exampleImages?: boolean
   type?: boolean
-  updated_at?: boolean
+  updatedAt?: boolean
   blogs?: boolean | Prisma.Category$blogsArgs<ExtArgs>
   posts?: boolean | Prisma.Category$postsArgs<ExtArgs>
   _count?: boolean | Prisma.CategoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["category"]>
 
 export type CategorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  created_at?: boolean
+  createdAt?: boolean
   id?: boolean
   name?: boolean
   description?: boolean
-  example_images?: boolean
+  exampleImages?: boolean
   type?: boolean
-  updated_at?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["category"]>
 
 export type CategorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  created_at?: boolean
+  createdAt?: boolean
   id?: boolean
   name?: boolean
   description?: boolean
-  example_images?: boolean
+  exampleImages?: boolean
   type?: boolean
-  updated_at?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["category"]>
 
 export type CategorySelectScalar = {
-  created_at?: boolean
+  createdAt?: boolean
   id?: boolean
   name?: boolean
   description?: boolean
-  example_images?: boolean
+  exampleImages?: boolean
   type?: boolean
-  updated_at?: boolean
+  updatedAt?: boolean
 }
 
-export type CategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"created_at" | "id" | "name" | "description" | "example_images" | "type" | "updated_at", ExtArgs["result"]["category"]>
+export type CategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"createdAt" | "id" | "name" | "description" | "exampleImages" | "type" | "updatedAt", ExtArgs["result"]["category"]>
 export type CategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   blogs?: boolean | Prisma.Category$blogsArgs<ExtArgs>
   posts?: boolean | Prisma.Category$postsArgs<ExtArgs>
@@ -754,13 +754,13 @@ export type $CategoryPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     posts: Prisma.$PostPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    created_at: Date
+    createdAt: Date
     id: number
     name: string
     description: string
-    example_images: string[]
+    exampleImages: string[]
     type: $Enums.CategoryType
-    updated_at: Date | null
+    updatedAt: Date | null
   }, ExtArgs["result"]["category"]>
   composites: {}
 }
@@ -844,8 +844,8 @@ export interface CategoryDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    * // Get first 10 Categories
    * const categories = await prisma.category.findMany({ take: 10 })
    * 
-   * // Only select the `created_at`
-   * const categoryWithCreated_atOnly = await prisma.category.findMany({ select: { created_at: true } })
+   * // Only select the `createdAt`
+   * const categoryWithCreatedAtOnly = await prisma.category.findMany({ select: { createdAt: true } })
    * 
    */
   findMany<T extends CategoryFindManyArgs>(args?: Prisma.SelectSubset<T, CategoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -889,9 +889,9 @@ export interface CategoryDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    *   ]
    * })
    * 
-   * // Create many Categories and only return the `created_at`
-   * const categoryWithCreated_atOnly = await prisma.category.createManyAndReturn({
-   *   select: { created_at: true },
+   * // Create many Categories and only return the `createdAt`
+   * const categoryWithCreatedAtOnly = await prisma.category.createManyAndReturn({
+   *   select: { createdAt: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -980,9 +980,9 @@ export interface CategoryDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    *   ]
    * })
    * 
-   * // Update zero or more Categories and only return the `created_at`
-   * const categoryWithCreated_atOnly = await prisma.category.updateManyAndReturn({
-   *   select: { created_at: true },
+   * // Update zero or more Categories and only return the `createdAt`
+   * const categoryWithCreatedAtOnly = await prisma.category.updateManyAndReturn({
+   *   select: { createdAt: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1186,13 +1186,13 @@ export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends runtime
  * Fields of the Category model
  */
 export interface CategoryFieldRefs {
-  readonly created_at: Prisma.FieldRef<"Category", 'DateTime'>
+  readonly createdAt: Prisma.FieldRef<"Category", 'DateTime'>
   readonly id: Prisma.FieldRef<"Category", 'Int'>
   readonly name: Prisma.FieldRef<"Category", 'String'>
   readonly description: Prisma.FieldRef<"Category", 'String'>
-  readonly example_images: Prisma.FieldRef<"Category", 'String[]'>
+  readonly exampleImages: Prisma.FieldRef<"Category", 'String[]'>
   readonly type: Prisma.FieldRef<"Category", 'CategoryType'>
-  readonly updated_at: Prisma.FieldRef<"Category", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Category", 'DateTime'>
 }
     
 

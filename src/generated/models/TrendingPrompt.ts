@@ -35,24 +35,24 @@ export type TrendingPromptSumAggregateOutputType = {
 
 export type TrendingPromptMinAggregateOutputType = {
   id: number | null
-  prompt_key: string | null
-  created_at: Date | null
-  updated_at: Date | null
+  promptKey: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type TrendingPromptMaxAggregateOutputType = {
   id: number | null
-  prompt_key: string | null
-  created_at: Date | null
-  updated_at: Date | null
+  promptKey: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type TrendingPromptCountAggregateOutputType = {
   id: number
-  prompt_key: number
+  promptKey: number
   prompts: number
-  created_at: number
-  updated_at: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -67,24 +67,24 @@ export type TrendingPromptSumAggregateInputType = {
 
 export type TrendingPromptMinAggregateInputType = {
   id?: true
-  prompt_key?: true
-  created_at?: true
-  updated_at?: true
+  promptKey?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type TrendingPromptMaxAggregateInputType = {
   id?: true
-  prompt_key?: true
-  created_at?: true
-  updated_at?: true
+  promptKey?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type TrendingPromptCountAggregateInputType = {
   id?: true
-  prompt_key?: true
+  promptKey?: true
   prompts?: true
-  created_at?: true
-  updated_at?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -176,10 +176,10 @@ export type TrendingPromptGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 
 export type TrendingPromptGroupByOutputType = {
   id: number
-  prompt_key: string
+  promptKey: string
   prompts: string[]
-  created_at: Date
-  updated_at: Date
+  createdAt: Date
+  updatedAt: Date
   _count: TrendingPromptCountAggregateOutputType | null
   _avg: TrendingPromptAvgAggregateOutputType | null
   _sum: TrendingPromptSumAggregateOutputType | null
@@ -207,37 +207,37 @@ export type TrendingPromptWhereInput = {
   OR?: Prisma.TrendingPromptWhereInput[]
   NOT?: Prisma.TrendingPromptWhereInput | Prisma.TrendingPromptWhereInput[]
   id?: Prisma.IntFilter<"TrendingPrompt"> | number
-  prompt_key?: Prisma.StringFilter<"TrendingPrompt"> | string
+  promptKey?: Prisma.StringFilter<"TrendingPrompt"> | string
   prompts?: Prisma.StringNullableListFilter<"TrendingPrompt">
-  created_at?: Prisma.DateTimeFilter<"TrendingPrompt"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"TrendingPrompt"> | Date | string
+  createdAt?: Prisma.DateTimeFilter<"TrendingPrompt"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"TrendingPrompt"> | Date | string
 }
 
 export type TrendingPromptOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  prompt_key?: Prisma.SortOrder
+  promptKey?: Prisma.SortOrder
   prompts?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type TrendingPromptWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  prompt_key?: string
+  promptKey?: string
   AND?: Prisma.TrendingPromptWhereInput | Prisma.TrendingPromptWhereInput[]
   OR?: Prisma.TrendingPromptWhereInput[]
   NOT?: Prisma.TrendingPromptWhereInput | Prisma.TrendingPromptWhereInput[]
   prompts?: Prisma.StringNullableListFilter<"TrendingPrompt">
-  created_at?: Prisma.DateTimeFilter<"TrendingPrompt"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"TrendingPrompt"> | Date | string
-}, "id" | "prompt_key">
+  createdAt?: Prisma.DateTimeFilter<"TrendingPrompt"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"TrendingPrompt"> | Date | string
+}, "id" | "promptKey">
 
 export type TrendingPromptOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  prompt_key?: Prisma.SortOrder
+  promptKey?: Prisma.SortOrder
   prompts?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.TrendingPromptCountOrderByAggregateInput
   _avg?: Prisma.TrendingPromptAvgOrderByAggregateInput
   _max?: Prisma.TrendingPromptMaxOrderByAggregateInput
@@ -250,71 +250,71 @@ export type TrendingPromptScalarWhereWithAggregatesInput = {
   OR?: Prisma.TrendingPromptScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TrendingPromptScalarWhereWithAggregatesInput | Prisma.TrendingPromptScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"TrendingPrompt"> | number
-  prompt_key?: Prisma.StringWithAggregatesFilter<"TrendingPrompt"> | string
+  promptKey?: Prisma.StringWithAggregatesFilter<"TrendingPrompt"> | string
   prompts?: Prisma.StringNullableListFilter<"TrendingPrompt">
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"TrendingPrompt"> | Date | string
-  updated_at?: Prisma.DateTimeWithAggregatesFilter<"TrendingPrompt"> | Date | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"TrendingPrompt"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TrendingPrompt"> | Date | string
 }
 
 export type TrendingPromptCreateInput = {
-  prompt_key: string
+  promptKey: string
   prompts?: Prisma.TrendingPromptCreatepromptsInput | string[]
-  created_at?: Date | string
-  updated_at?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TrendingPromptUncheckedCreateInput = {
   id?: number
-  prompt_key: string
+  promptKey: string
   prompts?: Prisma.TrendingPromptCreatepromptsInput | string[]
-  created_at?: Date | string
-  updated_at?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TrendingPromptUpdateInput = {
-  prompt_key?: Prisma.StringFieldUpdateOperationsInput | string
+  promptKey?: Prisma.StringFieldUpdateOperationsInput | string
   prompts?: Prisma.TrendingPromptUpdatepromptsInput | string[]
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TrendingPromptUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  prompt_key?: Prisma.StringFieldUpdateOperationsInput | string
+  promptKey?: Prisma.StringFieldUpdateOperationsInput | string
   prompts?: Prisma.TrendingPromptUpdatepromptsInput | string[]
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TrendingPromptCreateManyInput = {
   id?: number
-  prompt_key: string
+  promptKey: string
   prompts?: Prisma.TrendingPromptCreatepromptsInput | string[]
-  created_at?: Date | string
-  updated_at?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TrendingPromptUpdateManyMutationInput = {
-  prompt_key?: Prisma.StringFieldUpdateOperationsInput | string
+  promptKey?: Prisma.StringFieldUpdateOperationsInput | string
   prompts?: Prisma.TrendingPromptUpdatepromptsInput | string[]
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TrendingPromptUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  prompt_key?: Prisma.StringFieldUpdateOperationsInput | string
+  promptKey?: Prisma.StringFieldUpdateOperationsInput | string
   prompts?: Prisma.TrendingPromptUpdatepromptsInput | string[]
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TrendingPromptCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  prompt_key?: Prisma.SortOrder
+  promptKey?: Prisma.SortOrder
   prompts?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type TrendingPromptAvgOrderByAggregateInput = {
@@ -323,16 +323,16 @@ export type TrendingPromptAvgOrderByAggregateInput = {
 
 export type TrendingPromptMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  prompt_key?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  promptKey?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type TrendingPromptMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  prompt_key?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  promptKey?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type TrendingPromptSumOrderByAggregateInput = {
@@ -352,47 +352,47 @@ export type TrendingPromptUpdatepromptsInput = {
 
 export type TrendingPromptSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  prompt_key?: boolean
+  promptKey?: boolean
   prompts?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["trendingPrompt"]>
 
 export type TrendingPromptSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  prompt_key?: boolean
+  promptKey?: boolean
   prompts?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["trendingPrompt"]>
 
 export type TrendingPromptSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  prompt_key?: boolean
+  promptKey?: boolean
   prompts?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["trendingPrompt"]>
 
 export type TrendingPromptSelectScalar = {
   id?: boolean
-  prompt_key?: boolean
+  promptKey?: boolean
   prompts?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type TrendingPromptOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "prompt_key" | "prompts" | "created_at" | "updated_at", ExtArgs["result"]["trendingPrompt"]>
+export type TrendingPromptOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "promptKey" | "prompts" | "createdAt" | "updatedAt", ExtArgs["result"]["trendingPrompt"]>
 
 export type $TrendingPromptPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TrendingPrompt"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    prompt_key: string
+    promptKey: string
     prompts: string[]
-    created_at: Date
-    updated_at: Date
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["trendingPrompt"]>
   composites: {}
 }
@@ -817,10 +817,10 @@ export interface Prisma__TrendingPromptClient<T, Null = never, ExtArgs extends r
  */
 export interface TrendingPromptFieldRefs {
   readonly id: Prisma.FieldRef<"TrendingPrompt", 'Int'>
-  readonly prompt_key: Prisma.FieldRef<"TrendingPrompt", 'String'>
+  readonly promptKey: Prisma.FieldRef<"TrendingPrompt", 'String'>
   readonly prompts: Prisma.FieldRef<"TrendingPrompt", 'String[]'>
-  readonly created_at: Prisma.FieldRef<"TrendingPrompt", 'DateTime'>
-  readonly updated_at: Prisma.FieldRef<"TrendingPrompt", 'DateTime'>
+  readonly createdAt: Prisma.FieldRef<"TrendingPrompt", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"TrendingPrompt", 'DateTime'>
 }
     
 

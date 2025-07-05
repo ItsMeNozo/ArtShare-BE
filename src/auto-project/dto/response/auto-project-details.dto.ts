@@ -11,8 +11,8 @@ export class PlatformDto {
   @IsEnum(SharePlatform)
   name: SharePlatform;
 
-  external_page_id: string;
-  token_expires_at: Date | null;
+  externalPageId: string;
+  tokenExpiresAt: Date | null;
   status: PlatformStatus;
 }
 
@@ -21,7 +21,7 @@ export class AutoProjectDetailsDto {
   title: string;
   description: string;
   status: AutoProjectStatus;
-  created_at: Date;
-  updated_at: Date | null;
+  createdAt: Date;
+  updatedAt: Date | null;
   platform: PlatformDto;
 }

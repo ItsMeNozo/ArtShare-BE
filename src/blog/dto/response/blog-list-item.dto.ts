@@ -12,28 +12,28 @@ export class BlogListItemResponseDto {
   content: string;
 
   @ApiProperty({ example: '2025-05-31T10:00:00.000Z' })
-  created_at: Date;
+  createdAt: Date;
 
   @ApiProperty({ example: '2025-05-31T10:00:00.000Z' })
-  updated_at: Date | null; 
+  updatedAt: Date | null; 
 
   @ApiProperty({ example: 15 })
-  like_count: number;
+  likeCount: number;
 
   @ApiProperty({ example: 8 })
-  comment_count: number;
+  commentCount: number;
 
   @ApiProperty({ example: 3 })
-  share_count: number;
+  shareCount: number;
 
   @ApiProperty({ example: 125 })
-  view_count: number;
+  viewCount: number;
 
   @ApiProperty({ type: () => BlogUserInfoResponseDto })
   user: BlogUserInfoResponseDto;
 
   @ApiProperty({ example: true })
-  is_published: boolean;
+  isPublished: boolean;
   
   @ApiProperty({
     type: [String],

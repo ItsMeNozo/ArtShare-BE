@@ -19,9 +19,7 @@
     "noFallthroughCasesInSwitch": true,
     "strict": true,
     "strictPropertyInitialization": false,
-    "rootDir": "./src",
+    "rootDir": "./src"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src", "prisma"]
 }

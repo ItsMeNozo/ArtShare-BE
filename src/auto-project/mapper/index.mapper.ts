@@ -16,13 +16,13 @@ export const mapToAutoProjectDetailsDto = (
     title: project.title,
     description: project.description,
     status: project.status,
-    created_at: project.created_at,
-    updated_at: project.updated_at,
+    createdAt: project.createdAt,
+    updatedAt: project.updatedAt,
     platform: {
       id: project.platform.id,
       name: project.platform.name,
-      external_page_id: project.platform.external_page_id,
-      token_expires_at: project.platform.token_expires_at,
+      externalPageId: project.platform.externalPageId,
+      tokenExpiresAt: project.platform.tokenExpiresAt,
       status: project.platform.status,
     },
   };
@@ -41,7 +41,7 @@ export const mapToAutoProjectListItemsDto = (
     },
     postCount: p.postCount,
     nextPostAt: p.nextPostAt,
-    created_at: p.createdAt,
-    updated_at: p.updatedAt,
+    createdAt: p.createdAt,
+    updatedAt: p.updatedAt,
   }));
 };

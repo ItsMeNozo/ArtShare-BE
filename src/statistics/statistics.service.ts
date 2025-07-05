@@ -17,7 +17,7 @@ export class StatisticsService {
   // Add this helper method to build date filter
   private getDateFilter(daysBack?: number): string {
     if (!daysBack) return ''; // No filter = all time
-    return `AND created_at >= CURRENT_DATE - INTERVAL '${daysBack} days'`;
+    return `AND "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`;
   }
 
   // Update existing method with optional parameter
@@ -32,11 +32,11 @@ export class StatisticsService {
     type Row = { [key: string]: string | bigint };
     const rows = await this.prisma.$queryRaw<Row[]>`
       SELECT
-        ${Prisma.raw(column)} AS ${Prisma.raw(alias)},
+        "${Prisma.raw(column)}" AS ${Prisma.raw(alias)},
         COUNT(*)              AS count
       FROM ${Prisma.raw(table)}
-      WHERE ${Prisma.raw(column)} IS NOT NULL ${Prisma.raw(dateFilter)}
-      GROUP BY ${Prisma.raw(column)}
+      WHERE "${Prisma.raw(column)}" IS NOT NULL ${Prisma.raw(dateFilter)}
+      GROUP BY "${Prisma.raw(column)}"
       ORDER BY count DESC;
     `;
 
@@ -48,7 +48,7 @@ export class StatisticsService {
 
   // Update each method to accept daysBack parameter
   async getAspectRatioStats(daysBack?: number): Promise<StatCount[]> {
-    return this.rawStats('aspect_ratio', 'art_generation', 'key', daysBack);
+    return this.rawStats('aspectRatio', 'art_generation', 'key', daysBack);
   }
 
   async getLightingStats(daysBack?: number): Promise<StatCount[]> {
@@ -65,18 +65,18 @@ export class StatisticsService {
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
       SELECT COUNT(id) as count
       FROM post
-      WHERE ai_created = true ${Prisma.raw(dateFilter)}
+      WHERE "aiCreated" = true ${Prisma.raw(dateFilter)}
     `;
     return [{ key: 'posts_by_ai', count: Number(rows[0]?.count ?? 0) }];
   }
 
   async getTotalAiImages(daysBack?: number): Promise<StatCount[]> {
     const dateFilter = daysBack
-      ? `WHERE created_at >= CURRENT_DATE - INTERVAL '${daysBack} days'`
+      ? `WHERE "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
       : '';
 
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
-      SELECT SUM(number_of_images_generated) as count
+      SELECT SUM("numberOfImagesGenerated") as count
       FROM art_generation
       ${Prisma.raw(dateFilter)}
     `;
@@ -89,8 +89,8 @@ export class StatisticsService {
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
       SELECT *
       FROM post
-      WHERE ai_created = true ${Prisma.raw(dateFilter)}
-      ORDER BY like_count DESC
+      WHERE "aiCreated" = true ${Prisma.raw(dateFilter)}
+      ORDER BY "likeCount" DESC
       LIMIT 5
     `;
     return rows;
@@ -102,7 +102,7 @@ export class StatisticsService {
       : '';
 
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
-      SELECT SUM(used_amount) as count
+      SELECT SUM("usedAmount") as count
       FROM user_usage
       ${Prisma.raw(dateFilter)}
     `;
@@ -111,7 +111,7 @@ export class StatisticsService {
 
   async getTotalBlogs(daysBack?: number): Promise<StatCount[]> {
     const dateFilter = daysBack
-      ? `WHERE "created_at" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
+      ? `WHERE "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
       : '';
 
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
@@ -122,9 +122,9 @@ export class StatisticsService {
     return [{ key: 'total_blogs', count: Number(rows[0]?.count ?? 0) }];
   }
 
-  async getTotalPosts(daysBack?: number) : Promise<StatCount[]> {
+  async getTotalPosts(daysBack?: number): Promise<StatCount[]> {
     const dateFilter = daysBack
-      ? `WHERE "created_at" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
+      ? `WHERE "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
       : '';
 
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
@@ -143,7 +143,7 @@ export class StatisticsService {
       FROM report r
       JOIN "user" u on u.id = r.reporter_id
       WHERE r.status = 'PENDING'
-      ORDER BY r.created_at
+      ORDER BY r."createdAt"
       LIMIT 3
     `;
 
@@ -219,17 +219,17 @@ export class StatisticsService {
 
     const recentArtGenerations = await this.prisma.artGeneration.findMany({
       where: {
-        created_at: {
+        createdAt: {
           gte: startDate,
         },
       },
       orderBy: {
-        created_at: 'desc',
+        createdAt: 'desc',
       },
       take: Math.min(daysBack * 3, 100), // Scale with days
     });
 
-    return recentArtGenerations.map((item) => item.user_prompt);
+    return recentArtGenerations.map((item) => item.userPrompt);
   }
 
   async updateTrendingPrompts(
@@ -241,12 +241,12 @@ export class StatisticsService {
     try {
       await this.prisma.$transaction(async (tx) => {
         await tx.trendingPrompt.deleteMany({
-          where: { prompt_key: key },
+          where: { promptKey: key },
         });
 
         await tx.trendingPrompt.create({
           data: {
-            prompt_key: key,
+            promptKey: key,
             prompts: promptsToUpdate,
           },
         });
@@ -263,7 +263,7 @@ export class StatisticsService {
 
   async getStoredTrendingPrompts(key: string): Promise<string[] | null> {
     const result = await this.prisma.trendingPrompt.findUnique({
-      where: { prompt_key: key },
+      where: { promptKey: key },
     });
 
     return result ? result.prompts : null;

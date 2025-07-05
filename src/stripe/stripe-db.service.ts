@@ -14,14 +14,14 @@ export class StripeDbService {
   ): Promise<User | null> {
     if (stripeCustomerId) {
       const user = await this.prisma.user.findUnique({
-        where: { stripe_customer_id: stripeCustomerId },
+        where: { stripeCustomerId: stripeCustomerId },
       });
       if (user) return user;
     }
     if (internalUserId) {
       if (stripeCustomerId) {
         this.logger.warn(
-          `Could not find user by stripe_customer_id ${stripeCustomerId}, attempting lookup by internal UserRef: ${internalUserId}`,
+          `Could not find user by stripeCustomerId ${stripeCustomerId}, attempting lookup by internal UserRef: ${internalUserId}`,
         );
       }
       const user = await this.prisma.user.findUnique({
@@ -38,11 +38,11 @@ export class StripeDbService {
     stripeCustomerId: string,
   ): Promise<User> {
     this.logger.warn(
-      `Updating stripe_customer_id for user ${userId} to ${stripeCustomerId}`,
+      `Updating stripeCustomerId for user ${userId} to ${stripeCustomerId}`,
     );
     return this.prisma.user.update({
       where: { id: userId },
-      data: { stripe_customer_id: stripeCustomerId },
+      data: { stripeCustomerId: stripeCustomerId },
     });
   }
 

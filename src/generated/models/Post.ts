@@ -27,166 +27,166 @@ export type AggregatePost = {
 
 export type PostAvgAggregateOutputType = {
   id: number | null
-  group_id: number | null
-  share_count: number | null
-  comment_count: number | null
-  view_count: number | null
-  like_count: number | null
-  art_generation_id: number | null
+  groupId: number | null
+  shareCount: number | null
+  commentCount: number | null
+  viewCount: number | null
+  likeCount: number | null
+  artGenerationId: number | null
 }
 
 export type PostSumAggregateOutputType = {
   id: number | null
-  group_id: number | null
-  share_count: number | null
-  comment_count: number | null
-  view_count: number | null
-  like_count: number | null
-  art_generation_id: number | null
+  groupId: number | null
+  shareCount: number | null
+  commentCount: number | null
+  viewCount: number | null
+  likeCount: number | null
+  artGenerationId: number | null
 }
 
 export type PostMinAggregateOutputType = {
   id: number | null
-  user_id: string | null
+  userId: string | null
   title: string | null
   description: string | null
-  created_at: Date | null
-  is_published: boolean | null
-  is_private: boolean | null
-  group_id: number | null
-  share_count: number | null
-  comment_count: number | null
-  view_count: number | null
-  like_count: number | null
-  thumbnail_url: string | null
-  updated_at: Date | null
-  is_mature: boolean | null
-  ai_created: boolean | null
-  art_generation_id: number | null
+  createdAt: Date | null
+  isPublished: boolean | null
+  isPrivate: boolean | null
+  groupId: number | null
+  shareCount: number | null
+  commentCount: number | null
+  viewCount: number | null
+  likeCount: number | null
+  thumbnailUrl: string | null
+  updatedAt: Date | null
+  isMature: boolean | null
+  aiCreated: boolean | null
+  artGenerationId: number | null
 }
 
 export type PostMaxAggregateOutputType = {
   id: number | null
-  user_id: string | null
+  userId: string | null
   title: string | null
   description: string | null
-  created_at: Date | null
-  is_published: boolean | null
-  is_private: boolean | null
-  group_id: number | null
-  share_count: number | null
-  comment_count: number | null
-  view_count: number | null
-  like_count: number | null
-  thumbnail_url: string | null
-  updated_at: Date | null
-  is_mature: boolean | null
-  ai_created: boolean | null
-  art_generation_id: number | null
+  createdAt: Date | null
+  isPublished: boolean | null
+  isPrivate: boolean | null
+  groupId: number | null
+  shareCount: number | null
+  commentCount: number | null
+  viewCount: number | null
+  likeCount: number | null
+  thumbnailUrl: string | null
+  updatedAt: Date | null
+  isMature: boolean | null
+  aiCreated: boolean | null
+  artGenerationId: number | null
 }
 
 export type PostCountAggregateOutputType = {
   id: number
-  user_id: number
+  userId: number
   title: number
   description: number
-  created_at: number
-  is_published: number
-  is_private: number
-  group_id: number
-  share_count: number
-  comment_count: number
-  view_count: number
-  like_count: number
-  thumbnail_url: number
-  updated_at: number
-  is_mature: number
-  ai_created: number
-  art_generation_id: number
-  thumbnail_crop_meta: number
+  createdAt: number
+  isPublished: number
+  isPrivate: number
+  groupId: number
+  shareCount: number
+  commentCount: number
+  viewCount: number
+  likeCount: number
+  thumbnailUrl: number
+  updatedAt: number
+  isMature: number
+  aiCreated: number
+  artGenerationId: number
+  thumbnailCropMeta: number
   _all: number
 }
 
 
 export type PostAvgAggregateInputType = {
   id?: true
-  group_id?: true
-  share_count?: true
-  comment_count?: true
-  view_count?: true
-  like_count?: true
-  art_generation_id?: true
+  groupId?: true
+  shareCount?: true
+  commentCount?: true
+  viewCount?: true
+  likeCount?: true
+  artGenerationId?: true
 }
 
 export type PostSumAggregateInputType = {
   id?: true
-  group_id?: true
-  share_count?: true
-  comment_count?: true
-  view_count?: true
-  like_count?: true
-  art_generation_id?: true
+  groupId?: true
+  shareCount?: true
+  commentCount?: true
+  viewCount?: true
+  likeCount?: true
+  artGenerationId?: true
 }
 
 export type PostMinAggregateInputType = {
   id?: true
-  user_id?: true
+  userId?: true
   title?: true
   description?: true
-  created_at?: true
-  is_published?: true
-  is_private?: true
-  group_id?: true
-  share_count?: true
-  comment_count?: true
-  view_count?: true
-  like_count?: true
-  thumbnail_url?: true
-  updated_at?: true
-  is_mature?: true
-  ai_created?: true
-  art_generation_id?: true
+  createdAt?: true
+  isPublished?: true
+  isPrivate?: true
+  groupId?: true
+  shareCount?: true
+  commentCount?: true
+  viewCount?: true
+  likeCount?: true
+  thumbnailUrl?: true
+  updatedAt?: true
+  isMature?: true
+  aiCreated?: true
+  artGenerationId?: true
 }
 
 export type PostMaxAggregateInputType = {
   id?: true
-  user_id?: true
+  userId?: true
   title?: true
   description?: true
-  created_at?: true
-  is_published?: true
-  is_private?: true
-  group_id?: true
-  share_count?: true
-  comment_count?: true
-  view_count?: true
-  like_count?: true
-  thumbnail_url?: true
-  updated_at?: true
-  is_mature?: true
-  ai_created?: true
-  art_generation_id?: true
+  createdAt?: true
+  isPublished?: true
+  isPrivate?: true
+  groupId?: true
+  shareCount?: true
+  commentCount?: true
+  viewCount?: true
+  likeCount?: true
+  thumbnailUrl?: true
+  updatedAt?: true
+  isMature?: true
+  aiCreated?: true
+  artGenerationId?: true
 }
 
 export type PostCountAggregateInputType = {
   id?: true
-  user_id?: true
+  userId?: true
   title?: true
   description?: true
-  created_at?: true
-  is_published?: true
-  is_private?: true
-  group_id?: true
-  share_count?: true
-  comment_count?: true
-  view_count?: true
-  like_count?: true
-  thumbnail_url?: true
-  updated_at?: true
-  is_mature?: true
-  ai_created?: true
-  art_generation_id?: true
-  thumbnail_crop_meta?: true
+  createdAt?: true
+  isPublished?: true
+  isPrivate?: true
+  groupId?: true
+  shareCount?: true
+  commentCount?: true
+  viewCount?: true
+  likeCount?: true
+  thumbnailUrl?: true
+  updatedAt?: true
+  isMature?: true
+  aiCreated?: true
+  artGenerationId?: true
+  thumbnailCropMeta?: true
   _all?: true
 }
 
@@ -278,23 +278,23 @@ export type PostGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type PostGroupByOutputType = {
   id: number
-  user_id: string
+  userId: string
   title: string
   description: string | null
-  created_at: Date
-  is_published: boolean
-  is_private: boolean
-  group_id: number | null
-  share_count: number
-  comment_count: number
-  view_count: number
-  like_count: number
-  thumbnail_url: string
-  updated_at: Date | null
-  is_mature: boolean
-  ai_created: boolean
-  art_generation_id: number | null
-  thumbnail_crop_meta: runtime.JsonValue | null
+  createdAt: Date
+  isPublished: boolean
+  isPrivate: boolean
+  groupId: number | null
+  shareCount: number
+  commentCount: number
+  viewCount: number
+  likeCount: number
+  thumbnailUrl: string
+  updatedAt: Date | null
+  isMature: boolean
+  aiCreated: boolean
+  artGenerationId: number | null
+  thumbnailCropMeta: runtime.JsonValue | null
   _count: PostCountAggregateOutputType | null
   _avg: PostAvgAggregateOutputType | null
   _sum: PostSumAggregateOutputType | null
@@ -322,58 +322,58 @@ export type PostWhereInput = {
   OR?: Prisma.PostWhereInput[]
   NOT?: Prisma.PostWhereInput | Prisma.PostWhereInput[]
   id?: Prisma.IntFilter<"Post"> | number
-  user_id?: Prisma.StringFilter<"Post"> | string
+  userId?: Prisma.StringFilter<"Post"> | string
   title?: Prisma.StringFilter<"Post"> | string
   description?: Prisma.StringNullableFilter<"Post"> | string | null
-  created_at?: Prisma.DateTimeFilter<"Post"> | Date | string
-  is_published?: Prisma.BoolFilter<"Post"> | boolean
-  is_private?: Prisma.BoolFilter<"Post"> | boolean
-  group_id?: Prisma.IntNullableFilter<"Post"> | number | null
-  share_count?: Prisma.IntFilter<"Post"> | number
-  comment_count?: Prisma.IntFilter<"Post"> | number
-  view_count?: Prisma.IntFilter<"Post"> | number
-  like_count?: Prisma.IntFilter<"Post"> | number
-  thumbnail_url?: Prisma.StringFilter<"Post"> | string
-  updated_at?: Prisma.DateTimeNullableFilter<"Post"> | Date | string | null
-  is_mature?: Prisma.BoolFilter<"Post"> | boolean
-  ai_created?: Prisma.BoolFilter<"Post"> | boolean
-  art_generation_id?: Prisma.IntNullableFilter<"Post"> | number | null
-  thumbnail_crop_meta?: Prisma.JsonNullableFilter<"Post">
+  createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
+  isPublished?: Prisma.BoolFilter<"Post"> | boolean
+  isPrivate?: Prisma.BoolFilter<"Post"> | boolean
+  groupId?: Prisma.IntNullableFilter<"Post"> | number | null
+  shareCount?: Prisma.IntFilter<"Post"> | number
+  commentCount?: Prisma.IntFilter<"Post"> | number
+  viewCount?: Prisma.IntFilter<"Post"> | number
+  likeCount?: Prisma.IntFilter<"Post"> | number
+  thumbnailUrl?: Prisma.StringFilter<"Post"> | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Post"> | Date | string | null
+  isMature?: Prisma.BoolFilter<"Post"> | boolean
+  aiCreated?: Prisma.BoolFilter<"Post"> | boolean
+  artGenerationId?: Prisma.IntNullableFilter<"Post"> | number | null
+  thumbnailCropMeta?: Prisma.JsonNullableFilter<"Post">
   likes?: Prisma.LikeListRelationFilter
   medias?: Prisma.MediaListRelationFilter
   shares?: Prisma.ShareListRelationFilter
   collections?: Prisma.PostsOnCollectionsListRelationFilter
   categories?: Prisma.CategoryListRelationFilter
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  art_generation?: Prisma.XOR<Prisma.ArtGenerationNullableScalarRelationFilter, Prisma.ArtGenerationWhereInput> | null
+  artGeneration?: Prisma.XOR<Prisma.ArtGenerationNullableScalarRelationFilter, Prisma.ArtGenerationWhereInput> | null
 }
 
 export type PostOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  is_published?: Prisma.SortOrder
-  is_private?: Prisma.SortOrder
-  group_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  share_count?: Prisma.SortOrder
-  comment_count?: Prisma.SortOrder
-  view_count?: Prisma.SortOrder
-  like_count?: Prisma.SortOrder
-  thumbnail_url?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  is_mature?: Prisma.SortOrder
-  ai_created?: Prisma.SortOrder
-  art_generation_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  thumbnail_crop_meta?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  isPublished?: Prisma.SortOrder
+  isPrivate?: Prisma.SortOrder
+  groupId?: Prisma.SortOrderInput | Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
+  commentCount?: Prisma.SortOrder
+  viewCount?: Prisma.SortOrder
+  likeCount?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  isMature?: Prisma.SortOrder
+  aiCreated?: Prisma.SortOrder
+  artGenerationId?: Prisma.SortOrderInput | Prisma.SortOrder
+  thumbnailCropMeta?: Prisma.SortOrderInput | Prisma.SortOrder
   likes?: Prisma.LikeOrderByRelationAggregateInput
   medias?: Prisma.MediaOrderByRelationAggregateInput
   shares?: Prisma.ShareOrderByRelationAggregateInput
   collections?: Prisma.PostsOnCollectionsOrderByRelationAggregateInput
   categories?: Prisma.CategoryOrderByRelationAggregateInput
   user?: Prisma.UserOrderByWithRelationInput
-  art_generation?: Prisma.ArtGenerationOrderByWithRelationInput
+  artGeneration?: Prisma.ArtGenerationOrderByWithRelationInput
 }
 
 export type PostWhereUniqueInput = Prisma.AtLeast<{
@@ -381,51 +381,51 @@ export type PostWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.PostWhereInput | Prisma.PostWhereInput[]
   OR?: Prisma.PostWhereInput[]
   NOT?: Prisma.PostWhereInput | Prisma.PostWhereInput[]
-  user_id?: Prisma.StringFilter<"Post"> | string
+  userId?: Prisma.StringFilter<"Post"> | string
   title?: Prisma.StringFilter<"Post"> | string
   description?: Prisma.StringNullableFilter<"Post"> | string | null
-  created_at?: Prisma.DateTimeFilter<"Post"> | Date | string
-  is_published?: Prisma.BoolFilter<"Post"> | boolean
-  is_private?: Prisma.BoolFilter<"Post"> | boolean
-  group_id?: Prisma.IntNullableFilter<"Post"> | number | null
-  share_count?: Prisma.IntFilter<"Post"> | number
-  comment_count?: Prisma.IntFilter<"Post"> | number
-  view_count?: Prisma.IntFilter<"Post"> | number
-  like_count?: Prisma.IntFilter<"Post"> | number
-  thumbnail_url?: Prisma.StringFilter<"Post"> | string
-  updated_at?: Prisma.DateTimeNullableFilter<"Post"> | Date | string | null
-  is_mature?: Prisma.BoolFilter<"Post"> | boolean
-  ai_created?: Prisma.BoolFilter<"Post"> | boolean
-  art_generation_id?: Prisma.IntNullableFilter<"Post"> | number | null
-  thumbnail_crop_meta?: Prisma.JsonNullableFilter<"Post">
+  createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
+  isPublished?: Prisma.BoolFilter<"Post"> | boolean
+  isPrivate?: Prisma.BoolFilter<"Post"> | boolean
+  groupId?: Prisma.IntNullableFilter<"Post"> | number | null
+  shareCount?: Prisma.IntFilter<"Post"> | number
+  commentCount?: Prisma.IntFilter<"Post"> | number
+  viewCount?: Prisma.IntFilter<"Post"> | number
+  likeCount?: Prisma.IntFilter<"Post"> | number
+  thumbnailUrl?: Prisma.StringFilter<"Post"> | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Post"> | Date | string | null
+  isMature?: Prisma.BoolFilter<"Post"> | boolean
+  aiCreated?: Prisma.BoolFilter<"Post"> | boolean
+  artGenerationId?: Prisma.IntNullableFilter<"Post"> | number | null
+  thumbnailCropMeta?: Prisma.JsonNullableFilter<"Post">
   likes?: Prisma.LikeListRelationFilter
   medias?: Prisma.MediaListRelationFilter
   shares?: Prisma.ShareListRelationFilter
   collections?: Prisma.PostsOnCollectionsListRelationFilter
   categories?: Prisma.CategoryListRelationFilter
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  art_generation?: Prisma.XOR<Prisma.ArtGenerationNullableScalarRelationFilter, Prisma.ArtGenerationWhereInput> | null
+  artGeneration?: Prisma.XOR<Prisma.ArtGenerationNullableScalarRelationFilter, Prisma.ArtGenerationWhereInput> | null
 }, "id">
 
 export type PostOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  is_published?: Prisma.SortOrder
-  is_private?: Prisma.SortOrder
-  group_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  share_count?: Prisma.SortOrder
-  comment_count?: Prisma.SortOrder
-  view_count?: Prisma.SortOrder
-  like_count?: Prisma.SortOrder
-  thumbnail_url?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  is_mature?: Prisma.SortOrder
-  ai_created?: Prisma.SortOrder
-  art_generation_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  thumbnail_crop_meta?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  isPublished?: Prisma.SortOrder
+  isPrivate?: Prisma.SortOrder
+  groupId?: Prisma.SortOrderInput | Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
+  commentCount?: Prisma.SortOrder
+  viewCount?: Prisma.SortOrder
+  likeCount?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  isMature?: Prisma.SortOrder
+  aiCreated?: Prisma.SortOrder
+  artGenerationId?: Prisma.SortOrderInput | Prisma.SortOrder
+  thumbnailCropMeta?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.PostCountOrderByAggregateInput
   _avg?: Prisma.PostAvgOrderByAggregateInput
   _max?: Prisma.PostMaxOrderByAggregateInput
@@ -438,69 +438,69 @@ export type PostScalarWhereWithAggregatesInput = {
   OR?: Prisma.PostScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PostScalarWhereWithAggregatesInput | Prisma.PostScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Post"> | number
-  user_id?: Prisma.StringWithAggregatesFilter<"Post"> | string
+  userId?: Prisma.StringWithAggregatesFilter<"Post"> | string
   title?: Prisma.StringWithAggregatesFilter<"Post"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Post"> | string | null
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"Post"> | Date | string
-  is_published?: Prisma.BoolWithAggregatesFilter<"Post"> | boolean
-  is_private?: Prisma.BoolWithAggregatesFilter<"Post"> | boolean
-  group_id?: Prisma.IntNullableWithAggregatesFilter<"Post"> | number | null
-  share_count?: Prisma.IntWithAggregatesFilter<"Post"> | number
-  comment_count?: Prisma.IntWithAggregatesFilter<"Post"> | number
-  view_count?: Prisma.IntWithAggregatesFilter<"Post"> | number
-  like_count?: Prisma.IntWithAggregatesFilter<"Post"> | number
-  thumbnail_url?: Prisma.StringWithAggregatesFilter<"Post"> | string
-  updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null
-  is_mature?: Prisma.BoolWithAggregatesFilter<"Post"> | boolean
-  ai_created?: Prisma.BoolWithAggregatesFilter<"Post"> | boolean
-  art_generation_id?: Prisma.IntNullableWithAggregatesFilter<"Post"> | number | null
-  thumbnail_crop_meta?: Prisma.JsonNullableWithAggregatesFilter<"Post">
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Post"> | Date | string
+  isPublished?: Prisma.BoolWithAggregatesFilter<"Post"> | boolean
+  isPrivate?: Prisma.BoolWithAggregatesFilter<"Post"> | boolean
+  groupId?: Prisma.IntNullableWithAggregatesFilter<"Post"> | number | null
+  shareCount?: Prisma.IntWithAggregatesFilter<"Post"> | number
+  commentCount?: Prisma.IntWithAggregatesFilter<"Post"> | number
+  viewCount?: Prisma.IntWithAggregatesFilter<"Post"> | number
+  likeCount?: Prisma.IntWithAggregatesFilter<"Post"> | number
+  thumbnailUrl?: Prisma.StringWithAggregatesFilter<"Post"> | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null
+  isMature?: Prisma.BoolWithAggregatesFilter<"Post"> | boolean
+  aiCreated?: Prisma.BoolWithAggregatesFilter<"Post"> | boolean
+  artGenerationId?: Prisma.IntNullableWithAggregatesFilter<"Post"> | number | null
+  thumbnailCropMeta?: Prisma.JsonNullableWithAggregatesFilter<"Post">
 }
 
 export type PostCreateInput = {
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareCreateNestedManyWithoutPostInput
   collections?: Prisma.PostsOnCollectionsCreateNestedManyWithoutPostInput
   categories?: Prisma.CategoryCreateNestedManyWithoutPostsInput
   user: Prisma.UserCreateNestedOneWithoutPostsInput
-  art_generation?: Prisma.ArtGenerationCreateNestedOneWithoutPostInput
+  artGeneration?: Prisma.ArtGenerationCreateNestedOneWithoutPostInput
 }
 
 export type PostUncheckedCreateInput = {
   id?: number
-  user_id: string
+  userId: string
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  art_generation_id?: number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  artGenerationId?: number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaUncheckedCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutPostInput
@@ -511,47 +511,47 @@ export type PostUncheckedCreateInput = {
 export type PostUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUpdateManyWithoutPostNestedInput
   collections?: Prisma.PostsOnCollectionsUpdateManyWithoutPostNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutPostsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
-  art_generation?: Prisma.ArtGenerationUpdateOneWithoutPostNestedInput
+  artGeneration?: Prisma.ArtGenerationUpdateOneWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  art_generation_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUncheckedUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutPostNestedInput
@@ -561,62 +561,62 @@ export type PostUncheckedUpdateInput = {
 
 export type PostCreateManyInput = {
   id?: number
-  user_id: string
+  userId: string
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  art_generation_id?: number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  artGenerationId?: number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type PostUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type PostUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  art_generation_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type PostListRelationFilter = {
@@ -631,83 +631,83 @@ export type PostOrderByRelationAggregateInput = {
 
 export type PostCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  is_published?: Prisma.SortOrder
-  is_private?: Prisma.SortOrder
-  group_id?: Prisma.SortOrder
-  share_count?: Prisma.SortOrder
-  comment_count?: Prisma.SortOrder
-  view_count?: Prisma.SortOrder
-  like_count?: Prisma.SortOrder
-  thumbnail_url?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  is_mature?: Prisma.SortOrder
-  ai_created?: Prisma.SortOrder
-  art_generation_id?: Prisma.SortOrder
-  thumbnail_crop_meta?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  isPublished?: Prisma.SortOrder
+  isPrivate?: Prisma.SortOrder
+  groupId?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
+  commentCount?: Prisma.SortOrder
+  viewCount?: Prisma.SortOrder
+  likeCount?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  isMature?: Prisma.SortOrder
+  aiCreated?: Prisma.SortOrder
+  artGenerationId?: Prisma.SortOrder
+  thumbnailCropMeta?: Prisma.SortOrder
 }
 
 export type PostAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  group_id?: Prisma.SortOrder
-  share_count?: Prisma.SortOrder
-  comment_count?: Prisma.SortOrder
-  view_count?: Prisma.SortOrder
-  like_count?: Prisma.SortOrder
-  art_generation_id?: Prisma.SortOrder
+  groupId?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
+  commentCount?: Prisma.SortOrder
+  viewCount?: Prisma.SortOrder
+  likeCount?: Prisma.SortOrder
+  artGenerationId?: Prisma.SortOrder
 }
 
 export type PostMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  is_published?: Prisma.SortOrder
-  is_private?: Prisma.SortOrder
-  group_id?: Prisma.SortOrder
-  share_count?: Prisma.SortOrder
-  comment_count?: Prisma.SortOrder
-  view_count?: Prisma.SortOrder
-  like_count?: Prisma.SortOrder
-  thumbnail_url?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  is_mature?: Prisma.SortOrder
-  ai_created?: Prisma.SortOrder
-  art_generation_id?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  isPublished?: Prisma.SortOrder
+  isPrivate?: Prisma.SortOrder
+  groupId?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
+  commentCount?: Prisma.SortOrder
+  viewCount?: Prisma.SortOrder
+  likeCount?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  isMature?: Prisma.SortOrder
+  aiCreated?: Prisma.SortOrder
+  artGenerationId?: Prisma.SortOrder
 }
 
 export type PostMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  is_published?: Prisma.SortOrder
-  is_private?: Prisma.SortOrder
-  group_id?: Prisma.SortOrder
-  share_count?: Prisma.SortOrder
-  comment_count?: Prisma.SortOrder
-  view_count?: Prisma.SortOrder
-  like_count?: Prisma.SortOrder
-  thumbnail_url?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  is_mature?: Prisma.SortOrder
-  ai_created?: Prisma.SortOrder
-  art_generation_id?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  isPublished?: Prisma.SortOrder
+  isPrivate?: Prisma.SortOrder
+  groupId?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
+  commentCount?: Prisma.SortOrder
+  viewCount?: Prisma.SortOrder
+  likeCount?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  isMature?: Prisma.SortOrder
+  aiCreated?: Prisma.SortOrder
+  artGenerationId?: Prisma.SortOrder
 }
 
 export type PostSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  group_id?: Prisma.SortOrder
-  share_count?: Prisma.SortOrder
-  comment_count?: Prisma.SortOrder
-  view_count?: Prisma.SortOrder
-  like_count?: Prisma.SortOrder
-  art_generation_id?: Prisma.SortOrder
+  groupId?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
+  commentCount?: Prisma.SortOrder
+  viewCount?: Prisma.SortOrder
+  likeCount?: Prisma.SortOrder
+  artGenerationId?: Prisma.SortOrder
 }
 
 export type PostScalarRelationFilter = {
@@ -854,45 +854,45 @@ export type PostUpdateOneWithoutSharesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PostUpdateToOneWithWhereWithoutSharesInput, Prisma.PostUpdateWithoutSharesInput>, Prisma.PostUncheckedUpdateWithoutSharesInput>
 }
 
-export type PostCreateNestedManyWithoutArt_generationInput = {
-  create?: Prisma.XOR<Prisma.PostCreateWithoutArt_generationInput, Prisma.PostUncheckedCreateWithoutArt_generationInput> | Prisma.PostCreateWithoutArt_generationInput[] | Prisma.PostUncheckedCreateWithoutArt_generationInput[]
-  connectOrCreate?: Prisma.PostCreateOrConnectWithoutArt_generationInput | Prisma.PostCreateOrConnectWithoutArt_generationInput[]
-  createMany?: Prisma.PostCreateManyArt_generationInputEnvelope
+export type PostCreateNestedManyWithoutArtGenerationInput = {
+  create?: Prisma.XOR<Prisma.PostCreateWithoutArtGenerationInput, Prisma.PostUncheckedCreateWithoutArtGenerationInput> | Prisma.PostCreateWithoutArtGenerationInput[] | Prisma.PostUncheckedCreateWithoutArtGenerationInput[]
+  connectOrCreate?: Prisma.PostCreateOrConnectWithoutArtGenerationInput | Prisma.PostCreateOrConnectWithoutArtGenerationInput[]
+  createMany?: Prisma.PostCreateManyArtGenerationInputEnvelope
   connect?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
 }
 
-export type PostUncheckedCreateNestedManyWithoutArt_generationInput = {
-  create?: Prisma.XOR<Prisma.PostCreateWithoutArt_generationInput, Prisma.PostUncheckedCreateWithoutArt_generationInput> | Prisma.PostCreateWithoutArt_generationInput[] | Prisma.PostUncheckedCreateWithoutArt_generationInput[]
-  connectOrCreate?: Prisma.PostCreateOrConnectWithoutArt_generationInput | Prisma.PostCreateOrConnectWithoutArt_generationInput[]
-  createMany?: Prisma.PostCreateManyArt_generationInputEnvelope
+export type PostUncheckedCreateNestedManyWithoutArtGenerationInput = {
+  create?: Prisma.XOR<Prisma.PostCreateWithoutArtGenerationInput, Prisma.PostUncheckedCreateWithoutArtGenerationInput> | Prisma.PostCreateWithoutArtGenerationInput[] | Prisma.PostUncheckedCreateWithoutArtGenerationInput[]
+  connectOrCreate?: Prisma.PostCreateOrConnectWithoutArtGenerationInput | Prisma.PostCreateOrConnectWithoutArtGenerationInput[]
+  createMany?: Prisma.PostCreateManyArtGenerationInputEnvelope
   connect?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
 }
 
-export type PostUpdateManyWithoutArt_generationNestedInput = {
-  create?: Prisma.XOR<Prisma.PostCreateWithoutArt_generationInput, Prisma.PostUncheckedCreateWithoutArt_generationInput> | Prisma.PostCreateWithoutArt_generationInput[] | Prisma.PostUncheckedCreateWithoutArt_generationInput[]
-  connectOrCreate?: Prisma.PostCreateOrConnectWithoutArt_generationInput | Prisma.PostCreateOrConnectWithoutArt_generationInput[]
-  upsert?: Prisma.PostUpsertWithWhereUniqueWithoutArt_generationInput | Prisma.PostUpsertWithWhereUniqueWithoutArt_generationInput[]
-  createMany?: Prisma.PostCreateManyArt_generationInputEnvelope
+export type PostUpdateManyWithoutArtGenerationNestedInput = {
+  create?: Prisma.XOR<Prisma.PostCreateWithoutArtGenerationInput, Prisma.PostUncheckedCreateWithoutArtGenerationInput> | Prisma.PostCreateWithoutArtGenerationInput[] | Prisma.PostUncheckedCreateWithoutArtGenerationInput[]
+  connectOrCreate?: Prisma.PostCreateOrConnectWithoutArtGenerationInput | Prisma.PostCreateOrConnectWithoutArtGenerationInput[]
+  upsert?: Prisma.PostUpsertWithWhereUniqueWithoutArtGenerationInput | Prisma.PostUpsertWithWhereUniqueWithoutArtGenerationInput[]
+  createMany?: Prisma.PostCreateManyArtGenerationInputEnvelope
   set?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
   disconnect?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
   delete?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
   connect?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
-  update?: Prisma.PostUpdateWithWhereUniqueWithoutArt_generationInput | Prisma.PostUpdateWithWhereUniqueWithoutArt_generationInput[]
-  updateMany?: Prisma.PostUpdateManyWithWhereWithoutArt_generationInput | Prisma.PostUpdateManyWithWhereWithoutArt_generationInput[]
+  update?: Prisma.PostUpdateWithWhereUniqueWithoutArtGenerationInput | Prisma.PostUpdateWithWhereUniqueWithoutArtGenerationInput[]
+  updateMany?: Prisma.PostUpdateManyWithWhereWithoutArtGenerationInput | Prisma.PostUpdateManyWithWhereWithoutArtGenerationInput[]
   deleteMany?: Prisma.PostScalarWhereInput | Prisma.PostScalarWhereInput[]
 }
 
-export type PostUncheckedUpdateManyWithoutArt_generationNestedInput = {
-  create?: Prisma.XOR<Prisma.PostCreateWithoutArt_generationInput, Prisma.PostUncheckedCreateWithoutArt_generationInput> | Prisma.PostCreateWithoutArt_generationInput[] | Prisma.PostUncheckedCreateWithoutArt_generationInput[]
-  connectOrCreate?: Prisma.PostCreateOrConnectWithoutArt_generationInput | Prisma.PostCreateOrConnectWithoutArt_generationInput[]
-  upsert?: Prisma.PostUpsertWithWhereUniqueWithoutArt_generationInput | Prisma.PostUpsertWithWhereUniqueWithoutArt_generationInput[]
-  createMany?: Prisma.PostCreateManyArt_generationInputEnvelope
+export type PostUncheckedUpdateManyWithoutArtGenerationNestedInput = {
+  create?: Prisma.XOR<Prisma.PostCreateWithoutArtGenerationInput, Prisma.PostUncheckedCreateWithoutArtGenerationInput> | Prisma.PostCreateWithoutArtGenerationInput[] | Prisma.PostUncheckedCreateWithoutArtGenerationInput[]
+  connectOrCreate?: Prisma.PostCreateOrConnectWithoutArtGenerationInput | Prisma.PostCreateOrConnectWithoutArtGenerationInput[]
+  upsert?: Prisma.PostUpsertWithWhereUniqueWithoutArtGenerationInput | Prisma.PostUpsertWithWhereUniqueWithoutArtGenerationInput[]
+  createMany?: Prisma.PostCreateManyArtGenerationInputEnvelope
   set?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
   disconnect?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
   delete?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
   connect?: Prisma.PostWhereUniqueInput | Prisma.PostWhereUniqueInput[]
-  update?: Prisma.PostUpdateWithWhereUniqueWithoutArt_generationInput | Prisma.PostUpdateWithWhereUniqueWithoutArt_generationInput[]
-  updateMany?: Prisma.PostUpdateManyWithWhereWithoutArt_generationInput | Prisma.PostUpdateManyWithWhereWithoutArt_generationInput[]
+  update?: Prisma.PostUpdateWithWhereUniqueWithoutArtGenerationInput | Prisma.PostUpdateWithWhereUniqueWithoutArtGenerationInput[]
+  updateMany?: Prisma.PostUpdateManyWithWhereWithoutArtGenerationInput | Prisma.PostUpdateManyWithWhereWithoutArtGenerationInput[]
   deleteMany?: Prisma.PostScalarWhereInput | Prisma.PostScalarWhereInput[]
 }
 
@@ -913,45 +913,45 @@ export type PostUpdateOneRequiredWithoutCollectionsNestedInput = {
 export type PostCreateWithoutUserInput = {
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareCreateNestedManyWithoutPostInput
   collections?: Prisma.PostsOnCollectionsCreateNestedManyWithoutPostInput
   categories?: Prisma.CategoryCreateNestedManyWithoutPostsInput
-  art_generation?: Prisma.ArtGenerationCreateNestedOneWithoutPostInput
+  artGeneration?: Prisma.ArtGenerationCreateNestedOneWithoutPostInput
 }
 
 export type PostUncheckedCreateWithoutUserInput = {
   id?: number
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  art_generation_id?: number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  artGenerationId?: number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaUncheckedCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutPostInput
@@ -990,68 +990,68 @@ export type PostScalarWhereInput = {
   OR?: Prisma.PostScalarWhereInput[]
   NOT?: Prisma.PostScalarWhereInput | Prisma.PostScalarWhereInput[]
   id?: Prisma.IntFilter<"Post"> | number
-  user_id?: Prisma.StringFilter<"Post"> | string
+  userId?: Prisma.StringFilter<"Post"> | string
   title?: Prisma.StringFilter<"Post"> | string
   description?: Prisma.StringNullableFilter<"Post"> | string | null
-  created_at?: Prisma.DateTimeFilter<"Post"> | Date | string
-  is_published?: Prisma.BoolFilter<"Post"> | boolean
-  is_private?: Prisma.BoolFilter<"Post"> | boolean
-  group_id?: Prisma.IntNullableFilter<"Post"> | number | null
-  share_count?: Prisma.IntFilter<"Post"> | number
-  comment_count?: Prisma.IntFilter<"Post"> | number
-  view_count?: Prisma.IntFilter<"Post"> | number
-  like_count?: Prisma.IntFilter<"Post"> | number
-  thumbnail_url?: Prisma.StringFilter<"Post"> | string
-  updated_at?: Prisma.DateTimeNullableFilter<"Post"> | Date | string | null
-  is_mature?: Prisma.BoolFilter<"Post"> | boolean
-  ai_created?: Prisma.BoolFilter<"Post"> | boolean
-  art_generation_id?: Prisma.IntNullableFilter<"Post"> | number | null
-  thumbnail_crop_meta?: Prisma.JsonNullableFilter<"Post">
+  createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
+  isPublished?: Prisma.BoolFilter<"Post"> | boolean
+  isPrivate?: Prisma.BoolFilter<"Post"> | boolean
+  groupId?: Prisma.IntNullableFilter<"Post"> | number | null
+  shareCount?: Prisma.IntFilter<"Post"> | number
+  commentCount?: Prisma.IntFilter<"Post"> | number
+  viewCount?: Prisma.IntFilter<"Post"> | number
+  likeCount?: Prisma.IntFilter<"Post"> | number
+  thumbnailUrl?: Prisma.StringFilter<"Post"> | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Post"> | Date | string | null
+  isMature?: Prisma.BoolFilter<"Post"> | boolean
+  aiCreated?: Prisma.BoolFilter<"Post"> | boolean
+  artGenerationId?: Prisma.IntNullableFilter<"Post"> | number | null
+  thumbnailCropMeta?: Prisma.JsonNullableFilter<"Post">
 }
 
 export type PostCreateWithoutMediasInput = {
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareCreateNestedManyWithoutPostInput
   collections?: Prisma.PostsOnCollectionsCreateNestedManyWithoutPostInput
   categories?: Prisma.CategoryCreateNestedManyWithoutPostsInput
   user: Prisma.UserCreateNestedOneWithoutPostsInput
-  art_generation?: Prisma.ArtGenerationCreateNestedOneWithoutPostInput
+  artGeneration?: Prisma.ArtGenerationCreateNestedOneWithoutPostInput
 }
 
 export type PostUncheckedCreateWithoutMediasInput = {
   id?: number
-  user_id: string
+  userId: string
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  art_generation_id?: number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  artGenerationId?: number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutPostInput
   collections?: Prisma.PostsOnCollectionsUncheckedCreateNestedManyWithoutPostInput
@@ -1077,46 +1077,46 @@ export type PostUpdateToOneWithWhereWithoutMediasInput = {
 export type PostUpdateWithoutMediasInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUpdateManyWithoutPostNestedInput
   collections?: Prisma.PostsOnCollectionsUpdateManyWithoutPostNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutPostsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
-  art_generation?: Prisma.ArtGenerationUpdateOneWithoutPostNestedInput
+  artGeneration?: Prisma.ArtGenerationUpdateOneWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateWithoutMediasInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  art_generation_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutPostNestedInput
   collections?: Prisma.PostsOnCollectionsUncheckedUpdateManyWithoutPostNestedInput
@@ -1126,46 +1126,46 @@ export type PostUncheckedUpdateWithoutMediasInput = {
 export type PostCreateWithoutCategoriesInput = {
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareCreateNestedManyWithoutPostInput
   collections?: Prisma.PostsOnCollectionsCreateNestedManyWithoutPostInput
   user: Prisma.UserCreateNestedOneWithoutPostsInput
-  art_generation?: Prisma.ArtGenerationCreateNestedOneWithoutPostInput
+  artGeneration?: Prisma.ArtGenerationCreateNestedOneWithoutPostInput
 }
 
 export type PostUncheckedCreateWithoutCategoriesInput = {
   id?: number
-  user_id: string
+  userId: string
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  art_generation_id?: number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  artGenerationId?: number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaUncheckedCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutPostInput
@@ -1196,46 +1196,46 @@ export type PostUpdateManyWithWhereWithoutCategoriesInput = {
 export type PostCreateWithoutLikesInput = {
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   medias?: Prisma.MediaCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareCreateNestedManyWithoutPostInput
   collections?: Prisma.PostsOnCollectionsCreateNestedManyWithoutPostInput
   categories?: Prisma.CategoryCreateNestedManyWithoutPostsInput
   user: Prisma.UserCreateNestedOneWithoutPostsInput
-  art_generation?: Prisma.ArtGenerationCreateNestedOneWithoutPostInput
+  artGeneration?: Prisma.ArtGenerationCreateNestedOneWithoutPostInput
 }
 
 export type PostUncheckedCreateWithoutLikesInput = {
   id?: number
-  user_id: string
+  userId: string
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  art_generation_id?: number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  artGenerationId?: number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   medias?: Prisma.MediaUncheckedCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutPostInput
   collections?: Prisma.PostsOnCollectionsUncheckedCreateNestedManyWithoutPostInput
@@ -1261,46 +1261,46 @@ export type PostUpdateToOneWithWhereWithoutLikesInput = {
 export type PostUpdateWithoutLikesInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   medias?: Prisma.MediaUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUpdateManyWithoutPostNestedInput
   collections?: Prisma.PostsOnCollectionsUpdateManyWithoutPostNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutPostsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
-  art_generation?: Prisma.ArtGenerationUpdateOneWithoutPostNestedInput
+  artGeneration?: Prisma.ArtGenerationUpdateOneWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateWithoutLikesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  art_generation_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   medias?: Prisma.MediaUncheckedUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutPostNestedInput
   collections?: Prisma.PostsOnCollectionsUncheckedUpdateManyWithoutPostNestedInput
@@ -1310,46 +1310,46 @@ export type PostUncheckedUpdateWithoutLikesInput = {
 export type PostCreateWithoutSharesInput = {
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaCreateNestedManyWithoutPostInput
   collections?: Prisma.PostsOnCollectionsCreateNestedManyWithoutPostInput
   categories?: Prisma.CategoryCreateNestedManyWithoutPostsInput
   user: Prisma.UserCreateNestedOneWithoutPostsInput
-  art_generation?: Prisma.ArtGenerationCreateNestedOneWithoutPostInput
+  artGeneration?: Prisma.ArtGenerationCreateNestedOneWithoutPostInput
 }
 
 export type PostUncheckedCreateWithoutSharesInput = {
   id?: number
-  user_id: string
+  userId: string
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  art_generation_id?: number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  artGenerationId?: number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaUncheckedCreateNestedManyWithoutPostInput
   collections?: Prisma.PostsOnCollectionsUncheckedCreateNestedManyWithoutPostInput
@@ -1375,68 +1375,68 @@ export type PostUpdateToOneWithWhereWithoutSharesInput = {
 export type PostUpdateWithoutSharesInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUpdateManyWithoutPostNestedInput
   collections?: Prisma.PostsOnCollectionsUpdateManyWithoutPostNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutPostsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
-  art_generation?: Prisma.ArtGenerationUpdateOneWithoutPostNestedInput
+  artGeneration?: Prisma.ArtGenerationUpdateOneWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateWithoutSharesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  art_generation_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUncheckedUpdateManyWithoutPostNestedInput
   collections?: Prisma.PostsOnCollectionsUncheckedUpdateManyWithoutPostNestedInput
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutPostsNestedInput
 }
 
-export type PostCreateWithoutArt_generationInput = {
+export type PostCreateWithoutArtGenerationInput = {
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareCreateNestedManyWithoutPostInput
@@ -1445,24 +1445,24 @@ export type PostCreateWithoutArt_generationInput = {
   user: Prisma.UserCreateNestedOneWithoutPostsInput
 }
 
-export type PostUncheckedCreateWithoutArt_generationInput = {
+export type PostUncheckedCreateWithoutArtGenerationInput = {
   id?: number
-  user_id: string
+  userId: string
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaUncheckedCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutPostInput
@@ -1470,75 +1470,75 @@ export type PostUncheckedCreateWithoutArt_generationInput = {
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutPostsInput
 }
 
-export type PostCreateOrConnectWithoutArt_generationInput = {
+export type PostCreateOrConnectWithoutArtGenerationInput = {
   where: Prisma.PostWhereUniqueInput
-  create: Prisma.XOR<Prisma.PostCreateWithoutArt_generationInput, Prisma.PostUncheckedCreateWithoutArt_generationInput>
+  create: Prisma.XOR<Prisma.PostCreateWithoutArtGenerationInput, Prisma.PostUncheckedCreateWithoutArtGenerationInput>
 }
 
-export type PostCreateManyArt_generationInputEnvelope = {
-  data: Prisma.PostCreateManyArt_generationInput | Prisma.PostCreateManyArt_generationInput[]
+export type PostCreateManyArtGenerationInputEnvelope = {
+  data: Prisma.PostCreateManyArtGenerationInput | Prisma.PostCreateManyArtGenerationInput[]
   skipDuplicates?: boolean
 }
 
-export type PostUpsertWithWhereUniqueWithoutArt_generationInput = {
+export type PostUpsertWithWhereUniqueWithoutArtGenerationInput = {
   where: Prisma.PostWhereUniqueInput
-  update: Prisma.XOR<Prisma.PostUpdateWithoutArt_generationInput, Prisma.PostUncheckedUpdateWithoutArt_generationInput>
-  create: Prisma.XOR<Prisma.PostCreateWithoutArt_generationInput, Prisma.PostUncheckedCreateWithoutArt_generationInput>
+  update: Prisma.XOR<Prisma.PostUpdateWithoutArtGenerationInput, Prisma.PostUncheckedUpdateWithoutArtGenerationInput>
+  create: Prisma.XOR<Prisma.PostCreateWithoutArtGenerationInput, Prisma.PostUncheckedCreateWithoutArtGenerationInput>
 }
 
-export type PostUpdateWithWhereUniqueWithoutArt_generationInput = {
+export type PostUpdateWithWhereUniqueWithoutArtGenerationInput = {
   where: Prisma.PostWhereUniqueInput
-  data: Prisma.XOR<Prisma.PostUpdateWithoutArt_generationInput, Prisma.PostUncheckedUpdateWithoutArt_generationInput>
+  data: Prisma.XOR<Prisma.PostUpdateWithoutArtGenerationInput, Prisma.PostUncheckedUpdateWithoutArtGenerationInput>
 }
 
-export type PostUpdateManyWithWhereWithoutArt_generationInput = {
+export type PostUpdateManyWithWhereWithoutArtGenerationInput = {
   where: Prisma.PostScalarWhereInput
-  data: Prisma.XOR<Prisma.PostUpdateManyMutationInput, Prisma.PostUncheckedUpdateManyWithoutArt_generationInput>
+  data: Prisma.XOR<Prisma.PostUpdateManyMutationInput, Prisma.PostUncheckedUpdateManyWithoutArtGenerationInput>
 }
 
 export type PostCreateWithoutCollectionsInput = {
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareCreateNestedManyWithoutPostInput
   categories?: Prisma.CategoryCreateNestedManyWithoutPostsInput
   user: Prisma.UserCreateNestedOneWithoutPostsInput
-  art_generation?: Prisma.ArtGenerationCreateNestedOneWithoutPostInput
+  artGeneration?: Prisma.ArtGenerationCreateNestedOneWithoutPostInput
 }
 
 export type PostUncheckedCreateWithoutCollectionsInput = {
   id?: number
-  user_id: string
+  userId: string
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  art_generation_id?: number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  artGenerationId?: number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaUncheckedCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutPostInput
@@ -1564,46 +1564,46 @@ export type PostUpdateToOneWithWhereWithoutCollectionsInput = {
 export type PostUpdateWithoutCollectionsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUpdateManyWithoutPostNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutPostsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
-  art_generation?: Prisma.ArtGenerationUpdateOneWithoutPostNestedInput
+  artGeneration?: Prisma.ArtGenerationUpdateOneWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateWithoutCollectionsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  art_generation_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUncheckedUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutPostNestedInput
@@ -1614,64 +1614,64 @@ export type PostCreateManyUserInput = {
   id?: number
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  art_generation_id?: number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  artGenerationId?: number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type PostUpdateWithoutUserInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUpdateManyWithoutPostNestedInput
   collections?: Prisma.PostsOnCollectionsUpdateManyWithoutPostNestedInput
   categories?: Prisma.CategoryUpdateManyWithoutPostsNestedInput
-  art_generation?: Prisma.ArtGenerationUpdateOneWithoutPostNestedInput
+  artGeneration?: Prisma.ArtGenerationUpdateOneWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  art_generation_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUncheckedUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutPostNestedInput
@@ -1683,65 +1683,65 @@ export type PostUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  art_generation_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type PostUpdateWithoutCategoriesInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUpdateManyWithoutPostNestedInput
   collections?: Prisma.PostsOnCollectionsUpdateManyWithoutPostNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
-  art_generation?: Prisma.ArtGenerationUpdateOneWithoutPostNestedInput
+  artGeneration?: Prisma.ArtGenerationUpdateOneWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateWithoutCategoriesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  art_generation_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUncheckedUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutPostNestedInput
@@ -1750,61 +1750,61 @@ export type PostUncheckedUpdateWithoutCategoriesInput = {
 
 export type PostUncheckedUpdateManyWithoutCategoriesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  art_generation_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
-export type PostCreateManyArt_generationInput = {
+export type PostCreateManyArtGenerationInput = {
   id?: number
-  user_id: string
+  userId: string
   title: string
   description?: string | null
-  created_at?: Date | string
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: number | null
-  share_count?: number
-  comment_count?: number
-  view_count?: number
-  like_count?: number
-  thumbnail_url: string
-  updated_at?: Date | string | null
-  is_mature?: boolean
-  ai_created?: boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: number | null
+  shareCount?: number
+  commentCount?: number
+  viewCount?: number
+  likeCount?: number
+  thumbnailUrl: string
+  updatedAt?: Date | string | null
+  isMature?: boolean
+  aiCreated?: boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
-export type PostUpdateWithoutArt_generationInput = {
+export type PostUpdateWithoutArtGenerationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUpdateManyWithoutPostNestedInput
@@ -1813,24 +1813,24 @@ export type PostUpdateWithoutArt_generationInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
 }
 
-export type PostUncheckedUpdateWithoutArt_generationInput = {
+export type PostUncheckedUpdateWithoutArtGenerationInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUncheckedUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutPostNestedInput
@@ -1838,24 +1838,24 @@ export type PostUncheckedUpdateWithoutArt_generationInput = {
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutPostsNestedInput
 }
 
-export type PostUncheckedUpdateManyWithoutArt_generationInput = {
+export type PostUncheckedUpdateManyWithoutArtGenerationInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  group_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  thumbnail_url?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_mature?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  ai_created?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_crop_meta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  groupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  thumbnailUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 
@@ -1927,101 +1927,101 @@ export type PostCountOutputTypeCountCategoriesArgs<ExtArgs extends runtime.Types
 
 export type PostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  user_id?: boolean
+  userId?: boolean
   title?: boolean
   description?: boolean
-  created_at?: boolean
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: boolean
-  share_count?: boolean
-  comment_count?: boolean
-  view_count?: boolean
-  like_count?: boolean
-  thumbnail_url?: boolean
-  updated_at?: boolean
-  is_mature?: boolean
-  ai_created?: boolean
-  art_generation_id?: boolean
-  thumbnail_crop_meta?: boolean
+  createdAt?: boolean
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: boolean
+  shareCount?: boolean
+  commentCount?: boolean
+  viewCount?: boolean
+  likeCount?: boolean
+  thumbnailUrl?: boolean
+  updatedAt?: boolean
+  isMature?: boolean
+  aiCreated?: boolean
+  artGenerationId?: boolean
+  thumbnailCropMeta?: boolean
   likes?: boolean | Prisma.Post$likesArgs<ExtArgs>
   medias?: boolean | Prisma.Post$mediasArgs<ExtArgs>
   shares?: boolean | Prisma.Post$sharesArgs<ExtArgs>
   collections?: boolean | Prisma.Post$collectionsArgs<ExtArgs>
   categories?: boolean | Prisma.Post$categoriesArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  art_generation?: boolean | Prisma.Post$art_generationArgs<ExtArgs>
+  artGeneration?: boolean | Prisma.Post$artGenerationArgs<ExtArgs>
   _count?: boolean | Prisma.PostCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post"]>
 
 export type PostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  user_id?: boolean
+  userId?: boolean
   title?: boolean
   description?: boolean
-  created_at?: boolean
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: boolean
-  share_count?: boolean
-  comment_count?: boolean
-  view_count?: boolean
-  like_count?: boolean
-  thumbnail_url?: boolean
-  updated_at?: boolean
-  is_mature?: boolean
-  ai_created?: boolean
-  art_generation_id?: boolean
-  thumbnail_crop_meta?: boolean
+  createdAt?: boolean
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: boolean
+  shareCount?: boolean
+  commentCount?: boolean
+  viewCount?: boolean
+  likeCount?: boolean
+  thumbnailUrl?: boolean
+  updatedAt?: boolean
+  isMature?: boolean
+  aiCreated?: boolean
+  artGenerationId?: boolean
+  thumbnailCropMeta?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  art_generation?: boolean | Prisma.Post$art_generationArgs<ExtArgs>
+  artGeneration?: boolean | Prisma.Post$artGenerationArgs<ExtArgs>
 }, ExtArgs["result"]["post"]>
 
 export type PostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  user_id?: boolean
+  userId?: boolean
   title?: boolean
   description?: boolean
-  created_at?: boolean
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: boolean
-  share_count?: boolean
-  comment_count?: boolean
-  view_count?: boolean
-  like_count?: boolean
-  thumbnail_url?: boolean
-  updated_at?: boolean
-  is_mature?: boolean
-  ai_created?: boolean
-  art_generation_id?: boolean
-  thumbnail_crop_meta?: boolean
+  createdAt?: boolean
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: boolean
+  shareCount?: boolean
+  commentCount?: boolean
+  viewCount?: boolean
+  likeCount?: boolean
+  thumbnailUrl?: boolean
+  updatedAt?: boolean
+  isMature?: boolean
+  aiCreated?: boolean
+  artGenerationId?: boolean
+  thumbnailCropMeta?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  art_generation?: boolean | Prisma.Post$art_generationArgs<ExtArgs>
+  artGeneration?: boolean | Prisma.Post$artGenerationArgs<ExtArgs>
 }, ExtArgs["result"]["post"]>
 
 export type PostSelectScalar = {
   id?: boolean
-  user_id?: boolean
+  userId?: boolean
   title?: boolean
   description?: boolean
-  created_at?: boolean
-  is_published?: boolean
-  is_private?: boolean
-  group_id?: boolean
-  share_count?: boolean
-  comment_count?: boolean
-  view_count?: boolean
-  like_count?: boolean
-  thumbnail_url?: boolean
-  updated_at?: boolean
-  is_mature?: boolean
-  ai_created?: boolean
-  art_generation_id?: boolean
-  thumbnail_crop_meta?: boolean
+  createdAt?: boolean
+  isPublished?: boolean
+  isPrivate?: boolean
+  groupId?: boolean
+  shareCount?: boolean
+  commentCount?: boolean
+  viewCount?: boolean
+  likeCount?: boolean
+  thumbnailUrl?: boolean
+  updatedAt?: boolean
+  isMature?: boolean
+  aiCreated?: boolean
+  artGenerationId?: boolean
+  thumbnailCropMeta?: boolean
 }
 
-export type PostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "title" | "description" | "created_at" | "is_published" | "is_private" | "group_id" | "share_count" | "comment_count" | "view_count" | "like_count" | "thumbnail_url" | "updated_at" | "is_mature" | "ai_created" | "art_generation_id" | "thumbnail_crop_meta", ExtArgs["result"]["post"]>
+export type PostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "createdAt" | "isPublished" | "isPrivate" | "groupId" | "shareCount" | "commentCount" | "viewCount" | "likeCount" | "thumbnailUrl" | "updatedAt" | "isMature" | "aiCreated" | "artGenerationId" | "thumbnailCropMeta", ExtArgs["result"]["post"]>
 export type PostInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   likes?: boolean | Prisma.Post$likesArgs<ExtArgs>
   medias?: boolean | Prisma.Post$mediasArgs<ExtArgs>
@@ -2029,16 +2029,16 @@ export type PostInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   collections?: boolean | Prisma.Post$collectionsArgs<ExtArgs>
   categories?: boolean | Prisma.Post$categoriesArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  art_generation?: boolean | Prisma.Post$art_generationArgs<ExtArgs>
+  artGeneration?: boolean | Prisma.Post$artGenerationArgs<ExtArgs>
   _count?: boolean | Prisma.PostCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PostIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  art_generation?: boolean | Prisma.Post$art_generationArgs<ExtArgs>
+  artGeneration?: boolean | Prisma.Post$artGenerationArgs<ExtArgs>
 }
 export type PostIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  art_generation?: boolean | Prisma.Post$art_generationArgs<ExtArgs>
+  artGeneration?: boolean | Prisma.Post$artGenerationArgs<ExtArgs>
 }
 
 export type $PostPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2050,27 +2050,27 @@ export type $PostPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     collections: Prisma.$PostsOnCollectionsPayload<ExtArgs>[]
     categories: Prisma.$CategoryPayload<ExtArgs>[]
     user: Prisma.$UserPayload<ExtArgs>
-    art_generation: Prisma.$ArtGenerationPayload<ExtArgs> | null
+    artGeneration: Prisma.$ArtGenerationPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    user_id: string
+    userId: string
     title: string
     description: string | null
-    created_at: Date
-    is_published: boolean
-    is_private: boolean
-    group_id: number | null
-    share_count: number
-    comment_count: number
-    view_count: number
-    like_count: number
-    thumbnail_url: string
-    updated_at: Date | null
-    is_mature: boolean
-    ai_created: boolean
-    art_generation_id: number | null
-    thumbnail_crop_meta: runtime.JsonValue | null
+    createdAt: Date
+    isPublished: boolean
+    isPrivate: boolean
+    groupId: number | null
+    shareCount: number
+    commentCount: number
+    viewCount: number
+    likeCount: number
+    thumbnailUrl: string
+    updatedAt: Date | null
+    isMature: boolean
+    aiCreated: boolean
+    artGenerationId: number | null
+    thumbnailCropMeta: runtime.JsonValue | null
   }, ExtArgs["result"]["post"]>
   composites: {}
 }
@@ -2471,7 +2471,7 @@ export interface Prisma__PostClient<T, Null = never, ExtArgs extends runtime.Typ
   collections<T extends Prisma.Post$collectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Post$collectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostsOnCollectionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   categories<T extends Prisma.Post$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Post$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  art_generation<T extends Prisma.Post$art_generationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Post$art_generationArgs<ExtArgs>>): Prisma.Prisma__ArtGenerationClient<runtime.Types.Result.GetResult<Prisma.$ArtGenerationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  artGeneration<T extends Prisma.Post$artGenerationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Post$artGenerationArgs<ExtArgs>>): Prisma.Prisma__ArtGenerationClient<runtime.Types.Result.GetResult<Prisma.$ArtGenerationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2502,23 +2502,23 @@ export interface Prisma__PostClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface PostFieldRefs {
   readonly id: Prisma.FieldRef<"Post", 'Int'>
-  readonly user_id: Prisma.FieldRef<"Post", 'String'>
+  readonly userId: Prisma.FieldRef<"Post", 'String'>
   readonly title: Prisma.FieldRef<"Post", 'String'>
   readonly description: Prisma.FieldRef<"Post", 'String'>
-  readonly created_at: Prisma.FieldRef<"Post", 'DateTime'>
-  readonly is_published: Prisma.FieldRef<"Post", 'Boolean'>
-  readonly is_private: Prisma.FieldRef<"Post", 'Boolean'>
-  readonly group_id: Prisma.FieldRef<"Post", 'Int'>
-  readonly share_count: Prisma.FieldRef<"Post", 'Int'>
-  readonly comment_count: Prisma.FieldRef<"Post", 'Int'>
-  readonly view_count: Prisma.FieldRef<"Post", 'Int'>
-  readonly like_count: Prisma.FieldRef<"Post", 'Int'>
-  readonly thumbnail_url: Prisma.FieldRef<"Post", 'String'>
-  readonly updated_at: Prisma.FieldRef<"Post", 'DateTime'>
-  readonly is_mature: Prisma.FieldRef<"Post", 'Boolean'>
-  readonly ai_created: Prisma.FieldRef<"Post", 'Boolean'>
-  readonly art_generation_id: Prisma.FieldRef<"Post", 'Int'>
-  readonly thumbnail_crop_meta: Prisma.FieldRef<"Post", 'Json'>
+  readonly createdAt: Prisma.FieldRef<"Post", 'DateTime'>
+  readonly isPublished: Prisma.FieldRef<"Post", 'Boolean'>
+  readonly isPrivate: Prisma.FieldRef<"Post", 'Boolean'>
+  readonly groupId: Prisma.FieldRef<"Post", 'Int'>
+  readonly shareCount: Prisma.FieldRef<"Post", 'Int'>
+  readonly commentCount: Prisma.FieldRef<"Post", 'Int'>
+  readonly viewCount: Prisma.FieldRef<"Post", 'Int'>
+  readonly likeCount: Prisma.FieldRef<"Post", 'Int'>
+  readonly thumbnailUrl: Prisma.FieldRef<"Post", 'String'>
+  readonly updatedAt: Prisma.FieldRef<"Post", 'DateTime'>
+  readonly isMature: Prisma.FieldRef<"Post", 'Boolean'>
+  readonly aiCreated: Prisma.FieldRef<"Post", 'Boolean'>
+  readonly artGenerationId: Prisma.FieldRef<"Post", 'Int'>
+  readonly thumbnailCropMeta: Prisma.FieldRef<"Post", 'Json'>
 }
     
 
@@ -3035,9 +3035,9 @@ export type Post$categoriesArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * Post.art_generation
+ * Post.artGeneration
  */
-export type Post$art_generationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Post$artGenerationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the ArtGeneration
    */

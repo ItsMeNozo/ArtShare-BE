@@ -2628,8 +2628,8 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 
 export const RoleScalarFieldEnum = {
-  role_id: 'role_id',
-  role_name: 'role_name',
+  roleId: 'roleId',
+  roleName: 'roleName',
   createdAt: 'createdAt'
 } as const
 
@@ -2637,8 +2637,8 @@ export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof Role
 
 
 export const UserRoleScalarFieldEnum = {
-  user_id: 'user_id',
-  role_id: 'role_id',
+  userId: 'userId',
+  roleId: 'roleId',
   assignedAt: 'assignedAt'
 } as const
 
@@ -2649,17 +2649,17 @@ export const UserScalarFieldEnum = {
   id: 'id',
   username: 'username',
   email: 'email',
-  full_name: 'full_name',
-  profile_picture_url: 'profile_picture_url',
+  fullName: 'fullName',
+  profilePictureUrl: 'profilePictureUrl',
   bio: 'bio',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  refresh_token: 'refresh_token',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  refreshToken: 'refreshToken',
   birthday: 'birthday',
-  followers_count: 'followers_count',
-  followings_count: 'followings_count',
-  stripe_customer_id: 'stripe_customer_id',
-  is_onboard: 'is_onboard',
+  followersCount: 'followersCount',
+  followingsCount: 'followingsCount',
+  stripeCustomerId: 'stripeCustomerId',
+  isOnboard: 'isOnboard',
   status: 'status'
 } as const
 
@@ -2668,23 +2668,23 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 
 export const PostScalarFieldEnum = {
   id: 'id',
-  user_id: 'user_id',
+  userId: 'userId',
   title: 'title',
   description: 'description',
-  created_at: 'created_at',
-  is_published: 'is_published',
-  is_private: 'is_private',
-  group_id: 'group_id',
-  share_count: 'share_count',
-  comment_count: 'comment_count',
-  view_count: 'view_count',
-  like_count: 'like_count',
-  thumbnail_url: 'thumbnail_url',
-  updated_at: 'updated_at',
-  is_mature: 'is_mature',
-  ai_created: 'ai_created',
-  art_generation_id: 'art_generation_id',
-  thumbnail_crop_meta: 'thumbnail_crop_meta'
+  createdAt: 'createdAt',
+  isPublished: 'isPublished',
+  isPrivate: 'isPrivate',
+  groupId: 'groupId',
+  shareCount: 'shareCount',
+  commentCount: 'commentCount',
+  viewCount: 'viewCount',
+  likeCount: 'likeCount',
+  thumbnailUrl: 'thumbnailUrl',
+  updatedAt: 'updatedAt',
+  isMature: 'isMature',
+  aiCreated: 'aiCreated',
+  artGenerationId: 'artGenerationId',
+  thumbnailCropMeta: 'thumbnailCropMeta'
 } as const
 
 export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
@@ -2692,21 +2692,21 @@ export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof Post
 
 export const BlogScalarFieldEnum = {
   id: 'id',
-  user_id: 'user_id',
+  userId: 'userId',
   title: 'title',
   content: 'content',
-  created_at: 'created_at',
-  is_published: 'is_published',
-  like_count: 'like_count',
-  comment_count: 'comment_count',
-  share_count: 'share_count',
-  updated_at: 'updated_at',
-  average_rating: 'average_rating',
-  is_protected: 'is_protected',
-  rating_count: 'rating_count',
+  createdAt: 'createdAt',
+  isPublished: 'isPublished',
+  likeCount: 'likeCount',
+  commentCount: 'commentCount',
+  shareCount: 'shareCount',
+  updatedAt: 'updatedAt',
+  averageRating: 'averageRating',
+  isProtected: 'isProtected',
+  ratingCount: 'ratingCount',
   pictures: 'pictures',
-  embedded_videos: 'embedded_videos',
-  view_count: 'view_count'
+  embeddedVideos: 'embeddedVideos',
+  viewCount: 'viewCount'
 } as const
 
 export type BlogScalarFieldEnum = (typeof BlogScalarFieldEnum)[keyof typeof BlogScalarFieldEnum]
@@ -2714,46 +2714,46 @@ export type BlogScalarFieldEnum = (typeof BlogScalarFieldEnum)[keyof typeof Blog
 
 export const MediaScalarFieldEnum = {
   id: 'id',
-  post_id: 'post_id',
-  media_type: 'media_type',
+  postId: 'postId',
+  mediaType: 'mediaType',
   description: 'description',
   url: 'url',
   downloads: 'downloads',
-  created_at: 'created_at',
-  creator_id: 'creator_id'
+  createdAt: 'createdAt',
+  creatorId: 'creatorId'
 } as const
 
 export type MediaScalarFieldEnum = (typeof MediaScalarFieldEnum)[keyof typeof MediaScalarFieldEnum]
 
 
 export const CategoryScalarFieldEnum = {
-  created_at: 'created_at',
+  createdAt: 'createdAt',
   id: 'id',
   name: 'name',
   description: 'description',
-  example_images: 'example_images',
+  exampleImages: 'exampleImages',
   type: 'type',
-  updated_at: 'updated_at'
+  updatedAt: 'updatedAt'
 } as const
 
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
 export const LikeScalarFieldEnum = {
-  user_id: 'user_id',
-  created_at: 'created_at',
-  blog_id: 'blog_id',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  blogId: 'blogId',
   id: 'id',
-  post_id: 'post_id'
+  postId: 'postId'
 } as const
 
 export type LikeScalarFieldEnum = (typeof LikeScalarFieldEnum)[keyof typeof LikeScalarFieldEnum]
 
 
 export const CommentLikeScalarFieldEnum = {
-  user_id: 'user_id',
-  comment_id: 'comment_id',
-  created_at: 'created_at'
+  userId: 'userId',
+  commentId: 'commentId',
+  createdAt: 'createdAt'
 } as const
 
 export type CommentLikeScalarFieldEnum = (typeof CommentLikeScalarFieldEnum)[keyof typeof CommentLikeScalarFieldEnum]
@@ -2761,14 +2761,14 @@ export type CommentLikeScalarFieldEnum = (typeof CommentLikeScalarFieldEnum)[key
 
 export const CommentScalarFieldEnum = {
   id: 'id',
-  user_id: 'user_id',
-  parent_comment_id: 'parent_comment_id',
+  userId: 'userId',
+  parentCommentId: 'parentCommentId',
   content: 'content',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  target_id: 'target_id',
-  like_count: 'like_count',
-  target_type: 'target_type'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  targetId: 'targetId',
+  likeCount: 'likeCount',
+  targetType: 'targetType'
 } as const
 
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
@@ -2776,41 +2776,41 @@ export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeo
 
 export const ShareScalarFieldEnum = {
   id: 'id',
-  user_id: 'user_id',
-  share_platform: 'share_platform',
-  created_at: 'created_at',
-  blog_id: 'blog_id',
-  post_id: 'post_id'
+  userId: 'userId',
+  sharePlatform: 'sharePlatform',
+  createdAt: 'createdAt',
+  blogId: 'blogId',
+  postId: 'postId'
 } as const
 
 export type ShareScalarFieldEnum = (typeof ShareScalarFieldEnum)[keyof typeof ShareScalarFieldEnum]
 
 
 export const FollowScalarFieldEnum = {
-  follower_id: 'follower_id',
-  following_id: 'following_id',
-  created_at: 'created_at',
-  is_subscribed: 'is_subscribed'
+  followerId: 'followerId',
+  followingId: 'followingId',
+  createdAt: 'createdAt',
+  isSubscribed: 'isSubscribed'
 } as const
 
 export type FollowScalarFieldEnum = (typeof FollowScalarFieldEnum)[keyof typeof FollowScalarFieldEnum]
 
 
 export const BookmarkScalarFieldEnum = {
-  user_id: 'user_id',
-  blog_id: 'blog_id',
-  created_at: 'created_at'
+  userId: 'userId',
+  blogId: 'blogId',
+  createdAt: 'createdAt'
 } as const
 
 export type BookmarkScalarFieldEnum = (typeof BookmarkScalarFieldEnum)[keyof typeof BookmarkScalarFieldEnum]
 
 
 export const RatingScalarFieldEnum = {
-  user_id: 'user_id',
-  blog_id: 'blog_id',
+  userId: 'userId',
+  blogId: 'blogId',
   value: 'value',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type RatingScalarFieldEnum = (typeof RatingScalarFieldEnum)[keyof typeof RatingScalarFieldEnum]
@@ -2820,11 +2820,11 @@ export const CollectionScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
-  is_private: 'is_private',
-  thumbnail_url: 'thumbnail_url',
-  user_id: 'user_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  isPrivate: 'isPrivate',
+  thumbnailUrl: 'thumbnailUrl',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type CollectionScalarFieldEnum = (typeof CollectionScalarFieldEnum)[keyof typeof CollectionScalarFieldEnum]
@@ -2832,17 +2832,17 @@ export type CollectionScalarFieldEnum = (typeof CollectionScalarFieldEnum)[keyof
 
 export const ReportScalarFieldEnum = {
   id: 'id',
-  reporter_id: 'reporter_id',
-  target_id: 'target_id',
-  user_id: 'user_id',
-  target_type: 'target_type',
+  reporterId: 'reporterId',
+  targetId: 'targetId',
+  userId: 'userId',
+  targetType: 'targetType',
   reason: 'reason',
   status: 'status',
-  created_at: 'created_at',
-  resolved_at: 'resolved_at',
-  resolution_comment: 'resolution_comment',
-  moderator_id: 'moderator_id',
-  target_url: 'target_url'
+  createdAt: 'createdAt',
+  resolvedAt: 'resolvedAt',
+  resolutionComment: 'resolutionComment',
+  moderatorId: 'moderatorId',
+  targetUrl: 'targetUrl'
 } as const
 
 export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
@@ -2901,18 +2901,18 @@ export type UserUsageScalarFieldEnum = (typeof UserUsageScalarFieldEnum)[keyof t
 
 export const ArtGenerationScalarFieldEnum = {
   id: 'id',
-  user_id: 'user_id',
-  user_prompt: 'user_prompt',
-  final_prompt: 'final_prompt',
-  model_key: 'model_key',
-  number_of_images_generated: 'number_of_images_generated',
-  image_urls: 'image_urls',
-  aspect_ratio: 'aspect_ratio',
+  userId: 'userId',
+  userPrompt: 'userPrompt',
+  finalPrompt: 'finalPrompt',
+  modelKey: 'modelKey',
+  numberOfImagesGenerated: 'numberOfImagesGenerated',
+  imageUrls: 'imageUrls',
+  aspectRatio: 'aspectRatio',
   style: 'style',
   lighting: 'lighting',
   camera: 'camera',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ArtGenerationScalarFieldEnum = (typeof ArtGenerationScalarFieldEnum)[keyof typeof ArtGenerationScalarFieldEnum]
@@ -2920,10 +2920,10 @@ export type ArtGenerationScalarFieldEnum = (typeof ArtGenerationScalarFieldEnum)
 
 export const TrendingPromptScalarFieldEnum = {
   id: 'id',
-  prompt_key: 'prompt_key',
+  promptKey: 'promptKey',
   prompts: 'prompts',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type TrendingPromptScalarFieldEnum = (typeof TrendingPromptScalarFieldEnum)[keyof typeof TrendingPromptScalarFieldEnum]
@@ -2944,13 +2944,13 @@ export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[k
 export const PlatformScalarFieldEnum = {
   id: 'id',
   config: 'config',
-  user_id: 'user_id',
-  external_page_id: 'external_page_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  token_expires_at: 'token_expires_at',
-  picture_url: 'picture_url',
-  facebook_account_id: 'facebook_account_id',
+  userId: 'userId',
+  externalPageId: 'externalPageId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  tokenExpiresAt: 'tokenExpiresAt',
+  pictureUrl: 'pictureUrl',
+  facebookAccountId: 'facebookAccountId',
   name: 'name',
   status: 'status'
 } as const
@@ -2963,10 +2963,10 @@ export const AutoProjectScalarFieldEnum = {
   title: 'title',
   description: 'description',
   status: 'status',
-  created_at: 'created_at',
-  user_id: 'user_id',
-  updated_at: 'updated_at',
-  platform_id: 'platform_id'
+  createdAt: 'createdAt',
+  userId: 'userId',
+  updatedAt: 'updatedAt',
+  platformId: 'platformId'
 } as const
 
 export type AutoProjectScalarFieldEnum = (typeof AutoProjectScalarFieldEnum)[keyof typeof AutoProjectScalarFieldEnum]
@@ -2974,18 +2974,18 @@ export type AutoProjectScalarFieldEnum = (typeof AutoProjectScalarFieldEnum)[key
 
 export const AutoPostScalarFieldEnum = {
   id: 'id',
-  auto_project_id: 'auto_project_id',
+  autoProjectId: 'autoProjectId',
   content: 'content',
-  image_urls: 'image_urls',
-  scheduled_at: 'scheduled_at',
+  imageUrls: 'imageUrls',
+  scheduledAt: 'scheduledAt',
   status: 'status',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  posted_at: 'posted_at',
-  error_message: 'error_message',
-  n8n_triggered_at: 'n8n_triggered_at',
-  n8n_execution_id: 'n8n_execution_id',
-  platform_post_id: 'platform_post_id'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  postedAt: 'postedAt',
+  errorMessage: 'errorMessage',
+  n8nTriggeredAt: 'n8nTriggeredAt',
+  n8nExecutionId: 'n8nExecutionId',
+  platformPostId: 'platformPostId'
 } as const
 
 export type AutoPostScalarFieldEnum = (typeof AutoPostScalarFieldEnum)[keyof typeof AutoPostScalarFieldEnum]
@@ -3017,14 +3017,14 @@ export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeo
 
 export const FacebookAccountScalarFieldEnum = {
   id: 'id',
-  user_id: 'user_id',
-  facebook_user_id: 'facebook_user_id',
+  userId: 'userId',
+  facebookUserId: 'facebookUserId',
   name: 'name',
-  picture_url: 'picture_url',
-  long_lived_user_access_token: 'long_lived_user_access_token',
-  token_expires_at: 'token_expires_at',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  pictureUrl: 'pictureUrl',
+  longLivedUserAccessToken: 'longLivedUserAccessToken',
+  tokenExpiresAt: 'tokenExpiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type FacebookAccountScalarFieldEnum = (typeof FacebookAccountScalarFieldEnum)[keyof typeof FacebookAccountScalarFieldEnum]

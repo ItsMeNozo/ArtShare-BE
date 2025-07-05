@@ -15,10 +15,10 @@ export class PromptService {
   async getPromptHistory(userId: string): Promise<ImageGenerationResponseDto[]> {
     const promptHistory = await this.prismaService.artGeneration.findMany({
       where: {
-        user_id: userId,
+        userId: userId,
       },
       orderBy: {
-        created_at: 'desc',
+        createdAt: 'desc',
       },
     });
 
@@ -43,7 +43,7 @@ export class PromptService {
         id: promptId,
       },
       data: {
-        image_urls: updatePromptHistoryDto.image_urls,
+        imageUrls: updatePromptHistoryDto.imageUrls,
       },
     });
 

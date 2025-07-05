@@ -56,26 +56,26 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
   async getPublicUserProfile(
     @Param('userId') userId: string,
-    @CurrentUser() currentUser: CurrentUserType,
+    @CurrentUser() user: CurrentUserType,
   ): Promise<UserProfileDTO> {
-    return this.userService.getUserProfile(userId, currentUser);
+    return this.userService.getUserProfile(userId, user);
   }
 
   @Get('profile/username/:username')
   @HttpCode(HttpStatus.OK)
   async getPublicUserProfileByUsername(
     @Param('username') username: string,
-    @CurrentUser() currentUser: CurrentUserType,
+    @CurrentUser() user: CurrentUserType,
   ): Promise<UserProfileDTO> {
-    return this.userService.getUserProfileByUsername(username, currentUser);
+    return this.userService.getUserProfileByUsername(username, user);
   }
 
   @Get('profile')
   @HttpCode(HttpStatus.OK)
   async getCurrentUserProfile(
-    @CurrentUser() currentUser: CurrentUserType,
+    @CurrentUser() user: CurrentUserType,
   ): Promise<UserProfileMeDTO> {
-    return this.userService.getUserProfileForMe(currentUser);
+    return this.userService.getUserProfileForMe(user);
   }
 
   @Patch('profile')
@@ -83,37 +83,34 @@ export class UserController {
   @ApiOperation({ summary: 'Update current logged-in user profile' })
   @ApiBody({ type: UpdateUserDTO })
   async updateCurrentUserProfile(
-    @CurrentUser() currentUser: CurrentUserType,
+    @CurrentUser() user: CurrentUserType,
     @Body() updateUserDto: UpdateUserDTO,
   ) {
-    return this.userService.updateUserProfile(currentUser.id, updateUserDto);
+    return this.userService.updateUserProfile(user.id, updateUserDto);
   }
 
   @Post(':userIdToFollow/follow')
   @HttpCode(HttpStatus.CREATED)
   async followUser(
     @Param('userIdToFollow') userIdToFollow: string,
-    @CurrentUser() currentUser: CurrentUserType,
+    @CurrentUser() user: CurrentUserType,
   ): Promise<FollowUserResponseDto> {
-    if (userIdToFollow === currentUser.id) {
+    if (userIdToFollow === user.id) {
       throw new BadRequestException('You cannot follow yourself.');
     }
-    return this.userFollowService.followUser(currentUser.id, userIdToFollow);
+    return this.userFollowService.followUser(user.id, userIdToFollow);
   }
 
   @Post(':userIdToUnfollow/unfollow')
   @HttpCode(HttpStatus.OK)
   async unfollowUser(
     @Param('userIdToUnfollow') userIdToUnfollow: string,
-    @CurrentUser() currentUser: CurrentUserType,
+    @CurrentUser() user: CurrentUserType,
   ): Promise<UnfollowUserResponseDto> {
-    if (userIdToUnfollow === currentUser.id) {
+    if (userIdToUnfollow === user.id) {
       throw new BadRequestException('You cannot unfollow yourself.');
     }
-    return this.userFollowService.unfollowUser(
-      currentUser.id,
-      userIdToUnfollow,
-    );
+    return this.userFollowService.unfollowUser(user.id, userIdToUnfollow);
   }
 
   @Get(':userId/followers')

@@ -35,23 +35,23 @@ export class ReportService {
     reporterId: string,
   ): Promise<Report> {
     const {
-      target_id,
-      target_type,
+      targetId,
+      targetType,
       reason,
-      target_url,
-      user_id,
-      target_title,
+      targetUrl,
+      userId,
+      targetTitle,
     } = createReportDto;
 
     try {
       const newReport = await this.prisma.report.create({
         data: {
-          reporter_id: reporterId,
-          target_id: target_id,
-          target_type: target_type,
+          reporterId: reporterId,
+          targetId: targetId,
+          targetType: targetType,
           reason: reason,
-          target_url: target_url,
-          user_id: user_id ? user_id : null,
+          targetUrl: targetUrl,
+          userId: userId ? userId : null,
         },
       });
 
@@ -64,8 +64,8 @@ export class ReportService {
           type: 'report_created',
           report: {
             id: newReport.id,
-            target_type: target_type,
-            target_title: target_title,
+            targetType: targetType,
+            targetTitle: targetTitle,
           },
           createdAt: new Date(),
         });
@@ -75,9 +75,9 @@ export class ReportService {
         from: reporterId,
         type: 'report_created',
         target: {
-          report_id: newReport.id,
-          target_type: target_type,
-          target_title: target_title,
+          reportId: newReport.id,
+          targetType: targetType,
+          targetTitle: targetTitle,
         },
         createdAt: new Date(),
       });
@@ -105,7 +105,7 @@ export class ReportService {
       include: {
         reporter: { select: { id: true, username: true } },
       },
-      orderBy: { created_at: 'asc' },
+      orderBy: { createdAt: 'asc' },
       skip: options.skip,
       take: options.take,
     }) as Promise<ReportWithDetails[]>; // Cast for now, or ensure include always matches
@@ -129,8 +129,8 @@ export class ReportService {
       data: {
         status: status,
         // If dismissing and you want to record who:
-        // moderator_id: (status === ReportStatus.DISMISSED && moderatorId) ? moderatorId : reportExists.moderator_id,
-        // resolved_at: (status === ReportStatus.DISMISSED) ? new Date() : reportExists.resolved_at, // Or a new 'dismissed_at' field
+        // moderatorId: (status === ReportStatus.DISMISSED && moderatorId) ? moderatorId : reportExists.moderatorId,
+        // resolvedAt: (status === ReportStatus.DISMISSED) ? new Date() : reportExists.resolvedAt, // Or a new 'dismissed_at' field
       },
       include: {
         // <<< INCLUDE RELATIONS
@@ -165,9 +165,9 @@ export class ReportService {
       where: { id: reportId },
       data: {
         status: ReportStatus.RESOLVED,
-        resolved_at: new Date(dto.resolve_date),
-        resolution_comment: dto.resolution_comment,
-        moderator_id: currentModeratorId,
+        resolvedAt: new Date(dto.resolveDate),
+        resolutionComment: dto.resolutionComment,
+        moderatorId: currentModeratorId,
       },
       include: {
         reporter: { select: { id: true, username: true } },
@@ -176,10 +176,10 @@ export class ReportService {
     });
 
     this.eventEmitter.emit('report.resolved', {
-      reporterId: updatedReport.reporter_id,
+      reporterId: updatedReport.reporterId,
       reportId: updatedReport.id,
       reason: updatedReport.reason,
-      resolvedAt: updatedReport.resolved_at,
+      resolvedAt: updatedReport.resolvedAt,
     });
     return updatedReport;
   }
@@ -194,7 +194,7 @@ export class ReportService {
         this.prisma.blog.findMany({
           skip,
           take: limit,
-          orderBy: { created_at: 'desc' },
+          orderBy: { createdAt: 'desc' },
           include: {
             user: {
               select: { username: true },
@@ -223,7 +223,7 @@ export class ReportService {
 
     if (tab !== ViewTab.ALL) {
       if (tab !== ViewTab.USER) {
-        where.target_type = tab.toUpperCase() as ReportTargetType;
+        where.targetType = tab.toUpperCase() as ReportTargetType;
       }
     }
 
@@ -233,7 +233,7 @@ export class ReportService {
         reporter: { select: { id: true, username: true } },
         moderator: { select: { id: true, username: true } },
       },
-      orderBy: { created_at: 'desc' },
+      orderBy: { createdAt: 'desc' },
       skip: options.skip,
       take: options.take,
     }) as Promise<ReportWithDetails[]>;

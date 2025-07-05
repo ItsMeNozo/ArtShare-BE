@@ -12,21 +12,21 @@ import { UserResponseDto } from './dto/response/user.dto';
 export class AdminPostListItemUserDto {
   id: string;
   username: string;
-  profile_picture_url?: string | null;
+  profilePictureUrl?: string | null;
 }
 export class AdminPostListItemDto {
   id: number;
-  user_id: string;
+  userId: string;
   title: string;
   description?: string;
-  thumbnail_url: string;
-  is_published: boolean;
-  is_private: boolean;
-  like_count: number;
-  share_count: number;
-  comment_count: number;
-  view_count: number;
-  created_at: Date;
+  thumbnailUrl: string;
+  isPublished: boolean;
+  isPrivate: boolean;
+  likeCount: number;
+  shareCount: number;
+  commentCount: number;
+  viewCount: number;
+  createdAt: Date;
   user: AdminPostListItemUserDto;
   categories: PostCategoryResponseDto[];
 }
@@ -58,29 +58,29 @@ export class PostsAdminService {
     const userDto = new UserResponseDto();
     userDto.id = post.user.id;
     userDto.username = post.user.username;
-    userDto.full_name = post.user.full_name ?? '';
-    userDto.profile_picture_url = post.user.profile_picture_url ?? '';
+    userDto.fullName = post.user.fullName ?? '';
+    userDto.profilePictureUrl = post.user.profilePictureUrl ?? '';
 
     return {
       id: post.id,
-      user_id: post.user_id,
+      userId: post.userId,
       title: post.title,
       description: post.description ?? undefined,
-      thumbnail_url: post.thumbnail_url,
-      is_published: post.is_published,
-      is_private: post.is_private,
-      like_count: post.like_count,
-      share_count: post.share_count,
-      comment_count: post.comment_count,
-      created_at: post.created_at,
+      thumbnailUrl: post.thumbnailUrl,
+      isPublished: post.isPublished,
+      isPrivate: post.isPrivate,
+      likeCount: post.likeCount,
+      shareCount: post.shareCount,
+      commentCount: post.commentCount,
+      createdAt: post.createdAt,
       medias: post.medias.map((media): MediaResponseDto => {
         const mediaDto = new MediaResponseDto();
-        mediaDto.media_type = media.media_type;
+        mediaDto.mediaType = media.mediaType;
         mediaDto.description = media.description ?? undefined;
         mediaDto.url = media.url;
-        mediaDto.creator_id = media.creator_id;
+        mediaDto.creatorId = media.creatorId;
         mediaDto.downloads = media.downloads;
-        mediaDto.created_at = media.created_at;
+        mediaDto.createdAt = media.createdAt;
         return mediaDto;
       }),
       user: userDto,
@@ -99,29 +99,27 @@ export class PostsAdminService {
   ): AdminPostListItemDto {
     return {
       id: post.id,
-      user_id: post.user_id,
+      userId: post.userId,
       title: post.title,
       description: post.description ?? undefined,
-      thumbnail_url: post.thumbnail_url,
-      is_published: post.is_published,
-      is_private: post.is_private,
-      like_count: post.like_count,
-      share_count: post.share_count,
-      comment_count: post.comment_count,
-      view_count: post.view_count,
-      created_at: post.created_at,
+      thumbnailUrl: post.thumbnailUrl,
+      isPublished: post.isPublished,
+      isPrivate: post.isPrivate,
+      likeCount: post.likeCount,
+      shareCount: post.shareCount,
+      commentCount: post.commentCount,
+      viewCount: post.viewCount,
+      createdAt: post.createdAt,
       user: {
         id: post.user.id,
         username: post.user.username,
-        profile_picture_url: post.user.profile_picture_url ?? null,
+        profilePictureUrl: post.user.profilePictureUrl,
       },
-      categories: (post.categories ?? []).map((category) => {
-        const categoryDto = new PostCategoryResponseDto();
-        categoryDto.id = category.id;
-        categoryDto.name = category.name;
-        categoryDto.type = category.type;
-        return categoryDto;
-      }),
+      categories: post.categories.map((category) => ({
+        id: category.id,
+        name: category.name,
+        type: category.type,
+      })),
     };
   }
 
@@ -150,27 +148,27 @@ export class PostsAdminService {
         { user: { username: { contains: search, mode: 'insensitive' } } },
       ];
     }
-    if (userId) where.user_id = userId;
-    if (isPublished !== undefined) where.is_published = isPublished;
-    if (isPrivate !== undefined) where.is_private = isPrivate;
+    if (userId) where.userId = userId;
+    if (isPublished !== undefined) where.isPublished = isPublished;
+    if (isPrivate !== undefined) where.isPrivate = isPrivate;
     if (categoryId) {
       where.categories = { some: { id: categoryId } };
     }
     if (aiCreated !== undefined) {
-      where.ai_created = aiCreated;
+      where.aiCreated = aiCreated;
     }
 
     const validSortByFields = [
-      'created_at',
+      'createdAt',
       'title',
-      'view_count',
-      'like_count',
-      'comment_count',
-      'updated_at',
+      'viewCount',
+      'likeCount',
+      'commentCount',
+      'updatedAt',
     ];
     const orderByField = validSortByFields.includes(sortBy)
       ? sortBy
-      : 'created_at';
+      : 'createdAt';
 
     const [prismaPosts, total] = await this.prisma.$transaction([
       this.prisma.post.findMany({
@@ -215,44 +213,44 @@ export class PostsAdminService {
     );
 
     const dataToUpdate: Prisma.PostUpdateInput = {};
-    if (updatePostDto.title !== undefined)
-      dataToUpdate.title = updatePostDto.title;
-    if (updatePostDto.description !== undefined)
-      dataToUpdate.description = updatePostDto.description;
-    if (updatePostDto.is_mature !== undefined)
-      dataToUpdate.is_mature = updatePostDto.is_mature;
-    if (updatePostDto.ai_created !== undefined)
-      dataToUpdate.ai_created = updatePostDto.ai_created;
-    if (updatePostDto.thumbnail_url !== undefined)
-      dataToUpdate.thumbnail_url = updatePostDto.thumbnail_url;
 
-    if (updatePostDto.thumbnail_crop_meta !== undefined) {
+    if (updatePostDto.title) dataToUpdate.title = updatePostDto.title;
+    if (updatePostDto.description)
+      dataToUpdate.description = updatePostDto.description;
+    if (updatePostDto.isMature !== undefined)
+      dataToUpdate.isMature = updatePostDto.isMature;
+    if (updatePostDto.aiCreated !== undefined)
+      dataToUpdate.aiCreated = updatePostDto.aiCreated;
+    if (updatePostDto.thumbnailUrl !== undefined)
+      dataToUpdate.thumbnailUrl = updatePostDto.thumbnailUrl;
+
+    if (updatePostDto.thumbnailCropMeta !== undefined) {
       try {
-        dataToUpdate.thumbnail_crop_meta =
-          typeof updatePostDto.thumbnail_crop_meta === 'string'
-            ? JSON.parse(updatePostDto.thumbnail_crop_meta)
-            : updatePostDto.thumbnail_crop_meta;
+        dataToUpdate.thumbnailCropMeta =
+          typeof updatePostDto.thumbnailCropMeta === 'string'
+            ? JSON.parse(updatePostDto.thumbnailCropMeta)
+            : updatePostDto.thumbnailCropMeta;
       } catch (e) {
         this.logger.warn(
-          `Invalid JSON for thumbnail_crop_meta for post ${postId}: ${updatePostDto.thumbnail_crop_meta}. Using default or existing value. Error: ${e}`,
+          `Invalid JSON for thumbnailCropMeta for post ${postId}: ${updatePostDto.thumbnailCropMeta}. Using default or existing value. Error: ${e}`,
         );
       }
     }
 
-    if (updatePostDto.video_url) {
+    if (updatePostDto.videoUrl) {
       this.logger.warn(
         `'video_url' provided for post ${postId}. This field will be ignored for direct Post update.`,
       );
     }
-    if (updatePostDto.existing_image_urls) {
+    if (updatePostDto.existingImageUrls) {
       this.logger.log(
-        `Post ${postId}: 'existing_image_urls' received. Full media management logic is not implemented.`,
+        `Post ${postId}: 'existingImageUrls' received. Full media management logic is not implemented.`,
       );
     }
 
-    if (updatePostDto.cate_ids !== undefined) {
+    if (updatePostDto.categoryIds !== undefined) {
       dataToUpdate.categories = {
-        set: updatePostDto.cate_ids.map((id) => ({ id })),
+        set: updatePostDto.categoryIds.map((id) => ({ id })),
       };
     }
 
@@ -292,7 +290,7 @@ export class PostsAdminService {
     );
     const result = await this.prisma.post.updateMany({
       where: { id: { in: postIds } },
-      data: { is_published: publish, updated_at: new Date() },
+      data: { isPublished: publish, updatedAt: new Date() },
     });
     return { count: result.count };
   }

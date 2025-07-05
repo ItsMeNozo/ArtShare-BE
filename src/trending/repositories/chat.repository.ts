@@ -93,14 +93,14 @@ export class ChatRepository implements IChatRepository {
 
     const artGenerations = await this.prisma.artGeneration.findMany({
       select: {
-        final_prompt: true,
+        finalPrompt: true,
       },
-      orderBy: { created_at: 'desc' },
+      orderBy: { createdAt: 'desc' },
       take: 30,
     });
 
     return artGenerations.map(
-      (ag: { final_prompt: string }) => ag.final_prompt,
+      (ag: { finalPrompt: string }) => ag.finalPrompt,
     );
   }
 }

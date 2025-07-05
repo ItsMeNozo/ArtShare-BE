@@ -15,7 +15,6 @@ import { CollectionDto } from './dto/response/collection.dto';
 import {
   CollectionWithPosts,
   collectionWithPostsSelect,
-  mapCollectionToDto,
 } from './helpers/collection-mapping.helper';
 
 @Injectable()
@@ -29,14 +28,14 @@ export class CollectionService {
   async getUserCollections(userId: string): Promise<CollectionDto[]> {
     try {
       const collections = await this.prisma.collection.findMany({
-        where: { user_id: userId },
+        where: { userId: userId },
         select: collectionWithPostsSelect,
         orderBy: {
-          created_at: 'desc',
+          createdAt: 'desc',
         },
       });
 
-      return collections.map(mapCollectionToDto);
+      return plainToInstance(CollectionDto, collections);
     } catch (error) {
       console.error('Error fetching user collections:', error);
       throw new InternalServerErrorException('Failed to fetch collections.');
@@ -54,9 +53,9 @@ export class CollectionService {
       const newCollection = await this.prisma.collection.create({
         data: {
           name: dto.name.trim(),
-          is_private: dto.is_private,
+          isPrivate: dto.isPrivate,
           description: dto.description,
-          thumbnail_url: dto.thumbnail_url,
+          thumbnailUrl: dto.thumbnailUrl,
           user: {
             connect: { id: userId },
           },
@@ -92,9 +91,9 @@ export class CollectionService {
     const updateData: Prisma.CollectionUpdateInput = {};
     if (dto.name !== undefined) updateData.name = dto.name.trim();
     if (dto.description !== undefined) updateData.description = dto.description;
-    if (dto.isPrivate !== undefined) updateData.is_private = dto.isPrivate;
-    if (dto.thumbnail_url !== undefined)
-      updateData.thumbnail_url = dto.thumbnail_url;
+    if (dto.isPrivate !== undefined) updateData.isPrivate = dto.isPrivate;
+    if (dto.thumbnailUrl !== undefined)
+      updateData.thumbnailUrl = dto.thumbnailUrl;
 
     if (Object.keys(updateData).length === 0) {
       console.warn(
@@ -237,7 +236,7 @@ export class CollectionService {
       );
     }
 
-    if (collection.user_id !== userId) {
+    if (collection.userId !== userId) {
       throw new ForbiddenException(
         `You do not have permission to access collection ${collectionId}.`,
       );

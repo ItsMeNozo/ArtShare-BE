@@ -3,12 +3,12 @@ import { SharePlatform } from 'src/generated';
 
 export class ShareDetailsDto {
   id: number;
-  user_id: string;
-  post_id?: number;
-  blog_id?: number;
+  userId: string;
+  postId?: number;
+  blogId?: number;
 
   @IsEnum(SharePlatform)
-  share_platform: SharePlatform;
+  sharePlatform: SharePlatform;
 
-  created_at: Date;
+  createdAt: Date;
 }

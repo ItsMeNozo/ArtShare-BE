@@ -52,22 +52,22 @@ export class BlogManagementService {
     const newBlog = await this.prisma.blog.create({
       data: {
         ...createBlogDto,
-        user_id: userId,
+        userId: userId,
       },
       include: {
         user: {
           select: {
             id: true,
             username: true,
-            profile_picture_url: true,
-            full_name: true,
-            followers_count: true,
+            profilePictureUrl: true,
+            fullName: true,
+            followersCount: true,
           },
         },
         likes: {
           // ✨ include to keep DTO happy
           select: { id: true },
-          where: { user_id: userId },
+          where: { userId: userId },
           take: 1,
         },
       },
@@ -99,30 +99,32 @@ export class BlogManagementService {
     const existingBlog = await this.prisma.blog.findUnique({
       where: { id },
     });
+
     if (!existingBlog) {
       throw new NotFoundException(`Blog with ID ${id} not found.`);
     }
-    if (existingBlog.user_id !== userId) {
+
+    if (existingBlog.userId !== userId) {
       throw new ForbiddenException(
-        'You do not have permission to update this blog.',
+        'You are not authorized to update this blog.',
       );
     }
 
     const updatedBlog: BlogWithRelations = await this.prisma.blog.update({
       where: { id },
-      data: { ...updateBlogDto, updated_at: new Date() },
+      data: { ...updateBlogDto, updatedAt: new Date() },
       include: {
         user: {
           select: {
             id: true,
             username: true,
-            profile_picture_url: true,
-            full_name: true,
-            followers_count: true,
+            profilePictureUrl: true,
+            fullName: true,
+            followersCount: true,
           },
         },
         likes: {
-          where: { user_id: userId ?? '' },
+          where: { userId: userId ?? '' },
           select: { id: true },
           take: 1,
         },
@@ -148,18 +150,19 @@ export class BlogManagementService {
         ? undefined
         : updatedBlog.content,
     );
+
     return mappedBlog;
   }
 
   async deleteBlog(id: number, userId: string) {
     const existingBlog = await this.prisma.blog.findUnique({
       where: { id },
-      select: { user_id: true },
+      select: { userId: true },
     });
     if (!existingBlog) {
       throw new NotFoundException(`Blog with ID ${id} not found.`);
     }
-    if (existingBlog.user_id !== userId) {
+    if (existingBlog.userId !== userId) {
       throw new ForbiddenException(
         'You do not have permission to delete this blog.',
       );
@@ -180,15 +183,15 @@ export class BlogManagementService {
       where: { id: blogId },
       select: {
         id: true,
-        is_published: true,
-        is_protected: true,
-        user_id: true,
+        isPublished: true,
+        isProtected: true,
+        userId: true,
       },
     });
     if (
       !blog ||
-      (!blog.is_published && blog.user_id !== userId) ||
-      (blog.is_protected && blog.user_id !== userId)
+      (!blog.isPublished && blog.userId !== userId) ||
+      (blog.isProtected && blog.userId !== userId)
     ) {
       throw new NotFoundException(
         `Blog with ID ${blogId} not found or not accessible.`,
@@ -196,18 +199,18 @@ export class BlogManagementService {
     }
 
     const existingBookmark = await this.prisma.bookmark.findUnique({
-      where: { user_id_blog_id: { user_id: userId, blog_id: blogId } },
+      where: { userId_blogId: { userId: userId, blogId: blogId } },
     });
 
     if (existingBookmark) {
       await this.prisma.bookmark.delete({
-        where: { user_id_blog_id: { user_id: userId, blog_id: blogId } },
+        where: { userId_blogId: { userId: userId, blogId: blogId } },
       });
 
       return { bookmarked: false, blogId: blogId };
     } else {
       await this.prisma.bookmark.create({
-        data: { user_id: userId, blog_id: blogId },
+        data: { userId: userId, blogId: blogId },
       });
 
       return { bookmarked: true, blogId: blogId };
@@ -220,21 +223,21 @@ export class BlogManagementService {
   ): Promise<ProtectResponseDto> {
     const blog = await this.prisma.blog.findUnique({
       where: { id: blogId },
-      select: { user_id: true, is_protected: true },
+      select: { userId: true, isProtected: true },
     });
     if (!blog) {
       throw new NotFoundException(`Blog with ID ${blogId} not found.`);
     }
-    if (blog.user_id !== userId) {
+    if (blog.userId !== userId) {
       throw new ForbiddenException(
         'You do not have permission to modify this blog.',
       );
     }
 
-    const newProtectionStatus = !blog.is_protected;
+    const newProtectionStatus = !blog.isProtected;
     await this.prisma.blog.update({
       where: { id: blogId },
-      data: { is_protected: newProtectionStatus },
+      data: { isProtected: newProtectionStatus },
     });
 
     return {
@@ -255,25 +258,25 @@ export class BlogManagementService {
     const result = await this.prisma.$transaction(async (tx) => {
       const blog = await tx.blog.findUnique({
         where: { id: blogId },
-        select: { id: true, user_id: true },
+        select: { id: true, userId: true },
       });
 
       if (!blog) {
         throw new NotFoundException(`Blog with ID ${blogId} not found.`);
       }
 
-      if (blog.user_id === userId) {
+      if (blog.userId === userId) {
         throw new ForbiddenException('You cannot rate your own blog.');
       }
 
       await tx.rating.upsert({
-        where: { user_id_blog_id: { user_id: userId, blog_id: blogId } },
+        where: { userId_blogId: { userId: userId, blogId: blogId } },
         update: { value: ratingValue },
-        create: { user_id: userId, blog_id: blogId, value: ratingValue },
+        create: { userId: userId, blogId: blogId, value: ratingValue },
       });
 
       const aggregateResult = await tx.rating.aggregate({
-        where: { blog_id: blogId },
+        where: { blogId: blogId },
         _avg: { value: true },
         _count: { value: true },
       });
@@ -284,8 +287,8 @@ export class BlogManagementService {
       await tx.blog.update({
         where: { id: blogId },
         data: {
-          average_rating: newAverage,
-          rating_count: newCount,
+          averageRating: newAverage,
+          ratingCount: newCount,
         },
       });
 

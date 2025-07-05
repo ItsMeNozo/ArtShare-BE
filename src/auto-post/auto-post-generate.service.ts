@@ -9,8 +9,8 @@ import { AutoPostMeta } from 'src/auto-project/dto/request/auto-post-meta.dto';
 import { z } from 'zod';
 
 export interface AutoPostSeedData {
-  project_title: string;
-  project_description: string;
+  projectTitle: string;
+  projectDescription: string;
 }
 
 export interface GeneratedAutoPost {
@@ -39,11 +39,11 @@ export class AutoPostGenerateService {
 
   async generateAutoPosts(
     meta: AutoPostMeta[],
-    seed_data: AutoPostSeedData,
+    seedData: AutoPostSeedData,
     userId: string,
   ): Promise<GeneratedAutoPost[]> {
-    const { project_title: title, project_description: description } =
-      seed_data;
+    const { projectTitle: title, projectDescription: description } =
+      seedData;
 
     const tempResult = meta.map(async (item) => {
       const [generatedContent, generatedImages] = await Promise.all([
@@ -52,7 +52,7 @@ export class AutoPostGenerateService {
           {
             modelKey: ModelKey.GPT_IMAGE,
             prompt: `Create visually engaging images for a social media post, each image should capture the core idea and emotion of the title and description:\nTitle: ${title}\nDescription: ${description}`,
-            n: item.images_count,
+            n: item.imagesCount,
             aspectRatio: AspectRatio.SQUARE,
           },
           userId,
@@ -61,8 +61,8 @@ export class AutoPostGenerateService {
 
       return {
         content: generatedContent,
-        imageUrls: generatedImages.image_urls,
-        scheduledAt: item.scheduled_at,
+        imageUrls: generatedImages.imageUrls,
+        scheduledAt: item.scheduledAt,
       } as GeneratedAutoPost;
     });
 

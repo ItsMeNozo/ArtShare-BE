@@ -31,7 +31,7 @@ export class AutoProjectReadService {
     } = query;
 
     const offset = (page - 1) * limit;
-    const where: Prisma.AutoProjectWhereInput = { user_id: userId };
+    const where: Prisma.AutoProjectWhereInput = { userId: userId };
     const orderByClause = this.getOrderByClause(sortBy, sortOrder);
 
     const projectsQuery = Prisma.sql`
@@ -41,25 +41,25 @@ export class AutoProjectReadService {
         p.status,
         plat.id AS "platformId",
         plat.name AS "platformName",
-        p.created_at AS "createdAt",
-        p.updated_at AS "updatedAt",
+        p."createdAt",
+        p."updatedAt",
         
-        (SELECT COUNT(*) FROM "auto_post" WHERE "auto_project_id" = p.id)::INT AS "postCount",
+        (SELECT COUNT(*) FROM "AutoPost" WHERE "autoProjectId" = p.id)::INT AS "postCount",
         
         -- Subquery to get the next scheduled post date
         (
-          SELECT MIN(ap.scheduled_at)
-          FROM "auto_post" ap
-          WHERE ap.auto_project_id = p.id
+          SELECT MIN(ap."scheduledAt")
+          FROM "AutoPost" ap
+          WHERE ap."autoProjectId" = p.id
             AND ap.status = 'PENDING'
-            AND ap.scheduled_at > NOW()
+            AND ap."scheduledAt" > NOW()
         ) AS "nextPostAt"
       FROM
-        "auto_project" AS p
+        "AutoProject" AS p
       LEFT JOIN
-        "platform" AS plat ON p.platform_id = plat.id
+        "Platform" AS plat ON p."platformId" = plat.id
       WHERE
-        p.user_id = ${userId}
+        p."userId" = ${userId}
       ${orderByClause}
       LIMIT ${limit}
       OFFSET ${offset}
@@ -112,7 +112,7 @@ export class AutoProjectReadService {
     const autoProject = await this.prisma.autoProject.findFirst({
       where: {
         id,
-        user_id: userId,
+        userId: userId,
       },
       include: {
         platform: true,

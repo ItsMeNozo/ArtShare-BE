@@ -37,33 +37,33 @@ export type CollectionMinAggregateOutputType = {
   id: number | null
   name: string | null
   description: string | null
-  is_private: boolean | null
-  thumbnail_url: string | null
-  user_id: string | null
-  created_at: Date | null
-  updated_at: Date | null
+  isPrivate: boolean | null
+  thumbnailUrl: string | null
+  userId: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type CollectionMaxAggregateOutputType = {
   id: number | null
   name: string | null
   description: string | null
-  is_private: boolean | null
-  thumbnail_url: string | null
-  user_id: string | null
-  created_at: Date | null
-  updated_at: Date | null
+  isPrivate: boolean | null
+  thumbnailUrl: string | null
+  userId: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type CollectionCountAggregateOutputType = {
   id: number
   name: number
   description: number
-  is_private: number
-  thumbnail_url: number
-  user_id: number
-  created_at: number
-  updated_at: number
+  isPrivate: number
+  thumbnailUrl: number
+  userId: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -80,33 +80,33 @@ export type CollectionMinAggregateInputType = {
   id?: true
   name?: true
   description?: true
-  is_private?: true
-  thumbnail_url?: true
-  user_id?: true
-  created_at?: true
-  updated_at?: true
+  isPrivate?: true
+  thumbnailUrl?: true
+  userId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type CollectionMaxAggregateInputType = {
   id?: true
   name?: true
   description?: true
-  is_private?: true
-  thumbnail_url?: true
-  user_id?: true
-  created_at?: true
-  updated_at?: true
+  isPrivate?: true
+  thumbnailUrl?: true
+  userId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type CollectionCountAggregateInputType = {
   id?: true
   name?: true
   description?: true
-  is_private?: true
-  thumbnail_url?: true
-  user_id?: true
-  created_at?: true
-  updated_at?: true
+  isPrivate?: true
+  thumbnailUrl?: true
+  userId?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -200,11 +200,11 @@ export type CollectionGroupByOutputType = {
   id: number
   name: string
   description: string | null
-  is_private: boolean
-  thumbnail_url: string | null
-  user_id: string
-  created_at: Date
-  updated_at: Date
+  isPrivate: boolean
+  thumbnailUrl: string | null
+  userId: string
+  createdAt: Date
+  updatedAt: Date
   _count: CollectionCountAggregateOutputType | null
   _avg: CollectionAvgAggregateOutputType | null
   _sum: CollectionSumAggregateOutputType | null
@@ -234,11 +234,11 @@ export type CollectionWhereInput = {
   id?: Prisma.IntFilter<"Collection"> | number
   name?: Prisma.StringFilter<"Collection"> | string
   description?: Prisma.StringNullableFilter<"Collection"> | string | null
-  is_private?: Prisma.BoolFilter<"Collection"> | boolean
-  thumbnail_url?: Prisma.StringNullableFilter<"Collection"> | string | null
-  user_id?: Prisma.StringFilter<"Collection"> | string
-  created_at?: Prisma.DateTimeFilter<"Collection"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"Collection"> | Date | string
+  isPrivate?: Prisma.BoolFilter<"Collection"> | boolean
+  thumbnailUrl?: Prisma.StringNullableFilter<"Collection"> | string | null
+  userId?: Prisma.StringFilter<"Collection"> | string
+  createdAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   posts?: Prisma.PostsOnCollectionsListRelationFilter
 }
@@ -247,11 +247,11 @@ export type CollectionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  is_private?: Prisma.SortOrder
-  thumbnail_url?: Prisma.SortOrderInput | Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  isPrivate?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   posts?: Prisma.PostsOnCollectionsOrderByRelationAggregateInput
 }
@@ -263,11 +263,11 @@ export type CollectionWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.CollectionWhereInput | Prisma.CollectionWhereInput[]
   name?: Prisma.StringFilter<"Collection"> | string
   description?: Prisma.StringNullableFilter<"Collection"> | string | null
-  is_private?: Prisma.BoolFilter<"Collection"> | boolean
-  thumbnail_url?: Prisma.StringNullableFilter<"Collection"> | string | null
-  user_id?: Prisma.StringFilter<"Collection"> | string
-  created_at?: Prisma.DateTimeFilter<"Collection"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"Collection"> | Date | string
+  isPrivate?: Prisma.BoolFilter<"Collection"> | boolean
+  thumbnailUrl?: Prisma.StringNullableFilter<"Collection"> | string | null
+  userId?: Prisma.StringFilter<"Collection"> | string
+  createdAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   posts?: Prisma.PostsOnCollectionsListRelationFilter
 }, "id">
@@ -276,11 +276,11 @@ export type CollectionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  is_private?: Prisma.SortOrder
-  thumbnail_url?: Prisma.SortOrderInput | Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  isPrivate?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.CollectionCountOrderByAggregateInput
   _avg?: Prisma.CollectionAvgOrderByAggregateInput
   _max?: Prisma.CollectionMaxOrderByAggregateInput
@@ -295,20 +295,20 @@ export type CollectionScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Collection"> | number
   name?: Prisma.StringWithAggregatesFilter<"Collection"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
-  is_private?: Prisma.BoolWithAggregatesFilter<"Collection"> | boolean
-  thumbnail_url?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
-  user_id?: Prisma.StringWithAggregatesFilter<"Collection"> | string
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"Collection"> | Date | string
-  updated_at?: Prisma.DateTimeWithAggregatesFilter<"Collection"> | Date | string
+  isPrivate?: Prisma.BoolWithAggregatesFilter<"Collection"> | boolean
+  thumbnailUrl?: Prisma.StringNullableWithAggregatesFilter<"Collection"> | string | null
+  userId?: Prisma.StringWithAggregatesFilter<"Collection"> | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Collection"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Collection"> | Date | string
 }
 
 export type CollectionCreateInput = {
   name: string
   description?: string | null
-  is_private?: boolean
-  thumbnail_url?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string
+  isPrivate?: boolean
+  thumbnailUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCollectionsInput
   posts?: Prisma.PostsOnCollectionsCreateNestedManyWithoutCollectionInput
 }
@@ -317,21 +317,21 @@ export type CollectionUncheckedCreateInput = {
   id?: number
   name: string
   description?: string | null
-  is_private?: boolean
-  thumbnail_url?: string | null
-  user_id: string
-  created_at?: Date | string
-  updated_at?: Date | string
+  isPrivate?: boolean
+  thumbnailUrl?: string | null
+  userId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
   posts?: Prisma.PostsOnCollectionsUncheckedCreateNestedManyWithoutCollectionInput
 }
 
 export type CollectionUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCollectionsNestedInput
   posts?: Prisma.PostsOnCollectionsUpdateManyWithoutCollectionNestedInput
 }
@@ -340,11 +340,11 @@ export type CollectionUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostsOnCollectionsUncheckedUpdateManyWithoutCollectionNestedInput
 }
 
@@ -352,31 +352,31 @@ export type CollectionCreateManyInput = {
   id?: number
   name: string
   description?: string | null
-  is_private?: boolean
-  thumbnail_url?: string | null
-  user_id: string
-  created_at?: Date | string
-  updated_at?: Date | string
+  isPrivate?: boolean
+  thumbnailUrl?: string | null
+  userId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type CollectionUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CollectionUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CollectionListRelationFilter = {
@@ -393,11 +393,11 @@ export type CollectionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  is_private?: Prisma.SortOrder
-  thumbnail_url?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  isPrivate?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type CollectionAvgOrderByAggregateInput = {
@@ -408,22 +408,22 @@ export type CollectionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  is_private?: Prisma.SortOrder
-  thumbnail_url?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  isPrivate?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type CollectionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  is_private?: Prisma.SortOrder
-  thumbnail_url?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  isPrivate?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type CollectionSumOrderByAggregateInput = {
@@ -494,10 +494,10 @@ export type CollectionUpdateOneRequiredWithoutPostsNestedInput = {
 export type CollectionCreateWithoutUserInput = {
   name: string
   description?: string | null
-  is_private?: boolean
-  thumbnail_url?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string
+  isPrivate?: boolean
+  thumbnailUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   posts?: Prisma.PostsOnCollectionsCreateNestedManyWithoutCollectionInput
 }
 
@@ -505,10 +505,10 @@ export type CollectionUncheckedCreateWithoutUserInput = {
   id?: number
   name: string
   description?: string | null
-  is_private?: boolean
-  thumbnail_url?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string
+  isPrivate?: boolean
+  thumbnailUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   posts?: Prisma.PostsOnCollectionsUncheckedCreateNestedManyWithoutCollectionInput
 }
 
@@ -545,20 +545,20 @@ export type CollectionScalarWhereInput = {
   id?: Prisma.IntFilter<"Collection"> | number
   name?: Prisma.StringFilter<"Collection"> | string
   description?: Prisma.StringNullableFilter<"Collection"> | string | null
-  is_private?: Prisma.BoolFilter<"Collection"> | boolean
-  thumbnail_url?: Prisma.StringNullableFilter<"Collection"> | string | null
-  user_id?: Prisma.StringFilter<"Collection"> | string
-  created_at?: Prisma.DateTimeFilter<"Collection"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"Collection"> | Date | string
+  isPrivate?: Prisma.BoolFilter<"Collection"> | boolean
+  thumbnailUrl?: Prisma.StringNullableFilter<"Collection"> | string | null
+  userId?: Prisma.StringFilter<"Collection"> | string
+  createdAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Collection"> | Date | string
 }
 
 export type CollectionCreateWithoutPostsInput = {
   name: string
   description?: string | null
-  is_private?: boolean
-  thumbnail_url?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string
+  isPrivate?: boolean
+  thumbnailUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCollectionsInput
 }
 
@@ -566,11 +566,11 @@ export type CollectionUncheckedCreateWithoutPostsInput = {
   id?: number
   name: string
   description?: string | null
-  is_private?: boolean
-  thumbnail_url?: string | null
-  user_id: string
-  created_at?: Date | string
-  updated_at?: Date | string
+  isPrivate?: boolean
+  thumbnailUrl?: string | null
+  userId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type CollectionCreateOrConnectWithoutPostsInput = {
@@ -592,10 +592,10 @@ export type CollectionUpdateToOneWithWhereWithoutPostsInput = {
 export type CollectionUpdateWithoutPostsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCollectionsNestedInput
 }
 
@@ -603,30 +603,30 @@ export type CollectionUncheckedUpdateWithoutPostsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CollectionCreateManyUserInput = {
   id?: number
   name: string
   description?: string | null
-  is_private?: boolean
-  thumbnail_url?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string
+  isPrivate?: boolean
+  thumbnailUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type CollectionUpdateWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostsOnCollectionsUpdateManyWithoutCollectionNestedInput
 }
 
@@ -634,10 +634,10 @@ export type CollectionUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostsOnCollectionsUncheckedUpdateManyWithoutCollectionNestedInput
 }
 
@@ -645,10 +645,10 @@ export type CollectionUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_private?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  thumbnail_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -686,11 +686,11 @@ export type CollectionSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   id?: boolean
   name?: boolean
   description?: boolean
-  is_private?: boolean
-  thumbnail_url?: boolean
-  user_id?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  isPrivate?: boolean
+  thumbnailUrl?: boolean
+  userId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   posts?: boolean | Prisma.Collection$postsArgs<ExtArgs>
   _count?: boolean | Prisma.CollectionCountOutputTypeDefaultArgs<ExtArgs>
@@ -700,11 +700,11 @@ export type CollectionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   name?: boolean
   description?: boolean
-  is_private?: boolean
-  thumbnail_url?: boolean
-  user_id?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  isPrivate?: boolean
+  thumbnailUrl?: boolean
+  userId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["collection"]>
 
@@ -712,11 +712,11 @@ export type CollectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   name?: boolean
   description?: boolean
-  is_private?: boolean
-  thumbnail_url?: boolean
-  user_id?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  isPrivate?: boolean
+  thumbnailUrl?: boolean
+  userId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["collection"]>
 
@@ -724,14 +724,14 @@ export type CollectionSelectScalar = {
   id?: boolean
   name?: boolean
   description?: boolean
-  is_private?: boolean
-  thumbnail_url?: boolean
-  user_id?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  isPrivate?: boolean
+  thumbnailUrl?: boolean
+  userId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type CollectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "is_private" | "thumbnail_url" | "user_id" | "created_at" | "updated_at", ExtArgs["result"]["collection"]>
+export type CollectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "isPrivate" | "thumbnailUrl" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["collection"]>
 export type CollectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   posts?: boolean | Prisma.Collection$postsArgs<ExtArgs>
@@ -754,11 +754,11 @@ export type $CollectionPayload<ExtArgs extends runtime.Types.Extensions.Internal
     id: number
     name: string
     description: string | null
-    is_private: boolean
-    thumbnail_url: string | null
-    user_id: string
-    created_at: Date
-    updated_at: Date
+    isPrivate: boolean
+    thumbnailUrl: string | null
+    userId: string
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["collection"]>
   composites: {}
 }
@@ -1187,11 +1187,11 @@ export interface CollectionFieldRefs {
   readonly id: Prisma.FieldRef<"Collection", 'Int'>
   readonly name: Prisma.FieldRef<"Collection", 'String'>
   readonly description: Prisma.FieldRef<"Collection", 'String'>
-  readonly is_private: Prisma.FieldRef<"Collection", 'Boolean'>
-  readonly thumbnail_url: Prisma.FieldRef<"Collection", 'String'>
-  readonly user_id: Prisma.FieldRef<"Collection", 'String'>
-  readonly created_at: Prisma.FieldRef<"Collection", 'DateTime'>
-  readonly updated_at: Prisma.FieldRef<"Collection", 'DateTime'>
+  readonly isPrivate: Prisma.FieldRef<"Collection", 'Boolean'>
+  readonly thumbnailUrl: Prisma.FieldRef<"Collection", 'String'>
+  readonly userId: Prisma.FieldRef<"Collection", 'String'>
+  readonly createdAt: Prisma.FieldRef<"Collection", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Collection", 'DateTime'>
 }
     
 

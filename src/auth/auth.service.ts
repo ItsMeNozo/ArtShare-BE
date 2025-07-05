@@ -47,8 +47,8 @@ export class AuthService {
       }
 
       const userRole = await this.prisma.role.findUnique({
-        where: { role_name: 'USER' },
-        select: { role_id: true }, // Only fetch the role_id
+        where: { roleName: 'USER' },
+        select: { roleId: true }, // Only fetch the role_id
       });
 
       if (!userRole) {
@@ -72,8 +72,8 @@ export class AuthService {
 
           await tx.userRole.create({
             data: {
-              user_id: user.id,
-              role_id: userRole.role_id,
+              userId: user.id,
+              roleId: userRole.roleId,
             },
           });
 
@@ -150,7 +150,7 @@ export class AuthService {
 
       // Extract role names from the nested structure
       const roleNames = userFromDb.roles.map(
-        (userRole) => userRole.role.role_name,
+        (userRole) => userRole.role.roleName,
       );
       this.logger.log(`User roles extracted: ${roleNames}`);
 
@@ -164,7 +164,7 @@ export class AuthService {
       try {
         await this.prisma.user.update({
           where: { id: decodedToken.uid },
-          data: { refresh_token: tokens.refresh_token },
+          data: { refreshToken: tokens.refreshToken },
         });
         this.logger.log(
           `Refresh token updated for user with email: ${decodedToken.email}`,
@@ -180,8 +180,8 @@ export class AuthService {
 
       // Return tokens
       return {
-        access_token: tokens.access_token,
-        refresh_token: tokens.refresh_token,
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
       };
     } catch (error) {
       // If it's already an HTTP exception, re-throw it
@@ -227,14 +227,14 @@ export class AuthService {
       include: { roles: { include: { role: true } } },
     });
     if (!user) throw new UnauthorizedException('User not found');
-    const roleNames = user.roles.map((r) => r.role.role_name);
+    const roleNames = user.roles.map((r) => r.role.roleName);
     if (!roleNames.includes(Role.ADMIN)) {
       throw new ForbiddenException('Admin access required');
     }
     const tokens = await this.getTokens(user.id, decoded.email!, roleNames);
     await this.prisma.user.update({
       where: { id: user.id },
-      data: { refresh_token: tokens.refresh_token },
+      data: { refreshToken: tokens.refreshToken },
     });
     return tokens;
   }
@@ -286,8 +286,8 @@ export class AuthService {
     ]);
 
     return {
-      access_token: at,
-      refresh_token: rt,
+      accessToken: at,
+      refreshToken: rt,
     };
   }
 

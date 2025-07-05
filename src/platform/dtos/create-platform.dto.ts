@@ -12,11 +12,11 @@ import { SharePlatform } from 'src/generated';
 export class PlatformConfigInput {
   @IsNotEmpty()
   @IsString()
-  page_name: string;
+  pageName: string;
 
   @IsNotEmpty()
   @IsString()
-  access_token: string;
+  accessToken: string;
 
   @IsString()
   @IsOptional()

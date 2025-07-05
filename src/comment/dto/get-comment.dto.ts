@@ -16,7 +16,7 @@ export class UserBriefDto {
     example: 'https://cdn.example.com/avatars/u_12345.jpg',
     nullable: true,
   })
-  profile_picture_url: string | null;
+  profilePictureUrl: string | null;
 }
 
 
@@ -28,7 +28,7 @@ export class CommentReplyDto {
   content: string;
 
   @ApiProperty({ example: '2025-05-14T20:15:22.000Z' })
-  created_at: Date;
+  createdAt: Date;
 
   @ApiProperty({ example: true })
   likedByCurrentUser: boolean;
@@ -46,13 +46,13 @@ export class CommentDto {
   content: string;
 
   @ApiProperty({ example: '2025-05-14T20:00:00.000Z' })
-  created_at: Date;
+  createdAt: Date;
 
   @ApiProperty({ example: false })
   likedByCurrentUser: boolean;
 
   @ApiProperty({ example: 5 })
-  reply_count: number;
+  replyCount: number;
 
   @ApiProperty({ type: () => UserBriefDto })
   @Type(() => UserBriefDto)

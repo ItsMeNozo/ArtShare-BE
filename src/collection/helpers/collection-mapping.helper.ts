@@ -10,15 +10,15 @@ export const collectionWithPostsSelect = {
   id: true,
   name: true,
   description: true,
-  is_private: true,
-  thumbnail_url: true,
-  user_id: true,
-  created_at: true,
-  updated_at: true,
+  isPrivate: true,
+  thumbnailUrl: true,
+  userId: true,
+  createdAt: true,
+  updatedAt: true,
   posts: {
     orderBy: {
       post: {
-        created_at: 'desc',
+        createdAt: 'desc',
       },
     },
     select: {
@@ -26,8 +26,8 @@ export const collectionWithPostsSelect = {
         select: {
           id: true,
           title: true,
-          thumbnail_url: true,
-          created_at: true,
+          thumbnailUrl: true,
+          createdAt: true,
         },
       },
     },
@@ -49,8 +49,8 @@ const mapSelectedPostToSummaryDto = (
 ): PostSummaryDto => ({
   id: postOnCollection.post.id,
   title: postOnCollection.post.title,
-  thumbnail_url: postOnCollection.post.thumbnail_url ?? undefined,
-  created_at: postOnCollection.post.created_at,
+  thumbnailUrl: postOnCollection.post.thumbnailUrl ?? undefined,
+  createdAt: postOnCollection.post.createdAt,
 });
 
 export const mapCollectionToDto = (
@@ -61,12 +61,12 @@ export const mapCollectionToDto = (
   return {
     id: collection.id,
     name: collection.name,
-    is_private: collection.is_private,
-    thumbnail_url: collection.thumbnail_url ?? undefined,
+    isPrivate: collection.isPrivate,
+    thumbnailUrl: collection.thumbnailUrl ?? undefined,
     description: collection.description ?? undefined,
-    user_id: collection.user_id,
-    created_at: collection.created_at,
-    updated_at: collection.updated_at,
+    userId: collection.userId,
+    createdAt: collection.createdAt,
+    updatedAt: collection.updatedAt,
     posts: sortedPosts,
   };
 };

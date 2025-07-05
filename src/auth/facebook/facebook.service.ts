@@ -158,18 +158,18 @@ export class FacebookAuthService {
   async getFacebookAccountInfo(userId: string): Promise<
     Array<{
       name: string;
-      picture_url: string | null;
+      pictureUrl: string | null;
       platforms: PublicFacebookPageData[];
     }>
   > {
     const accounts = await this.prisma.facebookAccount.findMany({
-      where: { user_id: userId },
+      where: { userId: userId },
       include: {
         platforms: {
           where: { name: SharePlatform.FACEBOOK },
           select: {
             id: true,
-            external_page_id: true,
+            externalPageId: true,
             status: true,
             config: true,
           },
@@ -180,16 +180,16 @@ export class FacebookAuthService {
     return accounts.map((account) => {
       const formattedPlatforms: PublicFacebookPageData[] =
         account.platforms.map((p) => ({
-          platform_db_id: p.id,
-          id: p.external_page_id,
-          name: (p.config as any)?.page_name || 'Unknown Page',
+          platformDbId: p.id,
+          id: p.externalPageId,
+          name: (p.config as any)?.pageName || 'Unknown Page',
           category: (p.config as any)?.category || 'Unknown Category',
           status: p.status,
         }));
 
       return {
         name: account.name,
-        picture_url: account.picture_url,
+        pictureUrl: account.pictureUrl,
         platforms: formattedPlatforms,
       };
     });
@@ -307,21 +307,21 @@ export class FacebookAuthService {
     }
 
     const facebookAccount = await this.prisma.facebookAccount.upsert({
-      where: { facebook_user_id: fbUserId },
+      where: { facebookUserId: fbUserId },
       create: {
-        user_id: internalUserId,
-        facebook_user_id: fbUserId,
+        userId: internalUserId,
+        facebookUserId: fbUserId,
         name: fbUserName,
-        picture_url: fbUserAvatarUrl,
-        long_lived_user_access_token: longLivedUserToken,
-        token_expires_at: tokenExpiresAt,
+        pictureUrl: fbUserAvatarUrl,
+        longLivedUserAccessToken: longLivedUserToken,
+        tokenExpiresAt: tokenExpiresAt,
       },
       update: {
         name: fbUserName,
-        picture_url: fbUserAvatarUrl,
-        long_lived_user_access_token: longLivedUserToken,
-        token_expires_at: tokenExpiresAt,
-        user_id: internalUserId,
+        pictureUrl: fbUserAvatarUrl,
+        longLivedUserAccessToken: longLivedUserToken,
+        tokenExpiresAt: tokenExpiresAt,
+        userId: internalUserId,
       },
     });
 
@@ -353,10 +353,10 @@ export class FacebookAuthService {
       return {
         id: apiPage.id,
         name: apiPage.name,
-        access_token: apiPage.access_token,
+        accessToken: apiPage.access_token,
         category: apiPage.category,
-        picture_url: apiPage.picture?.data?.url,
-        token_expires_at: null,
+        pictureUrl: apiPage.picture?.data?.url,
+        tokenExpiresAt: null,
       };
     });
 

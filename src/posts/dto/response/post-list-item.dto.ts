@@ -5,16 +5,16 @@ import { UserResponseDto } from './user.dto';
 
 export class PostListItemResponse {
   id: number;
-  user_id: string;
+  userId: string;
   title: string;
   description?: string;
-  thumbnail_url: string;
-  is_published: boolean;
-  is_private: boolean;
-  like_count: number;
-  share_count: number;
-  comment_count: number;
-  created_at: Date;
+  thumbnailUrl: string;
+  isPublished: boolean;
+  isPrivate: boolean;
+  likeCount: number;
+  shareCount: number;
+  commentCount: number;
+  createdAt: Date;
 
   medias: MediaResponseDto[];
 

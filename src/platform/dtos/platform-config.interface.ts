@@ -1,6 +1,6 @@
 export interface PlatformPageConfig {
-  page_name: string;
-  encrypted_access_token: string;
+  pageName: string;
+  encryptedAccessToken: string;
   category: string;
   [key: string]: any;
 }

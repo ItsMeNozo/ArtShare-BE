@@ -12,11 +12,11 @@ export class UpdateUserDTO {
 
   @IsOptional()
   @IsString()
-  full_name?: string;
+  fullName?: string;
 
   @IsOptional()
   @IsUrl()
-  profile_picture_url?: string;
+  profilePictureUrl?: string;
 
   @IsOptional()
   @IsString()
@@ -28,5 +28,5 @@ export class UpdateUserDTO {
 
   @IsOptional()
   @IsBoolean()
-  is_onboard?: boolean;
+  isOnboard?: boolean;
 }

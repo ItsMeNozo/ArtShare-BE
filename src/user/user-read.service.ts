@@ -22,7 +22,7 @@ export class UserReadService {
       ...(search && {
         OR: [
           { username: { contains: search, mode: 'insensitive' } },
-          { full_name: { contains: search, mode: 'insensitive' } },
+          { fullName: { contains: search, mode: 'insensitive' } },
         ],
       }),
       ...(currentUserId && {
