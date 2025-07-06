@@ -15,7 +15,6 @@ import { UsageService } from 'src/usage/usage.service';
 import { CreateAutoProjectDto } from './dto/request/create-project.dto';
 import { UpdateAutoProjectDto } from './dto/request/update-project.dto';
 import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
-import { mapToAutoProjectDetailsDto } from './mapper/index.mapper';
 
 @Injectable()
 export class AutoProjectWriteService {
@@ -78,7 +77,7 @@ export class AutoProjectWriteService {
       },
     });
 
-    return mapToAutoProjectDetailsDto(createdAutoProject);
+    return createdAutoProject;
   }
 
   private async validatePlatform(
