@@ -8,6 +8,7 @@ import { UsageModule } from 'src/usage/usage.module';
 import { AutoPostGenerateServiceV2 } from './auto-post-generate-v2.service';
 import { AutoPostGenerateService } from './auto-post-generate.service';
 import { AutoPostController } from './auto-post.controller';
+import { AutoPostScheduler } from './auto-post.scheduler';
 import { AutoPostService } from './auto-post.service';
 
 @Module({
@@ -24,6 +25,7 @@ import { AutoPostService } from './auto-post.service';
     AutoPostService,
     AutoPostGenerateService,
     AutoPostGenerateServiceV2,
+    AutoPostScheduler,
   ],
 })
 export class AutoPostModule {}

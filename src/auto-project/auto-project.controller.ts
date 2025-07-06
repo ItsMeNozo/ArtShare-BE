@@ -7,6 +7,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
   Query,
@@ -16,6 +17,7 @@ import { CurrentUser } from 'src/auth/decorators/users.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
 import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
+import { AutoProjectStatus } from 'src/generated';
 import { AutoProjectReadService } from './auto-project-read.service';
 import { AutoProjectWriteService } from './auto-project-write.service';
 import { CreateAutoProjectDto } from './dto/request/create-project.dto';
@@ -71,5 +73,29 @@ export class AutoProjectController {
     @CurrentUser() user: CurrentUserType,
   ): Promise<void> {
     return this.autoProjectWriteService.remove(id, user.id);
+  }
+
+  @Patch(':id/pause')
+  async pause(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() user: CurrentUserType,
+  ): Promise<AutoProjectDetailsDto> {
+    return this.autoProjectWriteService.update(
+      id,
+      { status: AutoProjectStatus.PAUSED },
+      user.id,
+    );
+  }
+
+  @Patch(':id/resume')
+  async resume(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() user: CurrentUserType,
+  ): Promise<AutoProjectDetailsDto> {
+    return this.autoProjectWriteService.update(
+      id,
+      { status: AutoProjectStatus.ACTIVE },
+      user.id,
+    );
   }
 }
