@@ -28,6 +28,9 @@ export const collectionWithPostsSelect = {
           title: true,
           thumbnailUrl: true,
           createdAt: true,
+          likeCount: true,
+          commentCount: true,
+          viewCount: true,
         },
       },
     },
@@ -51,6 +54,9 @@ const mapSelectedPostToSummaryDto = (
   title: postOnCollection.post.title,
   thumbnailUrl: postOnCollection.post.thumbnailUrl ?? undefined,
   createdAt: postOnCollection.post.createdAt,
+  likeCount: postOnCollection.post.likeCount ?? 0,
+  commentCount: postOnCollection.post.commentCount ?? 0,
+  viewCount: postOnCollection.post.viewCount ?? 0,
 });
 
 export const mapCollectionToDto = (

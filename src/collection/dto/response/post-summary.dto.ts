@@ -3,4 +3,7 @@ export class PostSummaryDto {
   title: string;
   thumbnailUrl?: string;
   createdAt: Date;
+  likeCount: number;
+  commentCount: number;
+  viewCount: number;
 }
