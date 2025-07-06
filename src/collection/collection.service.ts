@@ -15,6 +15,7 @@ import { CollectionDto } from './dto/response/collection.dto';
 import {
   CollectionWithPosts,
   collectionWithPostsSelect,
+  mapCollectionToDto,
 } from './helpers/collection-mapping.helper';
 
 @Injectable()
@@ -35,7 +36,7 @@ export class CollectionService {
         },
       });
 
-      return plainToInstance(CollectionDto, collections);
+      return collections.map(mapCollectionToDto);
     } catch (error) {
       console.error('Error fetching user collections:', error);
       throw new InternalServerErrorException('Failed to fetch collections.');
