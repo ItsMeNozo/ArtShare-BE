@@ -62,6 +62,11 @@ export class PostsController {
     @UploadedFiles() images: Express.Multer.File[],
     @CurrentUser() user: CurrentUserType,
   ): Promise<any> {
+    // Log request details for debugging
+    const totalFileSize = images.reduce((sum, img) => sum + img.buffer.length, 0);
+    const totalSizeMB = (totalFileSize / (1024 * 1024)).toFixed(2);
+    console.log(`POST /posts - Files: ${images.length}, Total size: ${totalSizeMB} MB`);
+    
     return this.postsManagementService.createPost(request, images, user.id);
   }
 
