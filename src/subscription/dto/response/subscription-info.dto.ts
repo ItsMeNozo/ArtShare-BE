@@ -12,5 +12,3 @@ export enum SubscriptionPlan {
   STUDIO = 'studio',
   ENTERPRISE = 'enterprise',
 }
-
-  

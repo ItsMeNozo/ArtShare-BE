@@ -40,7 +40,8 @@ export class FacebookAuthService {
     this.FB_APP_ID = this.configService.get<string>('FACEBOOK_APP_ID');
     this.FB_APP_SECRET = this.configService.get<string>('FACEBOOK_APP_SECRET');
     const callbackBaseUrl =
-      this.configService.get<string>('FACEBOOK_CALLBACK_URL_BASE') || 'http://localhost:3000';
+      this.configService.get<string>('FACEBOOK_CALLBACK_URL_BASE') ||
+      'http://localhost:3000';
     this.FB_REDIRECT_URI = `${callbackBaseUrl}${this.FB_REDIRECT_URI_PATH}`;
 
     this.OAUTH_STATE_JWT_SECRET =

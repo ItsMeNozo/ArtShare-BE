@@ -14,7 +14,7 @@ export class NotificationUtils {
     if (!fromUserId || !toUserId) {
       return false;
     }
-    
+
     return fromUserId !== toUserId;
   }
 
@@ -26,9 +26,9 @@ export class NotificationUtils {
    */
   static filterNotificationRecipients<T extends { id: string }>(
     users: T[],
-    excludeUserId: string
+    excludeUserId: string,
   ): T[] {
-    return users.filter(user => user.id !== excludeUserId);
+    return users.filter((user) => user.id !== excludeUserId);
   }
 
   /**
@@ -36,7 +36,14 @@ export class NotificationUtils {
    * @param payload - Notification payload object
    * @returns true if payload is valid for notification sending
    */
-  static isValidNotificationPayload(payload: { from?: string; to?: string }): boolean {
-    return !!(payload.from && payload.to && this.shouldSendNotification(payload.from, payload.to));
+  static isValidNotificationPayload(payload: {
+    from?: string;
+    to?: string;
+  }): boolean {
+    return !!(
+      payload.from &&
+      payload.to &&
+      this.shouldSendNotification(payload.from, payload.to)
+    );
   }
 }

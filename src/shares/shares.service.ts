@@ -60,11 +60,7 @@ export class SharesService {
   }
 
   private async verifyShareAlreadyExists(dto: CreateShareDto, userId: string) {
-    const existing = await this.findShare(
-      dto.targetId,
-      dto.targetType,
-      userId,
-    );
+    const existing = await this.findShare(dto.targetId, dto.targetType, userId);
     if (existing) throw new BadRequestException('You have already shared this');
   }
 

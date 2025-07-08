@@ -15,7 +15,7 @@ export class BlogListItemResponseDto {
   createdAt: Date;
 
   @ApiProperty({ example: '2025-05-31T10:00:00.000Z' })
-  updatedAt: Date | null; 
+  updatedAt: Date | null;
 
   @ApiProperty({ example: 15 })
   likeCount: number;
@@ -34,11 +34,15 @@ export class BlogListItemResponseDto {
 
   @ApiProperty({ example: true })
   isPublished: boolean;
-  
+
   @ApiProperty({
     type: [String],
-    example: ['https://cdn.example.com/img1.jpg', 'https://cdn.example.com/img2.png'],
-    description: 'An array of URLs (or file paths) pointing to each picture associated with this blog post',
+    example: [
+      'https://cdn.example.com/img1.jpg',
+      'https://cdn.example.com/img2.png',
+    ],
+    description:
+      'An array of URLs (or file paths) pointing to each picture associated with this blog post',
   })
   pictures: string[];
 }

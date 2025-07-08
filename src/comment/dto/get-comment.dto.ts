@@ -19,7 +19,6 @@ export class UserBriefDto {
   profilePictureUrl: string | null;
 }
 
-
 export class CommentReplyDto {
   @ApiProperty({ example: 42 })
   id: number;

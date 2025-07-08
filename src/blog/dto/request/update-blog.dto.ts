@@ -1,10 +1,10 @@
 import {
-  IsString,
+  IsArray,
+  IsBoolean,
   IsNotEmpty,
   IsOptional,
+  IsString,
   MaxLength,
-  IsBoolean,
-  IsArray,
 } from 'class-validator';
 
 export class UpdateBlogDto {

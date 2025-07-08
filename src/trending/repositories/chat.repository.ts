@@ -99,8 +99,6 @@ export class ChatRepository implements IChatRepository {
       take: 30,
     });
 
-    return artGenerations.map(
-      (ag: { finalPrompt: string }) => ag.finalPrompt,
-    );
+    return artGenerations.map((ag: { finalPrompt: string }) => ag.finalPrompt);
   }
 }

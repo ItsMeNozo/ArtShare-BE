@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
+import { PostCategoryResponseDto } from './category.dto';
 import { MediaResponseDto } from './media.dto';
 import { UserResponseDto } from './user.dto';
-import { PostCategoryResponseDto } from './category.dto';
 
 export class PostDetailsResponseDto {
   id: number;

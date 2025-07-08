@@ -1,11 +1,11 @@
 import {
+  ConflictException,
   ForbiddenException,
   Injectable,
+  InternalServerErrorException,
   Logger,
   NotFoundException,
   UnauthorizedException,
-  InternalServerErrorException,
-  ConflictException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
@@ -108,14 +108,18 @@ export class AuthService {
       return { message_type: 'SIGNUP_SUCCESS', newUser };
     } catch (error) {
       // If it's already an HTTP exception, re-throw it
-      if (error instanceof NotFoundException || 
-          error instanceof ConflictException || 
-          error instanceof InternalServerErrorException) {
+      if (
+        error instanceof NotFoundException ||
+        error instanceof ConflictException ||
+        error instanceof InternalServerErrorException
+      ) {
         throw error;
       }
 
       this.logger.error('Error creating user:', (error as Error).stack);
-      throw new InternalServerErrorException(`Failed to create user: ${(error as Error).message}`);
+      throw new InternalServerErrorException(
+        `Failed to create user: ${(error as Error).message}`,
+      );
     }
   }
 
@@ -127,7 +131,7 @@ export class AuthService {
         'Decoded token successfully from login: ' +
           JSON.stringify(decodedToken),
       );
-      
+
       const userFromDb = await this.prisma.user.findUnique({
         where: { id: decodedToken.uid },
         include: {
@@ -138,14 +142,12 @@ export class AuthService {
           },
         },
       });
-      
+
       if (!userFromDb) {
         this.logger.error(
           `User with email ${decodedToken.email} and id ${decodedToken.uid} not found in database`,
         );
-        throw new NotFoundException(
-          `User not found. Please sign up first.`,
-        );
+        throw new NotFoundException(`User not found. Please sign up first.`);
       }
 
       // Extract role names from the nested structure
@@ -159,7 +161,7 @@ export class AuthService {
         decodedToken.email!,
         roleNames,
       );
-      
+
       // Update refresh token in database
       try {
         await this.prisma.user.update({
@@ -185,16 +187,15 @@ export class AuthService {
       };
     } catch (error) {
       // If it's already an HTTP exception, re-throw it
-      if (error instanceof NotFoundException || 
-          error instanceof UnauthorizedException || 
-          error instanceof ForbiddenException) {
+      if (
+        error instanceof NotFoundException ||
+        error instanceof UnauthorizedException ||
+        error instanceof ForbiddenException
+      ) {
         throw error;
       }
 
-      this.logger.error(
-        'Error during login process:',
-        (error as Error).stack,
-      );
+      this.logger.error('Error during login process:', (error as Error).stack);
 
       // Handle specific Firebase error codes
       if (error && typeof error === 'object' && 'code' in error) {
@@ -204,18 +205,27 @@ export class AuthService {
           case 'auth/invalid-id-token':
           case 'auth/id-token-expired':
             this.logger.error(`Firebase auth error: ${firebaseError.code}`);
-            throw new UnauthorizedException('Invalid or expired authentication token');
+            throw new UnauthorizedException(
+              'Invalid or expired authentication token',
+            );
           case 'auth/id-token-revoked':
             this.logger.error('Firebase auth error: Token has been revoked');
-            throw new UnauthorizedException('Authentication token has been revoked');
+            throw new UnauthorizedException(
+              'Authentication token has been revoked',
+            );
           default:
-            this.logger.error(`Unhandled Firebase error: ${firebaseError.code}`);
+            this.logger.error(
+              `Unhandled Firebase error: ${firebaseError.code}`,
+            );
             throw new UnauthorizedException('Authentication failed');
         }
       }
 
       // General error handling for unexpected errors
-      this.logger.error('Unexpected error during login', (error as Error).message);
+      this.logger.error(
+        'Unexpected error during login',
+        (error as Error).message,
+      );
       throw new UnauthorizedException('Authentication failed');
     }
   }
@@ -247,7 +257,9 @@ export class AuthService {
       return { message: 'User signed out successfully' };
     } catch (error) {
       this.logger.error('Error signing out user:', (error as Error).stack);
-      throw new InternalServerErrorException(`Error signing out: ${(error as Error).message}`);
+      throw new InternalServerErrorException(
+        `Error signing out: ${(error as Error).message}`,
+      );
     }
   }
 
@@ -296,7 +308,7 @@ export class AuthService {
       where: { email },
       select: { id: true },
     });
-    
+
     return !!user;
   }
 

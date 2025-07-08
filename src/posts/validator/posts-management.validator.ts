@@ -1,12 +1,10 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
-import { PrismaService } from "src/prisma.service";
-import { CreatePostRequestDto } from "../dto/request/create-post.dto";
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma.service';
+import { CreatePostRequestDto } from '../dto/request/create-post.dto';
 
 @Injectable()
 export class PostsManagementValidator {
-  constructor(
-    private readonly prisma: PrismaService,
-  ) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async validateCreateRequest(
     request: CreatePostRequestDto,

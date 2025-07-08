@@ -1,7 +1,7 @@
 import {
-  Injectable,
   CanActivate,
   ExecutionContext,
+  Injectable,
   Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -26,11 +26,11 @@ export class WebSocketJwtAuthGuard implements CanActivate {
     if (context.getType() === 'http') {
       return true;
     }
-    
+
     // It's a WebSocket connection, so proceed with WebSocket logic.
     this.logger.log('--- WS canActivate START ---');
     const client: Socket = context.switchToWs().getClient();
-    
+
     try {
       const token = client.handshake.auth?.token;
       this.logger.log(`Token from handshake.auth: ${token}`);
@@ -40,28 +40,41 @@ export class WebSocketJwtAuthGuard implements CanActivate {
       }
 
       const secret = this.configService.get<string>('AT_SECRET');
-      this.logger.log(`Verifying with secret: ${secret ? '*** (found)' : '!!! UNDEFINED !!!'}`);
+      this.logger.log(
+        `Verifying with secret: ${secret ? '*** (found)' : '!!! UNDEFINED !!!'}`,
+      );
       if (!secret) {
-        throw new WsException('Server misconfiguration: JWT secret is not set.');
+        throw new WsException(
+          'Server misconfiguration: JWT secret is not set.',
+        );
       }
-      
+
       const payload = await this.jwtService.verifyAsync(token, { secret });
-      this.logger.log(`...verifyAsync SUCCEEDED. Payload: ${JSON.stringify(payload)}`);
+      this.logger.log(
+        `...verifyAsync SUCCEEDED. Payload: ${JSON.stringify(payload)}`,
+      );
 
       client.data.user = payload;
-      this.logger.log(`...attach COMPLETE. client.data is now: ${JSON.stringify(client.data)}`);
-      
+      this.logger.log(
+        `...attach COMPLETE. client.data is now: ${JSON.stringify(client.data)}`,
+      );
+
       this.logger.log('--- WS canActivate END (SUCCESS) ---');
       return true;
-
     } catch (error) {
       this.logger.error(`--- WS canActivate END (FAILURE) ---`);
-      this.logger.error(`Authentication error: ${error instanceof Error ? error.message : String(error)}`);
-      
+      this.logger.error(
+        `Authentication error: ${error instanceof Error ? error.message : String(error)}`,
+      );
+
       // We must explicitly tell the client to disconnect on failure
-      client.emit('error', { message: 'Authentication failed. ' + (error instanceof Error ? error.message : String(error)) });
+      client.emit('error', {
+        message:
+          'Authentication failed. ' +
+          (error instanceof Error ? error.message : String(error)),
+      });
       client.disconnect(true);
-      
+
       // Return false to prevent the connection from proceeding.
       return false;
     }

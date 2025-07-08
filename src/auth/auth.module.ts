@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
 
-import { JwtModule } from '@nestjs/jwt';
-import { AtStrategy } from './strategies/at.strategy';
-import { RtStrategy } from './strategies/rt.strategy';
-import { FacebookController } from './facebook/facebook.controller';
-import { CacheModule } from '@nestjs/cache-manager';
-import { FacebookAuthService } from './facebook/facebook.service';
 import { HttpModule } from '@nestjs/axios';
+import { CacheModule } from '@nestjs/cache-manager';
+import { JwtModule } from '@nestjs/jwt';
 import { EncryptionService } from 'src/encryption/encryption.service';
 import { PlatformModule } from 'src/platform/platform.module';
+import { FacebookController } from './facebook/facebook.controller';
+import { FacebookAuthService } from './facebook/facebook.service';
+import { AtStrategy } from './strategies/at.strategy';
+import { RtStrategy } from './strategies/rt.strategy';
 import { WebSocketJwtAuthGuard } from './websocket-jwt-auth.guard';
 
 @Module({

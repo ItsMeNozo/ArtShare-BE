@@ -1,5 +1,5 @@
 export enum AspectRatio {
-  SQUARE    = 'SQUARE',
+  SQUARE = 'SQUARE',
   LANDSCAPE = 'LANDSCAPE',
-  PORTRAIT  = 'PORTRAIT',
+  PORTRAIT = 'PORTRAIT',
 }

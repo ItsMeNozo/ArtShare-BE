@@ -106,8 +106,12 @@ async function bootstrap() {
       logger.debug(`=== CORS DEBUG ===`);
       logger.debug(`NODE_ENV: ${configService.get<string>('NODE_ENV')}`);
       logger.debug(`isProduction: ${isProduction}`);
-      logger.debug(`FRONTEND_URL from env: ${configService.get<string>('FRONTEND_URL')}`);
-      logger.debug(`ADMIN_FRONTEND_URL from env: ${configService.get<string>('ADMIN_FRONTEND_URL')}`);
+      logger.debug(
+        `FRONTEND_URL from env: ${configService.get<string>('FRONTEND_URL')}`,
+      );
+      logger.debug(
+        `ADMIN_FRONTEND_URL from env: ${configService.get<string>('ADMIN_FRONTEND_URL')}`,
+      );
       logger.debug(`Request origin: ${origin}`);
       logger.debug(`Allowed origins: ${allowedOrigins.join(', ')}`);
       logger.debug(`=== END CORS DEBUG ===`);
@@ -165,9 +169,9 @@ async function bootstrap() {
 
   // Webhook middleware (MUST be before global body parsing)
   // Apply raw body parsing specifically for Stripe webhook
-  const webhookRawBodyMiddleware = express.raw({ 
+  const webhookRawBodyMiddleware = express.raw({
     type: 'application/json',
-    limit: '1mb' 
+    limit: '1mb',
   });
   app.use('/api/stripe/webhook', webhookRawBodyMiddleware);
 

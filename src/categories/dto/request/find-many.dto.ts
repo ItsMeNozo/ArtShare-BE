@@ -1,5 +1,5 @@
-import { IsEnum, IsInt, IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer'; // You might need this for numbers!
+import { IsEnum, IsInt, IsOptional, IsString } from 'class-validator';
 import { CategoryType } from './create-category.dto';
 
 export class FindManyCategoriesDto {

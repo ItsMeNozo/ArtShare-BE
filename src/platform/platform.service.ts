@@ -29,8 +29,7 @@ export class PlatformService {
   async createPlatform(data: CreatePlatformDto): Promise<Platform> {
     const { userId, name, externalPageId, config: rawConfig } = data;
 
-    const { pageName, accessToken, category, ...otherConfigFields } =
-      rawConfig;
+    const { pageName, accessToken, category, ...otherConfigFields } = rawConfig;
 
     const platformConfig: PlatformPageConfig = {
       ...otherConfigFields,

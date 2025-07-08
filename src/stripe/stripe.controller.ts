@@ -1,30 +1,30 @@
 import {
-  Controller,
-  Post,
+  BadRequestException,
   Body,
-  UsePipes,
-  ValidationPipe,
-  Logger,
-  Req,
+  Controller,
+  Get,
   Headers,
   HttpException,
   HttpStatus,
-  BadRequestException,
+  Logger,
+  Post,
   RawBodyRequest,
-  Get,
+  Req,
   UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { StripeService } from './stripe.service';
-import { StripeCoreService } from './stripe-core.service';
-import Stripe from 'stripe';
 import { Request } from 'express';
-import { CreateCheckoutSessionDto } from './dto/create-checkout-session';
-import { CurrentUser } from 'src/auth/decorators/users.decorator';
-import { CurrentUserType } from 'src/auth/types/current-user.type';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/auth/decorators/roles.decorators';
+import { CurrentUser } from 'src/auth/decorators/users.decorator';
 import { Role } from 'src/auth/enums/role.enum';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CurrentUserType } from 'src/auth/types/current-user.type';
+import Stripe from 'stripe';
+import { CreateCheckoutSessionDto } from './dto/create-checkout-session';
+import { StripeCoreService } from './stripe-core.service';
+import { StripeService } from './stripe.service';
 
 @Controller('api/stripe')
 export class StripeController {
@@ -135,8 +135,10 @@ export class StripeController {
     }
 
     const rawBody = request.body;
-    this.logger.debug(`Webhook body type: ${typeof rawBody}, isBuffer: ${Buffer.isBuffer(rawBody)}, length: ${rawBody?.length || 'N/A'}`);
-    
+    this.logger.debug(
+      `Webhook body type: ${typeof rawBody}, isBuffer: ${Buffer.isBuffer(rawBody)}, length: ${rawBody?.length || 'N/A'}`,
+    );
+
     if (!rawBody) {
       this.logger.error(
         'Webhook received without raw body. Ensure raw body parsing is enabled for this route. Expected request.body to be a Buffer.',

@@ -34,14 +34,8 @@ export class ReportService {
     createReportDto: CreateReportDto,
     reporterId: string,
   ): Promise<Report> {
-    const {
-      targetId,
-      targetType,
-      reason,
-      targetUrl,
-      userId,
-      targetTitle,
-    } = createReportDto;
+    const { targetId, targetType, reason, targetUrl, userId, targetTitle } =
+      createReportDto;
 
     try {
       const newReport = await this.prisma.report.create({

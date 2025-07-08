@@ -18,8 +18,8 @@ import { CurrentUserType } from 'src/auth/types/current-user.type';
 import { Report, ReportStatus } from 'src/generated';
 import { CreateReportDto } from './dto/create-report.dto';
 import { ResolveReportDto } from './dto/resolve-report.dto';
-import { ReportService } from './report.service';
 import { ViewReportsDto, ViewTab } from './dto/view-report.dto';
+import { ReportService } from './report.service';
 
 @ApiTags('reports')
 @Controller('reports')

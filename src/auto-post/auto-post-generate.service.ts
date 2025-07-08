@@ -42,8 +42,7 @@ export class AutoPostGenerateService {
     seedData: AutoPostSeedData,
     userId: string,
   ): Promise<GeneratedAutoPost[]> {
-    const { projectTitle: title, projectDescription: description } =
-      seedData;
+    const { projectTitle: title, projectDescription: description } = seedData;
 
     const tempResult = meta.map(async (item) => {
       const [generatedContent, generatedImages] = await Promise.all([

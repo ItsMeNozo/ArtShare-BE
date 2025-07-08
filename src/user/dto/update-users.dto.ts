@@ -1,5 +1,12 @@
 // src/users/dto/update-user.dto.ts
-import { IsOptional, IsString, IsEmail, IsUrl, IsDateString, IsBoolean } from 'class-validator';
+import {
+  IsBoolean,
+  IsDateString,
+  IsEmail,
+  IsOptional,
+  IsString,
+  IsUrl,
+} from 'class-validator';
 
 export class UpdateUserDTO {
   @IsOptional()
