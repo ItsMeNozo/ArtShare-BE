@@ -135,14 +135,27 @@ export class StripeController {
     }
 
     const rawBody = request.body;
+    this.logger.debug(`Webhook body type: ${typeof rawBody}, isBuffer: ${Buffer.isBuffer(rawBody)}, length: ${rawBody?.length || 'N/A'}`);
+    
     if (!rawBody) {
       this.logger.error(
-        'Webhook received without raw body. Ensure raw body parsing is enabled for this route. Expected request.rawBody to be a Buffer.',
+        'Webhook received without raw body. Ensure raw body parsing is enabled for this route. Expected request.body to be a Buffer.',
       );
       throw new BadRequestException(
         'Webhook error: Missing raw body. Configure raw body parsing for this endpoint.',
       );
     }
+
+    // Enforce raw Buffer input for Stripe webhook body
+    if (!Buffer.isBuffer(rawBody)) {
+      this.logger.error(
+        `Webhook received with invalid body format. Body type: ${typeof rawBody}. Ensure raw body parsing is enabled for this route. Expected request.body to be a Buffer.`,
+      );
+      throw new BadRequestException(
+        'Webhook error: Invalid body format. Configure raw body parsing for this endpoint.',
+      );
+    }
+    const bodyForStripe: Buffer = rawBody;
 
     let event: Stripe.Event;
     const webhookSecret = this.configService.get<string>(
@@ -168,7 +181,7 @@ export class StripeController {
     try {
       event = this.stripeCoreService
         .getStripeClient()
-        .webhooks.constructEvent(rawBody, signature, secretToUse);
+        .webhooks.constructEvent(bodyForStripe, signature, secretToUse);
       this.logger.log(
         `Webhook event successfully constructed: ${event.id}, Type: ${event.type}`,
       );
