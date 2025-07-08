@@ -120,7 +120,8 @@ export const AutoProjectStatus = {
   COMPLETED: 'COMPLETED',
   CANCELLED: 'CANCELLED',
   FAILED: 'FAILED',
-  DRAFT: 'DRAFT'
+  DRAFT: 'DRAFT',
+  PAUSED: 'PAUSED'
 } as const
 
 export type AutoProjectStatus = (typeof AutoProjectStatus)[keyof typeof AutoProjectStatus]

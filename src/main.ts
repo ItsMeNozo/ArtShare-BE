@@ -166,7 +166,7 @@ async function bootstrap() {
   // Request size limits
   app.use(
     express.json({
-      limit: '10mb',
+      limit: '50mb', // Increased for AI image uploads
       verify: (req: any, res, buf) => {
         // Log large requests in production
         if (isProduction && buf.length > 1024 * 1024) {
@@ -180,7 +180,7 @@ async function bootstrap() {
   app.use(
     express.urlencoded({
       extended: true,
-      limit: '10mb',
+      limit: '50mb', // Increased for AI image uploads
     }),
   );
 

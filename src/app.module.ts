@@ -43,6 +43,7 @@ import { PlatformModule } from './platform/platform.module';
       isGlobal: true, // Makes ConfigService available globally
       load: [embeddingConfig],
       cache: true,
+      envFilePath: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
     }),
     EventEmitterModule.forRoot(),
     UserModule,

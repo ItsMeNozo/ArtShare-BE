@@ -1,12 +1,16 @@
 import { IsNumber, IsString } from 'class-validator';
+import { AutoProjectStatus } from 'src/generated';
 
 export class UpdateAutoProjectDto {
   @IsString()
-  title: string;
+  title?: string;
 
   @IsString()
-  description: string;
+  description?: string;
 
   @IsNumber()
-  platform_id: number;
+  platform_id?: number;
+
+  @IsString()
+  status?: AutoProjectStatus;
 }
