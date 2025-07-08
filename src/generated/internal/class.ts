@@ -22,7 +22,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "d:\\Code\\Rcode\\HTML\\ArtShare\\ArtShare-BE\\src\\generated",
+      "value": "D:\\Code\\Rcode\\HTML\\ArtShare\\ArtShare-BE\\src\\generated",
       "fromEnvVar": null
     },
     "config": {
@@ -48,7 +48,7 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "d:\\Code\\Rcode\\HTML\\ArtShare\\ArtShare-BE\\prisma\\schema.prisma",
+    "sourceFilePath": "D:\\Code\\Rcode\\HTML\\ArtShare\\ArtShare-BE\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../../prisma",

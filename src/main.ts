@@ -163,10 +163,18 @@ async function bootstrap() {
     }),
   );
 
+  // Webhook middleware (MUST be before global body parsing)
+  // Apply raw body parsing specifically for Stripe webhook
+  const webhookRawBodyMiddleware = express.raw({ 
+    type: 'application/json',
+    limit: '1mb' 
+  });
+  app.use('/api/stripe/webhook', webhookRawBodyMiddleware);
+
   // Request size limits
   app.use(
     express.json({
-      limit: '10mb',
+      limit: '50mb', // Increased for AI image uploads
       verify: (req: any, res, buf) => {
         // Log large requests in production
         if (isProduction && buf.length > 1024 * 1024) {
@@ -180,7 +188,7 @@ async function bootstrap() {
   app.use(
     express.urlencoded({
       extended: true,
-      limit: '10mb',
+      limit: '50mb', // Increased for AI image uploads
     }),
   );
 
@@ -206,10 +214,6 @@ async function bootstrap() {
     });
     logger.log('Swagger documentation available at /api');
   }
-
-  // Webhook middleware (before other body parsing)
-  const webhookRawBodyMiddleware = express.raw({ type: 'application/json' });
-  app.use('/api/stripe/webhook', webhookRawBodyMiddleware);
 
   // Security logging
   app.use(
