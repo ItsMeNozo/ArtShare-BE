@@ -291,6 +291,15 @@ export class AuthService {
     };
   }
 
+  async checkEmailExists(email: string): Promise<boolean> {
+    const user = await this.prisma.user.findFirst({
+      where: { email },
+      select: { id: true },
+    });
+    
+    return !!user;
+  }
+
   createRandomUsername(): string {
     return `user_${crypto.randomUUID()}`;
   }
