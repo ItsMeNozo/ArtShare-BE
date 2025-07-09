@@ -40,18 +40,16 @@ export class PostsExploreService {
     userId: string,
     query: GetPostsDto,
   ): Promise<PaginatedResponse<PostListItemResponse>> {
-    const { page = 1, limit = 25, filter = [] } = query;
-    console.log('getForYouPosts', {
-      userId,
-      page,
-      limit,
-      filter,
-    });
+    const { page = 1, limit = 25, filter = [], isAi } = query;
 
-    const whereClause =
+    const whereClause: Prisma.PostWhereInput =
       filter && filter.length > 0
         ? { categories: { some: { name: { in: filter } } } }
         : {};
+
+    if (isAi && isAi === true) {
+      whereClause.ai_created = true;
+    }
 
     const [posts, total] = await Promise.all([
       this.prisma.post.findMany({
@@ -79,18 +77,23 @@ export class PostsExploreService {
     userId: string,
     query: GetPostsDto,
   ): Promise<PaginatedResponse<PostListItemResponse>> {
-    const { page = 1, limit = 25, filter = [] } = query;
-    console.log('getForYouPosts', {
+    const { page = 1, limit = 25, filter = [], isAi } = query;
+    console.log('getTrendingPosts', {
       userId,
       page,
       limit,
       filter,
+      isAi,
     });
 
-    const whereClause =
+    const whereClause: Prisma.PostWhereInput =
       filter && filter.length > 0
         ? { categories: { some: { name: { in: filter } } } }
         : {};
+
+    if (isAi && isAi === true) {
+      whereClause.ai_created = true;
+    }
 
     const [posts, total] = await Promise.all([
       this.prisma.post.findMany({
@@ -216,7 +219,7 @@ export class PostsExploreService {
     body: SearchPostDto,
     userId: string,
   ): Promise<PaginatedResponse<PostListItemResponse>> {
-    const { q, page = 1, limit = 25, filter } = body;
+    const { q, page = 1, limit = 25, filter, isAi } = body;
 
     const queryEmbedding =
       await this.embeddingService.generateEmbeddingFromText(q);
@@ -255,21 +258,30 @@ export class PostsExploreService {
       .map((point) => Number(point.id))
       .filter((pointId) => !isNaN(pointId));
 
+    let whereClause: Prisma.PostWhereInput = {
+      id: { in: pointIds },
+    };
+    if (filter && filter.length > 0) {
+      whereClause = {
+        ...whereClause,
+        categories: { some: { name: { in: filter } } },
+      };
+    }
+
+    if (isAi && isAi === true) {
+      whereClause.ai_created = true;
+    }
+
     const posts: PostWithRelations[] = await this.prisma.post.findMany({
-      where: { id: { in: pointIds } },
+      where: whereClause,
       include: this.buildPostIncludes(userId),
     });
 
     // Sort posts in the same order as returned by Qdrant
-    let sortedPosts: PostWithRelations[] = pointIds
+    const sortedPosts: PostWithRelations[] = pointIds
       .map((id) => posts.find((post: PostWithRelations) => post.id === id))
       .filter((post): post is PostWithRelations => post !== undefined);
 
-    if (filter && filter.length > 0) {
-      sortedPosts = sortedPosts.filter((post) =>
-        post.categories.some((category) => filter.includes(category.name)),
-      );
-    }
     const mappedPosts = mapPostListToDto(sortedPosts);
 
     return generatePaginatedResponseWithUnknownTotal(mappedPosts, {
