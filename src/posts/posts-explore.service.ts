@@ -258,24 +258,30 @@ export class PostsExploreService {
       .map((point) => Number(point.id))
       .filter((pointId) => !isNaN(pointId));
 
+    let whereClause: Prisma.PostWhereInput = {
+      id: { in: pointIds },
+    };
+    if (filter && filter.length > 0) {
+      whereClause = {
+        ...whereClause,
+        categories: { some: { name: { in: filter } } },
+      };
+    }
+
+    if (isAi && isAi === true) {
+      whereClause.ai_created = true;
+    }
+
     const posts: PostWithRelations[] = await this.prisma.post.findMany({
-      where: { id: { in: pointIds } },
+      where: whereClause,
       include: this.buildPostIncludes(userId),
     });
 
     // Sort posts in the same order as returned by Qdrant
-    let sortedPosts: PostWithRelations[] = pointIds
+    const sortedPosts: PostWithRelations[] = pointIds
       .map((id) => posts.find((post: PostWithRelations) => post.id === id))
       .filter((post): post is PostWithRelations => post !== undefined);
 
-    if (filter && filter.length > 0) {
-      sortedPosts = sortedPosts.filter((post) =>
-        post.categories.some((category) => filter.includes(category.name)),
-      );
-    }
-    if (isAi && isAi === true) {
-      sortedPosts = sortedPosts.filter((post) => post.ai_created);
-    }
     const mappedPosts = mapPostListToDto(sortedPosts);
 
     return generatePaginatedResponseWithUnknownTotal(mappedPosts, {
