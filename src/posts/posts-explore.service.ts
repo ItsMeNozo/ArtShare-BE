@@ -40,7 +40,7 @@ export class PostsExploreService {
     userId: string,
     query: GetPostsDto,
   ): Promise<PaginatedResponse<PostListItemResponse>> {
-    const { page = 1, limit = 25, filter = [] } = query;
+    const { page = 1, limit = 25, filter = [], isAi } = query;
     console.log('getForYouPosts', {
       userId,
       page,
@@ -48,10 +48,14 @@ export class PostsExploreService {
       filter,
     });
 
-    const whereClause =
+    const whereClause: Prisma.PostWhereInput =
       filter && filter.length > 0
         ? { categories: { some: { name: { in: filter } } } }
         : {};
+
+    if (isAi && isAi === true) {
+      whereClause.ai_created = true;
+    }
 
     const [posts, total] = await Promise.all([
       this.prisma.post.findMany({
@@ -79,18 +83,23 @@ export class PostsExploreService {
     userId: string,
     query: GetPostsDto,
   ): Promise<PaginatedResponse<PostListItemResponse>> {
-    const { page = 1, limit = 25, filter = [] } = query;
-    console.log('getForYouPosts', {
+    const { page = 1, limit = 25, filter = [], isAi } = query;
+    console.log('getTrendingPosts', {
       userId,
       page,
       limit,
       filter,
+      isAi,
     });
 
-    const whereClause =
+    const whereClause: Prisma.PostWhereInput =
       filter && filter.length > 0
         ? { categories: { some: { name: { in: filter } } } }
         : {};
+
+    if (isAi && isAi === true) {
+      whereClause.ai_created = true;
+    }
 
     const [posts, total] = await Promise.all([
       this.prisma.post.findMany({
@@ -216,7 +225,7 @@ export class PostsExploreService {
     body: SearchPostDto,
     userId: string,
   ): Promise<PaginatedResponse<PostListItemResponse>> {
-    const { q, page = 1, limit = 25, filter } = body;
+    const { q, page = 1, limit = 25, filter, isAi } = body;
 
     const queryEmbedding =
       await this.embeddingService.generateEmbeddingFromText(q);
@@ -269,6 +278,9 @@ export class PostsExploreService {
       sortedPosts = sortedPosts.filter((post) =>
         post.categories.some((category) => filter.includes(category.name)),
       );
+    }
+    if (isAi && isAi === true) {
+      sortedPosts = sortedPosts.filter((post) => post.ai_created);
     }
     const mappedPosts = mapPostListToDto(sortedPosts);
 
