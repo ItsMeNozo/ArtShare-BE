@@ -52,6 +52,7 @@ export class PostsManagementService {
     userId: string,
   ): Promise<PostDetailsResponseDto> {
     const { categoryIds = [], videoUrl, promptId, ...rest } = request;
+    console.log('🚀 ~ ', rest);
 
     const { parsedCropMeta } =
       await this.postsManagementValidator.validateCreateRequest(
