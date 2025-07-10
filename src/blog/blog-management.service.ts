@@ -199,21 +199,21 @@ export class BlogManagementService {
     }
 
     const existingBookmark = await this.prisma.bookmark.findUnique({
-      where: { userId_blogId: { userId: userId, blogId: blogId } },
+      where: { userId_blogId: { userId, blogId } },
     });
 
     if (existingBookmark) {
       await this.prisma.bookmark.delete({
-        where: { userId_blogId: { userId: userId, blogId: blogId } },
+        where: { userId_blogId: { userId, blogId } },
       });
 
-      return { bookmarked: false, blogId: blogId };
+      return { bookmarked: false, blogId };
     } else {
       await this.prisma.bookmark.create({
-        data: { userId: userId, blogId: blogId },
+        data: { userId, blogId },
       });
 
-      return { bookmarked: true, blogId: blogId };
+      return { bookmarked: true, blogId };
     }
   }
 
@@ -270,9 +270,9 @@ export class BlogManagementService {
       }
 
       await tx.rating.upsert({
-        where: { userId_blogId: { userId: userId, blogId: blogId } },
+        where: { userId_blogId: { userId, blogId } },
         update: { value: ratingValue },
-        create: { userId: userId, blogId: blogId, value: ratingValue },
+        create: { userId, blogId, value: ratingValue },
       });
 
       const aggregateResult = await tx.rating.aggregate({

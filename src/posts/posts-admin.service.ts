@@ -130,7 +130,7 @@ export class PostsAdminService {
       page = 1,
       limit = 10,
       search,
-      sortBy = 'created_at',
+      sortBy = 'createdAt',
       sortOrder = 'desc',
       filter,
     } = params;

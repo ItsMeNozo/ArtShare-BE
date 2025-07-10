@@ -318,23 +318,23 @@ export class AnalyticsService {
     });
 
     return {
-      averageLikes_AiPosts: parseFloat(
+      averageLikesAiPosts: parseFloat(
         (aiStats._avg?.likeCount || 0).toFixed(2),
       ),
-      averageComments_AiPosts: parseFloat(
+      averageCommentsAiPosts: parseFloat(
         (aiStats._avg?.commentCount || 0).toFixed(2),
       ),
-      averageViews_AiPosts: parseFloat(
+      averageViewsAiPosts: parseFloat(
         (aiStats._avg?.viewCount || 0).toFixed(2),
       ),
       aiPostsAnalyzed: aiStats._count?.id || 0,
-      averageLikes_NonAiPosts: parseFloat(
+      averageLikesNonAiPosts: parseFloat(
         (nonAiStats._avg?.likeCount || 0).toFixed(2),
       ),
-      averageComments_NonAiPosts: parseFloat(
+      averageCommentsNonAiPosts: parseFloat(
         (nonAiStats._avg?.commentCount || 0).toFixed(2),
       ),
-      averageViews_NonAiPosts: parseFloat(
+      averageViewsNonAiPosts: parseFloat(
         (nonAiStats._avg?.viewCount || 0).toFixed(2),
       ),
       nonAiPostsAnalyzed: nonAiStats._count?.id || 0,

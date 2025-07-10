@@ -58,11 +58,12 @@ const config: runtime.GetPrismaClientConfig = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://postgres.ktwmzgqquxxsdgpdkljz:CRTAI7LzUubpEtLo@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres?pgbouncer=true&connect_timeout=300&pool_timeout=60&connection_limit=100"
+        "value": null
       }
     }
   },

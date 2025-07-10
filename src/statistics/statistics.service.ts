@@ -48,7 +48,7 @@ export class StatisticsService {
 
   // Update each method to accept daysBack parameter
   async getAspectRatioStats(daysBack?: number): Promise<StatCount[]> {
-    return this.rawStats('aspectRatio', 'art_generation', 'key', daysBack);
+    return this.rawStats('aspect_ratio', 'art_generation', 'key', daysBack);
   }
 
   async getLightingStats(daysBack?: number): Promise<StatCount[]> {
@@ -65,18 +65,18 @@ export class StatisticsService {
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
       SELECT COUNT(id) as count
       FROM post
-      WHERE "aiCreated" = true ${Prisma.raw(dateFilter)}
+      WHERE "ai_created" = true ${Prisma.raw(dateFilter)}
     `;
     return [{ key: 'posts_by_ai', count: Number(rows[0]?.count ?? 0) }];
   }
 
   async getTotalAiImages(daysBack?: number): Promise<StatCount[]> {
     const dateFilter = daysBack
-      ? `WHERE "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
+      ? `WHERE "created_at" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
       : '';
 
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
-      SELECT SUM("numberOfImagesGenerated") as count
+      SELECT SUM("number_of_images_generated") as count
       FROM art_generation
       ${Prisma.raw(dateFilter)}
     `;
@@ -89,8 +89,8 @@ export class StatisticsService {
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
       SELECT *
       FROM post
-      WHERE "aiCreated" = true ${Prisma.raw(dateFilter)}
-      ORDER BY "likeCount" DESC
+      WHERE "ai_created" = true ${Prisma.raw(dateFilter)}
+      ORDER BY "like_count" DESC
       LIMIT 5
     `;
     return rows;
@@ -98,11 +98,11 @@ export class StatisticsService {
 
   async getTotalTokenUsage(daysBack?: number): Promise<StatCount[]> {
     const dateFilter = daysBack
-      ? `WHERE "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
+      ? `WHERE "created_at" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
       : '';
 
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
-      SELECT SUM("usedAmount") as count
+      SELECT SUM("used_amount") as count
       FROM user_usage
       ${Prisma.raw(dateFilter)}
     `;
@@ -111,7 +111,7 @@ export class StatisticsService {
 
   async getTotalBlogs(daysBack?: number): Promise<StatCount[]> {
     const dateFilter = daysBack
-      ? `WHERE "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
+      ? `WHERE "created_at" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
       : '';
 
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
@@ -124,7 +124,7 @@ export class StatisticsService {
 
   async getTotalPosts(daysBack?: number): Promise<StatCount[]> {
     const dateFilter = daysBack
-      ? `WHERE "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
+      ? `WHERE "created_at" >= CURRENT_DATE - INTERVAL '${daysBack} days'`
       : '';
 
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
@@ -138,12 +138,12 @@ export class StatisticsService {
   async getTop3RecentReports(): Promise<any> {
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
       SELECT 
-        r.id, r.reason, r.reporter_id, r.status,
+        r.id, r.reason, r.reporterId, r.status,
         u.username
       FROM report r
-      JOIN "user" u on u.id = r.reporter_id
+      JOIN "user" u on u.id = r.reporterId
       WHERE r.status = 'PENDING'
-      ORDER BY r."createdAt"
+      ORDER BY r."created_at"
       LIMIT 3
     `;
 
@@ -154,25 +154,25 @@ export class StatisticsService {
     timeRange: { days: number; from: string; to: string };
     aspectRatios: StatCount[];
     styles: StatCount[];
-    posts_by_ai: StatCount[];
-    total_ai_images: StatCount[];
-    top_posts_by_ai: any;
-    trending_prompts: any[];
-    token_usage: StatCount[];
-    total_blogs: StatCount[];
-    recent_3_reports: any;
-    total_posts: StatCount[];
+    postsByAI: StatCount[];
+    totalAIImages: StatCount[];
+    topPostsByAI: any;
+    trendingPrompts: any[];
+    tokenUsage: StatCount[];
+    totalBlogs: StatCount[];
+    recent3Reports: any;
+    totalPosts: StatCount[];
   }> {
     const [
       aspectRatios,
       styles,
-      posts_by_ai,
-      total_ai_images,
-      top_posts_by_ai,
-      token_usage,
-      total_blogs,
-      recent_3_reports,
-      total_posts,
+      postsByAI,
+      totalAIImages,
+      topPostsByAI,
+      tokenUsage,
+      totalBlogs,
+      recent3Reports,
+      totalPosts,
     ] = await Promise.all([
       this.getAspectRatioStats(daysBack),
       this.getStyles(daysBack),
@@ -202,14 +202,14 @@ export class StatisticsService {
       },
       aspectRatios,
       styles,
-      posts_by_ai,
-      total_ai_images,
-      top_posts_by_ai,
-      trending_prompts: storedPrompts ?? [],
-      token_usage,
-      total_blogs,
-      recent_3_reports,
-      total_posts,
+      postsByAI,
+      totalAIImages,
+      topPostsByAI,
+      trendingPrompts: storedPrompts ?? [],
+      tokenUsage,
+      totalBlogs,
+      recent3Reports,
+      totalPosts,
     };
   }
 

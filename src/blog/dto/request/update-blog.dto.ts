@@ -21,7 +21,7 @@ export class UpdateBlogDto {
 
   @IsOptional()
   @IsBoolean()
-  is_published?: boolean;
+  isPublished?: boolean;
 
   @IsArray()
   @IsString({ each: true })

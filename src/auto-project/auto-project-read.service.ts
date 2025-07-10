@@ -38,25 +38,25 @@ export class AutoProjectReadService {
         p.status,
         plat.id AS "platformId",
         plat.name AS "platformName",
-        p."createdAt",
-        p."updatedAt",
+        p."created_at",
+        p."updated_at",
         
-        (SELECT COUNT(*) FROM "AutoPost" WHERE "autoProjectId" = p.id)::INT AS "postCount",
+        (SELECT COUNT(*) FROM "auto_post" WHERE "auto_project_id" = p.id)::INT AS "postCount",
         
         -- Subquery to get the next scheduled post date
         (
-          SELECT MIN(ap."scheduledAt")
-          FROM "AutoPost" ap
-          WHERE ap."autoProjectId" = p.id
+          SELECT MIN(ap."scheduled_at")
+          FROM "auto_post" ap
+          WHERE ap."auto_project_id" = p.id
             AND ap.status = 'PENDING'
-            AND ap."scheduledAt" > NOW()
+            AND ap."scheduled_at" > NOW()
         ) AS "nextPostAt"
       FROM
-        "AutoProject" AS p
+        "auto_project" AS p
       LEFT JOIN
-        "Platform" AS plat ON p."platformId" = plat.id
+        "platform" AS plat ON p."platform_id" = plat.id
       WHERE
-        p."userId" = ${userId}
+        p."user_id" = ${userId}
       ${orderByClause}
       LIMIT ${limit}
       OFFSET ${offset}

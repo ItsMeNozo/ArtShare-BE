@@ -19,7 +19,7 @@ export class CreateBlogDto {
 
   @IsOptional()
   @IsBoolean()
-  is_published?: boolean = false;
+  isPublished?: boolean = false;
 
   @IsArray()
   @IsString({ each: true })

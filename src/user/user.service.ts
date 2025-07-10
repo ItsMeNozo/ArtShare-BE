@@ -276,7 +276,7 @@ export class UserService {
       select u.id
       from "user" u
       where u.id in (
-        select "userId" from user_role ur where ur."roleId" = 1
+        select "user_id" from user_role ur where ur."role_id" = 1
       )
     `;
     return result.map((row) => row.id);

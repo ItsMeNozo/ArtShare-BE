@@ -28,5 +28,5 @@ export class CreateAutoProjectDto {
   autoPostMetaList?: AutoPostMeta[];
 
   // @IsBoolean()
-  // is_draft: boolean;
+  // isDraft: boolean;
 }

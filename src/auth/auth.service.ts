@@ -41,7 +41,7 @@ export class AuthService {
       if (existingUser) {
         // return to let frontend know that user already signup
         return {
-          message_type: 'USER_ALREADY_EXIST',
+          messageType: 'USER_ALREADY_EXIST',
           user: existingUser,
         };
       }
@@ -105,7 +105,7 @@ export class AuthService {
         },
       );
 
-      return { message_type: 'SIGNUP_SUCCESS', newUser };
+      return { messageType: 'SIGNUP_SUCCESS', newUser };
     } catch (error) {
       // If it's already an HTTP exception, re-throw it
       if (
