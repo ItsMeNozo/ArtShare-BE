@@ -5,7 +5,6 @@ import { generatePaginatedResponse } from 'src/common/helpers/pagination.helper'
 import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { PublicUserSearchResponseDto } from './dto/response/search-users.dto';
-import { mapToPublicUserSearchDto } from './mapper/user-read.mapper';
 
 @Injectable()
 export class UserReadService {
@@ -22,7 +21,7 @@ export class UserReadService {
       ...(search && {
         OR: [
           { username: { contains: search, mode: 'insensitive' } },
-          { full_name: { contains: search, mode: 'insensitive' } },
+          { fullName: { contains: search, mode: 'insensitive' } },
         ],
       }),
       ...(currentUserId && {
@@ -35,8 +34,6 @@ export class UserReadService {
       this.prisma.user.count({ where }),
     ]);
 
-    const mappedUsers = users.map((user) => mapToPublicUserSearchDto(user));
-
-    return generatePaginatedResponse(mappedUsers, totalUsers, { page, limit });
+    return generatePaginatedResponse(users, totalUsers, { page, limit });
   }
 }

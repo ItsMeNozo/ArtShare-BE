@@ -19,14 +19,14 @@ export class CreateAutoProjectDto {
 
   @IsInt()
   @IsNotEmpty()
-  platform_id: number;
+  platformId: number;
 
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => AutoPostMeta)
   @IsOptional()
-  auto_post_meta_list?: AutoPostMeta[];
+  autoPostMetaList?: AutoPostMeta[];
 
   // @IsBoolean()
-  // is_draft: boolean;
+  // isDraft: boolean;
 }

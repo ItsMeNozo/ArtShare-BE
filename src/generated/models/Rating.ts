@@ -26,73 +26,73 @@ export type AggregateRating = {
 }
 
 export type RatingAvgAggregateOutputType = {
-  blog_id: number | null
+  blogId: number | null
   value: number | null
 }
 
 export type RatingSumAggregateOutputType = {
-  blog_id: number | null
+  blogId: number | null
   value: number | null
 }
 
 export type RatingMinAggregateOutputType = {
-  user_id: string | null
-  blog_id: number | null
+  userId: string | null
+  blogId: number | null
   value: number | null
-  created_at: Date | null
-  updated_at: Date | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type RatingMaxAggregateOutputType = {
-  user_id: string | null
-  blog_id: number | null
+  userId: string | null
+  blogId: number | null
   value: number | null
-  created_at: Date | null
-  updated_at: Date | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type RatingCountAggregateOutputType = {
-  user_id: number
-  blog_id: number
+  userId: number
+  blogId: number
   value: number
-  created_at: number
-  updated_at: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
 
 export type RatingAvgAggregateInputType = {
-  blog_id?: true
+  blogId?: true
   value?: true
 }
 
 export type RatingSumAggregateInputType = {
-  blog_id?: true
+  blogId?: true
   value?: true
 }
 
 export type RatingMinAggregateInputType = {
-  user_id?: true
-  blog_id?: true
+  userId?: true
+  blogId?: true
   value?: true
-  created_at?: true
-  updated_at?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type RatingMaxAggregateInputType = {
-  user_id?: true
-  blog_id?: true
+  userId?: true
+  blogId?: true
   value?: true
-  created_at?: true
-  updated_at?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type RatingCountAggregateInputType = {
-  user_id?: true
-  blog_id?: true
+  userId?: true
+  blogId?: true
   value?: true
-  created_at?: true
-  updated_at?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -183,11 +183,11 @@ export type RatingGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 export type RatingGroupByOutputType = {
-  user_id: string
-  blog_id: number
+  userId: string
+  blogId: number
   value: number
-  created_at: Date
-  updated_at: Date
+  createdAt: Date
+  updatedAt: Date
   _count: RatingCountAggregateOutputType | null
   _avg: RatingAvgAggregateOutputType | null
   _sum: RatingSumAggregateOutputType | null
@@ -214,45 +214,45 @@ export type RatingWhereInput = {
   AND?: Prisma.RatingWhereInput | Prisma.RatingWhereInput[]
   OR?: Prisma.RatingWhereInput[]
   NOT?: Prisma.RatingWhereInput | Prisma.RatingWhereInput[]
-  user_id?: Prisma.StringFilter<"Rating"> | string
-  blog_id?: Prisma.IntFilter<"Rating"> | number
+  userId?: Prisma.StringFilter<"Rating"> | string
+  blogId?: Prisma.IntFilter<"Rating"> | number
   value?: Prisma.IntFilter<"Rating"> | number
-  created_at?: Prisma.DateTimeFilter<"Rating"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"Rating"> | Date | string
+  createdAt?: Prisma.DateTimeFilter<"Rating"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Rating"> | Date | string
   blog?: Prisma.XOR<Prisma.BlogScalarRelationFilter, Prisma.BlogWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type RatingOrderByWithRelationInput = {
-  user_id?: Prisma.SortOrder
-  blog_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  blogId?: Prisma.SortOrder
   value?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   blog?: Prisma.BlogOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type RatingWhereUniqueInput = Prisma.AtLeast<{
-  user_id_blog_id?: Prisma.RatingUser_idBlog_idCompoundUniqueInput
+  userId_blogId?: Prisma.RatingUserIdBlogIdCompoundUniqueInput
   AND?: Prisma.RatingWhereInput | Prisma.RatingWhereInput[]
   OR?: Prisma.RatingWhereInput[]
   NOT?: Prisma.RatingWhereInput | Prisma.RatingWhereInput[]
-  user_id?: Prisma.StringFilter<"Rating"> | string
-  blog_id?: Prisma.IntFilter<"Rating"> | number
+  userId?: Prisma.StringFilter<"Rating"> | string
+  blogId?: Prisma.IntFilter<"Rating"> | number
   value?: Prisma.IntFilter<"Rating"> | number
-  created_at?: Prisma.DateTimeFilter<"Rating"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"Rating"> | Date | string
+  createdAt?: Prisma.DateTimeFilter<"Rating"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Rating"> | Date | string
   blog?: Prisma.XOR<Prisma.BlogScalarRelationFilter, Prisma.BlogWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "user_id_blog_id">
+}, "userId_blogId">
 
 export type RatingOrderByWithAggregationInput = {
-  user_id?: Prisma.SortOrder
-  blog_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  blogId?: Prisma.SortOrder
   value?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.RatingCountOrderByAggregateInput
   _avg?: Prisma.RatingAvgOrderByAggregateInput
   _max?: Prisma.RatingMaxOrderByAggregateInput
@@ -264,65 +264,65 @@ export type RatingScalarWhereWithAggregatesInput = {
   AND?: Prisma.RatingScalarWhereWithAggregatesInput | Prisma.RatingScalarWhereWithAggregatesInput[]
   OR?: Prisma.RatingScalarWhereWithAggregatesInput[]
   NOT?: Prisma.RatingScalarWhereWithAggregatesInput | Prisma.RatingScalarWhereWithAggregatesInput[]
-  user_id?: Prisma.StringWithAggregatesFilter<"Rating"> | string
-  blog_id?: Prisma.IntWithAggregatesFilter<"Rating"> | number
+  userId?: Prisma.StringWithAggregatesFilter<"Rating"> | string
+  blogId?: Prisma.IntWithAggregatesFilter<"Rating"> | number
   value?: Prisma.IntWithAggregatesFilter<"Rating"> | number
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"Rating"> | Date | string
-  updated_at?: Prisma.DateTimeWithAggregatesFilter<"Rating"> | Date | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Rating"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Rating"> | Date | string
 }
 
 export type RatingCreateInput = {
   value: number
-  created_at?: Date | string
-  updated_at?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
   blog: Prisma.BlogCreateNestedOneWithoutRatingsInput
   user: Prisma.UserCreateNestedOneWithoutRatingsInput
 }
 
 export type RatingUncheckedCreateInput = {
-  user_id: string
-  blog_id: number
+  userId: string
+  blogId: number
   value: number
-  created_at?: Date | string
-  updated_at?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type RatingUpdateInput = {
   value?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   blog?: Prisma.BlogUpdateOneRequiredWithoutRatingsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutRatingsNestedInput
 }
 
 export type RatingUncheckedUpdateInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  blog_id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  blogId?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RatingCreateManyInput = {
-  user_id: string
-  blog_id: number
+  userId: string
+  blogId: number
   value: number
-  created_at?: Date | string
-  updated_at?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type RatingUpdateManyMutationInput = {
   value?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RatingUncheckedUpdateManyInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  blog_id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  blogId?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RatingListRelationFilter = {
@@ -335,42 +335,42 @@ export type RatingOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type RatingUser_idBlog_idCompoundUniqueInput = {
-  user_id: string
-  blog_id: number
+export type RatingUserIdBlogIdCompoundUniqueInput = {
+  userId: string
+  blogId: number
 }
 
 export type RatingCountOrderByAggregateInput = {
-  user_id?: Prisma.SortOrder
-  blog_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  blogId?: Prisma.SortOrder
   value?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type RatingAvgOrderByAggregateInput = {
-  blog_id?: Prisma.SortOrder
+  blogId?: Prisma.SortOrder
   value?: Prisma.SortOrder
 }
 
 export type RatingMaxOrderByAggregateInput = {
-  user_id?: Prisma.SortOrder
-  blog_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  blogId?: Prisma.SortOrder
   value?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type RatingMinOrderByAggregateInput = {
-  user_id?: Prisma.SortOrder
-  blog_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  blogId?: Prisma.SortOrder
   value?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type RatingSumOrderByAggregateInput = {
-  blog_id?: Prisma.SortOrder
+  blogId?: Prisma.SortOrder
   value?: Prisma.SortOrder
 }
 
@@ -460,16 +460,16 @@ export type RatingUncheckedUpdateManyWithoutBlogNestedInput = {
 
 export type RatingCreateWithoutUserInput = {
   value: number
-  created_at?: Date | string
-  updated_at?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
   blog: Prisma.BlogCreateNestedOneWithoutRatingsInput
 }
 
 export type RatingUncheckedCreateWithoutUserInput = {
-  blog_id: number
+  blogId: number
   value: number
-  created_at?: Date | string
-  updated_at?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type RatingCreateOrConnectWithoutUserInput = {
@@ -502,25 +502,25 @@ export type RatingScalarWhereInput = {
   AND?: Prisma.RatingScalarWhereInput | Prisma.RatingScalarWhereInput[]
   OR?: Prisma.RatingScalarWhereInput[]
   NOT?: Prisma.RatingScalarWhereInput | Prisma.RatingScalarWhereInput[]
-  user_id?: Prisma.StringFilter<"Rating"> | string
-  blog_id?: Prisma.IntFilter<"Rating"> | number
+  userId?: Prisma.StringFilter<"Rating"> | string
+  blogId?: Prisma.IntFilter<"Rating"> | number
   value?: Prisma.IntFilter<"Rating"> | number
-  created_at?: Prisma.DateTimeFilter<"Rating"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"Rating"> | Date | string
+  createdAt?: Prisma.DateTimeFilter<"Rating"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Rating"> | Date | string
 }
 
 export type RatingCreateWithoutBlogInput = {
   value: number
-  created_at?: Date | string
-  updated_at?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutRatingsInput
 }
 
 export type RatingUncheckedCreateWithoutBlogInput = {
-  user_id: string
+  userId: string
   value: number
-  created_at?: Date | string
-  updated_at?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type RatingCreateOrConnectWithoutBlogInput = {
@@ -550,102 +550,102 @@ export type RatingUpdateManyWithWhereWithoutBlogInput = {
 }
 
 export type RatingCreateManyUserInput = {
-  blog_id: number
+  blogId: number
   value: number
-  created_at?: Date | string
-  updated_at?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type RatingUpdateWithoutUserInput = {
   value?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   blog?: Prisma.BlogUpdateOneRequiredWithoutRatingsNestedInput
 }
 
 export type RatingUncheckedUpdateWithoutUserInput = {
-  blog_id?: Prisma.IntFieldUpdateOperationsInput | number
+  blogId?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RatingUncheckedUpdateManyWithoutUserInput = {
-  blog_id?: Prisma.IntFieldUpdateOperationsInput | number
+  blogId?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RatingCreateManyBlogInput = {
-  user_id: string
+  userId: string
   value: number
-  created_at?: Date | string
-  updated_at?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type RatingUpdateWithoutBlogInput = {
   value?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutRatingsNestedInput
 }
 
 export type RatingUncheckedUpdateWithoutBlogInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RatingUncheckedUpdateManyWithoutBlogInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
 
 export type RatingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  user_id?: boolean
-  blog_id?: boolean
+  userId?: boolean
+  blogId?: boolean
   value?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   blog?: boolean | Prisma.BlogDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rating"]>
 
 export type RatingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  user_id?: boolean
-  blog_id?: boolean
+  userId?: boolean
+  blogId?: boolean
   value?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   blog?: boolean | Prisma.BlogDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rating"]>
 
 export type RatingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  user_id?: boolean
-  blog_id?: boolean
+  userId?: boolean
+  blogId?: boolean
   value?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   blog?: boolean | Prisma.BlogDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rating"]>
 
 export type RatingSelectScalar = {
-  user_id?: boolean
-  blog_id?: boolean
+  userId?: boolean
+  blogId?: boolean
   value?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type RatingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"user_id" | "blog_id" | "value" | "created_at" | "updated_at", ExtArgs["result"]["rating"]>
+export type RatingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "blogId" | "value" | "createdAt" | "updatedAt", ExtArgs["result"]["rating"]>
 export type RatingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   blog?: boolean | Prisma.BlogDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -666,11 +666,11 @@ export type $RatingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    user_id: string
-    blog_id: number
+    userId: string
+    blogId: number
     value: number
-    created_at: Date
-    updated_at: Date
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["rating"]>
   composites: {}
 }
@@ -754,8 +754,8 @@ export interface RatingDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    * // Get first 10 Ratings
    * const ratings = await prisma.rating.findMany({ take: 10 })
    * 
-   * // Only select the `user_id`
-   * const ratingWithUser_idOnly = await prisma.rating.findMany({ select: { user_id: true } })
+   * // Only select the `userId`
+   * const ratingWithUserIdOnly = await prisma.rating.findMany({ select: { userId: true } })
    * 
    */
   findMany<T extends RatingFindManyArgs>(args?: Prisma.SelectSubset<T, RatingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -799,9 +799,9 @@ export interface RatingDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    *   ]
    * })
    * 
-   * // Create many Ratings and only return the `user_id`
-   * const ratingWithUser_idOnly = await prisma.rating.createManyAndReturn({
-   *   select: { user_id: true },
+   * // Create many Ratings and only return the `userId`
+   * const ratingWithUserIdOnly = await prisma.rating.createManyAndReturn({
+   *   select: { userId: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -890,9 +890,9 @@ export interface RatingDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    *   ]
    * })
    * 
-   * // Update zero or more Ratings and only return the `user_id`
-   * const ratingWithUser_idOnly = await prisma.rating.updateManyAndReturn({
-   *   select: { user_id: true },
+   * // Update zero or more Ratings and only return the `userId`
+   * const ratingWithUserIdOnly = await prisma.rating.updateManyAndReturn({
+   *   select: { userId: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1096,11 +1096,11 @@ export interface Prisma__RatingClient<T, Null = never, ExtArgs extends runtime.T
  * Fields of the Rating model
  */
 export interface RatingFieldRefs {
-  readonly user_id: Prisma.FieldRef<"Rating", 'String'>
-  readonly blog_id: Prisma.FieldRef<"Rating", 'Int'>
+  readonly userId: Prisma.FieldRef<"Rating", 'String'>
+  readonly blogId: Prisma.FieldRef<"Rating", 'Int'>
   readonly value: Prisma.FieldRef<"Rating", 'Int'>
-  readonly created_at: Prisma.FieldRef<"Rating", 'DateTime'>
-  readonly updated_at: Prisma.FieldRef<"Rating", 'DateTime'>
+  readonly createdAt: Prisma.FieldRef<"Rating", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Rating", 'DateTime'>
 }
     
 

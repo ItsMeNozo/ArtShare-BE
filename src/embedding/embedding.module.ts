@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { EmbeddingService } from './embedding.service';
 import { QdrantClient } from '@qdrant/js-client-rest';
+import { EmbeddingService } from './embedding.service';
 import { QdrantService } from './qdrant.service';
 
 @Module({

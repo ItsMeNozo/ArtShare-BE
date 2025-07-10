@@ -15,6 +15,6 @@ export class AutoProjectListItemDto {
   platform: PlatformInfo;
   postCount: number;
   nextPostAt: Date | null;
-  created_at: Date;
-  updated_at: Date | null;
+  createdAt: Date;
+  updatedAt: Date | null;
 }

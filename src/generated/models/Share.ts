@@ -27,82 +27,82 @@ export type AggregateShare = {
 
 export type ShareAvgAggregateOutputType = {
   id: number | null
-  blog_id: number | null
-  post_id: number | null
+  blogId: number | null
+  postId: number | null
 }
 
 export type ShareSumAggregateOutputType = {
   id: number | null
-  blog_id: number | null
-  post_id: number | null
+  blogId: number | null
+  postId: number | null
 }
 
 export type ShareMinAggregateOutputType = {
   id: number | null
-  user_id: string | null
-  share_platform: $Enums.SharePlatform | null
-  created_at: Date | null
-  blog_id: number | null
-  post_id: number | null
+  userId: string | null
+  sharePlatform: $Enums.SharePlatform | null
+  createdAt: Date | null
+  blogId: number | null
+  postId: number | null
 }
 
 export type ShareMaxAggregateOutputType = {
   id: number | null
-  user_id: string | null
-  share_platform: $Enums.SharePlatform | null
-  created_at: Date | null
-  blog_id: number | null
-  post_id: number | null
+  userId: string | null
+  sharePlatform: $Enums.SharePlatform | null
+  createdAt: Date | null
+  blogId: number | null
+  postId: number | null
 }
 
 export type ShareCountAggregateOutputType = {
   id: number
-  user_id: number
-  share_platform: number
-  created_at: number
-  blog_id: number
-  post_id: number
+  userId: number
+  sharePlatform: number
+  createdAt: number
+  blogId: number
+  postId: number
   _all: number
 }
 
 
 export type ShareAvgAggregateInputType = {
   id?: true
-  blog_id?: true
-  post_id?: true
+  blogId?: true
+  postId?: true
 }
 
 export type ShareSumAggregateInputType = {
   id?: true
-  blog_id?: true
-  post_id?: true
+  blogId?: true
+  postId?: true
 }
 
 export type ShareMinAggregateInputType = {
   id?: true
-  user_id?: true
-  share_platform?: true
-  created_at?: true
-  blog_id?: true
-  post_id?: true
+  userId?: true
+  sharePlatform?: true
+  createdAt?: true
+  blogId?: true
+  postId?: true
 }
 
 export type ShareMaxAggregateInputType = {
   id?: true
-  user_id?: true
-  share_platform?: true
-  created_at?: true
-  blog_id?: true
-  post_id?: true
+  userId?: true
+  sharePlatform?: true
+  createdAt?: true
+  blogId?: true
+  postId?: true
 }
 
 export type ShareCountAggregateInputType = {
   id?: true
-  user_id?: true
-  share_platform?: true
-  created_at?: true
-  blog_id?: true
-  post_id?: true
+  userId?: true
+  sharePlatform?: true
+  createdAt?: true
+  blogId?: true
+  postId?: true
   _all?: true
 }
 
@@ -194,11 +194,11 @@ export type ShareGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type ShareGroupByOutputType = {
   id: number
-  user_id: string
-  share_platform: $Enums.SharePlatform
-  created_at: Date
-  blog_id: number | null
-  post_id: number | null
+  userId: string
+  sharePlatform: $Enums.SharePlatform
+  createdAt: Date
+  blogId: number | null
+  postId: number | null
   _count: ShareCountAggregateOutputType | null
   _avg: ShareAvgAggregateOutputType | null
   _sum: ShareSumAggregateOutputType | null
@@ -226,11 +226,11 @@ export type ShareWhereInput = {
   OR?: Prisma.ShareWhereInput[]
   NOT?: Prisma.ShareWhereInput | Prisma.ShareWhereInput[]
   id?: Prisma.IntFilter<"Share"> | number
-  user_id?: Prisma.StringFilter<"Share"> | string
-  share_platform?: Prisma.EnumSharePlatformFilter<"Share"> | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeFilter<"Share"> | Date | string
-  blog_id?: Prisma.IntNullableFilter<"Share"> | number | null
-  post_id?: Prisma.IntNullableFilter<"Share"> | number | null
+  userId?: Prisma.StringFilter<"Share"> | string
+  sharePlatform?: Prisma.EnumSharePlatformFilter<"Share"> | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeFilter<"Share"> | Date | string
+  blogId?: Prisma.IntNullableFilter<"Share"> | number | null
+  postId?: Prisma.IntNullableFilter<"Share"> | number | null
   blog?: Prisma.XOR<Prisma.BlogNullableScalarRelationFilter, Prisma.BlogWhereInput> | null
   post?: Prisma.XOR<Prisma.PostNullableScalarRelationFilter, Prisma.PostWhereInput> | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -238,11 +238,11 @@ export type ShareWhereInput = {
 
 export type ShareOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  share_platform?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  blog_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  post_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  sharePlatform?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  blogId?: Prisma.SortOrderInput | Prisma.SortOrder
+  postId?: Prisma.SortOrderInput | Prisma.SortOrder
   blog?: Prisma.BlogOrderByWithRelationInput
   post?: Prisma.PostOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
@@ -250,28 +250,28 @@ export type ShareOrderByWithRelationInput = {
 
 export type ShareWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  user_id_post_id?: Prisma.ShareUser_idPost_idCompoundUniqueInput
-  user_id_blog_id?: Prisma.ShareUser_idBlog_idCompoundUniqueInput
+  userId_postId?: Prisma.ShareUserIdPostIdCompoundUniqueInput
+  userId_blogId?: Prisma.ShareUserIdBlogIdCompoundUniqueInput
   AND?: Prisma.ShareWhereInput | Prisma.ShareWhereInput[]
   OR?: Prisma.ShareWhereInput[]
   NOT?: Prisma.ShareWhereInput | Prisma.ShareWhereInput[]
-  user_id?: Prisma.StringFilter<"Share"> | string
-  share_platform?: Prisma.EnumSharePlatformFilter<"Share"> | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeFilter<"Share"> | Date | string
-  blog_id?: Prisma.IntNullableFilter<"Share"> | number | null
-  post_id?: Prisma.IntNullableFilter<"Share"> | number | null
+  userId?: Prisma.StringFilter<"Share"> | string
+  sharePlatform?: Prisma.EnumSharePlatformFilter<"Share"> | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeFilter<"Share"> | Date | string
+  blogId?: Prisma.IntNullableFilter<"Share"> | number | null
+  postId?: Prisma.IntNullableFilter<"Share"> | number | null
   blog?: Prisma.XOR<Prisma.BlogNullableScalarRelationFilter, Prisma.BlogWhereInput> | null
   post?: Prisma.XOR<Prisma.PostNullableScalarRelationFilter, Prisma.PostWhereInput> | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "user_id_post_id" | "user_id_blog_id">
+}, "id" | "userId_postId" | "userId_blogId">
 
 export type ShareOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  share_platform?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  blog_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  post_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  sharePlatform?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  blogId?: Prisma.SortOrderInput | Prisma.SortOrder
+  postId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ShareCountOrderByAggregateInput
   _avg?: Prisma.ShareAvgOrderByAggregateInput
   _max?: Prisma.ShareMaxOrderByAggregateInput
@@ -284,16 +284,16 @@ export type ShareScalarWhereWithAggregatesInput = {
   OR?: Prisma.ShareScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ShareScalarWhereWithAggregatesInput | Prisma.ShareScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Share"> | number
-  user_id?: Prisma.StringWithAggregatesFilter<"Share"> | string
-  share_platform?: Prisma.EnumSharePlatformWithAggregatesFilter<"Share"> | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"Share"> | Date | string
-  blog_id?: Prisma.IntNullableWithAggregatesFilter<"Share"> | number | null
-  post_id?: Prisma.IntNullableWithAggregatesFilter<"Share"> | number | null
+  userId?: Prisma.StringWithAggregatesFilter<"Share"> | string
+  sharePlatform?: Prisma.EnumSharePlatformWithAggregatesFilter<"Share"> | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Share"> | Date | string
+  blogId?: Prisma.IntNullableWithAggregatesFilter<"Share"> | number | null
+  postId?: Prisma.IntNullableWithAggregatesFilter<"Share"> | number | null
 }
 
 export type ShareCreateInput = {
-  share_platform: $Enums.SharePlatform
-  created_at?: Date | string
+  sharePlatform: $Enums.SharePlatform
+  createdAt?: Date | string
   blog?: Prisma.BlogCreateNestedOneWithoutSharesInput
   post?: Prisma.PostCreateNestedOneWithoutSharesInput
   user: Prisma.UserCreateNestedOneWithoutSharesInput
@@ -301,16 +301,16 @@ export type ShareCreateInput = {
 
 export type ShareUncheckedCreateInput = {
   id?: number
-  user_id: string
-  share_platform: $Enums.SharePlatform
-  created_at?: Date | string
-  blog_id?: number | null
-  post_id?: number | null
+  userId: string
+  sharePlatform: $Enums.SharePlatform
+  createdAt?: Date | string
+  blogId?: number | null
+  postId?: number | null
 }
 
 export type ShareUpdateInput = {
-  share_platform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sharePlatform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   blog?: Prisma.BlogUpdateOneWithoutSharesNestedInput
   post?: Prisma.PostUpdateOneWithoutSharesNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutSharesNestedInput
@@ -318,34 +318,34 @@ export type ShareUpdateInput = {
 
 export type ShareUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  share_platform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  blog_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  post_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  sharePlatform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blogId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  postId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ShareCreateManyInput = {
   id?: number
-  user_id: string
-  share_platform: $Enums.SharePlatform
-  created_at?: Date | string
-  blog_id?: number | null
-  post_id?: number | null
+  userId: string
+  sharePlatform: $Enums.SharePlatform
+  createdAt?: Date | string
+  blogId?: number | null
+  postId?: number | null
 }
 
 export type ShareUpdateManyMutationInput = {
-  share_platform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sharePlatform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ShareUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  share_platform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  blog_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  post_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  sharePlatform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blogId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  postId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ShareListRelationFilter = {
@@ -358,53 +358,53 @@ export type ShareOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type ShareUser_idPost_idCompoundUniqueInput = {
-  user_id: string
-  post_id: number
+export type ShareUserIdPostIdCompoundUniqueInput = {
+  userId: string
+  postId: number
 }
 
-export type ShareUser_idBlog_idCompoundUniqueInput = {
-  user_id: string
-  blog_id: number
+export type ShareUserIdBlogIdCompoundUniqueInput = {
+  userId: string
+  blogId: number
 }
 
 export type ShareCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  share_platform?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  blog_id?: Prisma.SortOrder
-  post_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  sharePlatform?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  blogId?: Prisma.SortOrder
+  postId?: Prisma.SortOrder
 }
 
 export type ShareAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  blog_id?: Prisma.SortOrder
-  post_id?: Prisma.SortOrder
+  blogId?: Prisma.SortOrder
+  postId?: Prisma.SortOrder
 }
 
 export type ShareMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  share_platform?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  blog_id?: Prisma.SortOrder
-  post_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  sharePlatform?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  blogId?: Prisma.SortOrder
+  postId?: Prisma.SortOrder
 }
 
 export type ShareMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  share_platform?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  blog_id?: Prisma.SortOrder
-  post_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  sharePlatform?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  blogId?: Prisma.SortOrder
+  postId?: Prisma.SortOrder
 }
 
 export type ShareSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  blog_id?: Prisma.SortOrder
-  post_id?: Prisma.SortOrder
+  blogId?: Prisma.SortOrder
+  postId?: Prisma.SortOrder
 }
 
 export type ShareCreateNestedManyWithoutUserInput = {
@@ -538,18 +538,18 @@ export type EnumSharePlatformFieldUpdateOperationsInput = {
 }
 
 export type ShareCreateWithoutUserInput = {
-  share_platform: $Enums.SharePlatform
-  created_at?: Date | string
+  sharePlatform: $Enums.SharePlatform
+  createdAt?: Date | string
   blog?: Prisma.BlogCreateNestedOneWithoutSharesInput
   post?: Prisma.PostCreateNestedOneWithoutSharesInput
 }
 
 export type ShareUncheckedCreateWithoutUserInput = {
   id?: number
-  share_platform: $Enums.SharePlatform
-  created_at?: Date | string
-  blog_id?: number | null
-  post_id?: number | null
+  sharePlatform: $Enums.SharePlatform
+  createdAt?: Date | string
+  blogId?: number | null
+  postId?: number | null
 }
 
 export type ShareCreateOrConnectWithoutUserInput = {
@@ -583,26 +583,26 @@ export type ShareScalarWhereInput = {
   OR?: Prisma.ShareScalarWhereInput[]
   NOT?: Prisma.ShareScalarWhereInput | Prisma.ShareScalarWhereInput[]
   id?: Prisma.IntFilter<"Share"> | number
-  user_id?: Prisma.StringFilter<"Share"> | string
-  share_platform?: Prisma.EnumSharePlatformFilter<"Share"> | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeFilter<"Share"> | Date | string
-  blog_id?: Prisma.IntNullableFilter<"Share"> | number | null
-  post_id?: Prisma.IntNullableFilter<"Share"> | number | null
+  userId?: Prisma.StringFilter<"Share"> | string
+  sharePlatform?: Prisma.EnumSharePlatformFilter<"Share"> | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeFilter<"Share"> | Date | string
+  blogId?: Prisma.IntNullableFilter<"Share"> | number | null
+  postId?: Prisma.IntNullableFilter<"Share"> | number | null
 }
 
 export type ShareCreateWithoutPostInput = {
-  share_platform: $Enums.SharePlatform
-  created_at?: Date | string
+  sharePlatform: $Enums.SharePlatform
+  createdAt?: Date | string
   blog?: Prisma.BlogCreateNestedOneWithoutSharesInput
   user: Prisma.UserCreateNestedOneWithoutSharesInput
 }
 
 export type ShareUncheckedCreateWithoutPostInput = {
   id?: number
-  user_id: string
-  share_platform: $Enums.SharePlatform
-  created_at?: Date | string
-  blog_id?: number | null
+  userId: string
+  sharePlatform: $Enums.SharePlatform
+  createdAt?: Date | string
+  blogId?: number | null
 }
 
 export type ShareCreateOrConnectWithoutPostInput = {
@@ -632,18 +632,18 @@ export type ShareUpdateManyWithWhereWithoutPostInput = {
 }
 
 export type ShareCreateWithoutBlogInput = {
-  share_platform: $Enums.SharePlatform
-  created_at?: Date | string
+  sharePlatform: $Enums.SharePlatform
+  createdAt?: Date | string
   post?: Prisma.PostCreateNestedOneWithoutSharesInput
   user: Prisma.UserCreateNestedOneWithoutSharesInput
 }
 
 export type ShareUncheckedCreateWithoutBlogInput = {
   id?: number
-  user_id: string
-  share_platform: $Enums.SharePlatform
-  created_at?: Date | string
-  post_id?: number | null
+  userId: string
+  sharePlatform: $Enums.SharePlatform
+  createdAt?: Date | string
+  postId?: number | null
 }
 
 export type ShareCreateOrConnectWithoutBlogInput = {
@@ -674,106 +674,106 @@ export type ShareUpdateManyWithWhereWithoutBlogInput = {
 
 export type ShareCreateManyUserInput = {
   id?: number
-  share_platform: $Enums.SharePlatform
-  created_at?: Date | string
-  blog_id?: number | null
-  post_id?: number | null
+  sharePlatform: $Enums.SharePlatform
+  createdAt?: Date | string
+  blogId?: number | null
+  postId?: number | null
 }
 
 export type ShareUpdateWithoutUserInput = {
-  share_platform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sharePlatform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   blog?: Prisma.BlogUpdateOneWithoutSharesNestedInput
   post?: Prisma.PostUpdateOneWithoutSharesNestedInput
 }
 
 export type ShareUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  share_platform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  blog_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  post_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sharePlatform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blogId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  postId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ShareUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  share_platform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  blog_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  post_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sharePlatform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blogId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  postId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ShareCreateManyPostInput = {
   id?: number
-  user_id: string
-  share_platform: $Enums.SharePlatform
-  created_at?: Date | string
-  blog_id?: number | null
+  userId: string
+  sharePlatform: $Enums.SharePlatform
+  createdAt?: Date | string
+  blogId?: number | null
 }
 
 export type ShareUpdateWithoutPostInput = {
-  share_platform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sharePlatform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   blog?: Prisma.BlogUpdateOneWithoutSharesNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutSharesNestedInput
 }
 
 export type ShareUncheckedUpdateWithoutPostInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  share_platform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  blog_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  sharePlatform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blogId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ShareUncheckedUpdateManyWithoutPostInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  share_platform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  blog_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  sharePlatform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  blogId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ShareCreateManyBlogInput = {
   id?: number
-  user_id: string
-  share_platform: $Enums.SharePlatform
-  created_at?: Date | string
-  post_id?: number | null
+  userId: string
+  sharePlatform: $Enums.SharePlatform
+  createdAt?: Date | string
+  postId?: number | null
 }
 
 export type ShareUpdateWithoutBlogInput = {
-  share_platform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sharePlatform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   post?: Prisma.PostUpdateOneWithoutSharesNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutSharesNestedInput
 }
 
 export type ShareUncheckedUpdateWithoutBlogInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  share_platform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  post_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  sharePlatform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  postId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ShareUncheckedUpdateManyWithoutBlogInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  share_platform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  post_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  sharePlatform?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  postId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 
 
 export type ShareSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  user_id?: boolean
-  share_platform?: boolean
-  created_at?: boolean
-  blog_id?: boolean
-  post_id?: boolean
+  userId?: boolean
+  sharePlatform?: boolean
+  createdAt?: boolean
+  blogId?: boolean
+  postId?: boolean
   blog?: boolean | Prisma.Share$blogArgs<ExtArgs>
   post?: boolean | Prisma.Share$postArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -781,11 +781,11 @@ export type ShareSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 
 export type ShareSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  user_id?: boolean
-  share_platform?: boolean
-  created_at?: boolean
-  blog_id?: boolean
-  post_id?: boolean
+  userId?: boolean
+  sharePlatform?: boolean
+  createdAt?: boolean
+  blogId?: boolean
+  postId?: boolean
   blog?: boolean | Prisma.Share$blogArgs<ExtArgs>
   post?: boolean | Prisma.Share$postArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -793,11 +793,11 @@ export type ShareSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 
 export type ShareSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  user_id?: boolean
-  share_platform?: boolean
-  created_at?: boolean
-  blog_id?: boolean
-  post_id?: boolean
+  userId?: boolean
+  sharePlatform?: boolean
+  createdAt?: boolean
+  blogId?: boolean
+  postId?: boolean
   blog?: boolean | Prisma.Share$blogArgs<ExtArgs>
   post?: boolean | Prisma.Share$postArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -805,14 +805,14 @@ export type ShareSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 
 export type ShareSelectScalar = {
   id?: boolean
-  user_id?: boolean
-  share_platform?: boolean
-  created_at?: boolean
-  blog_id?: boolean
-  post_id?: boolean
+  userId?: boolean
+  sharePlatform?: boolean
+  createdAt?: boolean
+  blogId?: boolean
+  postId?: boolean
 }
 
-export type ShareOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "share_platform" | "created_at" | "blog_id" | "post_id", ExtArgs["result"]["share"]>
+export type ShareOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "sharePlatform" | "createdAt" | "blogId" | "postId", ExtArgs["result"]["share"]>
 export type ShareInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   blog?: boolean | Prisma.Share$blogArgs<ExtArgs>
   post?: boolean | Prisma.Share$postArgs<ExtArgs>
@@ -838,11 +838,11 @@ export type $SharePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    user_id: string
-    share_platform: $Enums.SharePlatform
-    created_at: Date
-    blog_id: number | null
-    post_id: number | null
+    userId: string
+    sharePlatform: $Enums.SharePlatform
+    createdAt: Date
+    blogId: number | null
+    postId: number | null
   }, ExtArgs["result"]["share"]>
   composites: {}
 }
@@ -1270,11 +1270,11 @@ export interface Prisma__ShareClient<T, Null = never, ExtArgs extends runtime.Ty
  */
 export interface ShareFieldRefs {
   readonly id: Prisma.FieldRef<"Share", 'Int'>
-  readonly user_id: Prisma.FieldRef<"Share", 'String'>
-  readonly share_platform: Prisma.FieldRef<"Share", 'SharePlatform'>
-  readonly created_at: Prisma.FieldRef<"Share", 'DateTime'>
-  readonly blog_id: Prisma.FieldRef<"Share", 'Int'>
-  readonly post_id: Prisma.FieldRef<"Share", 'Int'>
+  readonly userId: Prisma.FieldRef<"Share", 'String'>
+  readonly sharePlatform: Prisma.FieldRef<"Share", 'SharePlatform'>
+  readonly createdAt: Prisma.FieldRef<"Share", 'DateTime'>
+  readonly blogId: Prisma.FieldRef<"Share", 'Int'>
+  readonly postId: Prisma.FieldRef<"Share", 'Int'>
 }
     
 

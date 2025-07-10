@@ -18,23 +18,33 @@ export class UpdatePostDto {
 
   @IsBoolean()
   @Transform(({ obj, key }) => {
-    return obj[key] === 'true' ? true : obj[key] === 'false' ? false : obj[key];
+    const value = obj[key];
+    if (typeof value === 'string') {
+      if (value.toLowerCase() === 'true') return true;
+      if (value.toLowerCase() === 'false') return false;
+    }
+    return value;
   })
-  is_mature: boolean = false;
+  isMature: boolean = false;
 
   @IsBoolean()
   @Transform(({ obj, key }) => {
-    return obj[key] === 'true' ? true : obj[key] === 'false' ? false : obj[key];
+    const value = obj[key];
+    if (typeof value === 'string') {
+      if (value.toLowerCase() === 'true') return true;
+      if (value.toLowerCase() === 'false') return false;
+    }
+    return value;
   })
-  ai_created: boolean = false;
+  aiCreated: boolean = false;
 
   @IsOptional()
   @IsString()
-  thumbnail_url?: string;
+  thumbnailUrl?: string;
 
   @IsOptional()
   @IsString()
-  video_url?: string;
+  videoUrl?: string;
 
   @IsArray()
   @IsInt({ each: true })
@@ -54,7 +64,7 @@ export class UpdatePostDto {
     },
     { toClassOnly: true },
   )
-  cate_ids?: number[];
+  categoryIds?: number[];
 
   @IsOptional()
   @IsArray()
@@ -74,8 +84,8 @@ export class UpdatePostDto {
     },
     { toClassOnly: true },
   )
-  existing_image_urls?: string[];
-  
+  existingImageUrls?: string[];
+
   @IsString()
-  thumbnail_crop_meta: string = "{}";
+  thumbnailCropMeta: string = '{}';
 }

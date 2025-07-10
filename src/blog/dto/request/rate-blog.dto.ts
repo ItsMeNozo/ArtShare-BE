@@ -1,4 +1,4 @@
-import { IsInt, Min, Max } from 'class-validator';
+import { IsInt, Max, Min } from 'class-validator';
 
 export class RateBlogDto {
   @IsInt()

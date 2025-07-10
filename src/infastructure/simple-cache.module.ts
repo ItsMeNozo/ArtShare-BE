@@ -1,6 +1,6 @@
-import { Module, Global } from '@nestjs/common';
-import { SimpleCacheService } from './simple-cache.service';
+import { Global, Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
+import { SimpleCacheService } from './simple-cache.service';
 
 @Global()
 @Module({

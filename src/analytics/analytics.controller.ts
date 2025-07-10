@@ -1,18 +1,18 @@
 import {
   Controller,
-  Get,
-  Query,
-  ParseIntPipe,
   DefaultValuePipe,
+  Get,
+  ParseIntPipe,
+  Query,
 } from '@nestjs/common';
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AnalyticsService } from './analytics.service';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import {
-  OverallUserStatsDto,
   OverallPostStatsDto,
-  PostsByCategoryDto,
-  PopularCategoriesDto,
+  OverallUserStatsDto,
   PlatformWideStatsDto,
+  PopularCategoriesDto,
+  PostsByCategoryDto,
   TimeSeriesDataDto,
 } from './dto';
 

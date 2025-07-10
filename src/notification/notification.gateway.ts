@@ -1,15 +1,15 @@
+import { forwardRef, Inject, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 import {
-  WebSocketGateway,
-  WebSocketServer,
   OnGatewayConnection,
   OnGatewayDisconnect,
+  WebSocketGateway,
+  WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { forwardRef, Inject, Logger } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
-import { NotificationService } from './notification.service';
 import { CorsService } from '../common/cors.service';
+import { NotificationService } from './notification.service';
 
 @WebSocketGateway({
   namespace: '/notifications',

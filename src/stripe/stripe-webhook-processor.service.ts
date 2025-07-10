@@ -50,7 +50,7 @@ export class StripeWebhookProcessorService {
       `Downgrading user ${user.id} to free tier. Canceled Stripe Sub ID (if any): ${canceledSubIdForLog || 'N/A'}`,
     );
 
-    const currentStripeCustomerId = user.stripe_customer_id || null;
+    const currentStripeCustomerId = user.stripeCustomerId || null;
 
     await this.stripeDbService.upsertUserAccess({
       userId: user.id,
@@ -231,12 +231,12 @@ export class StripeWebhookProcessorService {
         return { accessRecordUpdated: false };
       }
 
-      if (customerId && user.stripe_customer_id !== customerId) {
+      if (customerId && user.stripeCustomerId !== customerId) {
         await this.stripeDbService.updateUserStripeCustomerId(
           user.id,
           customerId,
         );
-        user.stripe_customer_id = customerId;
+        user.stripeCustomerId = customerId;
       }
 
       const subDetails = await this._getSubscriptionDetails(
@@ -295,7 +295,7 @@ export class StripeWebhookProcessorService {
         const actualSubscriptionId = isSimulated
           ? `sim_${Date.now()}`
           : subscriptionId!;
-        const actualCustomerId = customerId || user.stripe_customer_id!;
+        const actualCustomerId = customerId || user.stripeCustomerId!;
 
         await this.stripeDbService.upsertUserAccess({
           userId: user.id,
@@ -320,7 +320,7 @@ export class StripeWebhookProcessorService {
       ) {
         const subForDowngrade = stripeSubscription || {
           id: subscriptionId || 'simulated_ended_sub',
-          customer: customerId || user.stripe_customer_id!,
+          customer: customerId || user.stripeCustomerId!,
         };
 
         const downgradeResult = await this._downgradeUserToFreeTier(

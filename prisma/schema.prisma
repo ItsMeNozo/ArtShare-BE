@@ -10,8 +10,8 @@ datasource db {
 }
 
 model Role {
-  role_id   Int      @id @default(autoincrement())
-  role_name String   @unique
+  roleId    Int      @id @default(autoincrement()) @map("role_id")
+  roleName  String   @unique @map("role_name")
   createdAt DateTime @default(now()) @map("created_at")
 
   users UserRole[]
@@ -20,33 +20,33 @@ model Role {
 }
 
 model UserRole {
-  user_id    String
-  role_id    Int
+  userId     String   @map("user_id")
+  roleId     Int      @map("role_id")
   assignedAt DateTime @default(now()) @map("assigned_at")
 
-  role Role @relation(fields: [role_id], references: [role_id], onDelete: Cascade)
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [roleId], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@id([user_id, role_id])
+  @@id([userId, roleId])
   @@map("user_role")
 }
 
 model User {
-  id                  String     @id
-  username            String     @unique
-  email               String     @unique
-  full_name           String?
-  profile_picture_url String?
-  bio                 String?
-  created_at          DateTime   @default(now())
-  updated_at          DateTime?  @updatedAt
-  refresh_token       String?
-  birthday            DateTime?  @db.Date
-  followers_count     Int        @default(0)
-  followings_count    Int        @default(0)
-  stripe_customer_id  String?    @unique
-  is_onboard          Boolean    @default(false)
-  status              UserStatus @default(ACTIVE)
+  id                String     @id
+  username          String     @unique
+  email             String     @unique
+  fullName          String?    @map("full_name")
+  profilePictureUrl String?    @map("profile_picture_url")
+  bio               String?
+  createdAt         DateTime   @default(now()) @map("created_at")
+  updatedAt         DateTime?  @updatedAt @map("updated_at")
+  refreshToken      String?    @map("refresh_token")
+  birthday          DateTime?  @db.Date
+  followersCount    Int        @default(0) @map("followers_count")
+  followingsCount   Int        @default(0) @map("followings_count")
+  stripeCustomerId  String?    @unique @map("stripe_customer_id")
+  isOnboard         Boolean    @default(false) @map("is_onboard")
+  status            UserStatus @default(ACTIVE)
 
   collections     Collection[]
   blogs           Blog[]
@@ -73,91 +73,90 @@ model User {
 
 model Post {
   id                Int       @id @default(autoincrement())
-  user_id           String
+  userId            String    @map("user_id")
   title             String
   description       String?
-  created_at        DateTime  @default(now())
-  is_published      Boolean   @default(false)
-  is_private        Boolean   @default(false)
-  group_id          Int?
-  share_count       Int       @default(0)
-  comment_count     Int       @default(0)
-  view_count        Int       @default(0)
-  like_count        Int       @default(0)
-  thumbnail_url     String
-  updated_at        DateTime? @updatedAt
-  is_mature         Boolean   @default(false)
-  ai_created        Boolean   @default(false)
-  art_generation_id Int?
+  createdAt         DateTime  @default(now()) @map("created_at")
+  isPublished       Boolean   @default(false) @map("is_published")
+  isPrivate         Boolean   @default(false) @map("is_private")
+  groupId           Int?      @map("group_id")
+  shareCount        Int       @default(0) @map("share_count")
+  commentCount      Int       @default(0) @map("comment_count")
+  viewCount         Int       @default(0) @map("view_count")
+  likeCount         Int       @default(0) @map("like_count")
+  thumbnailUrl      String    @map("thumbnail_url")
+  updatedAt         DateTime? @updatedAt @map("updated_at")
+  isMature          Boolean   @default(false) @map("is_mature")
+  aiCreated         Boolean   @default(false) @map("ai_created")
+  artGenerationId   Int?      @map("art_generation_id")
+  thumbnailCropMeta Json?     @map("thumbnail_crop_meta")
 
-  likes               Like[]
-  medias              Media[]
-  user                User           @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  shares              Share[]
-  categories          Category[]     @relation("CategoryToPost")
-  thumbnail_crop_meta Json?
-  Collection          Collection?    @relation(fields: [collectionId], references: [id])
-  collectionId        Int?
-  art_generation      ArtGeneration? @relation(fields: [art_generation_id], references: [id])
+  likes         Like[]
+  medias        Media[]
+  shares        Share[]
+  collections   PostsOnCollections[]
+  categories    Category[]           @relation("CategoryToPost")
+  user          User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  artGeneration ArtGeneration?       @relation(fields: [artGenerationId], references: [id])
 
-  @@index([user_id])
+  @@index([userId])
   @@map("post")
 }
 
 model Blog {
-  id              Int       @id @default(autoincrement())
-  user_id         String
-  title           String
-  content         String
-  created_at      DateTime  @default(now())
-  is_published    Boolean   @default(false)
-  like_count      Int       @default(0)
-  comment_count   Int       @default(0)
-  share_count     Int       @default(0)
-  updated_at      DateTime? @updatedAt
-  average_rating  Float     @default(0)
-  is_protected    Boolean   @default(false)
-  rating_count    Int       @default(0)
-  pictures        String[]
-  embedded_videos String[]
-  view_count      Int       @default(0)
+  id             Int       @id @default(autoincrement())
+  userId         String    @map("user_id")
+  title          String
+  content        String
+  createdAt      DateTime  @default(now()) @map("created_at")
+  isPublished    Boolean   @default(false) @map("is_published")
+  likeCount      Int       @default(0) @map("like_count")
+  commentCount   Int       @default(0) @map("comment_count")
+  shareCount     Int       @default(0) @map("share_count")
+  updatedAt      DateTime? @updatedAt @map("updated_at")
+  averageRating  Float     @default(0) @map("average_rating")
+  isProtected    Boolean   @default(false) @map("is_protected")
+  ratingCount    Int       @default(0) @map("rating_count")
+  pictures       String[]
+  embeddedVideos String[]  @map("embedded_videos")
+  viewCount      Int       @default(0) @map("view_count")
 
-  user       User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   bookmarks  Bookmark[]
   likes      Like[]
   ratings    Rating[]
   shares     Share[]
   categories Category[] @relation("CategoryToBlog")
 
-  @@index([user_id])
-  @@index([created_at])
+  @@index([userId])
+  @@index([createdAt])
   @@map("blog")
 }
 
 model Media {
   id          Int       @id @default(autoincrement())
-  post_id     Int
-  media_type  MediaType
+  postId      Int       @map("post_id")
+  mediaType   MediaType @map("media_type")
   description String?
   url         String
   downloads   Int       @default(0)
-  created_at  DateTime  @default(now())
-  creator_id  String
+  createdAt   DateTime  @default(now()) @map("created_at")
+  creatorId   String    @map("creator_id")
 
-  post Post @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 
-  @@index([post_id])
+  @@index([postId])
   @@map("media")
 }
 
 model Category {
-  created_at     DateTime     @default(now())
-  id             Int          @id @default(autoincrement())
-  name           String       @unique
-  description    String
-  example_images String[]
-  type           CategoryType @default(ATTRIBUTE)
-  updated_at     DateTime?    @updatedAt
+  createdAt     DateTime     @default(now()) @map("created_at")
+  id            Int          @id @default(autoincrement())
+  name          String       @unique
+  description   String
+  exampleImages String[]     @map("example_images")
+  type          CategoryType @default(ATTRIBUTE)
+  updatedAt     DateTime?    @updatedAt @map("updated_at")
 
   blogs Blog[] @relation("CategoryToBlog")
   posts Post[] @relation("CategoryToPost")
@@ -166,150 +165,151 @@ model Category {
 }
 
 model Like {
-  user_id    String
-  created_at DateTime @default(now())
-  blog_id    Int?
-  id         Int      @id @default(autoincrement())
-  post_id    Int?
+  userId    String   @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  blogId    Int?     @map("blog_id")
+  id        Int      @id @default(autoincrement())
+  postId    Int?     @map("post_id")
 
-  blog Blog? @relation(fields: [blog_id], references: [id], onDelete: Cascade)
-  post Post? @relation(fields: [post_id], references: [id], onDelete: Cascade)
-  user User  @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  blog Blog? @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  post Post? @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([user_id, post_id], map: "unique_user_post_like")
-  @@unique([user_id, blog_id], map: "unique_user_blog_like")
+  @@unique([userId, postId], map: "unique_user_post_like")
+  @@unique([userId, blogId], map: "unique_user_blog_like")
   @@map("like")
 }
 
 model CommentLike {
-  user_id    String
-  comment_id Int
-  created_at DateTime @default(now())
+  userId    String   @map("user_id")
+  commentId Int      @map("comment_id")
+  createdAt DateTime @default(now()) @map("created_at")
 
-  user    User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  comment Comment @relation(fields: [comment_id], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
 
-  @@id([user_id, comment_id])
-  @@index([comment_id])
+  @@id([userId, commentId])
+  @@index([commentId])
   @@map("comment_like")
 }
 
 model Comment {
-  id                Int           @id @default(autoincrement())
-  user_id           String
-  parent_comment_id Int?
-  content           String
-  created_at        DateTime      @default(now())
-  updated_at        DateTime?     @updatedAt
-  target_id         Int
-  like_count        Int           @default(0)
-  target_type       TargetType
-  parent_comment    Comment?      @relation("CommentReplies", fields: [parent_comment_id], references: [id], onDelete: Cascade)
-  replies           Comment[]     @relation("CommentReplies")
-  user              User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  CommentLike       CommentLike[]
+  id              Int           @id @default(autoincrement())
+  userId          String        @map("user_id")
+  parentCommentId Int?          @map("parent_comment_id")
+  content         String
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime?     @updatedAt @map("updated_at")
+  targetId        Int           @map("target_id")
+  likeCount       Int           @default(0) @map("like_count")
+  targetType      TargetType    @map("target_type")
+  parentComment   Comment?      @relation("CommentReplies", fields: [parentCommentId], references: [id], onDelete: Cascade)
+  replies         Comment[]     @relation("CommentReplies")
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  CommentLike     CommentLike[]
 
-  @@index([target_id, target_type])
-  @@index([parent_comment_id])
+  @@index([targetId, targetType])
+  @@index([parentCommentId])
   @@map("comment")
 }
 
 model Share {
-  id             Int           @id @default(autoincrement())
-  user_id        String
-  share_platform SharePlatform
-  created_at     DateTime      @default(now())
-  blog_id        Int?
-  post_id        Int?
+  id            Int           @id @default(autoincrement())
+  userId        String        @map("user_id")
+  sharePlatform SharePlatform @map("share_platform")
+  createdAt     DateTime      @default(now()) @map("created_at")
+  blogId        Int?          @map("blog_id")
+  postId        Int?          @map("post_id")
 
-  blog Blog? @relation(fields: [blog_id], references: [id], onDelete: Cascade)
-  post Post? @relation(fields: [post_id], references: [id], onDelete: Cascade)
-  user User  @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  blog Blog? @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  post Post? @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([user_id, post_id], map: "unique_user_post_share")
-  @@unique([user_id, blog_id], map: "unique_user_blog_share")
+  @@unique([userId, postId], map: "unique_user_post_share")
+  @@unique([userId, blogId], map: "unique_user_blog_share")
   @@map("share")
 }
 
 model Follow {
-  follower_id   String
-  following_id  String
-  created_at    DateTime @default(now())
-  is_subscribed Boolean  @default(false)
+  followerId   String   @map("follower_id")
+  followingId  String   @map("following_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+  isSubscribed Boolean  @default(false) @map("is_subscribed")
 
-  follower  User @relation("users_following", fields: [follower_id], references: [id], onDelete: Cascade)
-  following User @relation("followers_of_user", fields: [following_id], references: [id], onDelete: Cascade)
+  follower  User @relation("users_following", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("followers_of_user", fields: [followingId], references: [id], onDelete: Cascade)
 
-  @@id([follower_id, following_id])
-  @@index([follower_id])
-  @@index([following_id])
+  @@id([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
   @@map("follow")
 }
 
 model Bookmark {
-  user_id    String
-  blog_id    Int
-  created_at DateTime @default(now())
+  userId    String   @map("user_id")
+  blogId    Int      @map("blog_id")
+  createdAt DateTime @default(now()) @map("created_at")
 
-  blog Blog @relation(fields: [blog_id], references: [id], onDelete: Cascade)
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  blog Blog @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@id([user_id, blog_id])
-  @@index([blog_id])
+  @@id([userId, blogId])
+  @@index([blogId])
   @@map("bookmark")
 }
 
 model Rating {
-  user_id    String
-  blog_id    Int
-  value      Int
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  userId    String   @map("user_id")
+  blogId    Int      @map("blog_id")
+  value     Int
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-  blog Blog @relation(fields: [blog_id], references: [id], onDelete: Cascade)
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  blog Blog @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@id([user_id, blog_id])
-  @@index([blog_id])
+  @@id([userId, blogId])
+  @@index([blogId])
   @@map("rating")
 }
 
 model Collection {
-  id            Int     @id @default(autoincrement())
-  name          String
-  description   String?
-  is_private    Boolean @default(false)
-  thumbnail_url String?
-  user_id       String
+  id           Int      @id @default(autoincrement())
+  name         String
+  description  String?
+  isPrivate    Boolean  @default(false) @map("is_private")
+  thumbnailUrl String?  @map("thumbnail_url")
+  userId       String   @map("user_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  posts      Post[]
+  user  User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  posts PostsOnCollections[]
 
-  @@index([user_id])
+  @@index([userId])
+  @@map("collection")
 }
 
 model Report {
-  id                 Int              @id @default(autoincrement())
-  reporter_id        String
-  target_id          Int
-  user_id            String?
-  target_type        ReportTargetType
-  reason             String
-  status             ReportStatus     @default(PENDING)
-  created_at         DateTime         @default(now()) @map("created_at")
-  resolved_at        DateTime?
-  resolution_comment String?
-  moderator_id       String?
-  target_url         String?
+  id                Int              @id @default(autoincrement())
+  reporterId        String           @map("reporter_id")
+  targetId          Int              @map("target_id")
+  userId            String?          @map("user_id")
+  targetType        ReportTargetType @map("target_type")
+  reason            String
+  status            ReportStatus     @default(PENDING)
+  createdAt         DateTime         @default(now()) @map("created_at")
+  resolvedAt        DateTime?        @map("resolved_at")
+  resolutionComment String?          @map("resolution_comment")
+  moderatorId       String?          @map("moderator_id")
+  targetUrl         String?          @map("target_url")
 
-  reporter  User  @relation("UserReports", fields: [reporter_id], references: [id], onDelete: Cascade)
-  moderator User? @relation("ModeratorReports", fields: [moderator_id], references: [id])
+  reporter  User  @relation("UserReports", fields: [reporterId], references: [id], onDelete: Cascade)
+  moderator User? @relation("ModeratorReports", fields: [moderatorId], references: [id])
 
-  @@index([reporter_id])
+  @@index([reporterId])
   @@index([status])
-  @@index([target_id, target_type])
+  @@index([targetId, targetType])
   @@map("report")
 }
 
@@ -334,10 +334,10 @@ model Plan {
   id                      PaidAccessLevel @id
   name                    String
   description             String?
-  stripeProductId         String?         @unique
+  stripeProductId         String?         @unique @map("stripe_product_id")
   imageQualityAllowed     ImageQuality    @default(LOW) @map("image_quality_allowed")
   monthlyQuotaCredits     Int?            @map("monthly_quota_credits")
-  dailyQuotaCredits       Int
+  dailyQuotaCredits       Int             @map("daily_quota_credits")
   storageQuotaMB          Int?            @map("storage_quota_mb")
   maxTeamSeats            Int             @default(1) @map("max_team_seats")
   allowHighResolution     Boolean         @default(false) @map("allow_high_resolution")
@@ -345,8 +345,8 @@ model Plan {
   maxResolutionHeight     Int?            @map("max_resolution_height")
   removeWatermark         Boolean         @default(false) @map("remove_watermark")
   smartSuggestionsEnabled Boolean         @default(false) @map("smart_suggestions_enabled")
-  createdAt               DateTime        @default(now())
-  updatedAt               DateTime        @updatedAt
+  createdAt               DateTime        @default(now()) @map("created_at")
+  updatedAt               DateTime        @updatedAt @map("updated_at")
 
   userAccess UserAccess[]
 
@@ -355,13 +355,13 @@ model Plan {
 
 model UserUsage {
   id             String   @id @default(cuid())
-  userId         String
-  featureKey     String
+  userId         String   @map("user_id")
+  featureKey     String   @map("feature_key")
   usedAmount     Float    @default(0) @map("used_amount")
   cycleStartedAt DateTime @map("cycle_started_at")
   cycleEndsAt    DateTime @map("cycle_ends_at")
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -371,19 +371,19 @@ model UserUsage {
 }
 
 model ArtGeneration {
-  id                         Int         @id @default(autoincrement())
-  user_id                    String
-  user_prompt                String
-  final_prompt               String
-  model_key                  String
-  number_of_images_generated Int
-  image_urls                 String[]
-  aspect_ratio               AspectRatio
-  style                      String?
-  lighting                   String?
-  camera                     String?
-  created_at                 DateTime    @default(now())
-  updated_at                 DateTime?   @updatedAt
+  id                      Int         @id @default(autoincrement())
+  userId                  String      @map("user_id")
+  userPrompt              String      @map("user_prompt")
+  finalPrompt             String      @map("final_prompt")
+  modelKey                String      @map("model_key")
+  numberOfImagesGenerated Int         @map("number_of_images_generated")
+  imageUrls               String[]    @map("image_urls")
+  aspectRatio             AspectRatio @map("aspect_ratio")
+  style                   String?
+  lighting                String?
+  camera                  String?
+  createdAt               DateTime    @default(now()) @map("created_at")
+  updatedAt               DateTime?   @updatedAt @map("updated_at")
 
   Post Post[]
 
@@ -391,18 +391,18 @@ model ArtGeneration {
 }
 
 model TrendingPrompt {
-  id         Int      @id @default(autoincrement())
-  prompt_key String   @unique
-  prompts    String[]
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  promptKey String   @unique @map("prompt_key")
+  prompts   String[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("trending_prompts")
 }
 
 model Notification {
   id        String   @id @default(uuid())
-  userId    String
+  userId    String   @map("user_id")
   type      String
   payload   Json
   isRead    Boolean  @default(false) @map("is_read")
@@ -414,22 +414,22 @@ model Notification {
 }
 
 model Platform {
-  id                  Int       @id @default(autoincrement())
-  config              Json
-  user_id             String
-  external_page_id    String
-  created_at          DateTime  @default(now())
-  updated_at          DateTime? @updatedAt
-  token_expires_at    DateTime?
-  picture_url         String?
-  facebook_account_id Int?
+  id                Int       @id @default(autoincrement())
+  config            Json
+  userId            String    @map("user_id")
+  externalPageId    String    @map("external_page_id")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime? @updatedAt @map("updated_at")
+  tokenExpiresAt    DateTime? @map("token_expires_at")
+  pictureUrl        String?   @map("picture_url")
+  facebookAccountId Int?      @map("facebook_account_id")
 
   name            SharePlatform
   status          PlatformStatus   @default(ACTIVE)
-  facebookAccount FacebookAccount? @relation(fields: [facebook_account_id], references: [id], onDelete: Cascade)
+  facebookAccount FacebookAccount? @relation(fields: [facebookAccountId], references: [id], onDelete: Cascade)
   autoProjects    AutoProject[]
 
-  @@unique([user_id, name, external_page_id])
+  @@unique([userId, name, externalPageId])
   @@map("platform")
 }
 
@@ -438,46 +438,45 @@ model AutoProject {
   title       String
   description String
   status      AutoProjectStatus @default(ACTIVE)
-  created_at  DateTime          @default(now())
-  user_id     String
-  updated_at  DateTime?         @updatedAt
-  platform_id Int
+  createdAt   DateTime          @default(now()) @map("created_at")
+  userId      String            @map("user_id")
+  updatedAt   DateTime?         @updatedAt @map("updated_at")
+  platformId  Int               @map("platform_id")
 
-  user      User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   autoPosts AutoPost[]
-  platform  Platform   @relation(fields: [platform_id], references: [id], onDelete: Cascade)
+  platform  Platform   @relation(fields: [platformId], references: [id], onDelete: Cascade)
 
   @@map("auto_project")
 }
 
 model AutoPost {
-  id              Int            @id @default(autoincrement())
-  auto_project_id Int
-  content         String
-  image_urls      String[]       @default([])
-  scheduled_at    DateTime?
-  status          AutoPostStatus @default(PENDING)
-  created_at      DateTime       @default(now())
-  updated_at      DateTime       @updatedAt
+  id             Int            @id @default(autoincrement())
+  autoProjectId  Int            @map("auto_project_id")
+  content        String
+  imageUrls      String[]       @default([]) @map("image_urls")
+  scheduledAt    DateTime?      @map("scheduled_at")
+  status         AutoPostStatus @default(PENDING)
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+  postedAt       DateTime?      @map("posted_at")
+  errorMessage   String?        @map("error_message")
+  n8nTriggeredAt DateTime?      @map("n8n_triggered_at")
+  n8nExecutionId String?        @map("n8n_execution_id")
+  platformPostId String?        @map("platform_post_id")
 
-  posted_at        DateTime?
-  error_message    String?
-  n8n_triggered_at DateTime?
-  n8n_execution_id String?
-  platform_post_id String?
-
-  autoProject AutoProject @relation(fields: [auto_project_id], references: [id], onDelete: Cascade)
+  autoProject AutoProject @relation(fields: [autoProjectId], references: [id], onDelete: Cascade)
 
   @@map("auto_post")
 }
 
 model Conversation {
   id            String   @id @default(cuid())
-  userId        String
+  userId        String   @map("user_id")
   title         String?
-  lastMessageAt DateTime @default(now())
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  lastMessageAt DateTime @default(now()) @map("last_message_at")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
   messages Message[]
   user     User      @relation(fields: [userId], references: [id])
@@ -488,11 +487,11 @@ model Conversation {
 
 model Message {
   id             String      @id @default(cuid())
-  conversationId String
+  conversationId String      @map("conversation_id")
   role           MessageRole
   content        String      @db.Text
   metadata       Json?
-  createdAt      DateTime    @default(now())
+  createdAt      DateTime    @default(now()) @map("created_at")
 
   conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
@@ -501,19 +500,31 @@ model Message {
 }
 
 model FacebookAccount {
-  id                           Int       @id @default(autoincrement())
-  user_id                      String
-  facebook_user_id             String    @unique
-  name                         String
-  picture_url                  String?
-  long_lived_user_access_token String
-  token_expires_at             DateTime?
-  created_at                   DateTime  @default(now())
-  updated_at                   DateTime  @updatedAt
+  id                       Int       @id @default(autoincrement())
+  userId                   String    @map("user_id")
+  facebookUserId           String    @unique @map("facebook_user_id")
+  name                     String
+  pictureUrl               String?   @map("picture_url")
+  longLivedUserAccessToken String    @map("long_lived_user_access_token")
+  tokenExpiresAt           DateTime? @map("token_expires_at")
+  createdAt                DateTime  @default(now()) @map("created_at")
+  updatedAt                DateTime  @updatedAt @map("updated_at")
 
   platforms Platform[]
 
   @@map("facebook_accounts")
+}
+
+model PostsOnCollections {
+  postId       Int
+  collectionId Int
+  assignedAt   DateTime @default(now()) @map("assigned_at")
+
+  collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  post       Post       @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@id([postId, collectionId])
+  @@map("posts_on_collections")
 }
 
 enum MessageRole {

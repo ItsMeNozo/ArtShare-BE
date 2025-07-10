@@ -15,7 +15,6 @@ import { UsageService } from 'src/usage/usage.service';
 import { CreateAutoProjectDto } from './dto/request/create-project.dto';
 import { UpdateAutoProjectDto } from './dto/request/update-project.dto';
 import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
-import { mapToAutoProjectDetailsDto } from './mapper/index.mapper';
 
 @Injectable()
 export class AutoProjectWriteService {
@@ -25,7 +24,9 @@ export class AutoProjectWriteService {
     private readonly prisma: PrismaService,
     private readonly autoPostGenerateService: AutoPostGenerateService,
     private readonly usageService: UsageService,
-  ) {}
+  ) {
+    this.logger = new Logger(AutoProjectWriteService.name);
+  }
 
   private readonly textCost = 2;
   private readonly imageCost = 5;
@@ -35,19 +36,14 @@ export class AutoProjectWriteService {
     createDto: CreateAutoProjectDto,
     userId: string,
   ): Promise<AutoProjectDetailsDto> {
-    const {
-      title,
-      description,
-      platform_id,
-      auto_post_meta_list = [],
-    } = createDto;
+    const { title, description, platformId, autoPostMetaList = [] } = createDto;
 
     const validatedPlatformRecord = await this.validatePlatform(
-      platform_id,
+      platformId,
       userId,
     );
 
-    const safeAutoPostMetaList = auto_post_meta_list ?? [];
+    const safeAutoPostMetaList = autoPostMetaList ?? [];
 
     await this.usageService.handleCreditUsage(
       userId,
@@ -58,7 +54,7 @@ export class AutoProjectWriteService {
     const generatedAutoPosts =
       await this.autoPostGenerateService.generateAutoPosts(
         safeAutoPostMetaList,
-        { project_title: title, project_description: description },
+        { projectTitle: title, projectDescription: description },
         userId,
       );
 
@@ -66,13 +62,13 @@ export class AutoProjectWriteService {
       data: {
         title,
         description,
-        user_id: userId,
-        platform_id: validatedPlatformRecord.id,
+        userId: userId,
+        platformId: validatedPlatformRecord.id,
         autoPosts: {
           create: generatedAutoPosts.map((post) => ({
             content: post.content,
-            image_urls: post.imageUrls,
-            scheduled_at: post.scheduledAt,
+            imageUrls: post.imageUrls,
+            scheduledAt: post.scheduledAt,
           })),
         },
       },
@@ -81,7 +77,7 @@ export class AutoProjectWriteService {
       },
     });
 
-    return mapToAutoProjectDetailsDto(createdAutoProject);
+    return createdAutoProject;
   }
 
   private async validatePlatform(
@@ -98,9 +94,9 @@ export class AutoProjectWriteService {
       );
     }
 
-    if (platformRecord.user_id !== userId) {
+    if (platformRecord.userId !== userId) {
       this.logger.warn(
-        `User ${userId} attempted to use Platform ID ${platformId} which belongs to user ${platformRecord.user_id}.`,
+        `User ${userId} attempted to use Platform ID ${platformId} which belongs to user ${platformRecord.userId}.`,
       );
       throw new ForbiddenException(
         `You do not have permission to use platform connection with ID ${platformId}.`,
@@ -117,7 +113,7 @@ export class AutoProjectWriteService {
     userId: string,
   ): Promise<AutoProjectDetailsDto> {
     const existingProject = await this.prisma.autoProject.findFirst({
-      where: { id, user_id: userId },
+      where: { id, userId: userId },
     });
 
     if (!existingProject) {
@@ -129,7 +125,7 @@ export class AutoProjectWriteService {
     const updatedProject = await this.prisma.autoProject.update({
       where: { id },
       data: updateDto,
-      include: { autoPosts: true },
+      include: { autoPosts: true, platform: true },
     });
 
     return plainToInstance(AutoProjectDetailsDto, updatedProject);
@@ -138,7 +134,7 @@ export class AutoProjectWriteService {
   @TryCatch()
   async remove(id: number, userId: string): Promise<void> {
     const existingProject = await this.prisma.autoProject.findFirst({
-      where: { id, user_id: userId },
+      where: { id, userId: userId },
     });
 
     if (!existingProject) {

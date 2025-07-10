@@ -27,36 +27,36 @@ export type AggregatePlatform = {
 
 export type PlatformAvgAggregateOutputType = {
   id: number | null
-  facebook_account_id: number | null
+  facebookAccountId: number | null
 }
 
 export type PlatformSumAggregateOutputType = {
   id: number | null
-  facebook_account_id: number | null
+  facebookAccountId: number | null
 }
 
 export type PlatformMinAggregateOutputType = {
   id: number | null
-  user_id: string | null
-  external_page_id: string | null
-  created_at: Date | null
-  updated_at: Date | null
-  token_expires_at: Date | null
-  picture_url: string | null
-  facebook_account_id: number | null
+  userId: string | null
+  externalPageId: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
+  tokenExpiresAt: Date | null
+  pictureUrl: string | null
+  facebookAccountId: number | null
   name: $Enums.SharePlatform | null
   status: $Enums.PlatformStatus | null
 }
 
 export type PlatformMaxAggregateOutputType = {
   id: number | null
-  user_id: string | null
-  external_page_id: string | null
-  created_at: Date | null
-  updated_at: Date | null
-  token_expires_at: Date | null
-  picture_url: string | null
-  facebook_account_id: number | null
+  userId: string | null
+  externalPageId: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
+  tokenExpiresAt: Date | null
+  pictureUrl: string | null
+  facebookAccountId: number | null
   name: $Enums.SharePlatform | null
   status: $Enums.PlatformStatus | null
 }
@@ -64,13 +64,13 @@ export type PlatformMaxAggregateOutputType = {
 export type PlatformCountAggregateOutputType = {
   id: number
   config: number
-  user_id: number
-  external_page_id: number
-  created_at: number
-  updated_at: number
-  token_expires_at: number
-  picture_url: number
-  facebook_account_id: number
+  userId: number
+  externalPageId: number
+  createdAt: number
+  updatedAt: number
+  tokenExpiresAt: number
+  pictureUrl: number
+  facebookAccountId: number
   name: number
   status: number
   _all: number
@@ -79,36 +79,36 @@ export type PlatformCountAggregateOutputType = {
 
 export type PlatformAvgAggregateInputType = {
   id?: true
-  facebook_account_id?: true
+  facebookAccountId?: true
 }
 
 export type PlatformSumAggregateInputType = {
   id?: true
-  facebook_account_id?: true
+  facebookAccountId?: true
 }
 
 export type PlatformMinAggregateInputType = {
   id?: true
-  user_id?: true
-  external_page_id?: true
-  created_at?: true
-  updated_at?: true
-  token_expires_at?: true
-  picture_url?: true
-  facebook_account_id?: true
+  userId?: true
+  externalPageId?: true
+  createdAt?: true
+  updatedAt?: true
+  tokenExpiresAt?: true
+  pictureUrl?: true
+  facebookAccountId?: true
   name?: true
   status?: true
 }
 
 export type PlatformMaxAggregateInputType = {
   id?: true
-  user_id?: true
-  external_page_id?: true
-  created_at?: true
-  updated_at?: true
-  token_expires_at?: true
-  picture_url?: true
-  facebook_account_id?: true
+  userId?: true
+  externalPageId?: true
+  createdAt?: true
+  updatedAt?: true
+  tokenExpiresAt?: true
+  pictureUrl?: true
+  facebookAccountId?: true
   name?: true
   status?: true
 }
@@ -116,13 +116,13 @@ export type PlatformMaxAggregateInputType = {
 export type PlatformCountAggregateInputType = {
   id?: true
   config?: true
-  user_id?: true
-  external_page_id?: true
-  created_at?: true
-  updated_at?: true
-  token_expires_at?: true
-  picture_url?: true
-  facebook_account_id?: true
+  userId?: true
+  externalPageId?: true
+  createdAt?: true
+  updatedAt?: true
+  tokenExpiresAt?: true
+  pictureUrl?: true
+  facebookAccountId?: true
   name?: true
   status?: true
   _all?: true
@@ -217,13 +217,13 @@ export type PlatformGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type PlatformGroupByOutputType = {
   id: number
   config: runtime.JsonValue
-  user_id: string
-  external_page_id: string
-  created_at: Date
-  updated_at: Date | null
-  token_expires_at: Date | null
-  picture_url: string | null
-  facebook_account_id: number | null
+  userId: string
+  externalPageId: string
+  createdAt: Date
+  updatedAt: Date | null
+  tokenExpiresAt: Date | null
+  pictureUrl: string | null
+  facebookAccountId: number | null
   name: $Enums.SharePlatform
   status: $Enums.PlatformStatus
   _count: PlatformCountAggregateOutputType | null
@@ -254,13 +254,13 @@ export type PlatformWhereInput = {
   NOT?: Prisma.PlatformWhereInput | Prisma.PlatformWhereInput[]
   id?: Prisma.IntFilter<"Platform"> | number
   config?: Prisma.JsonFilter<"Platform">
-  user_id?: Prisma.StringFilter<"Platform"> | string
-  external_page_id?: Prisma.StringFilter<"Platform"> | string
-  created_at?: Prisma.DateTimeFilter<"Platform"> | Date | string
-  updated_at?: Prisma.DateTimeNullableFilter<"Platform"> | Date | string | null
-  token_expires_at?: Prisma.DateTimeNullableFilter<"Platform"> | Date | string | null
-  picture_url?: Prisma.StringNullableFilter<"Platform"> | string | null
-  facebook_account_id?: Prisma.IntNullableFilter<"Platform"> | number | null
+  userId?: Prisma.StringFilter<"Platform"> | string
+  externalPageId?: Prisma.StringFilter<"Platform"> | string
+  createdAt?: Prisma.DateTimeFilter<"Platform"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Platform"> | Date | string | null
+  tokenExpiresAt?: Prisma.DateTimeNullableFilter<"Platform"> | Date | string | null
+  pictureUrl?: Prisma.StringNullableFilter<"Platform"> | string | null
+  facebookAccountId?: Prisma.IntNullableFilter<"Platform"> | number | null
   name?: Prisma.EnumSharePlatformFilter<"Platform"> | $Enums.SharePlatform
   status?: Prisma.EnumPlatformStatusFilter<"Platform"> | $Enums.PlatformStatus
   facebookAccount?: Prisma.XOR<Prisma.FacebookAccountNullableScalarRelationFilter, Prisma.FacebookAccountWhereInput> | null
@@ -270,13 +270,13 @@ export type PlatformWhereInput = {
 export type PlatformOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   config?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  external_page_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  token_expires_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  picture_url?: Prisma.SortOrderInput | Prisma.SortOrder
-  facebook_account_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  externalPageId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  tokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  pictureUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  facebookAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   status?: Prisma.SortOrder
   facebookAccount?: Prisma.FacebookAccountOrderByWithRelationInput
@@ -285,34 +285,34 @@ export type PlatformOrderByWithRelationInput = {
 
 export type PlatformWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  user_id_name_external_page_id?: Prisma.PlatformUser_idNameExternal_page_idCompoundUniqueInput
+  userId_name_externalPageId?: Prisma.PlatformUserIdNameExternalPageIdCompoundUniqueInput
   AND?: Prisma.PlatformWhereInput | Prisma.PlatformWhereInput[]
   OR?: Prisma.PlatformWhereInput[]
   NOT?: Prisma.PlatformWhereInput | Prisma.PlatformWhereInput[]
   config?: Prisma.JsonFilter<"Platform">
-  user_id?: Prisma.StringFilter<"Platform"> | string
-  external_page_id?: Prisma.StringFilter<"Platform"> | string
-  created_at?: Prisma.DateTimeFilter<"Platform"> | Date | string
-  updated_at?: Prisma.DateTimeNullableFilter<"Platform"> | Date | string | null
-  token_expires_at?: Prisma.DateTimeNullableFilter<"Platform"> | Date | string | null
-  picture_url?: Prisma.StringNullableFilter<"Platform"> | string | null
-  facebook_account_id?: Prisma.IntNullableFilter<"Platform"> | number | null
+  userId?: Prisma.StringFilter<"Platform"> | string
+  externalPageId?: Prisma.StringFilter<"Platform"> | string
+  createdAt?: Prisma.DateTimeFilter<"Platform"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Platform"> | Date | string | null
+  tokenExpiresAt?: Prisma.DateTimeNullableFilter<"Platform"> | Date | string | null
+  pictureUrl?: Prisma.StringNullableFilter<"Platform"> | string | null
+  facebookAccountId?: Prisma.IntNullableFilter<"Platform"> | number | null
   name?: Prisma.EnumSharePlatformFilter<"Platform"> | $Enums.SharePlatform
   status?: Prisma.EnumPlatformStatusFilter<"Platform"> | $Enums.PlatformStatus
   facebookAccount?: Prisma.XOR<Prisma.FacebookAccountNullableScalarRelationFilter, Prisma.FacebookAccountWhereInput> | null
   autoProjects?: Prisma.AutoProjectListRelationFilter
-}, "id" | "user_id_name_external_page_id">
+}, "id" | "userId_name_externalPageId">
 
 export type PlatformOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   config?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  external_page_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  token_expires_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  picture_url?: Prisma.SortOrderInput | Prisma.SortOrder
-  facebook_account_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  externalPageId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  tokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  pictureUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  facebookAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   status?: Prisma.SortOrder
   _count?: Prisma.PlatformCountOrderByAggregateInput
@@ -328,25 +328,25 @@ export type PlatformScalarWhereWithAggregatesInput = {
   NOT?: Prisma.PlatformScalarWhereWithAggregatesInput | Prisma.PlatformScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Platform"> | number
   config?: Prisma.JsonWithAggregatesFilter<"Platform">
-  user_id?: Prisma.StringWithAggregatesFilter<"Platform"> | string
-  external_page_id?: Prisma.StringWithAggregatesFilter<"Platform"> | string
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"Platform"> | Date | string
-  updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"Platform"> | Date | string | null
-  token_expires_at?: Prisma.DateTimeNullableWithAggregatesFilter<"Platform"> | Date | string | null
-  picture_url?: Prisma.StringNullableWithAggregatesFilter<"Platform"> | string | null
-  facebook_account_id?: Prisma.IntNullableWithAggregatesFilter<"Platform"> | number | null
+  userId?: Prisma.StringWithAggregatesFilter<"Platform"> | string
+  externalPageId?: Prisma.StringWithAggregatesFilter<"Platform"> | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Platform"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Platform"> | Date | string | null
+  tokenExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Platform"> | Date | string | null
+  pictureUrl?: Prisma.StringNullableWithAggregatesFilter<"Platform"> | string | null
+  facebookAccountId?: Prisma.IntNullableWithAggregatesFilter<"Platform"> | number | null
   name?: Prisma.EnumSharePlatformWithAggregatesFilter<"Platform"> | $Enums.SharePlatform
   status?: Prisma.EnumPlatformStatusWithAggregatesFilter<"Platform"> | $Enums.PlatformStatus
 }
 
 export type PlatformCreateInput = {
   config: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id: string
-  external_page_id: string
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  token_expires_at?: Date | string | null
-  picture_url?: string | null
+  userId: string
+  externalPageId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  tokenExpiresAt?: Date | string | null
+  pictureUrl?: string | null
   name: $Enums.SharePlatform
   status?: $Enums.PlatformStatus
   facebookAccount?: Prisma.FacebookAccountCreateNestedOneWithoutPlatformsInput
@@ -356,13 +356,13 @@ export type PlatformCreateInput = {
 export type PlatformUncheckedCreateInput = {
   id?: number
   config: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id: string
-  external_page_id: string
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  token_expires_at?: Date | string | null
-  picture_url?: string | null
-  facebook_account_id?: number | null
+  userId: string
+  externalPageId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  tokenExpiresAt?: Date | string | null
+  pictureUrl?: string | null
+  facebookAccountId?: number | null
   name: $Enums.SharePlatform
   status?: $Enums.PlatformStatus
   autoProjects?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutPlatformInput
@@ -370,12 +370,12 @@ export type PlatformUncheckedCreateInput = {
 
 export type PlatformUpdateInput = {
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  external_page_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  token_expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  externalPageId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
   status?: Prisma.EnumPlatformStatusFieldUpdateOperationsInput | $Enums.PlatformStatus
   facebookAccount?: Prisma.FacebookAccountUpdateOneWithoutPlatformsNestedInput
@@ -385,13 +385,13 @@ export type PlatformUpdateInput = {
 export type PlatformUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  external_page_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  token_expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  facebook_account_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  externalPageId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookAccountId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
   status?: Prisma.EnumPlatformStatusFieldUpdateOperationsInput | $Enums.PlatformStatus
   autoProjects?: Prisma.AutoProjectUncheckedUpdateManyWithoutPlatformNestedInput
@@ -400,25 +400,25 @@ export type PlatformUncheckedUpdateInput = {
 export type PlatformCreateManyInput = {
   id?: number
   config: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id: string
-  external_page_id: string
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  token_expires_at?: Date | string | null
-  picture_url?: string | null
-  facebook_account_id?: number | null
+  userId: string
+  externalPageId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  tokenExpiresAt?: Date | string | null
+  pictureUrl?: string | null
+  facebookAccountId?: number | null
   name: $Enums.SharePlatform
   status?: $Enums.PlatformStatus
 }
 
 export type PlatformUpdateManyMutationInput = {
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  external_page_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  token_expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  externalPageId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
   status?: Prisma.EnumPlatformStatusFieldUpdateOperationsInput | $Enums.PlatformStatus
 }
@@ -426,71 +426,71 @@ export type PlatformUpdateManyMutationInput = {
 export type PlatformUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  external_page_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  token_expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  facebook_account_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  externalPageId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookAccountId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
   status?: Prisma.EnumPlatformStatusFieldUpdateOperationsInput | $Enums.PlatformStatus
 }
 
-export type PlatformUser_idNameExternal_page_idCompoundUniqueInput = {
-  user_id: string
+export type PlatformUserIdNameExternalPageIdCompoundUniqueInput = {
+  userId: string
   name: $Enums.SharePlatform
-  external_page_id: string
+  externalPageId: string
 }
 
 export type PlatformCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   config?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  external_page_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  token_expires_at?: Prisma.SortOrder
-  picture_url?: Prisma.SortOrder
-  facebook_account_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  externalPageId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  tokenExpiresAt?: Prisma.SortOrder
+  pictureUrl?: Prisma.SortOrder
+  facebookAccountId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
 export type PlatformAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  facebook_account_id?: Prisma.SortOrder
+  facebookAccountId?: Prisma.SortOrder
 }
 
 export type PlatformMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  external_page_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  token_expires_at?: Prisma.SortOrder
-  picture_url?: Prisma.SortOrder
-  facebook_account_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  externalPageId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  tokenExpiresAt?: Prisma.SortOrder
+  pictureUrl?: Prisma.SortOrder
+  facebookAccountId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
 export type PlatformMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  external_page_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  token_expires_at?: Prisma.SortOrder
-  picture_url?: Prisma.SortOrder
-  facebook_account_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  externalPageId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  tokenExpiresAt?: Prisma.SortOrder
+  pictureUrl?: Prisma.SortOrder
+  facebookAccountId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
 export type PlatformSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  facebook_account_id?: Prisma.SortOrder
+  facebookAccountId?: Prisma.SortOrder
 }
 
 export type PlatformScalarRelationFilter = {
@@ -570,12 +570,12 @@ export type PlatformUncheckedUpdateManyWithoutFacebookAccountNestedInput = {
 
 export type PlatformCreateWithoutAutoProjectsInput = {
   config: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id: string
-  external_page_id: string
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  token_expires_at?: Date | string | null
-  picture_url?: string | null
+  userId: string
+  externalPageId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  tokenExpiresAt?: Date | string | null
+  pictureUrl?: string | null
   name: $Enums.SharePlatform
   status?: $Enums.PlatformStatus
   facebookAccount?: Prisma.FacebookAccountCreateNestedOneWithoutPlatformsInput
@@ -584,13 +584,13 @@ export type PlatformCreateWithoutAutoProjectsInput = {
 export type PlatformUncheckedCreateWithoutAutoProjectsInput = {
   id?: number
   config: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id: string
-  external_page_id: string
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  token_expires_at?: Date | string | null
-  picture_url?: string | null
-  facebook_account_id?: number | null
+  userId: string
+  externalPageId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  tokenExpiresAt?: Date | string | null
+  pictureUrl?: string | null
+  facebookAccountId?: number | null
   name: $Enums.SharePlatform
   status?: $Enums.PlatformStatus
 }
@@ -613,12 +613,12 @@ export type PlatformUpdateToOneWithWhereWithoutAutoProjectsInput = {
 
 export type PlatformUpdateWithoutAutoProjectsInput = {
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  external_page_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  token_expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  externalPageId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
   status?: Prisma.EnumPlatformStatusFieldUpdateOperationsInput | $Enums.PlatformStatus
   facebookAccount?: Prisma.FacebookAccountUpdateOneWithoutPlatformsNestedInput
@@ -627,25 +627,25 @@ export type PlatformUpdateWithoutAutoProjectsInput = {
 export type PlatformUncheckedUpdateWithoutAutoProjectsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  external_page_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  token_expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  facebook_account_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  externalPageId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebookAccountId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
   status?: Prisma.EnumPlatformStatusFieldUpdateOperationsInput | $Enums.PlatformStatus
 }
 
 export type PlatformCreateWithoutFacebookAccountInput = {
   config: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id: string
-  external_page_id: string
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  token_expires_at?: Date | string | null
-  picture_url?: string | null
+  userId: string
+  externalPageId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  tokenExpiresAt?: Date | string | null
+  pictureUrl?: string | null
   name: $Enums.SharePlatform
   status?: $Enums.PlatformStatus
   autoProjects?: Prisma.AutoProjectCreateNestedManyWithoutPlatformInput
@@ -654,12 +654,12 @@ export type PlatformCreateWithoutFacebookAccountInput = {
 export type PlatformUncheckedCreateWithoutFacebookAccountInput = {
   id?: number
   config: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id: string
-  external_page_id: string
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  token_expires_at?: Date | string | null
-  picture_url?: string | null
+  userId: string
+  externalPageId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  tokenExpiresAt?: Date | string | null
+  pictureUrl?: string | null
   name: $Enums.SharePlatform
   status?: $Enums.PlatformStatus
   autoProjects?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutPlatformInput
@@ -697,13 +697,13 @@ export type PlatformScalarWhereInput = {
   NOT?: Prisma.PlatformScalarWhereInput | Prisma.PlatformScalarWhereInput[]
   id?: Prisma.IntFilter<"Platform"> | number
   config?: Prisma.JsonFilter<"Platform">
-  user_id?: Prisma.StringFilter<"Platform"> | string
-  external_page_id?: Prisma.StringFilter<"Platform"> | string
-  created_at?: Prisma.DateTimeFilter<"Platform"> | Date | string
-  updated_at?: Prisma.DateTimeNullableFilter<"Platform"> | Date | string | null
-  token_expires_at?: Prisma.DateTimeNullableFilter<"Platform"> | Date | string | null
-  picture_url?: Prisma.StringNullableFilter<"Platform"> | string | null
-  facebook_account_id?: Prisma.IntNullableFilter<"Platform"> | number | null
+  userId?: Prisma.StringFilter<"Platform"> | string
+  externalPageId?: Prisma.StringFilter<"Platform"> | string
+  createdAt?: Prisma.DateTimeFilter<"Platform"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Platform"> | Date | string | null
+  tokenExpiresAt?: Prisma.DateTimeNullableFilter<"Platform"> | Date | string | null
+  pictureUrl?: Prisma.StringNullableFilter<"Platform"> | string | null
+  facebookAccountId?: Prisma.IntNullableFilter<"Platform"> | number | null
   name?: Prisma.EnumSharePlatformFilter<"Platform"> | $Enums.SharePlatform
   status?: Prisma.EnumPlatformStatusFilter<"Platform"> | $Enums.PlatformStatus
 }
@@ -711,24 +711,24 @@ export type PlatformScalarWhereInput = {
 export type PlatformCreateManyFacebookAccountInput = {
   id?: number
   config: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id: string
-  external_page_id: string
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  token_expires_at?: Date | string | null
-  picture_url?: string | null
+  userId: string
+  externalPageId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  tokenExpiresAt?: Date | string | null
+  pictureUrl?: string | null
   name: $Enums.SharePlatform
   status?: $Enums.PlatformStatus
 }
 
 export type PlatformUpdateWithoutFacebookAccountInput = {
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  external_page_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  token_expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  externalPageId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
   status?: Prisma.EnumPlatformStatusFieldUpdateOperationsInput | $Enums.PlatformStatus
   autoProjects?: Prisma.AutoProjectUpdateManyWithoutPlatformNestedInput
@@ -737,12 +737,12 @@ export type PlatformUpdateWithoutFacebookAccountInput = {
 export type PlatformUncheckedUpdateWithoutFacebookAccountInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  external_page_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  token_expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  externalPageId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
   status?: Prisma.EnumPlatformStatusFieldUpdateOperationsInput | $Enums.PlatformStatus
   autoProjects?: Prisma.AutoProjectUncheckedUpdateManyWithoutPlatformNestedInput
@@ -751,12 +751,12 @@ export type PlatformUncheckedUpdateWithoutFacebookAccountInput = {
 export type PlatformUncheckedUpdateManyWithoutFacebookAccountInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  external_page_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  token_expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  externalPageId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   name?: Prisma.EnumSharePlatformFieldUpdateOperationsInput | $Enums.SharePlatform
   status?: Prisma.EnumPlatformStatusFieldUpdateOperationsInput | $Enums.PlatformStatus
 }
@@ -795,13 +795,13 @@ export type PlatformCountOutputTypeCountAutoProjectsArgs<ExtArgs extends runtime
 export type PlatformSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   config?: boolean
-  user_id?: boolean
-  external_page_id?: boolean
-  created_at?: boolean
-  updated_at?: boolean
-  token_expires_at?: boolean
-  picture_url?: boolean
-  facebook_account_id?: boolean
+  userId?: boolean
+  externalPageId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  tokenExpiresAt?: boolean
+  pictureUrl?: boolean
+  facebookAccountId?: boolean
   name?: boolean
   status?: boolean
   facebookAccount?: boolean | Prisma.Platform$facebookAccountArgs<ExtArgs>
@@ -812,13 +812,13 @@ export type PlatformSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type PlatformSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   config?: boolean
-  user_id?: boolean
-  external_page_id?: boolean
-  created_at?: boolean
-  updated_at?: boolean
-  token_expires_at?: boolean
-  picture_url?: boolean
-  facebook_account_id?: boolean
+  userId?: boolean
+  externalPageId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  tokenExpiresAt?: boolean
+  pictureUrl?: boolean
+  facebookAccountId?: boolean
   name?: boolean
   status?: boolean
   facebookAccount?: boolean | Prisma.Platform$facebookAccountArgs<ExtArgs>
@@ -827,13 +827,13 @@ export type PlatformSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type PlatformSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   config?: boolean
-  user_id?: boolean
-  external_page_id?: boolean
-  created_at?: boolean
-  updated_at?: boolean
-  token_expires_at?: boolean
-  picture_url?: boolean
-  facebook_account_id?: boolean
+  userId?: boolean
+  externalPageId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  tokenExpiresAt?: boolean
+  pictureUrl?: boolean
+  facebookAccountId?: boolean
   name?: boolean
   status?: boolean
   facebookAccount?: boolean | Prisma.Platform$facebookAccountArgs<ExtArgs>
@@ -842,18 +842,18 @@ export type PlatformSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type PlatformSelectScalar = {
   id?: boolean
   config?: boolean
-  user_id?: boolean
-  external_page_id?: boolean
-  created_at?: boolean
-  updated_at?: boolean
-  token_expires_at?: boolean
-  picture_url?: boolean
-  facebook_account_id?: boolean
+  userId?: boolean
+  externalPageId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  tokenExpiresAt?: boolean
+  pictureUrl?: boolean
+  facebookAccountId?: boolean
   name?: boolean
   status?: boolean
 }
 
-export type PlatformOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "config" | "user_id" | "external_page_id" | "created_at" | "updated_at" | "token_expires_at" | "picture_url" | "facebook_account_id" | "name" | "status", ExtArgs["result"]["platform"]>
+export type PlatformOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "config" | "userId" | "externalPageId" | "createdAt" | "updatedAt" | "tokenExpiresAt" | "pictureUrl" | "facebookAccountId" | "name" | "status", ExtArgs["result"]["platform"]>
 export type PlatformInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   facebookAccount?: boolean | Prisma.Platform$facebookAccountArgs<ExtArgs>
   autoProjects?: boolean | Prisma.Platform$autoProjectsArgs<ExtArgs>
@@ -875,13 +875,13 @@ export type $PlatformPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     config: runtime.JsonValue
-    user_id: string
-    external_page_id: string
-    created_at: Date
-    updated_at: Date | null
-    token_expires_at: Date | null
-    picture_url: string | null
-    facebook_account_id: number | null
+    userId: string
+    externalPageId: string
+    createdAt: Date
+    updatedAt: Date | null
+    tokenExpiresAt: Date | null
+    pictureUrl: string | null
+    facebookAccountId: number | null
     name: $Enums.SharePlatform
     status: $Enums.PlatformStatus
   }, ExtArgs["result"]["platform"]>
@@ -1311,13 +1311,13 @@ export interface Prisma__PlatformClient<T, Null = never, ExtArgs extends runtime
 export interface PlatformFieldRefs {
   readonly id: Prisma.FieldRef<"Platform", 'Int'>
   readonly config: Prisma.FieldRef<"Platform", 'Json'>
-  readonly user_id: Prisma.FieldRef<"Platform", 'String'>
-  readonly external_page_id: Prisma.FieldRef<"Platform", 'String'>
-  readonly created_at: Prisma.FieldRef<"Platform", 'DateTime'>
-  readonly updated_at: Prisma.FieldRef<"Platform", 'DateTime'>
-  readonly token_expires_at: Prisma.FieldRef<"Platform", 'DateTime'>
-  readonly picture_url: Prisma.FieldRef<"Platform", 'String'>
-  readonly facebook_account_id: Prisma.FieldRef<"Platform", 'Int'>
+  readonly userId: Prisma.FieldRef<"Platform", 'String'>
+  readonly externalPageId: Prisma.FieldRef<"Platform", 'String'>
+  readonly createdAt: Prisma.FieldRef<"Platform", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Platform", 'DateTime'>
+  readonly tokenExpiresAt: Prisma.FieldRef<"Platform", 'DateTime'>
+  readonly pictureUrl: Prisma.FieldRef<"Platform", 'String'>
+  readonly facebookAccountId: Prisma.FieldRef<"Platform", 'Int'>
   readonly name: Prisma.FieldRef<"Platform", 'SharePlatform'>
   readonly status: Prisma.FieldRef<"Platform", 'PlatformStatus'>
 }

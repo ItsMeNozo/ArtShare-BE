@@ -72,10 +72,10 @@ export class AutoPostService {
 
       return await this.prisma.autoPost.create({
         data: {
-          auto_project_id: dto.autoProjectId,
+          autoProjectId: dto.autoProjectId,
           content: dto.content,
-          scheduled_at: new Date(dto.scheduledAt),
-          image_urls: dto.imageUrls || [],
+          scheduledAt: new Date(dto.scheduledAt),
+          imageUrls: dto.imageUrls || [],
           status: AutoPostStatus.PENDING,
         },
       });
@@ -107,7 +107,7 @@ export class AutoPostService {
       limit = 10,
       status,
       autoProjectId,
-      sortBy = 'scheduled_at',
+      sortBy = 'scheduledAt',
       sortOrder = 'desc',
     } = query;
 
@@ -116,7 +116,7 @@ export class AutoPostService {
       where.status = status;
     }
     if (autoProjectId) {
-      where.auto_project_id = autoProjectId;
+      where.autoProjectId = autoProjectId;
     }
 
     const skip = (page - 1) * limit;
@@ -155,13 +155,13 @@ export class AutoPostService {
     const dataToUpdate: Prisma.AutoPostUpdateInput = {};
     if (dto.content !== undefined) dataToUpdate.content = dto.content;
     if (dto.scheduledAt !== undefined)
-      dataToUpdate.scheduled_at = new Date(dto.scheduledAt);
+      dataToUpdate.scheduledAt = new Date(dto.scheduledAt);
     if (dto.imageUrls !== undefined) {
-      dataToUpdate.image_urls = dto.imageUrls;
+      dataToUpdate.imageUrls = dto.imageUrls;
 
-      const existingImageUrls = existingPost.image_urls || [];
+      const existingImageUrls = existingPost.imageUrls || [];
       const urlsToDelete = existingImageUrls.filter(
-        (url) => !dto.imageUrls!.includes(url),
+        (url: string) => !dto.imageUrls!.includes(url),
       );
       if (urlsToDelete.length > 0) {
         this.storageService.deleteFiles(urlsToDelete);
@@ -176,11 +176,11 @@ export class AutoPostService {
       hasSubstantiveChanges
     ) {
       dataToUpdate.status = AutoPostStatus.PENDING;
-      dataToUpdate.error_message = null;
-      dataToUpdate.n8n_triggered_at = null;
-      dataToUpdate.posted_at = null;
-      dataToUpdate.n8n_execution_id = null;
-      dataToUpdate.platform_post_id = null;
+      dataToUpdate.errorMessage = null;
+      dataToUpdate.n8nTriggeredAt = null;
+      dataToUpdate.postedAt = null;
+      dataToUpdate.n8nExecutionId = null;
+      dataToUpdate.platformPostId = null;
     }
 
     return await this.prisma.autoPost.update({
@@ -214,16 +214,16 @@ export class AutoPostService {
 
     const dataToUpdate: Prisma.AutoPostUpdateInput = {
       status: dto.status,
-      error_message: dto.errorMessage,
-      n8n_execution_id: dto.n8nExecutionId,
-      platform_post_id: dto.platformPostId,
+      errorMessage: dto.errorMessage,
+      n8nExecutionId: dto.n8nExecutionId,
+      platformPostId: dto.platformPostId,
     };
 
     if (dto.status === AutoPostStatus.POSTED) {
-      dataToUpdate.posted_at = new Date();
-      dataToUpdate.error_message = null;
+      dataToUpdate.postedAt = new Date();
+      dataToUpdate.errorMessage = null;
     } else if (dto.status !== AutoPostStatus.FAILED) {
-      dataToUpdate.error_message = null;
+      dataToUpdate.errorMessage = null;
     }
 
     return await this.prisma.autoPost.update({
@@ -259,7 +259,7 @@ export class AutoPostService {
       where: { id: autoPostId },
       data: {
         status: AutoPostStatus.CANCELLED,
-        error_message: null,
+        errorMessage: null,
       },
     });
   }

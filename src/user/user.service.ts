@@ -31,19 +31,19 @@ export class UserService {
         id: true,
         username: true,
         email: true,
-        full_name: true,
-        profile_picture_url: true,
+        fullName: true,
+        profilePictureUrl: true,
         bio: true,
-        followers_count: true,
-        followings_count: true,
+        followersCount: true,
+        followingsCount: true,
         birthday: true,
-        is_onboard: true,
-        created_at: true,
+        isOnboard: true,
+        createdAt: true,
         roles: {
           select: {
             role: {
               select: {
-                role_name: true,
+                roleName: true,
               },
             },
           },
@@ -56,15 +56,15 @@ export class UserService {
     }
 
     const roleNames = user.roles.map(
-      (userRole) => userRole.role.role_name as Role,
+      (userRole) => userRole.role.roleName as Role,
     );
     let isFollowing = false;
     if (currentUser.id !== user.id) {
       isFollowing =
         (await this.prisma.follow.count({
           where: {
-            follower_id: currentUser.id,
-            following_id: user.id,
+            followerId: currentUser.id,
+            followingId: user.id,
           },
         })) > 0;
     }
@@ -73,16 +73,16 @@ export class UserService {
       id: user.id,
       username: user.username,
       email: user.email,
-      full_name: user.full_name,
-      profile_picture_url: user.profile_picture_url,
+      fullName: user.fullName,
+      profilePictureUrl: user.profilePictureUrl,
       bio: user.bio,
-      followers_count: user.followers_count,
-      followings_count: user.followings_count,
+      followersCount: user.followersCount,
+      followingsCount: user.followingsCount,
       birthday: user.birthday ?? null,
       roles: roleNames,
       isFollowing,
-      is_onboard: user.is_onboard,
-      created_at: user.created_at,
+      isOnboard: user.isOnboard,
+      createdAt: user.createdAt,
     };
   }
 
@@ -95,18 +95,18 @@ export class UserService {
         id: true,
         username: true,
         email: true,
-        full_name: true,
-        profile_picture_url: true,
+        fullName: true,
+        profilePictureUrl: true,
         bio: true,
-        followers_count: true,
-        followings_count: true,
+        followersCount: true,
+        followingsCount: true,
         birthday: true,
-        is_onboard: true,
-        created_at: true,
+        isOnboard: true,
+        createdAt: true,
         roles: {
           select: {
             role: {
-              select: { role_name: true },
+              select: { roleName: true },
             },
           },
         },
@@ -117,22 +117,22 @@ export class UserService {
       throw new NotFoundException(`User with ID ${currentUser.id} not found`);
     }
 
-    const roleNames = user.roles.map((ur) => ur.role.role_name as Role);
+    const roleNames = user.roles.map((ur) => ur.role.roleName as Role);
 
     return {
       id: user.id,
       username: user.username,
       email: user.email,
-      full_name: user.full_name,
-      profile_picture_url: user.profile_picture_url,
+      fullName: user.fullName,
+      profilePictureUrl: user.profilePictureUrl,
       bio: user.bio,
-      followers_count: user.followers_count,
-      followings_count: user.followings_count,
+      followersCount: user.followersCount,
+      followingsCount: user.followingsCount,
       birthday: user.birthday ?? null,
       roles: roleNames,
       isFollowing: false, // By definition, you don't follow yourself in this context
-      is_onboard: user.is_onboard,
-      created_at: user.created_at,
+      isOnboard: user.isOnboard,
+      createdAt: user.createdAt,
     };
   }
 
@@ -162,11 +162,11 @@ export class UserService {
       User,
       | 'username'
       | 'email'
-      | 'full_name'
-      | 'profile_picture_url'
+      | 'fullName'
+      | 'profilePictureUrl'
       | 'bio'
       | 'birthday'
-    > & { is_onboard: boolean } // Extend to include is_onboard in return type
+    > & { isOnboard: boolean } // Extend to include is_onboard in return type
   > {
     try {
       const currentUser = await this.prisma.user.findUnique({
@@ -204,10 +204,10 @@ export class UserService {
         dataToUpdate.username = updateUserDto.username;
       if (updateUserDto.email !== undefined)
         dataToUpdate.email = updateUserDto.email;
-      if (updateUserDto.full_name !== undefined)
-        dataToUpdate.full_name = updateUserDto.full_name;
-      if (updateUserDto.profile_picture_url !== undefined)
-        dataToUpdate.profile_picture_url = updateUserDto.profile_picture_url;
+      if (updateUserDto.fullName !== undefined)
+        dataToUpdate.fullName = updateUserDto.fullName;
+      if (updateUserDto.profilePictureUrl !== undefined)
+        dataToUpdate.profilePictureUrl = updateUserDto.profilePictureUrl;
       if (updateUserDto.bio !== undefined) dataToUpdate.bio = updateUserDto.bio;
       if (updateUserDto.birthday !== undefined) {
         dataToUpdate.birthday = updateUserDto.birthday
@@ -217,16 +217,16 @@ export class UserService {
 
       const updatedUser = await this.prisma.user.update({
         where: { id: userId },
-        data: { ...dataToUpdate, is_onboard: true }, // Mark as onboarded on profile update
+        data: { ...dataToUpdate, isOnboard: true }, // Mark as onboarded on profile update
         select: {
           id: true, // Though not strictly in the Pick, often useful to return
           username: true,
           email: true,
-          full_name: true,
-          profile_picture_url: true,
+          fullName: true,
+          profilePictureUrl: true,
           bio: true,
           birthday: true,
-          is_onboard: true,
+          isOnboard: true,
         },
       });
       // Cast to the more specific return type if needed, or adjust select
@@ -234,11 +234,11 @@ export class UserService {
         User,
         | 'username'
         | 'email'
-        | 'full_name'
-        | 'profile_picture_url'
+        | 'fullName'
+        | 'profilePictureUrl'
         | 'bio'
         | 'birthday'
-      > & { is_onboard: boolean };
+      > & { isOnboard: boolean };
     } catch (error: any) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2025')
@@ -272,13 +272,13 @@ export class UserService {
   }
 
   async getAdminUserIds(): Promise<string[]> {
-    const result = await this.prisma.$queryRaw<{id: string}[]>`
+    const result = await this.prisma.$queryRaw<{ id: string }[]>`
       select u.id
       from "user" u
       where u.id in (
-        select user_id from user_role ur where ur.role_id = 1
+        select "user_id" from user_role ur where ur."role_id" = 1
       )
     `;
-    return result.map(row => row.id);
+    return result.map((row) => row.id);
   }
 }

@@ -9,7 +9,7 @@ export class UpdateAutoProjectDto {
   description?: string;
 
   @IsNumber()
-  platform_id?: number;
+  platformId?: number;
 
   @IsString()
   status?: AutoProjectStatus;

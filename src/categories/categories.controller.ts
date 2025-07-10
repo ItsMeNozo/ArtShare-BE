@@ -46,11 +46,10 @@ export class CategoriesController {
   async findAll(
     @Request() req: any,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-    @Query('page_size', new DefaultValuePipe(25), ParseIntPipe)
-    page_size: number,
+    @Query('pageSize', new DefaultValuePipe(25), ParseIntPipe)
+    pageSize: number,
   ): Promise<CategoryResponseDto[]> {
-   
-    return this.categoriesSearchService.findAll(page, page_size, req.user);
+    return this.categoriesSearchService.findAll(page, pageSize, req.user);
   }
 
   @Get('v2')

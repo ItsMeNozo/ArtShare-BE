@@ -8,10 +8,7 @@ import { GetProjectsQuery } from './dto/request/get-projects-query.dto';
 import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
 import { AutoProjectListItemDto } from './dto/response/auto-project-list-item.dto';
 import { SortableProjectKey } from './enum/index.enum';
-import {
-  mapToAutoProjectDetailsDto,
-  mapToAutoProjectListItemsDto,
-} from './mapper/index.mapper';
+import { mapToAutoProjectListItemsDto } from './mapper/index.mapper';
 import { RawProjectResult } from './types/index.type';
 
 @Injectable()
@@ -31,7 +28,7 @@ export class AutoProjectReadService {
     } = query;
 
     const offset = (page - 1) * limit;
-    const where: Prisma.AutoProjectWhereInput = { user_id: userId };
+    const where: Prisma.AutoProjectWhereInput = { userId: userId };
     const orderByClause = this.getOrderByClause(sortBy, sortOrder);
 
     const projectsQuery = Prisma.sql`
@@ -41,25 +38,25 @@ export class AutoProjectReadService {
         p.status,
         plat.id AS "platformId",
         plat.name AS "platformName",
-        p.created_at AS "createdAt",
-        p.updated_at AS "updatedAt",
+        p."created_at",
+        p."updated_at",
         
         (SELECT COUNT(*) FROM "auto_post" WHERE "auto_project_id" = p.id)::INT AS "postCount",
         
         -- Subquery to get the next scheduled post date
         (
-          SELECT MIN(ap.scheduled_at)
+          SELECT MIN(ap."scheduled_at")
           FROM "auto_post" ap
-          WHERE ap.auto_project_id = p.id
+          WHERE ap."auto_project_id" = p.id
             AND ap.status = 'PENDING'
-            AND ap.scheduled_at > NOW()
+            AND ap."scheduled_at" > NOW()
         ) AS "nextPostAt"
       FROM
         "auto_project" AS p
       LEFT JOIN
-        "platform" AS plat ON p.platform_id = plat.id
+        "platform" AS plat ON p."platform_id" = plat.id
       WHERE
-        p.user_id = ${userId}
+        p."user_id" = ${userId}
       ${orderByClause}
       LIMIT ${limit}
       OFFSET ${offset}
@@ -112,7 +109,7 @@ export class AutoProjectReadService {
     const autoProject = await this.prisma.autoProject.findFirst({
       where: {
         id,
-        user_id: userId,
+        userId: userId,
       },
       include: {
         platform: true,
@@ -123,6 +120,6 @@ export class AutoProjectReadService {
       throw new BadRequestException('Auto project not found');
     }
 
-    return mapToAutoProjectDetailsDto(autoProject);
+    return autoProject;
   }
 }

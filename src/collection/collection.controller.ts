@@ -1,23 +1,23 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
+  Controller,
   Delete,
-  Patch,
-  ParseIntPipe,
-  UseGuards,
+  Get,
   HttpCode,
   HttpStatus,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  UseGuards,
 } from '@nestjs/common';
-import { CollectionService } from './collection.service';
 import { CurrentUser } from 'src/auth/decorators/users.decorator';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
-import { CollectionDto } from './dto/response/collection.dto';
+import { CollectionService } from './collection.service';
 import { CreateCollectionDto } from './dto/request/create-collection.dto';
 import { UpdateCollectionDto } from './dto/request/update-collection.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CollectionDto } from './dto/response/collection.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('collections')

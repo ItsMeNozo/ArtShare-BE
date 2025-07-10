@@ -48,7 +48,7 @@ export class FollowerEngagementTierDto {
 
 export class PlanContentInsightDto {
   @ApiProperty({
-    example: 'ARTIST_PRO',
+    example: 'ARTISTPRO',
     description: 'Name of the subscription plan.',
   })
   planName: string;
@@ -86,20 +86,20 @@ export class PlanContentInsightDto {
 
 export class AiContentEngagementDto {
   @ApiProperty({ example: 12.0 })
-  averageLikes_AiPosts: number;
+  averageLikesAiPosts: number;
   @ApiProperty({ example: 2.5 })
-  averageComments_AiPosts: number;
+  averageCommentsAiPosts: number;
   @ApiProperty({ example: 150.0 })
-  averageViews_AiPosts: number;
+  averageViewsAiPosts: number;
   @ApiProperty({ example: 100 })
   aiPostsAnalyzed: number;
 
   @ApiProperty({ example: 8.0 })
-  averageLikes_NonAiPosts: number;
+  averageLikesNonAiPosts: number;
   @ApiProperty({ example: 1.8 })
-  averageComments_NonAiPosts: number;
+  averageCommentsNonAiPosts: number;
   @ApiProperty({ example: 120.0 })
-  averageViews_NonAiPosts: number;
+  averageViewsNonAiPosts: number;
   @ApiProperty({ example: 400 })
   nonAiPostsAnalyzed: number;
 }

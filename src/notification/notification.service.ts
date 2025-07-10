@@ -1,8 +1,8 @@
 import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
 import { OnEvent } from '@nestjs/event-emitter';
-import type { NotificationsGateway } from './notification.gateway';
+import { PrismaService } from 'src/prisma.service';
 import { NotificationUtils } from '../common/utils/notification.utils';
+import type { NotificationsGateway } from './notification.gateway';
 
 interface NotificationTemplate {
   template: string;
@@ -79,8 +79,8 @@ export class NotificationService {
     },
     report_created: {
       template:
-        '{{user:from}} has reported {{report.target_type}} {{report.target_title}}',
-      fallback: 'A new user has filed a report',
+        '{{user:from}} have reported {{report.targetType}} {{report.targetTitle}}',
+      fallback: 'A new user have filed a report',
     },
   };
 

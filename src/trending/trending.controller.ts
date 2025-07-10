@@ -1,16 +1,20 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { TrendingService } from './trending.service';
-import { ChatService } from './chat.service';
 import { CurrentUser } from 'src/auth/decorators/users.decorator';
-import { ConversationResponseDto, MessageResponseDto } from './dto/response/generated-prompt.dto';
-import { CreateMessageDto } from './dto/request/create-message.dto';
-import { CurrentUserType } from 'src/auth/types/current-user.type';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CurrentUserType } from 'src/auth/types/current-user.type';
+import { ChatService } from './chat.service';
+import { CreateMessageDto } from './dto/request/create-message.dto';
+import {
+  ConversationResponseDto,
+  MessageResponseDto,
+} from './dto/response/generated-prompt.dto';
+import { TrendingService } from './trending.service';
 
 @Controller('trending')
 @UseGuards(JwtAuthGuard)
 export class TrendingController {
-  constructor(private readonly trendingService: TrendingService,
+  constructor(
+    private readonly trendingService: TrendingService,
     private readonly chatService: ChatService,
   ) {}
 

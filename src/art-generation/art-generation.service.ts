@@ -1,19 +1,19 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
+import { nanoid } from 'nanoid';
+import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
+import { PrismaService } from 'src/prisma.service';
+import { FileUploadResponse } from 'src/storage/dto/response.dto';
+import { StorageService } from 'src/storage/storage.service';
+import { UsageService } from 'src/usage/usage.service';
+import { ImageGenerationDto } from './dto/request/image-generation.dto';
+import { ImageGenerationResponseDto } from './dto/response/image-generation.dto';
+import { AspectRatio } from './enum/aspect-ratio';
 import {
   ImageGenerationResult,
   ImageGeneratorStrategy,
   ModelKey,
 } from './image-generator.interface';
-import { nanoid } from 'nanoid';
-import { StorageService } from 'src/storage/storage.service';
-import { FileUploadResponse } from 'src/storage/dto/response.dto';
-import { ImageGenerationDto } from './dto/request/image-generation.dto';
-import { ImageGenerationResponseDto } from './dto/response/image-generation.dto';
-import { PrismaService } from 'src/prisma.service';
-import { UsageService } from 'src/usage/usage.service';
-import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
-import { AspectRatio } from './enum/aspect-ratio';
-import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class ArtGenerationService {
@@ -43,18 +43,18 @@ export class ArtGenerationService {
     if (n <= 0) {
       // return empty response
       return plainToInstance(ImageGenerationResponseDto, {
-        user_id: userId,
-        user_prompt: prompt,
-        final_prompt: this.getFinalPrompt(
+        userId: userId,
+        userPrompt: prompt,
+        finalPrompt: this.getFinalPrompt(
           prompt,
           dto.style,
           dto.lighting,
           dto.camera,
         ),
-        model_key: modelKey,
-        number_of_images_generated: 0,
-        image_urls: [],
-        aspect_ratio: aspectRatio,
+        modelKey: modelKey,
+        numberOfImagesGenerated: 0,
+        imageUrls: [],
+        aspectRatio: aspectRatio,
         style: dto.style,
         lighting: dto.lighting,
         camera: dto.camera,
@@ -118,13 +118,13 @@ export class ArtGenerationService {
     // save info to the database
     const generatedArt = await this.prismaService.artGeneration.create({
       data: {
-        user_id: userId,
-        user_prompt: prompt,
-        final_prompt: finalPrompt,
-        model_key: modelKey,
-        number_of_images_generated: n,
-        image_urls: urls,
-        aspect_ratio: aspectRatio,
+        userId: userId,
+        userPrompt: prompt,
+        finalPrompt: finalPrompt,
+        modelKey: modelKey,
+        numberOfImagesGenerated: n,
+        imageUrls: urls,
+        aspectRatio: aspectRatio,
         style: dto.style,
         lighting: dto.lighting,
         camera: dto.camera,

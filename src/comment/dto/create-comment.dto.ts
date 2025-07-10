@@ -26,7 +26,7 @@ export class CreateCommentDto {
   })
   @IsInt()
   @IsNotEmpty()
-  target_id: number;
+  targetId: number;
 
   @ApiProperty({
     description: 'The type of the target entity',
@@ -35,7 +35,7 @@ export class CreateCommentDto {
   })
   @IsEnum(TargetType)
   @IsNotEmpty()
-  target_type: TargetType;
+  targetType: TargetType;
 
   @ApiPropertyOptional({
     description: 'The ID of the parent comment if this is a reply',
@@ -43,5 +43,5 @@ export class CreateCommentDto {
   })
   @IsInt()
   @IsOptional()
-  parent_comment_id?: number; // Only for replies
+  parentCommentId?: number; // Only for replies
 }

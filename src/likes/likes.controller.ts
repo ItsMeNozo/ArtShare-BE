@@ -1,11 +1,11 @@
-import { Controller, Post, Delete, Body, UseGuards } from '@nestjs/common';
-import { LikesService } from './likes.service';
+import { Body, Controller, Delete, Post, UseGuards } from '@nestjs/common';
+import { CurrentUser } from 'src/auth/decorators/users.decorator';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CurrentUserType } from 'src/auth/types/current-user.type';
 import { CreateLikeDto } from './dto/request/create-like.dto';
 import { RemoveLikeDto } from './dto/request/remove-like.dto';
 import { LikeDetailsDto } from './dto/response/like-details.dto';
-import { CurrentUser } from 'src/auth/decorators/users.decorator';
-import { CurrentUserType } from 'src/auth/types/current-user.type';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { LikesService } from './likes.service';
 
 @Controller('likes')
 @UseGuards(JwtAuthGuard)

@@ -1,27 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import {
-  OverallUserStatsDto,
-  OverallPostStatsDto,
-  PostsByCategoryDto,
-  CategoryPostCountDto,
-  PopularCategoriesDto,
-  PopularCategoryDto,
-  PlatformWideStatsDto,
-  ContentFunnelDto,
-  FollowerEngagementTierDto,
-  PlanContentInsightDto,
-  AiContentEngagementDto,
-  TimeToActionDto,
-  TimePointDto,
-  TimeSeriesDataDto,
-} from './dto';
-import {
-  subDays,
   differenceInMilliseconds,
-  format,
   eachDayOfInterval,
+  format,
+  subDays,
 } from 'date-fns';
 import { PrismaService } from 'src/prisma.service';
+import {
+  AiContentEngagementDto,
+  CategoryPostCountDto,
+  ContentFunnelDto,
+  FollowerEngagementTierDto,
+  OverallPostStatsDto,
+  OverallUserStatsDto,
+  PlanContentInsightDto,
+  PlatformWideStatsDto,
+  PopularCategoriesDto,
+  PopularCategoryDto,
+  PostsByCategoryDto,
+  TimePointDto,
+  TimeSeriesDataDto,
+  TimeToActionDto,
+} from './dto';
 
 const HOURS_IN_MILLISECOND = 1000 * 60 * 60;
 
@@ -35,14 +35,14 @@ export class AnalyticsService {
 
     const newUsersLast30Days = await this.prisma.user.count({
       where: {
-        created_at: {
+        createdAt: {
           gte: thirtyDaysAgo,
         },
       },
     });
 
     const onboardedUsers = await this.prisma.user.count({
-      where: { is_onboard: true },
+      where: { isOnboard: true },
     });
 
     const onboardingCompletionRate =
@@ -62,28 +62,28 @@ export class AnalyticsService {
 
     const newPostsLast30Days = await this.prisma.post.count({
       where: {
-        created_at: {
+        createdAt: {
           gte: thirtyDaysAgo,
         },
       },
     });
 
     const publishedPosts = await this.prisma.post.count({
-      where: { is_published: true },
+      where: { isPublished: true },
     });
     const draftPosts = totalPosts - publishedPosts;
 
     const privatePosts = await this.prisma.post.count({
-      where: { is_private: true },
+      where: { isPrivate: true },
     });
     const publicPosts = totalPosts - privatePosts;
 
     const aiCreatedPosts = await this.prisma.post.count({
-      where: { ai_created: true },
+      where: { aiCreated: true },
     });
 
     const matureContentPosts = await this.prisma.post.count({
-      where: { is_mature: true },
+      where: { isMature: true },
     });
 
     return {
@@ -135,10 +135,10 @@ export class AnalyticsService {
         name: true,
         posts: {
           select: {
-            like_count: true,
-            comment_count: true,
-            view_count: true,
-            share_count: true,
+            likeCount: true,
+            commentCount: true,
+            viewCount: true,
+            shareCount: true,
           },
         },
         _count: {
@@ -151,10 +151,10 @@ export class AnalyticsService {
       let totalEngagementScore = 0;
       category.posts.forEach((post) => {
         totalEngagementScore +=
-          (post.like_count || 0) +
-          (post.comment_count || 0) * 2 +
-          (post.view_count || 0) * 0.5 +
-          (post.share_count || 0) * 3;
+          (post.likeCount || 0) +
+          (post.commentCount || 0) * 2 +
+          (post.viewCount || 0) * 0.5 +
+          (post.shareCount || 0) * 3;
       });
       return {
         categoryName: category.name,
@@ -202,12 +202,12 @@ export class AnalyticsService {
     });
 
     const postsWithViewsCount = await this.prisma.post.count({
-      where: { view_count: { gt: 0 } },
+      where: { viewCount: { gt: 0 } },
     });
 
     const postsWithEngagementCount = await this.prisma.post.count({
       where: {
-        OR: [{ like_count: { gt: 0 } }, { comment_count: { gt: 0 } }],
+        OR: [{ likeCount: { gt: 0 } }, { commentCount: { gt: 0 } }],
       },
     });
 
@@ -233,15 +233,15 @@ export class AnalyticsService {
       const stats = await this.prisma.post.aggregate({
         where: {
           user: {
-            followers_count: {
+            followersCount: {
               gte: tier.min,
               lte: tier.max === Infinity ? undefined : tier.max,
             },
           },
         },
         _avg: {
-          like_count: true,
-          comment_count: true,
+          likeCount: true,
+          commentCount: true,
         },
         _count: { id: true },
       });
@@ -249,12 +249,12 @@ export class AnalyticsService {
       insights.push({
         tierDescription: tier.description,
         averageLikesPerPost: parseFloat(
-          (stats._avg.like_count || 0).toFixed(2),
+          (stats._avg?.likeCount || 0).toFixed(2),
         ),
         averageCommentsPerPost: parseFloat(
-          (stats._avg.comment_count || 0).toFixed(2),
+          (stats._avg?.commentCount || 0).toFixed(2),
         ),
-        postsAnalyzed: stats._count.id || 0,
+        postsAnalyzed: stats._count?.id || 0,
       });
     }
     return insights;
@@ -284,7 +284,7 @@ export class AnalyticsService {
 
       const engagementStats = await this.prisma.post.aggregate({
         where: { user: { userAccess: { planId: plan.id } } },
-        _avg: { like_count: true, comment_count: true },
+        _avg: { likeCount: true, commentCount: true },
         _count: { id: true },
       });
 
@@ -292,12 +292,12 @@ export class AnalyticsService {
         planName: plan.name,
         averagePostsPerUserOnPlan,
         averageLikesPerPostByUsersOnPlan: parseFloat(
-          (engagementStats._avg.like_count || 0).toFixed(2),
+          (engagementStats._avg?.likeCount || 0).toFixed(2),
         ),
         averageCommentsPerPostByUsersOnPlan: parseFloat(
-          (engagementStats._avg.comment_count || 0).toFixed(2),
+          (engagementStats._avg?.commentCount || 0).toFixed(2),
         ),
-        postsAnalyzedForEngagement: engagementStats._count.id || 0,
+        postsAnalyzedForEngagement: engagementStats._count?.id || 0,
         usersAnalyzedForPostCount: usersOnPlanCount,
       });
     }
@@ -306,38 +306,38 @@ export class AnalyticsService {
 
   private async getAiContentEngagement(): Promise<AiContentEngagementDto> {
     const aiStats = await this.prisma.post.aggregate({
-      where: { ai_created: true },
-      _avg: { like_count: true, comment_count: true, view_count: true },
+      where: { aiCreated: true },
+      _avg: { likeCount: true, commentCount: true, viewCount: true },
       _count: { id: true },
     });
 
     const nonAiStats = await this.prisma.post.aggregate({
-      where: { ai_created: false },
-      _avg: { like_count: true, comment_count: true, view_count: true },
+      where: { aiCreated: false },
+      _avg: { likeCount: true, commentCount: true, viewCount: true },
       _count: { id: true },
     });
 
     return {
-      averageLikes_AiPosts: parseFloat(
-        (aiStats._avg.like_count || 0).toFixed(2),
+      averageLikesAiPosts: parseFloat(
+        (aiStats._avg?.likeCount || 0).toFixed(2),
       ),
-      averageComments_AiPosts: parseFloat(
-        (aiStats._avg.comment_count || 0).toFixed(2),
+      averageCommentsAiPosts: parseFloat(
+        (aiStats._avg?.commentCount || 0).toFixed(2),
       ),
-      averageViews_AiPosts: parseFloat(
-        (aiStats._avg.view_count || 0).toFixed(2),
+      averageViewsAiPosts: parseFloat(
+        (aiStats._avg?.viewCount || 0).toFixed(2),
       ),
-      aiPostsAnalyzed: aiStats._count.id || 0,
-      averageLikes_NonAiPosts: parseFloat(
-        (nonAiStats._avg.like_count || 0).toFixed(2),
+      aiPostsAnalyzed: aiStats._count?.id || 0,
+      averageLikesNonAiPosts: parseFloat(
+        (nonAiStats._avg?.likeCount || 0).toFixed(2),
       ),
-      averageComments_NonAiPosts: parseFloat(
-        (nonAiStats._avg.comment_count || 0).toFixed(2),
+      averageCommentsNonAiPosts: parseFloat(
+        (nonAiStats._avg?.commentCount || 0).toFixed(2),
       ),
-      averageViews_NonAiPosts: parseFloat(
-        (nonAiStats._avg.view_count || 0).toFixed(2),
+      averageViewsNonAiPosts: parseFloat(
+        (nonAiStats._avg?.viewCount || 0).toFixed(2),
       ),
-      nonAiPostsAnalyzed: nonAiStats._count.id || 0,
+      nonAiPostsAnalyzed: nonAiStats._count?.id || 0,
     };
   }
 
@@ -345,11 +345,11 @@ export class AnalyticsService {
     const usersWithFirstPost = await this.prisma.user.findMany({
       where: { posts: { some: {} } },
       select: {
-        created_at: true,
+        createdAt: true,
         posts: {
-          orderBy: { created_at: 'asc' },
+          orderBy: { createdAt: 'asc' },
           take: 1,
-          select: { created_at: true },
+          select: { createdAt: true },
         },
       },
     });
@@ -359,8 +359,8 @@ export class AnalyticsService {
     for (const user of usersWithFirstPost) {
       if (user.posts.length > 0) {
         const diff = differenceInMilliseconds(
-          user.posts[0].created_at,
-          user.created_at,
+          user.posts[0].createdAt,
+          user.createdAt,
         );
         if (diff >= 0) {
           totalMillisToFirstPost += diff;
@@ -379,54 +379,54 @@ export class AnalyticsService {
 
     const postsWithInteractionMeta = await this.prisma.post.findMany({
       where: {
-        OR: [{ like_count: { gt: 0 } }, { comment_count: { gt: 0 } }],
+        OR: [{ likeCount: { gt: 0 } }, { commentCount: { gt: 0 } }],
       },
-      select: { id: true, created_at: true },
+      select: { id: true, createdAt: true },
     });
 
     let avgHoursPostToFirstInteraction: number | null = null;
 
     if (postsWithInteractionMeta.length > 0) {
       const postMap = new Map<number, Date>(
-        postsWithInteractionMeta.map((p) => [p.id, p.created_at]),
+        postsWithInteractionMeta.map((p) => [p.id, p.createdAt]),
       );
       const postIds = postsWithInteractionMeta.map((p) => p.id);
 
       const firstLikesData = await this.prisma.like.groupBy({
-        by: ['post_id'],
+        by: ['postId'],
         where: {
-          post_id: { in: postIds },
+          postId: { in: postIds },
         },
         _min: {
-          created_at: true,
+          createdAt: true,
         },
         having: {
-          post_id: {
+          postId: {
             not: null,
           },
         },
       });
       const firstLikesMap = new Map<number, Date>();
       firstLikesData.forEach((l) => {
-        if (l.post_id !== null && l._min.created_at) {
-          firstLikesMap.set(l.post_id, l._min.created_at);
+        if (l.postId !== null && l._min.createdAt) {
+          firstLikesMap.set(l.postId, l._min.createdAt);
         }
       });
 
       const firstCommentsData = await this.prisma.comment.groupBy({
-        by: ['target_id'],
+        by: ['targetId'],
         where: {
-          target_id: { in: postIds },
-          target_type: 'POST',
+          targetId: { in: postIds },
+          targetType: 'POST',
         },
         _min: {
-          created_at: true,
+          createdAt: true,
         },
       });
       const firstCommentsMap = new Map<number, Date>();
       firstCommentsData.forEach((c) => {
-        if (c._min.created_at) {
-          firstCommentsMap.set(c.target_id, c._min.created_at);
+        if (c.targetId && c._min.createdAt) {
+          firstCommentsMap.set(c.targetId, c._min.createdAt);
         }
       });
 
@@ -483,9 +483,9 @@ export class AnalyticsService {
 
     // Get daily new user counts
     const dailyNewUsers = await this.prisma.user.groupBy({
-      by: ['created_at'],
+      by: ['createdAt'],
       where: {
-        created_at: {
+        createdAt: {
           gte: startDate,
           lte: endDate, // Ensure we don't go beyond today for cumulative
         },
@@ -494,13 +494,13 @@ export class AnalyticsService {
         id: true,
       },
       orderBy: {
-        created_at: 'asc',
+        createdAt: 'asc',
       },
     });
 
     // Get total users before the start date for cumulative calculation
     const usersBeforeStartDate = await this.prisma.user.count({
-      where: { created_at: { lt: startDate } },
+      where: { createdAt: { lt: startDate } },
     });
 
     const allDays = eachDayOfInterval({ start: startDate, end: endDate });
@@ -510,10 +510,10 @@ export class AnalyticsService {
     // Map daily new users to a dictionary for quick lookup
     const newUsersMap = new Map<string, number>();
     dailyNewUsers.forEach((record) => {
-      const dateStr = format(new Date(record.created_at), 'yyyy-MM-dd'); // Group by day
+      const dateStr = format(new Date(record.createdAt), 'yyyy-MM-dd'); // Group by day
       newUsersMap.set(
         dateStr,
-        (newUsersMap.get(dateStr) || 0) + record._count.id,
+        (newUsersMap.get(dateStr) || 0) + (record._count?.id || 0),
       );
     });
 
@@ -531,9 +531,9 @@ export class AnalyticsService {
     const startDate = subDays(endDate, days - 1);
 
     const dailyNewPosts = await this.prisma.post.groupBy({
-      by: ['created_at'],
+      by: ['createdAt'],
       where: {
-        created_at: {
+        createdAt: {
           gte: startDate,
           lte: endDate,
         },
@@ -542,12 +542,12 @@ export class AnalyticsService {
         id: true,
       },
       orderBy: {
-        created_at: 'asc',
+        createdAt: 'asc',
       },
     });
 
     const postsBeforeStartDate = await this.prisma.post.count({
-      where: { created_at: { lt: startDate } },
+      where: { createdAt: { lt: startDate } },
     });
 
     const allDays = eachDayOfInterval({ start: startDate, end: endDate });
@@ -556,10 +556,10 @@ export class AnalyticsService {
 
     const newPostsMap = new Map<string, number>();
     dailyNewPosts.forEach((record) => {
-      const dateStr = format(new Date(record.created_at), 'yyyy-MM-dd');
+      const dateStr = format(new Date(record.createdAt), 'yyyy-MM-dd');
       newPostsMap.set(
         dateStr,
-        (newPostsMap.get(dateStr) || 0) + record._count.id,
+        (newPostsMap.get(dateStr) || 0) + (record._count?.id || 0),
       );
     });
 

@@ -27,116 +27,116 @@ export type AggregateAutoPost = {
 
 export type AutoPostAvgAggregateOutputType = {
   id: number | null
-  auto_project_id: number | null
+  autoProjectId: number | null
 }
 
 export type AutoPostSumAggregateOutputType = {
   id: number | null
-  auto_project_id: number | null
+  autoProjectId: number | null
 }
 
 export type AutoPostMinAggregateOutputType = {
   id: number | null
-  auto_project_id: number | null
+  autoProjectId: number | null
   content: string | null
-  scheduled_at: Date | null
+  scheduledAt: Date | null
   status: $Enums.AutoPostStatus | null
-  created_at: Date | null
-  updated_at: Date | null
-  posted_at: Date | null
-  error_message: string | null
-  n8n_triggered_at: Date | null
-  n8n_execution_id: string | null
-  platform_post_id: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
+  postedAt: Date | null
+  errorMessage: string | null
+  n8nTriggeredAt: Date | null
+  n8nExecutionId: string | null
+  platformPostId: string | null
 }
 
 export type AutoPostMaxAggregateOutputType = {
   id: number | null
-  auto_project_id: number | null
+  autoProjectId: number | null
   content: string | null
-  scheduled_at: Date | null
+  scheduledAt: Date | null
   status: $Enums.AutoPostStatus | null
-  created_at: Date | null
-  updated_at: Date | null
-  posted_at: Date | null
-  error_message: string | null
-  n8n_triggered_at: Date | null
-  n8n_execution_id: string | null
-  platform_post_id: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
+  postedAt: Date | null
+  errorMessage: string | null
+  n8nTriggeredAt: Date | null
+  n8nExecutionId: string | null
+  platformPostId: string | null
 }
 
 export type AutoPostCountAggregateOutputType = {
   id: number
-  auto_project_id: number
+  autoProjectId: number
   content: number
-  image_urls: number
-  scheduled_at: number
+  imageUrls: number
+  scheduledAt: number
   status: number
-  created_at: number
-  updated_at: number
-  posted_at: number
-  error_message: number
-  n8n_triggered_at: number
-  n8n_execution_id: number
-  platform_post_id: number
+  createdAt: number
+  updatedAt: number
+  postedAt: number
+  errorMessage: number
+  n8nTriggeredAt: number
+  n8nExecutionId: number
+  platformPostId: number
   _all: number
 }
 
 
 export type AutoPostAvgAggregateInputType = {
   id?: true
-  auto_project_id?: true
+  autoProjectId?: true
 }
 
 export type AutoPostSumAggregateInputType = {
   id?: true
-  auto_project_id?: true
+  autoProjectId?: true
 }
 
 export type AutoPostMinAggregateInputType = {
   id?: true
-  auto_project_id?: true
+  autoProjectId?: true
   content?: true
-  scheduled_at?: true
+  scheduledAt?: true
   status?: true
-  created_at?: true
-  updated_at?: true
-  posted_at?: true
-  error_message?: true
-  n8n_triggered_at?: true
-  n8n_execution_id?: true
-  platform_post_id?: true
+  createdAt?: true
+  updatedAt?: true
+  postedAt?: true
+  errorMessage?: true
+  n8nTriggeredAt?: true
+  n8nExecutionId?: true
+  platformPostId?: true
 }
 
 export type AutoPostMaxAggregateInputType = {
   id?: true
-  auto_project_id?: true
+  autoProjectId?: true
   content?: true
-  scheduled_at?: true
+  scheduledAt?: true
   status?: true
-  created_at?: true
-  updated_at?: true
-  posted_at?: true
-  error_message?: true
-  n8n_triggered_at?: true
-  n8n_execution_id?: true
-  platform_post_id?: true
+  createdAt?: true
+  updatedAt?: true
+  postedAt?: true
+  errorMessage?: true
+  n8nTriggeredAt?: true
+  n8nExecutionId?: true
+  platformPostId?: true
 }
 
 export type AutoPostCountAggregateInputType = {
   id?: true
-  auto_project_id?: true
+  autoProjectId?: true
   content?: true
-  image_urls?: true
-  scheduled_at?: true
+  imageUrls?: true
+  scheduledAt?: true
   status?: true
-  created_at?: true
-  updated_at?: true
-  posted_at?: true
-  error_message?: true
-  n8n_triggered_at?: true
-  n8n_execution_id?: true
-  platform_post_id?: true
+  createdAt?: true
+  updatedAt?: true
+  postedAt?: true
+  errorMessage?: true
+  n8nTriggeredAt?: true
+  n8nExecutionId?: true
+  platformPostId?: true
   _all?: true
 }
 
@@ -228,18 +228,18 @@ export type AutoPostGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 
 export type AutoPostGroupByOutputType = {
   id: number
-  auto_project_id: number
+  autoProjectId: number
   content: string
-  image_urls: string[]
-  scheduled_at: Date | null
+  imageUrls: string[]
+  scheduledAt: Date | null
   status: $Enums.AutoPostStatus
-  created_at: Date
-  updated_at: Date
-  posted_at: Date | null
-  error_message: string | null
-  n8n_triggered_at: Date | null
-  n8n_execution_id: string | null
-  platform_post_id: string | null
+  createdAt: Date
+  updatedAt: Date
+  postedAt: Date | null
+  errorMessage: string | null
+  n8nTriggeredAt: Date | null
+  n8nExecutionId: string | null
+  platformPostId: string | null
   _count: AutoPostCountAggregateOutputType | null
   _avg: AutoPostAvgAggregateOutputType | null
   _sum: AutoPostSumAggregateOutputType | null
@@ -267,35 +267,35 @@ export type AutoPostWhereInput = {
   OR?: Prisma.AutoPostWhereInput[]
   NOT?: Prisma.AutoPostWhereInput | Prisma.AutoPostWhereInput[]
   id?: Prisma.IntFilter<"AutoPost"> | number
-  auto_project_id?: Prisma.IntFilter<"AutoPost"> | number
+  autoProjectId?: Prisma.IntFilter<"AutoPost"> | number
   content?: Prisma.StringFilter<"AutoPost"> | string
-  image_urls?: Prisma.StringNullableListFilter<"AutoPost">
-  scheduled_at?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
+  imageUrls?: Prisma.StringNullableListFilter<"AutoPost">
+  scheduledAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
   status?: Prisma.EnumAutoPostStatusFilter<"AutoPost"> | $Enums.AutoPostStatus
-  created_at?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
-  posted_at?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
-  error_message?: Prisma.StringNullableFilter<"AutoPost"> | string | null
-  n8n_triggered_at?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
-  n8n_execution_id?: Prisma.StringNullableFilter<"AutoPost"> | string | null
-  platform_post_id?: Prisma.StringNullableFilter<"AutoPost"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
+  postedAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
+  errorMessage?: Prisma.StringNullableFilter<"AutoPost"> | string | null
+  n8nTriggeredAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
+  n8nExecutionId?: Prisma.StringNullableFilter<"AutoPost"> | string | null
+  platformPostId?: Prisma.StringNullableFilter<"AutoPost"> | string | null
   autoProject?: Prisma.XOR<Prisma.AutoProjectScalarRelationFilter, Prisma.AutoProjectWhereInput>
 }
 
 export type AutoPostOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  auto_project_id?: Prisma.SortOrder
+  autoProjectId?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  image_urls?: Prisma.SortOrder
-  scheduled_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageUrls?: Prisma.SortOrder
+  scheduledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  posted_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  error_message?: Prisma.SortOrderInput | Prisma.SortOrder
-  n8n_triggered_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  n8n_execution_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  platform_post_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  postedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  errorMessage?: Prisma.SortOrderInput | Prisma.SortOrder
+  n8nTriggeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  n8nExecutionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  platformPostId?: Prisma.SortOrderInput | Prisma.SortOrder
   autoProject?: Prisma.AutoProjectOrderByWithRelationInput
 }
 
@@ -304,35 +304,35 @@ export type AutoPostWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.AutoPostWhereInput | Prisma.AutoPostWhereInput[]
   OR?: Prisma.AutoPostWhereInput[]
   NOT?: Prisma.AutoPostWhereInput | Prisma.AutoPostWhereInput[]
-  auto_project_id?: Prisma.IntFilter<"AutoPost"> | number
+  autoProjectId?: Prisma.IntFilter<"AutoPost"> | number
   content?: Prisma.StringFilter<"AutoPost"> | string
-  image_urls?: Prisma.StringNullableListFilter<"AutoPost">
-  scheduled_at?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
+  imageUrls?: Prisma.StringNullableListFilter<"AutoPost">
+  scheduledAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
   status?: Prisma.EnumAutoPostStatusFilter<"AutoPost"> | $Enums.AutoPostStatus
-  created_at?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
-  posted_at?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
-  error_message?: Prisma.StringNullableFilter<"AutoPost"> | string | null
-  n8n_triggered_at?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
-  n8n_execution_id?: Prisma.StringNullableFilter<"AutoPost"> | string | null
-  platform_post_id?: Prisma.StringNullableFilter<"AutoPost"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
+  postedAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
+  errorMessage?: Prisma.StringNullableFilter<"AutoPost"> | string | null
+  n8nTriggeredAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
+  n8nExecutionId?: Prisma.StringNullableFilter<"AutoPost"> | string | null
+  platformPostId?: Prisma.StringNullableFilter<"AutoPost"> | string | null
   autoProject?: Prisma.XOR<Prisma.AutoProjectScalarRelationFilter, Prisma.AutoProjectWhereInput>
 }, "id">
 
 export type AutoPostOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  auto_project_id?: Prisma.SortOrder
+  autoProjectId?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  image_urls?: Prisma.SortOrder
-  scheduled_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageUrls?: Prisma.SortOrder
+  scheduledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  posted_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  error_message?: Prisma.SortOrderInput | Prisma.SortOrder
-  n8n_triggered_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  n8n_execution_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  platform_post_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  postedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  errorMessage?: Prisma.SortOrderInput | Prisma.SortOrder
+  n8nTriggeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  n8nExecutionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  platformPostId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AutoPostCountOrderByAggregateInput
   _avg?: Prisma.AutoPostAvgOrderByAggregateInput
   _max?: Prisma.AutoPostMaxOrderByAggregateInput
@@ -345,126 +345,126 @@ export type AutoPostScalarWhereWithAggregatesInput = {
   OR?: Prisma.AutoPostScalarWhereWithAggregatesInput[]
   NOT?: Prisma.AutoPostScalarWhereWithAggregatesInput | Prisma.AutoPostScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"AutoPost"> | number
-  auto_project_id?: Prisma.IntWithAggregatesFilter<"AutoPost"> | number
+  autoProjectId?: Prisma.IntWithAggregatesFilter<"AutoPost"> | number
   content?: Prisma.StringWithAggregatesFilter<"AutoPost"> | string
-  image_urls?: Prisma.StringNullableListFilter<"AutoPost">
-  scheduled_at?: Prisma.DateTimeNullableWithAggregatesFilter<"AutoPost"> | Date | string | null
+  imageUrls?: Prisma.StringNullableListFilter<"AutoPost">
+  scheduledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AutoPost"> | Date | string | null
   status?: Prisma.EnumAutoPostStatusWithAggregatesFilter<"AutoPost"> | $Enums.AutoPostStatus
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"AutoPost"> | Date | string
-  updated_at?: Prisma.DateTimeWithAggregatesFilter<"AutoPost"> | Date | string
-  posted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"AutoPost"> | Date | string | null
-  error_message?: Prisma.StringNullableWithAggregatesFilter<"AutoPost"> | string | null
-  n8n_triggered_at?: Prisma.DateTimeNullableWithAggregatesFilter<"AutoPost"> | Date | string | null
-  n8n_execution_id?: Prisma.StringNullableWithAggregatesFilter<"AutoPost"> | string | null
-  platform_post_id?: Prisma.StringNullableWithAggregatesFilter<"AutoPost"> | string | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"AutoPost"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AutoPost"> | Date | string
+  postedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AutoPost"> | Date | string | null
+  errorMessage?: Prisma.StringNullableWithAggregatesFilter<"AutoPost"> | string | null
+  n8nTriggeredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AutoPost"> | Date | string | null
+  n8nExecutionId?: Prisma.StringNullableWithAggregatesFilter<"AutoPost"> | string | null
+  platformPostId?: Prisma.StringNullableWithAggregatesFilter<"AutoPost"> | string | null
 }
 
 export type AutoPostCreateInput = {
   content: string
-  image_urls?: Prisma.AutoPostCreateimage_urlsInput | string[]
-  scheduled_at?: Date | string | null
+  imageUrls?: Prisma.AutoPostCreateimageUrlsInput | string[]
+  scheduledAt?: Date | string | null
   status?: $Enums.AutoPostStatus
-  created_at?: Date | string
-  updated_at?: Date | string
-  posted_at?: Date | string | null
-  error_message?: string | null
-  n8n_triggered_at?: Date | string | null
-  n8n_execution_id?: string | null
-  platform_post_id?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  postedAt?: Date | string | null
+  errorMessage?: string | null
+  n8nTriggeredAt?: Date | string | null
+  n8nExecutionId?: string | null
+  platformPostId?: string | null
   autoProject: Prisma.AutoProjectCreateNestedOneWithoutAutoPostsInput
 }
 
 export type AutoPostUncheckedCreateInput = {
   id?: number
-  auto_project_id: number
+  autoProjectId: number
   content: string
-  image_urls?: Prisma.AutoPostCreateimage_urlsInput | string[]
-  scheduled_at?: Date | string | null
+  imageUrls?: Prisma.AutoPostCreateimageUrlsInput | string[]
+  scheduledAt?: Date | string | null
   status?: $Enums.AutoPostStatus
-  created_at?: Date | string
-  updated_at?: Date | string
-  posted_at?: Date | string | null
-  error_message?: string | null
-  n8n_triggered_at?: Date | string | null
-  n8n_execution_id?: string | null
-  platform_post_id?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  postedAt?: Date | string | null
+  errorMessage?: string | null
+  n8nTriggeredAt?: Date | string | null
+  n8nExecutionId?: string | null
+  platformPostId?: string | null
 }
 
 export type AutoPostUpdateInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  image_urls?: Prisma.AutoPostUpdateimage_urlsInput | string[]
-  scheduled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  imageUrls?: Prisma.AutoPostUpdateimageUrlsInput | string[]
+  scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumAutoPostStatusFieldUpdateOperationsInput | $Enums.AutoPostStatus
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  error_message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  n8n_triggered_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  n8n_execution_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  platform_post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  n8nTriggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  n8nExecutionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  platformPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   autoProject?: Prisma.AutoProjectUpdateOneRequiredWithoutAutoPostsNestedInput
 }
 
 export type AutoPostUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  auto_project_id?: Prisma.IntFieldUpdateOperationsInput | number
+  autoProjectId?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  image_urls?: Prisma.AutoPostUpdateimage_urlsInput | string[]
-  scheduled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  imageUrls?: Prisma.AutoPostUpdateimageUrlsInput | string[]
+  scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumAutoPostStatusFieldUpdateOperationsInput | $Enums.AutoPostStatus
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  error_message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  n8n_triggered_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  n8n_execution_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  platform_post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  n8nTriggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  n8nExecutionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  platformPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AutoPostCreateManyInput = {
   id?: number
-  auto_project_id: number
+  autoProjectId: number
   content: string
-  image_urls?: Prisma.AutoPostCreateimage_urlsInput | string[]
-  scheduled_at?: Date | string | null
+  imageUrls?: Prisma.AutoPostCreateimageUrlsInput | string[]
+  scheduledAt?: Date | string | null
   status?: $Enums.AutoPostStatus
-  created_at?: Date | string
-  updated_at?: Date | string
-  posted_at?: Date | string | null
-  error_message?: string | null
-  n8n_triggered_at?: Date | string | null
-  n8n_execution_id?: string | null
-  platform_post_id?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  postedAt?: Date | string | null
+  errorMessage?: string | null
+  n8nTriggeredAt?: Date | string | null
+  n8nExecutionId?: string | null
+  platformPostId?: string | null
 }
 
 export type AutoPostUpdateManyMutationInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  image_urls?: Prisma.AutoPostUpdateimage_urlsInput | string[]
-  scheduled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  imageUrls?: Prisma.AutoPostUpdateimageUrlsInput | string[]
+  scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumAutoPostStatusFieldUpdateOperationsInput | $Enums.AutoPostStatus
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  error_message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  n8n_triggered_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  n8n_execution_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  platform_post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  n8nTriggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  n8nExecutionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  platformPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AutoPostUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  auto_project_id?: Prisma.IntFieldUpdateOperationsInput | number
+  autoProjectId?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  image_urls?: Prisma.AutoPostUpdateimage_urlsInput | string[]
-  scheduled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  imageUrls?: Prisma.AutoPostUpdateimageUrlsInput | string[]
+  scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumAutoPostStatusFieldUpdateOperationsInput | $Enums.AutoPostStatus
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  error_message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  n8n_triggered_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  n8n_execution_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  platform_post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  n8nTriggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  n8nExecutionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  platformPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AutoPostListRelationFilter = {
@@ -479,58 +479,58 @@ export type AutoPostOrderByRelationAggregateInput = {
 
 export type AutoPostCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  auto_project_id?: Prisma.SortOrder
+  autoProjectId?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  image_urls?: Prisma.SortOrder
-  scheduled_at?: Prisma.SortOrder
+  imageUrls?: Prisma.SortOrder
+  scheduledAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  posted_at?: Prisma.SortOrder
-  error_message?: Prisma.SortOrder
-  n8n_triggered_at?: Prisma.SortOrder
-  n8n_execution_id?: Prisma.SortOrder
-  platform_post_id?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  postedAt?: Prisma.SortOrder
+  errorMessage?: Prisma.SortOrder
+  n8nTriggeredAt?: Prisma.SortOrder
+  n8nExecutionId?: Prisma.SortOrder
+  platformPostId?: Prisma.SortOrder
 }
 
 export type AutoPostAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  auto_project_id?: Prisma.SortOrder
+  autoProjectId?: Prisma.SortOrder
 }
 
 export type AutoPostMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  auto_project_id?: Prisma.SortOrder
+  autoProjectId?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  scheduled_at?: Prisma.SortOrder
+  scheduledAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  posted_at?: Prisma.SortOrder
-  error_message?: Prisma.SortOrder
-  n8n_triggered_at?: Prisma.SortOrder
-  n8n_execution_id?: Prisma.SortOrder
-  platform_post_id?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  postedAt?: Prisma.SortOrder
+  errorMessage?: Prisma.SortOrder
+  n8nTriggeredAt?: Prisma.SortOrder
+  n8nExecutionId?: Prisma.SortOrder
+  platformPostId?: Prisma.SortOrder
 }
 
 export type AutoPostMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  auto_project_id?: Prisma.SortOrder
+  autoProjectId?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  scheduled_at?: Prisma.SortOrder
+  scheduledAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  posted_at?: Prisma.SortOrder
-  error_message?: Prisma.SortOrder
-  n8n_triggered_at?: Prisma.SortOrder
-  n8n_execution_id?: Prisma.SortOrder
-  platform_post_id?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  postedAt?: Prisma.SortOrder
+  errorMessage?: Prisma.SortOrder
+  n8nTriggeredAt?: Prisma.SortOrder
+  n8nExecutionId?: Prisma.SortOrder
+  platformPostId?: Prisma.SortOrder
 }
 
 export type AutoPostSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  auto_project_id?: Prisma.SortOrder
+  autoProjectId?: Prisma.SortOrder
 }
 
 export type AutoPostCreateNestedManyWithoutAutoProjectInput = {
@@ -575,11 +575,11 @@ export type AutoPostUncheckedUpdateManyWithoutAutoProjectNestedInput = {
   deleteMany?: Prisma.AutoPostScalarWhereInput | Prisma.AutoPostScalarWhereInput[]
 }
 
-export type AutoPostCreateimage_urlsInput = {
+export type AutoPostCreateimageUrlsInput = {
   set: string[]
 }
 
-export type AutoPostUpdateimage_urlsInput = {
+export type AutoPostUpdateimageUrlsInput = {
   set?: string[]
   push?: string | string[]
 }
@@ -590,31 +590,31 @@ export type EnumAutoPostStatusFieldUpdateOperationsInput = {
 
 export type AutoPostCreateWithoutAutoProjectInput = {
   content: string
-  image_urls?: Prisma.AutoPostCreateimage_urlsInput | string[]
-  scheduled_at?: Date | string | null
+  imageUrls?: Prisma.AutoPostCreateimageUrlsInput | string[]
+  scheduledAt?: Date | string | null
   status?: $Enums.AutoPostStatus
-  created_at?: Date | string
-  updated_at?: Date | string
-  posted_at?: Date | string | null
-  error_message?: string | null
-  n8n_triggered_at?: Date | string | null
-  n8n_execution_id?: string | null
-  platform_post_id?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  postedAt?: Date | string | null
+  errorMessage?: string | null
+  n8nTriggeredAt?: Date | string | null
+  n8nExecutionId?: string | null
+  platformPostId?: string | null
 }
 
 export type AutoPostUncheckedCreateWithoutAutoProjectInput = {
   id?: number
   content: string
-  image_urls?: Prisma.AutoPostCreateimage_urlsInput | string[]
-  scheduled_at?: Date | string | null
+  imageUrls?: Prisma.AutoPostCreateimageUrlsInput | string[]
+  scheduledAt?: Date | string | null
   status?: $Enums.AutoPostStatus
-  created_at?: Date | string
-  updated_at?: Date | string
-  posted_at?: Date | string | null
-  error_message?: string | null
-  n8n_triggered_at?: Date | string | null
-  n8n_execution_id?: string | null
-  platform_post_id?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  postedAt?: Date | string | null
+  errorMessage?: string | null
+  n8nTriggeredAt?: Date | string | null
+  n8nExecutionId?: string | null
+  platformPostId?: string | null
 }
 
 export type AutoPostCreateOrConnectWithoutAutoProjectInput = {
@@ -648,149 +648,149 @@ export type AutoPostScalarWhereInput = {
   OR?: Prisma.AutoPostScalarWhereInput[]
   NOT?: Prisma.AutoPostScalarWhereInput | Prisma.AutoPostScalarWhereInput[]
   id?: Prisma.IntFilter<"AutoPost"> | number
-  auto_project_id?: Prisma.IntFilter<"AutoPost"> | number
+  autoProjectId?: Prisma.IntFilter<"AutoPost"> | number
   content?: Prisma.StringFilter<"AutoPost"> | string
-  image_urls?: Prisma.StringNullableListFilter<"AutoPost">
-  scheduled_at?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
+  imageUrls?: Prisma.StringNullableListFilter<"AutoPost">
+  scheduledAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
   status?: Prisma.EnumAutoPostStatusFilter<"AutoPost"> | $Enums.AutoPostStatus
-  created_at?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
-  posted_at?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
-  error_message?: Prisma.StringNullableFilter<"AutoPost"> | string | null
-  n8n_triggered_at?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
-  n8n_execution_id?: Prisma.StringNullableFilter<"AutoPost"> | string | null
-  platform_post_id?: Prisma.StringNullableFilter<"AutoPost"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
+  postedAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
+  errorMessage?: Prisma.StringNullableFilter<"AutoPost"> | string | null
+  n8nTriggeredAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
+  n8nExecutionId?: Prisma.StringNullableFilter<"AutoPost"> | string | null
+  platformPostId?: Prisma.StringNullableFilter<"AutoPost"> | string | null
 }
 
 export type AutoPostCreateManyAutoProjectInput = {
   id?: number
   content: string
-  image_urls?: Prisma.AutoPostCreateimage_urlsInput | string[]
-  scheduled_at?: Date | string | null
+  imageUrls?: Prisma.AutoPostCreateimageUrlsInput | string[]
+  scheduledAt?: Date | string | null
   status?: $Enums.AutoPostStatus
-  created_at?: Date | string
-  updated_at?: Date | string
-  posted_at?: Date | string | null
-  error_message?: string | null
-  n8n_triggered_at?: Date | string | null
-  n8n_execution_id?: string | null
-  platform_post_id?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  postedAt?: Date | string | null
+  errorMessage?: string | null
+  n8nTriggeredAt?: Date | string | null
+  n8nExecutionId?: string | null
+  platformPostId?: string | null
 }
 
 export type AutoPostUpdateWithoutAutoProjectInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  image_urls?: Prisma.AutoPostUpdateimage_urlsInput | string[]
-  scheduled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  imageUrls?: Prisma.AutoPostUpdateimageUrlsInput | string[]
+  scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumAutoPostStatusFieldUpdateOperationsInput | $Enums.AutoPostStatus
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  error_message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  n8n_triggered_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  n8n_execution_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  platform_post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  n8nTriggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  n8nExecutionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  platformPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AutoPostUncheckedUpdateWithoutAutoProjectInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  image_urls?: Prisma.AutoPostUpdateimage_urlsInput | string[]
-  scheduled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  imageUrls?: Prisma.AutoPostUpdateimageUrlsInput | string[]
+  scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumAutoPostStatusFieldUpdateOperationsInput | $Enums.AutoPostStatus
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  error_message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  n8n_triggered_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  n8n_execution_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  platform_post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  n8nTriggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  n8nExecutionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  platformPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AutoPostUncheckedUpdateManyWithoutAutoProjectInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  image_urls?: Prisma.AutoPostUpdateimage_urlsInput | string[]
-  scheduled_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  imageUrls?: Prisma.AutoPostUpdateimageUrlsInput | string[]
+  scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumAutoPostStatusFieldUpdateOperationsInput | $Enums.AutoPostStatus
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  posted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  error_message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  n8n_triggered_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  n8n_execution_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  platform_post_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  n8nTriggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  n8nExecutionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  platformPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
 
 export type AutoPostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  auto_project_id?: boolean
+  autoProjectId?: boolean
   content?: boolean
-  image_urls?: boolean
-  scheduled_at?: boolean
+  imageUrls?: boolean
+  scheduledAt?: boolean
   status?: boolean
-  created_at?: boolean
-  updated_at?: boolean
-  posted_at?: boolean
-  error_message?: boolean
-  n8n_triggered_at?: boolean
-  n8n_execution_id?: boolean
-  platform_post_id?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  postedAt?: boolean
+  errorMessage?: boolean
+  n8nTriggeredAt?: boolean
+  n8nExecutionId?: boolean
+  platformPostId?: boolean
   autoProject?: boolean | Prisma.AutoProjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["autoPost"]>
 
 export type AutoPostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  auto_project_id?: boolean
+  autoProjectId?: boolean
   content?: boolean
-  image_urls?: boolean
-  scheduled_at?: boolean
+  imageUrls?: boolean
+  scheduledAt?: boolean
   status?: boolean
-  created_at?: boolean
-  updated_at?: boolean
-  posted_at?: boolean
-  error_message?: boolean
-  n8n_triggered_at?: boolean
-  n8n_execution_id?: boolean
-  platform_post_id?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  postedAt?: boolean
+  errorMessage?: boolean
+  n8nTriggeredAt?: boolean
+  n8nExecutionId?: boolean
+  platformPostId?: boolean
   autoProject?: boolean | Prisma.AutoProjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["autoPost"]>
 
 export type AutoPostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  auto_project_id?: boolean
+  autoProjectId?: boolean
   content?: boolean
-  image_urls?: boolean
-  scheduled_at?: boolean
+  imageUrls?: boolean
+  scheduledAt?: boolean
   status?: boolean
-  created_at?: boolean
-  updated_at?: boolean
-  posted_at?: boolean
-  error_message?: boolean
-  n8n_triggered_at?: boolean
-  n8n_execution_id?: boolean
-  platform_post_id?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  postedAt?: boolean
+  errorMessage?: boolean
+  n8nTriggeredAt?: boolean
+  n8nExecutionId?: boolean
+  platformPostId?: boolean
   autoProject?: boolean | Prisma.AutoProjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["autoPost"]>
 
 export type AutoPostSelectScalar = {
   id?: boolean
-  auto_project_id?: boolean
+  autoProjectId?: boolean
   content?: boolean
-  image_urls?: boolean
-  scheduled_at?: boolean
+  imageUrls?: boolean
+  scheduledAt?: boolean
   status?: boolean
-  created_at?: boolean
-  updated_at?: boolean
-  posted_at?: boolean
-  error_message?: boolean
-  n8n_triggered_at?: boolean
-  n8n_execution_id?: boolean
-  platform_post_id?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  postedAt?: boolean
+  errorMessage?: boolean
+  n8nTriggeredAt?: boolean
+  n8nExecutionId?: boolean
+  platformPostId?: boolean
 }
 
-export type AutoPostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "auto_project_id" | "content" | "image_urls" | "scheduled_at" | "status" | "created_at" | "updated_at" | "posted_at" | "error_message" | "n8n_triggered_at" | "n8n_execution_id" | "platform_post_id", ExtArgs["result"]["autoPost"]>
+export type AutoPostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "autoProjectId" | "content" | "imageUrls" | "scheduledAt" | "status" | "createdAt" | "updatedAt" | "postedAt" | "errorMessage" | "n8nTriggeredAt" | "n8nExecutionId" | "platformPostId", ExtArgs["result"]["autoPost"]>
 export type AutoPostInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   autoProject?: boolean | Prisma.AutoProjectDefaultArgs<ExtArgs>
 }
@@ -808,18 +808,18 @@ export type $AutoPostPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    auto_project_id: number
+    autoProjectId: number
     content: string
-    image_urls: string[]
-    scheduled_at: Date | null
+    imageUrls: string[]
+    scheduledAt: Date | null
     status: $Enums.AutoPostStatus
-    created_at: Date
-    updated_at: Date
-    posted_at: Date | null
-    error_message: string | null
-    n8n_triggered_at: Date | null
-    n8n_execution_id: string | null
-    platform_post_id: string | null
+    createdAt: Date
+    updatedAt: Date
+    postedAt: Date | null
+    errorMessage: string | null
+    n8nTriggeredAt: Date | null
+    n8nExecutionId: string | null
+    platformPostId: string | null
   }, ExtArgs["result"]["autoPost"]>
   composites: {}
 }
@@ -1245,18 +1245,18 @@ export interface Prisma__AutoPostClient<T, Null = never, ExtArgs extends runtime
  */
 export interface AutoPostFieldRefs {
   readonly id: Prisma.FieldRef<"AutoPost", 'Int'>
-  readonly auto_project_id: Prisma.FieldRef<"AutoPost", 'Int'>
+  readonly autoProjectId: Prisma.FieldRef<"AutoPost", 'Int'>
   readonly content: Prisma.FieldRef<"AutoPost", 'String'>
-  readonly image_urls: Prisma.FieldRef<"AutoPost", 'String[]'>
-  readonly scheduled_at: Prisma.FieldRef<"AutoPost", 'DateTime'>
+  readonly imageUrls: Prisma.FieldRef<"AutoPost", 'String[]'>
+  readonly scheduledAt: Prisma.FieldRef<"AutoPost", 'DateTime'>
   readonly status: Prisma.FieldRef<"AutoPost", 'AutoPostStatus'>
-  readonly created_at: Prisma.FieldRef<"AutoPost", 'DateTime'>
-  readonly updated_at: Prisma.FieldRef<"AutoPost", 'DateTime'>
-  readonly posted_at: Prisma.FieldRef<"AutoPost", 'DateTime'>
-  readonly error_message: Prisma.FieldRef<"AutoPost", 'String'>
-  readonly n8n_triggered_at: Prisma.FieldRef<"AutoPost", 'DateTime'>
-  readonly n8n_execution_id: Prisma.FieldRef<"AutoPost", 'String'>
-  readonly platform_post_id: Prisma.FieldRef<"AutoPost", 'String'>
+  readonly createdAt: Prisma.FieldRef<"AutoPost", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"AutoPost", 'DateTime'>
+  readonly postedAt: Prisma.FieldRef<"AutoPost", 'DateTime'>
+  readonly errorMessage: Prisma.FieldRef<"AutoPost", 'String'>
+  readonly n8nTriggeredAt: Prisma.FieldRef<"AutoPost", 'DateTime'>
+  readonly n8nExecutionId: Prisma.FieldRef<"AutoPost", 'String'>
+  readonly platformPostId: Prisma.FieldRef<"AutoPost", 'String'>
 }
     
 

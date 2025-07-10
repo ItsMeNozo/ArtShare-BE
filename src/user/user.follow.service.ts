@@ -7,69 +7,75 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { ApiResponse as CustomApiResponse } from 'src/common/api-response';
 import {
-  FollowUserResponseDto,
   FollowUnfollowDataDto,
+  FollowUserResponseDto,
   UnfollowUserResponseDto,
 } from 'src/common/dto/api-response.dto';
+import { PrismaService } from '../prisma.service';
 import { FollowerDto } from './dto/follower.dto';
-import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class UserFollowService {
   private readonly logger = new Logger(UserFollowService.name);
 
-  constructor(private prisma: PrismaService,
-              private readonly eventEmitter: EventEmitter2,
+  constructor(
+    private prisma: PrismaService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async followUser(
     followerId: string,
     followingId: string,
   ): Promise<CustomApiResponse<FollowUnfollowDataDto>> {
-    if (followerId === followingId)
+    if (followerId === followingId) {
       throw new BadRequestException('Cannot follow yourself.');
+    }
 
     const [followerExists, followingExists] = await Promise.all([
       this.prisma.user.count({ where: { id: followerId } }),
       this.prisma.user.count({ where: { id: followingId } }),
     ]);
 
-    if (followerExists === 0)
+    if (followerExists === 0) {
       throw new NotFoundException(
         `User (follower) with ID ${followerId} not found.`,
       );
-    if (followingExists === 0)
+    }
+    if (followingExists === 0) {
       throw new NotFoundException(
         `User (to follow) with ID ${followingId} not found.`,
       );
+    }
 
     const existingFollow = await this.prisma.follow.findUnique({
       where: {
-        follower_id_following_id: {
-          follower_id: followerId,
-          following_id: followingId,
+        followerId_followingId: {
+          followerId: followerId,
+          followingId: followingId,
         },
       },
     });
-    if (existingFollow)
+
+    if (existingFollow) {
       throw new ConflictException('Already following this user.');
+    }
 
     try {
       await this.prisma.$transaction([
         this.prisma.follow.create({
-          data: { follower_id: followerId, following_id: followingId },
+          data: { followerId: followerId, followingId: followingId },
         }),
         this.prisma.user.update({
           where: { id: followerId },
-          data: { followings_count: { increment: 1 } },
+          data: { followingsCount: { increment: 1 } },
         }),
         this.prisma.user.update({
           where: { id: followingId },
-          data: { followers_count: { increment: 1 } },
+          data: { followersCount: { increment: 1 } },
         }),
       ]);
 
@@ -79,7 +85,7 @@ export class UserFollowService {
         type: 'user_followed',
         createdAt: new Date(),
       });
-      
+
       const responseData: FollowUnfollowDataDto = { followerId, followingId };
       return new FollowUserResponseDto(
         true,
@@ -95,10 +101,11 @@ export class UserFollowService {
       if (
         error instanceof PrismaClientKnownRequestError &&
         error.code === 'P2002'
-      )
+      ) {
         throw new ConflictException(
           'Already following this user (race condition).',
         );
+      }
       throw new InternalServerErrorException('Could not follow user.');
     }
   }
@@ -109,32 +116,34 @@ export class UserFollowService {
   ): Promise<CustomApiResponse<FollowUnfollowDataDto>> {
     const existingFollow = await this.prisma.follow.findUnique({
       where: {
-        follower_id_following_id: {
-          follower_id: followerId,
-          following_id: followingId,
+        followerId_followingId: {
+          followerId: followerId,
+          followingId: followingId,
         },
       },
     });
-    if (!existingFollow)
+
+    if (!existingFollow) {
       throw new NotFoundException('You are not following this user.');
+    }
 
     try {
       await this.prisma.$transaction([
         this.prisma.follow.delete({
           where: {
-            follower_id_following_id: {
-              follower_id: followerId,
-              following_id: followingId,
+            followerId_followingId: {
+              followerId: followerId,
+              followingId: followingId,
             },
           },
         }),
         this.prisma.user.update({
           where: { id: followerId },
-          data: { followings_count: { decrement: 1 } },
+          data: { followingsCount: { decrement: 1 } },
         }),
         this.prisma.user.update({
           where: { id: followingId },
-          data: { followers_count: { decrement: 1 } },
+          data: { followersCount: { decrement: 1 } },
         }),
       ]);
       const responseData: FollowUnfollowDataDto = { followerId, followingId };
@@ -152,11 +161,13 @@ export class UserFollowService {
       if (
         error instanceof PrismaClientKnownRequestError &&
         error.code === 'P2025'
-      )
+      ) {
         throw new NotFoundException(
           'Follow relationship not found to delete (race condition or invalid state).',
         );
+      }
 
+      this.logger.error(`Unfollow failed for ${followerId}:`, error);
       throw new InternalServerErrorException('Could not unfollow user.');
     }
   }
@@ -168,33 +179,33 @@ export class UserFollowService {
     }
 
     const follows = await this.prisma.follow.findMany({
-      where: { following_id: userId },
+      where: { followingId: userId },
       include: {
         follower: {
           select: {
             id: true,
             username: true,
-            full_name: true,
-            profile_picture_url: true,
+            fullName: true,
+            profilePictureUrl: true,
           },
         },
       },
-      orderBy: { created_at: 'desc' },
+      orderBy: { createdAt: 'desc' },
     });
 
     return follows
       .map((f) => {
         if (!f.follower) {
           this.logger.warn(
-            `Follow record for following_id ${userId} is missing follower data. Follower ID: ${f.follower_id}`,
+            `Follow record for followingId ${userId} is missing follower data. Follower ID: ${f.followerId}`,
           );
           return null;
         }
         return {
           id: f.follower.id,
           username: f.follower.username,
-          full_name: f.follower.full_name,
-          profile_picture_url: f.follower.profile_picture_url,
+          fullName: f.follower.fullName,
+          profilePictureUrl: f.follower.profilePictureUrl,
         };
       })
       .filter((follower) => follower !== null) as FollowerDto[];
@@ -207,33 +218,33 @@ export class UserFollowService {
     }
 
     const follows = await this.prisma.follow.findMany({
-      where: { follower_id: userId },
+      where: { followerId: userId },
       include: {
         following: {
           select: {
             id: true,
             username: true,
-            full_name: true,
-            profile_picture_url: true,
+            fullName: true,
+            profilePictureUrl: true,
           },
         },
       },
-      orderBy: { created_at: 'desc' },
+      orderBy: { createdAt: 'desc' },
     });
 
     return follows
       .map((f) => {
         if (!f.following) {
           this.logger.warn(
-            `Follow record for follower_id ${userId} is missing 'following' data. Following ID: ${f.following_id}`,
+            `Follow record for followerId ${userId} is missing 'following' data. Following ID: ${f.followingId}`,
           );
           return null;
         }
         return {
           id: f.following.id,
           username: f.following.username,
-          full_name: f.following.full_name,
-          profile_picture_url: f.following.profile_picture_url,
+          fullName: f.following.fullName,
+          profilePictureUrl: f.following.profilePictureUrl,
         };
       })
       .filter((followingUser) => followingUser !== null) as FollowerDto[];

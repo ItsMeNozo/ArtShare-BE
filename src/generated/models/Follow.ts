@@ -24,47 +24,47 @@ export type AggregateFollow = {
 }
 
 export type FollowMinAggregateOutputType = {
-  follower_id: string | null
-  following_id: string | null
-  created_at: Date | null
-  is_subscribed: boolean | null
+  followerId: string | null
+  followingId: string | null
+  createdAt: Date | null
+  isSubscribed: boolean | null
 }
 
 export type FollowMaxAggregateOutputType = {
-  follower_id: string | null
-  following_id: string | null
-  created_at: Date | null
-  is_subscribed: boolean | null
+  followerId: string | null
+  followingId: string | null
+  createdAt: Date | null
+  isSubscribed: boolean | null
 }
 
 export type FollowCountAggregateOutputType = {
-  follower_id: number
-  following_id: number
-  created_at: number
-  is_subscribed: number
+  followerId: number
+  followingId: number
+  createdAt: number
+  isSubscribed: number
   _all: number
 }
 
 
 export type FollowMinAggregateInputType = {
-  follower_id?: true
-  following_id?: true
-  created_at?: true
-  is_subscribed?: true
+  followerId?: true
+  followingId?: true
+  createdAt?: true
+  isSubscribed?: true
 }
 
 export type FollowMaxAggregateInputType = {
-  follower_id?: true
-  following_id?: true
-  created_at?: true
-  is_subscribed?: true
+  followerId?: true
+  followingId?: true
+  createdAt?: true
+  isSubscribed?: true
 }
 
 export type FollowCountAggregateInputType = {
-  follower_id?: true
-  following_id?: true
-  created_at?: true
-  is_subscribed?: true
+  followerId?: true
+  followingId?: true
+  createdAt?: true
+  isSubscribed?: true
   _all?: true
 }
 
@@ -141,10 +141,10 @@ export type FollowGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 export type FollowGroupByOutputType = {
-  follower_id: string
-  following_id: string
-  created_at: Date
-  is_subscribed: boolean
+  followerId: string
+  followingId: string
+  createdAt: Date
+  isSubscribed: boolean
   _count: FollowCountAggregateOutputType | null
   _min: FollowMinAggregateOutputType | null
   _max: FollowMaxAggregateOutputType | null
@@ -169,41 +169,41 @@ export type FollowWhereInput = {
   AND?: Prisma.FollowWhereInput | Prisma.FollowWhereInput[]
   OR?: Prisma.FollowWhereInput[]
   NOT?: Prisma.FollowWhereInput | Prisma.FollowWhereInput[]
-  follower_id?: Prisma.StringFilter<"Follow"> | string
-  following_id?: Prisma.StringFilter<"Follow"> | string
-  created_at?: Prisma.DateTimeFilter<"Follow"> | Date | string
-  is_subscribed?: Prisma.BoolFilter<"Follow"> | boolean
+  followerId?: Prisma.StringFilter<"Follow"> | string
+  followingId?: Prisma.StringFilter<"Follow"> | string
+  createdAt?: Prisma.DateTimeFilter<"Follow"> | Date | string
+  isSubscribed?: Prisma.BoolFilter<"Follow"> | boolean
   follower?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   following?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type FollowOrderByWithRelationInput = {
-  follower_id?: Prisma.SortOrder
-  following_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  is_subscribed?: Prisma.SortOrder
+  followerId?: Prisma.SortOrder
+  followingId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  isSubscribed?: Prisma.SortOrder
   follower?: Prisma.UserOrderByWithRelationInput
   following?: Prisma.UserOrderByWithRelationInput
 }
 
 export type FollowWhereUniqueInput = Prisma.AtLeast<{
-  follower_id_following_id?: Prisma.FollowFollower_idFollowing_idCompoundUniqueInput
+  followerId_followingId?: Prisma.FollowFollowerIdFollowingIdCompoundUniqueInput
   AND?: Prisma.FollowWhereInput | Prisma.FollowWhereInput[]
   OR?: Prisma.FollowWhereInput[]
   NOT?: Prisma.FollowWhereInput | Prisma.FollowWhereInput[]
-  follower_id?: Prisma.StringFilter<"Follow"> | string
-  following_id?: Prisma.StringFilter<"Follow"> | string
-  created_at?: Prisma.DateTimeFilter<"Follow"> | Date | string
-  is_subscribed?: Prisma.BoolFilter<"Follow"> | boolean
+  followerId?: Prisma.StringFilter<"Follow"> | string
+  followingId?: Prisma.StringFilter<"Follow"> | string
+  createdAt?: Prisma.DateTimeFilter<"Follow"> | Date | string
+  isSubscribed?: Prisma.BoolFilter<"Follow"> | boolean
   follower?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   following?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "follower_id_following_id">
+}, "followerId_followingId">
 
 export type FollowOrderByWithAggregationInput = {
-  follower_id?: Prisma.SortOrder
-  following_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  is_subscribed?: Prisma.SortOrder
+  followerId?: Prisma.SortOrder
+  followingId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  isSubscribed?: Prisma.SortOrder
   _count?: Prisma.FollowCountOrderByAggregateInput
   _max?: Prisma.FollowMaxOrderByAggregateInput
   _min?: Prisma.FollowMinOrderByAggregateInput
@@ -213,57 +213,57 @@ export type FollowScalarWhereWithAggregatesInput = {
   AND?: Prisma.FollowScalarWhereWithAggregatesInput | Prisma.FollowScalarWhereWithAggregatesInput[]
   OR?: Prisma.FollowScalarWhereWithAggregatesInput[]
   NOT?: Prisma.FollowScalarWhereWithAggregatesInput | Prisma.FollowScalarWhereWithAggregatesInput[]
-  follower_id?: Prisma.StringWithAggregatesFilter<"Follow"> | string
-  following_id?: Prisma.StringWithAggregatesFilter<"Follow"> | string
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"Follow"> | Date | string
-  is_subscribed?: Prisma.BoolWithAggregatesFilter<"Follow"> | boolean
+  followerId?: Prisma.StringWithAggregatesFilter<"Follow"> | string
+  followingId?: Prisma.StringWithAggregatesFilter<"Follow"> | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Follow"> | Date | string
+  isSubscribed?: Prisma.BoolWithAggregatesFilter<"Follow"> | boolean
 }
 
 export type FollowCreateInput = {
-  created_at?: Date | string
-  is_subscribed?: boolean
+  createdAt?: Date | string
+  isSubscribed?: boolean
   follower: Prisma.UserCreateNestedOneWithoutFollowingsInput
   following: Prisma.UserCreateNestedOneWithoutFollowersInput
 }
 
 export type FollowUncheckedCreateInput = {
-  follower_id: string
-  following_id: string
-  created_at?: Date | string
-  is_subscribed?: boolean
+  followerId: string
+  followingId: string
+  createdAt?: Date | string
+  isSubscribed?: boolean
 }
 
 export type FollowUpdateInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isSubscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   follower?: Prisma.UserUpdateOneRequiredWithoutFollowingsNestedInput
   following?: Prisma.UserUpdateOneRequiredWithoutFollowersNestedInput
 }
 
 export type FollowUncheckedUpdateInput = {
-  follower_id?: Prisma.StringFieldUpdateOperationsInput | string
-  following_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followerId?: Prisma.StringFieldUpdateOperationsInput | string
+  followingId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isSubscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type FollowCreateManyInput = {
-  follower_id: string
-  following_id: string
-  created_at?: Date | string
-  is_subscribed?: boolean
+  followerId: string
+  followingId: string
+  createdAt?: Date | string
+  isSubscribed?: boolean
 }
 
 export type FollowUpdateManyMutationInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isSubscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type FollowUncheckedUpdateManyInput = {
-  follower_id?: Prisma.StringFieldUpdateOperationsInput | string
-  following_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followerId?: Prisma.StringFieldUpdateOperationsInput | string
+  followingId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isSubscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type FollowListRelationFilter = {
@@ -276,30 +276,30 @@ export type FollowOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type FollowFollower_idFollowing_idCompoundUniqueInput = {
-  follower_id: string
-  following_id: string
+export type FollowFollowerIdFollowingIdCompoundUniqueInput = {
+  followerId: string
+  followingId: string
 }
 
 export type FollowCountOrderByAggregateInput = {
-  follower_id?: Prisma.SortOrder
-  following_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  is_subscribed?: Prisma.SortOrder
+  followerId?: Prisma.SortOrder
+  followingId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  isSubscribed?: Prisma.SortOrder
 }
 
 export type FollowMaxOrderByAggregateInput = {
-  follower_id?: Prisma.SortOrder
-  following_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  is_subscribed?: Prisma.SortOrder
+  followerId?: Prisma.SortOrder
+  followingId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  isSubscribed?: Prisma.SortOrder
 }
 
 export type FollowMinOrderByAggregateInput = {
-  follower_id?: Prisma.SortOrder
-  following_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  is_subscribed?: Prisma.SortOrder
+  followerId?: Prisma.SortOrder
+  followingId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  isSubscribed?: Prisma.SortOrder
 }
 
 export type FollowCreateNestedManyWithoutFollowingInput = {
@@ -387,15 +387,15 @@ export type FollowUncheckedUpdateManyWithoutFollowerNestedInput = {
 }
 
 export type FollowCreateWithoutFollowingInput = {
-  created_at?: Date | string
-  is_subscribed?: boolean
+  createdAt?: Date | string
+  isSubscribed?: boolean
   follower: Prisma.UserCreateNestedOneWithoutFollowingsInput
 }
 
 export type FollowUncheckedCreateWithoutFollowingInput = {
-  follower_id: string
-  created_at?: Date | string
-  is_subscribed?: boolean
+  followerId: string
+  createdAt?: Date | string
+  isSubscribed?: boolean
 }
 
 export type FollowCreateOrConnectWithoutFollowingInput = {
@@ -409,15 +409,15 @@ export type FollowCreateManyFollowingInputEnvelope = {
 }
 
 export type FollowCreateWithoutFollowerInput = {
-  created_at?: Date | string
-  is_subscribed?: boolean
+  createdAt?: Date | string
+  isSubscribed?: boolean
   following: Prisma.UserCreateNestedOneWithoutFollowersInput
 }
 
 export type FollowUncheckedCreateWithoutFollowerInput = {
-  following_id: string
-  created_at?: Date | string
-  is_subscribed?: boolean
+  followingId: string
+  createdAt?: Date | string
+  isSubscribed?: boolean
 }
 
 export type FollowCreateOrConnectWithoutFollowerInput = {
@@ -450,10 +450,10 @@ export type FollowScalarWhereInput = {
   AND?: Prisma.FollowScalarWhereInput | Prisma.FollowScalarWhereInput[]
   OR?: Prisma.FollowScalarWhereInput[]
   NOT?: Prisma.FollowScalarWhereInput | Prisma.FollowScalarWhereInput[]
-  follower_id?: Prisma.StringFilter<"Follow"> | string
-  following_id?: Prisma.StringFilter<"Follow"> | string
-  created_at?: Prisma.DateTimeFilter<"Follow"> | Date | string
-  is_subscribed?: Prisma.BoolFilter<"Follow"> | boolean
+  followerId?: Prisma.StringFilter<"Follow"> | string
+  followingId?: Prisma.StringFilter<"Follow"> | string
+  createdAt?: Prisma.DateTimeFilter<"Follow"> | Date | string
+  isSubscribed?: Prisma.BoolFilter<"Follow"> | boolean
 }
 
 export type FollowUpsertWithWhereUniqueWithoutFollowerInput = {
@@ -473,90 +473,90 @@ export type FollowUpdateManyWithWhereWithoutFollowerInput = {
 }
 
 export type FollowCreateManyFollowingInput = {
-  follower_id: string
-  created_at?: Date | string
-  is_subscribed?: boolean
+  followerId: string
+  createdAt?: Date | string
+  isSubscribed?: boolean
 }
 
 export type FollowCreateManyFollowerInput = {
-  following_id: string
-  created_at?: Date | string
-  is_subscribed?: boolean
+  followingId: string
+  createdAt?: Date | string
+  isSubscribed?: boolean
 }
 
 export type FollowUpdateWithoutFollowingInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isSubscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   follower?: Prisma.UserUpdateOneRequiredWithoutFollowingsNestedInput
 }
 
 export type FollowUncheckedUpdateWithoutFollowingInput = {
-  follower_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followerId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isSubscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type FollowUncheckedUpdateManyWithoutFollowingInput = {
-  follower_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followerId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isSubscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type FollowUpdateWithoutFollowerInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isSubscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   following?: Prisma.UserUpdateOneRequiredWithoutFollowersNestedInput
 }
 
 export type FollowUncheckedUpdateWithoutFollowerInput = {
-  following_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followingId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isSubscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type FollowUncheckedUpdateManyWithoutFollowerInput = {
-  following_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_subscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followingId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isSubscribed?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
 
 export type FollowSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  follower_id?: boolean
-  following_id?: boolean
-  created_at?: boolean
-  is_subscribed?: boolean
+  followerId?: boolean
+  followingId?: boolean
+  createdAt?: boolean
+  isSubscribed?: boolean
   follower?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   following?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["follow"]>
 
 export type FollowSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  follower_id?: boolean
-  following_id?: boolean
-  created_at?: boolean
-  is_subscribed?: boolean
+  followerId?: boolean
+  followingId?: boolean
+  createdAt?: boolean
+  isSubscribed?: boolean
   follower?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   following?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["follow"]>
 
 export type FollowSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  follower_id?: boolean
-  following_id?: boolean
-  created_at?: boolean
-  is_subscribed?: boolean
+  followerId?: boolean
+  followingId?: boolean
+  createdAt?: boolean
+  isSubscribed?: boolean
   follower?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   following?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["follow"]>
 
 export type FollowSelectScalar = {
-  follower_id?: boolean
-  following_id?: boolean
-  created_at?: boolean
-  is_subscribed?: boolean
+  followerId?: boolean
+  followingId?: boolean
+  createdAt?: boolean
+  isSubscribed?: boolean
 }
 
-export type FollowOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"follower_id" | "following_id" | "created_at" | "is_subscribed", ExtArgs["result"]["follow"]>
+export type FollowOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"followerId" | "followingId" | "createdAt" | "isSubscribed", ExtArgs["result"]["follow"]>
 export type FollowInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   follower?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   following?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -577,10 +577,10 @@ export type $FollowPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     following: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    follower_id: string
-    following_id: string
-    created_at: Date
-    is_subscribed: boolean
+    followerId: string
+    followingId: string
+    createdAt: Date
+    isSubscribed: boolean
   }, ExtArgs["result"]["follow"]>
   composites: {}
 }
@@ -664,8 +664,8 @@ export interface FollowDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    * // Get first 10 Follows
    * const follows = await prisma.follow.findMany({ take: 10 })
    * 
-   * // Only select the `follower_id`
-   * const followWithFollower_idOnly = await prisma.follow.findMany({ select: { follower_id: true } })
+   * // Only select the `followerId`
+   * const followWithFollowerIdOnly = await prisma.follow.findMany({ select: { followerId: true } })
    * 
    */
   findMany<T extends FollowFindManyArgs>(args?: Prisma.SelectSubset<T, FollowFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FollowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -709,9 +709,9 @@ export interface FollowDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    *   ]
    * })
    * 
-   * // Create many Follows and only return the `follower_id`
-   * const followWithFollower_idOnly = await prisma.follow.createManyAndReturn({
-   *   select: { follower_id: true },
+   * // Create many Follows and only return the `followerId`
+   * const followWithFollowerIdOnly = await prisma.follow.createManyAndReturn({
+   *   select: { followerId: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -800,9 +800,9 @@ export interface FollowDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    *   ]
    * })
    * 
-   * // Update zero or more Follows and only return the `follower_id`
-   * const followWithFollower_idOnly = await prisma.follow.updateManyAndReturn({
-   *   select: { follower_id: true },
+   * // Update zero or more Follows and only return the `followerId`
+   * const followWithFollowerIdOnly = await prisma.follow.updateManyAndReturn({
+   *   select: { followerId: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1006,10 +1006,10 @@ export interface Prisma__FollowClient<T, Null = never, ExtArgs extends runtime.T
  * Fields of the Follow model
  */
 export interface FollowFieldRefs {
-  readonly follower_id: Prisma.FieldRef<"Follow", 'String'>
-  readonly following_id: Prisma.FieldRef<"Follow", 'String'>
-  readonly created_at: Prisma.FieldRef<"Follow", 'DateTime'>
-  readonly is_subscribed: Prisma.FieldRef<"Follow", 'Boolean'>
+  readonly followerId: Prisma.FieldRef<"Follow", 'String'>
+  readonly followingId: Prisma.FieldRef<"Follow", 'String'>
+  readonly createdAt: Prisma.FieldRef<"Follow", 'DateTime'>
+  readonly isSubscribed: Prisma.FieldRef<"Follow", 'Boolean'>
 }
     
 
