@@ -20,7 +20,10 @@ import { SyncEmbeddingResponseDto } from '../common/response/sync-embedding.dto'
 import { CategoriesEmbeddingService } from './categories-embedding.service';
 import { CategoriesManagementService } from './categories-management.service';
 import { CategoriesSearchService } from './categories-search.service';
-import { CreateCategoryDto } from './dto/request/create-category.dto';
+import {
+  CategoryType,
+  CreateCategoryDto,
+} from './dto/request/create-category.dto';
 import { FindManyCategoriesDto } from './dto/request/find-many.dto';
 import { UpdateCategoryDto } from './dto/request/update-category.dto';
 import { CategorySimpleDto } from './dto/response/category-simple.dto';
@@ -47,9 +50,21 @@ export class CategoriesController {
   @UseGuards(OptionalJwtAuthGuard)
   async findAll(
     @Request() req: any,
+    @Query() query: { type?: CategoryType } = {},
+  ): Promise<CategoryResponseDto[]> {
+    return this.categoriesSearchService.findAll(query, req.user);
+  }
+
+  @Get('paginated')
+  @UseGuards(OptionalJwtAuthGuard)
+  async findAllPaginated(
+    @Request() req: any,
     @Query() paginationQuery: PaginationQueryDto,
   ): Promise<PaginatedResponse<CategoryResponseDto>> {
-    return this.categoriesSearchService.findAll(paginationQuery, req.user);
+    return this.categoriesSearchService.findAllPaginated(
+      paginationQuery,
+      req.user,
+    );
   }
 
   @Get('v2')
