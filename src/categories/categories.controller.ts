@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  DefaultValuePipe,
   Delete,
   Get,
   Param,
@@ -15,6 +14,8 @@ import {
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { OptionalJwtAuthGuard } from 'src/auth/optional-jwt-auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
+import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { SyncEmbeddingResponseDto } from '../common/response/sync-embedding.dto';
 import { CategoriesEmbeddingService } from './categories-embedding.service';
 import { CategoriesManagementService } from './categories-management.service';
@@ -22,6 +23,7 @@ import { CategoriesSearchService } from './categories-search.service';
 import { CreateCategoryDto } from './dto/request/create-category.dto';
 import { FindManyCategoriesDto } from './dto/request/find-many.dto';
 import { UpdateCategoryDto } from './dto/request/update-category.dto';
+import { CategorySimpleDto } from './dto/response/category-simple.dto';
 import { CategoryResponseDto } from './dto/response/category.dto';
 
 @Controller('categories')
@@ -45,11 +47,9 @@ export class CategoriesController {
   @UseGuards(OptionalJwtAuthGuard)
   async findAll(
     @Request() req: any,
-    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-    @Query('pageSize', new DefaultValuePipe(25), ParseIntPipe)
-    pageSize: number,
-  ): Promise<CategoryResponseDto[]> {
-    return this.categoriesSearchService.findAll(page, pageSize, req.user);
+    @Query() paginationQuery: PaginationQueryDto,
+  ): Promise<PaginatedResponse<CategoryResponseDto>> {
+    return this.categoriesSearchService.findAll(paginationQuery, req.user);
   }
 
   @Get('v2')
@@ -59,6 +59,12 @@ export class CategoriesController {
     @Query() query: FindManyCategoriesDto,
   ): Promise<CategoryResponseDto[]> {
     return this.categoriesSearchService.findAllV2(query, req.user);
+  }
+
+  @Get('simple')
+  @UseGuards(OptionalJwtAuthGuard)
+  async findAllSimple(): Promise<CategorySimpleDto[]> {
+    return this.categoriesSearchService.findAllSimple();
   }
 
   @Get(':id')

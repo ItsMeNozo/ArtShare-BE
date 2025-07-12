@@ -10,3 +10,4 @@ export class CategoryResponseDto {
   updatedAt: Date;
   postsCount?: number; // Optional field for admin users
 }
+

@@ -2,10 +2,13 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { Role } from 'src/auth/enums/role.enum';
 import { JwtPayload } from 'src/auth/types/jwtPayload.type';
+import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { TryCatch } from 'src/common/try-catch.decorator';
 import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { FindManyCategoriesDto } from './dto/request/find-many.dto';
+import { CategorySimpleDto } from './dto/response/category-simple.dto';
 import { CategoryResponseDto } from './dto/response/category.dto';
 
 @Injectable()
@@ -16,54 +19,53 @@ export class CategoriesSearchService {
 
   @TryCatch()
   async findAll(
-    page: number,
-    pageSize: number,
+    paginationQuery: PaginationQueryDto,
     user?: JwtPayload,
-  ): Promise<CategoryResponseDto[]> {
+  ): Promise<PaginatedResponse<CategoryResponseDto>> {
+    const {
+      page = 1,
+      limit = 10,
+      sortBy = 'createdAt',
+      sortOrder = 'desc',
+      search,
+      filter,
+    } = paginationQuery;
     const isAdmin = user?.roles?.includes(Role.ADMIN);
-    this.logger.debug(`Is admin check result: ${isAdmin}`);
 
-    if (isAdmin) {
-      this.logger.debug('Fetching categories WITH post counts for admin...');
-      // For admin users, include post counts
-      const categories = await this.prisma.category.findMany({
-        skip: (page - 1) * pageSize,
-        take: pageSize,
-        orderBy: { createdAt: 'desc' },
-        include: {
-          _count: {
-            select: {
-              posts: true,
-            },
-          },
-        },
-      });
+    const where: Prisma.CategoryWhereInput = {
+      OR: search
+        ? [
+            { name: { contains: search, mode: 'insensitive' } },
+            { description: { contains: search, mode: 'insensitive' } },
+          ]
+        : undefined,
+      type: filter?.type,
+    };
 
-      this.logger.debug(
-        `Categories with count data: ${categories[0]?._count?.posts || 0} posts`,
-      );
+    const orderBy = { [sortBy]: sortOrder };
 
-      const result = categories.map((category) => ({
-        ...category,
-        postsCount: category._count.posts,
-        _count: undefined, // Remove the _count object from the response
-      })) as CategoryResponseDto[];
+    const [total, categories] = await this.prisma.$transaction([
+      this.prisma.category.count({ where }),
+      this.prisma.category.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy,
+        include: isAdmin ? { _count: { select: { posts: true } } } : undefined,
+      }),
+    ]);
 
-      this.logger.debug(`Final result: ${result.length} categories returned`);
-      return result;
-    } else {
-      this.logger.debug(
-        'Fetching categories WITHOUT post counts for non-admin...',
-      );
-      // For non-admin users, return categories without post counts
-      const categories = await this.prisma.category.findMany({
-        skip: (page - 1) * pageSize,
-        take: pageSize,
-        orderBy: { createdAt: 'desc' },
-      });
+    this.logger.debug(
+      `Found ${total} matching categories, returning page ${page}`,
+    );
 
-      return plainToInstance(CategoryResponseDto, categories);
-    }
+    const result = categories.map((category) => ({
+      ...(category as any),
+      postsCount: (category as any)._count?.posts,
+      _count: undefined,
+    })) as CategoryResponseDto[];
+
+    return new PaginatedResponse(result, total, page, limit);
   }
 
   @TryCatch()
@@ -86,7 +88,6 @@ export class CategoriesSearchService {
     }
 
     if (isAdmin) {
-      // For admin users, include post counts
       const categories = await this.prisma.category.findMany({
         skip: (page - 1) * pageSize,
         take: pageSize,
@@ -104,10 +105,9 @@ export class CategoriesSearchService {
       return categories.map((category) => ({
         ...category,
         postsCount: category._count.posts,
-        _count: undefined, // Remove the _count object from the response
+        _count: undefined,
       })) as CategoryResponseDto[];
     } else {
-      // For non-admin users, return categories without post counts
       const categories = await this.prisma.category.findMany({
         skip: (page - 1) * pageSize,
         take: pageSize,
@@ -127,5 +127,23 @@ export class CategoriesSearchService {
       throw new BadRequestException(`Category with id ${id} not found`);
     }
     return plainToInstance(CategoryResponseDto, category);
+  }
+
+  async findAllSimple(): Promise<CategorySimpleDto[]> {
+    this.logger.debug(
+      'Fetching simple list of categories (id and name only)...',
+    );
+
+    const categories = await this.prisma.category.findMany({
+      orderBy: {
+        name: 'asc',
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    return categories;
   }
 }
