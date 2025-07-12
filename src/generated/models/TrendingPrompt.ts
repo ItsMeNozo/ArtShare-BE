@@ -179,7 +179,7 @@ export type TrendingPromptGroupByOutputType = {
   promptKey: string
   prompts: string[]
   createdAt: Date
-  updatedAt: Date
+  updatedAt: Date | null
   _count: TrendingPromptCountAggregateOutputType | null
   _avg: TrendingPromptAvgAggregateOutputType | null
   _sum: TrendingPromptSumAggregateOutputType | null
@@ -210,7 +210,7 @@ export type TrendingPromptWhereInput = {
   promptKey?: Prisma.StringFilter<"TrendingPrompt"> | string
   prompts?: Prisma.StringNullableListFilter<"TrendingPrompt">
   createdAt?: Prisma.DateTimeFilter<"TrendingPrompt"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"TrendingPrompt"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"TrendingPrompt"> | Date | string | null
 }
 
 export type TrendingPromptOrderByWithRelationInput = {
@@ -218,7 +218,7 @@ export type TrendingPromptOrderByWithRelationInput = {
   promptKey?: Prisma.SortOrder
   prompts?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type TrendingPromptWhereUniqueInput = Prisma.AtLeast<{
@@ -229,7 +229,7 @@ export type TrendingPromptWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TrendingPromptWhereInput | Prisma.TrendingPromptWhereInput[]
   prompts?: Prisma.StringNullableListFilter<"TrendingPrompt">
   createdAt?: Prisma.DateTimeFilter<"TrendingPrompt"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"TrendingPrompt"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"TrendingPrompt"> | Date | string | null
 }, "id" | "promptKey">
 
 export type TrendingPromptOrderByWithAggregationInput = {
@@ -237,7 +237,7 @@ export type TrendingPromptOrderByWithAggregationInput = {
   promptKey?: Prisma.SortOrder
   prompts?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TrendingPromptCountOrderByAggregateInput
   _avg?: Prisma.TrendingPromptAvgOrderByAggregateInput
   _max?: Prisma.TrendingPromptMaxOrderByAggregateInput
@@ -253,14 +253,14 @@ export type TrendingPromptScalarWhereWithAggregatesInput = {
   promptKey?: Prisma.StringWithAggregatesFilter<"TrendingPrompt"> | string
   prompts?: Prisma.StringNullableListFilter<"TrendingPrompt">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TrendingPrompt"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TrendingPrompt"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"TrendingPrompt"> | Date | string | null
 }
 
 export type TrendingPromptCreateInput = {
   promptKey: string
   prompts?: Prisma.TrendingPromptCreatepromptsInput | string[]
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type TrendingPromptUncheckedCreateInput = {
@@ -268,14 +268,14 @@ export type TrendingPromptUncheckedCreateInput = {
   promptKey: string
   prompts?: Prisma.TrendingPromptCreatepromptsInput | string[]
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type TrendingPromptUpdateInput = {
   promptKey?: Prisma.StringFieldUpdateOperationsInput | string
   prompts?: Prisma.TrendingPromptUpdatepromptsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TrendingPromptUncheckedUpdateInput = {
@@ -283,7 +283,7 @@ export type TrendingPromptUncheckedUpdateInput = {
   promptKey?: Prisma.StringFieldUpdateOperationsInput | string
   prompts?: Prisma.TrendingPromptUpdatepromptsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TrendingPromptCreateManyInput = {
@@ -291,14 +291,14 @@ export type TrendingPromptCreateManyInput = {
   promptKey: string
   prompts?: Prisma.TrendingPromptCreatepromptsInput | string[]
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type TrendingPromptUpdateManyMutationInput = {
   promptKey?: Prisma.StringFieldUpdateOperationsInput | string
   prompts?: Prisma.TrendingPromptUpdatepromptsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TrendingPromptUncheckedUpdateManyInput = {
@@ -306,7 +306,7 @@ export type TrendingPromptUncheckedUpdateManyInput = {
   promptKey?: Prisma.StringFieldUpdateOperationsInput | string
   prompts?: Prisma.TrendingPromptUpdatepromptsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TrendingPromptCountOrderByAggregateInput = {
@@ -392,7 +392,7 @@ export type $TrendingPromptPayload<ExtArgs extends runtime.Types.Extensions.Inte
     promptKey: string
     prompts: string[]
     createdAt: Date
-    updatedAt: Date
+    updatedAt: Date | null
   }, ExtArgs["result"]["trendingPrompt"]>
   composites: {}
 }

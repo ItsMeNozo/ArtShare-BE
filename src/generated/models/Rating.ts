@@ -187,7 +187,7 @@ export type RatingGroupByOutputType = {
   blogId: number
   value: number
   createdAt: Date
-  updatedAt: Date
+  updatedAt: Date | null
   _count: RatingCountAggregateOutputType | null
   _avg: RatingAvgAggregateOutputType | null
   _sum: RatingSumAggregateOutputType | null
@@ -218,7 +218,7 @@ export type RatingWhereInput = {
   blogId?: Prisma.IntFilter<"Rating"> | number
   value?: Prisma.IntFilter<"Rating"> | number
   createdAt?: Prisma.DateTimeFilter<"Rating"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Rating"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Rating"> | Date | string | null
   blog?: Prisma.XOR<Prisma.BlogScalarRelationFilter, Prisma.BlogWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -228,7 +228,7 @@ export type RatingOrderByWithRelationInput = {
   blogId?: Prisma.SortOrder
   value?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   blog?: Prisma.BlogOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -242,7 +242,7 @@ export type RatingWhereUniqueInput = Prisma.AtLeast<{
   blogId?: Prisma.IntFilter<"Rating"> | number
   value?: Prisma.IntFilter<"Rating"> | number
   createdAt?: Prisma.DateTimeFilter<"Rating"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Rating"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Rating"> | Date | string | null
   blog?: Prisma.XOR<Prisma.BlogScalarRelationFilter, Prisma.BlogWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "userId_blogId">
@@ -252,7 +252,7 @@ export type RatingOrderByWithAggregationInput = {
   blogId?: Prisma.SortOrder
   value?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.RatingCountOrderByAggregateInput
   _avg?: Prisma.RatingAvgOrderByAggregateInput
   _max?: Prisma.RatingMaxOrderByAggregateInput
@@ -268,13 +268,13 @@ export type RatingScalarWhereWithAggregatesInput = {
   blogId?: Prisma.IntWithAggregatesFilter<"Rating"> | number
   value?: Prisma.IntWithAggregatesFilter<"Rating"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Rating"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Rating"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Rating"> | Date | string | null
 }
 
 export type RatingCreateInput = {
   value: number
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   blog: Prisma.BlogCreateNestedOneWithoutRatingsInput
   user: Prisma.UserCreateNestedOneWithoutRatingsInput
 }
@@ -284,13 +284,13 @@ export type RatingUncheckedCreateInput = {
   blogId: number
   value: number
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type RatingUpdateInput = {
   value?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   blog?: Prisma.BlogUpdateOneRequiredWithoutRatingsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutRatingsNestedInput
 }
@@ -300,7 +300,7 @@ export type RatingUncheckedUpdateInput = {
   blogId?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RatingCreateManyInput = {
@@ -308,13 +308,13 @@ export type RatingCreateManyInput = {
   blogId: number
   value: number
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type RatingUpdateManyMutationInput = {
   value?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RatingUncheckedUpdateManyInput = {
@@ -322,7 +322,7 @@ export type RatingUncheckedUpdateManyInput = {
   blogId?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RatingListRelationFilter = {
@@ -461,7 +461,7 @@ export type RatingUncheckedUpdateManyWithoutBlogNestedInput = {
 export type RatingCreateWithoutUserInput = {
   value: number
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   blog: Prisma.BlogCreateNestedOneWithoutRatingsInput
 }
 
@@ -469,7 +469,7 @@ export type RatingUncheckedCreateWithoutUserInput = {
   blogId: number
   value: number
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type RatingCreateOrConnectWithoutUserInput = {
@@ -506,13 +506,13 @@ export type RatingScalarWhereInput = {
   blogId?: Prisma.IntFilter<"Rating"> | number
   value?: Prisma.IntFilter<"Rating"> | number
   createdAt?: Prisma.DateTimeFilter<"Rating"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Rating"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Rating"> | Date | string | null
 }
 
 export type RatingCreateWithoutBlogInput = {
   value: number
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutRatingsInput
 }
 
@@ -520,7 +520,7 @@ export type RatingUncheckedCreateWithoutBlogInput = {
   userId: string
   value: number
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type RatingCreateOrConnectWithoutBlogInput = {
@@ -553,13 +553,13 @@ export type RatingCreateManyUserInput = {
   blogId: number
   value: number
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type RatingUpdateWithoutUserInput = {
   value?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   blog?: Prisma.BlogUpdateOneRequiredWithoutRatingsNestedInput
 }
 
@@ -567,27 +567,27 @@ export type RatingUncheckedUpdateWithoutUserInput = {
   blogId?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RatingUncheckedUpdateManyWithoutUserInput = {
   blogId?: Prisma.IntFieldUpdateOperationsInput | number
   value?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RatingCreateManyBlogInput = {
   userId: string
   value: number
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type RatingUpdateWithoutBlogInput = {
   value?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutRatingsNestedInput
 }
 
@@ -595,14 +595,14 @@ export type RatingUncheckedUpdateWithoutBlogInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RatingUncheckedUpdateManyWithoutBlogInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -670,7 +670,7 @@ export type $RatingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     blogId: number
     value: number
     createdAt: Date
-    updatedAt: Date
+    updatedAt: Date | null
   }, ExtArgs["result"]["rating"]>
   composites: {}
 }
