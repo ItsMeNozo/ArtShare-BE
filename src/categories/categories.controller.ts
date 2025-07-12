@@ -23,6 +23,7 @@ import { CategoriesSearchService } from './categories-search.service';
 import { CreateCategoryDto } from './dto/request/create-category.dto';
 import { FindManyCategoriesDto } from './dto/request/find-many.dto';
 import { UpdateCategoryDto } from './dto/request/update-category.dto';
+import { CategorySimpleDto } from './dto/response/category-simple.dto';
 import { CategoryResponseDto } from './dto/response/category.dto';
 
 @Controller('categories')
@@ -58,6 +59,12 @@ export class CategoriesController {
     @Query() query: FindManyCategoriesDto,
   ): Promise<CategoryResponseDto[]> {
     return this.categoriesSearchService.findAllV2(query, req.user);
+  }
+
+  @Get('simple')
+  @UseGuards(OptionalJwtAuthGuard)
+  async findAllSimple(): Promise<CategorySimpleDto[]> {
+    return this.categoriesSearchService.findAllSimple();
   }
 
   @Get(':id')

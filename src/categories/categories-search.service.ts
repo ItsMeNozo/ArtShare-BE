@@ -8,6 +8,7 @@ import { TryCatch } from 'src/common/try-catch.decorator';
 import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { FindManyCategoriesDto } from './dto/request/find-many.dto';
+import { CategorySimpleDto } from './dto/response/category-simple.dto';
 import { CategoryResponseDto } from './dto/response/category.dto';
 
 @Injectable()
@@ -126,5 +127,23 @@ export class CategoriesSearchService {
       throw new BadRequestException(`Category with id ${id} not found`);
     }
     return plainToInstance(CategoryResponseDto, category);
+  }
+
+  async findAllSimple(): Promise<CategorySimpleDto[]> {
+    this.logger.debug(
+      'Fetching simple list of categories (id and name only)...',
+    );
+
+    const categories = await this.prisma.category.findMany({
+      orderBy: {
+        name: 'asc',
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    return categories;
   }
 }
