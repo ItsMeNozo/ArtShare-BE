@@ -7,6 +7,7 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { TryCatch } from 'src/common/try-catch.decorator';
 import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
+import { CategoryType } from './dto/request/create-category.dto';
 import { FindManyCategoriesDto } from './dto/request/find-many.dto';
 import { CategorySimpleDto } from './dto/response/category-simple.dto';
 import { CategoryResponseDto } from './dto/response/category.dto';
@@ -19,6 +20,34 @@ export class CategoriesSearchService {
 
   @TryCatch()
   async findAll(
+    query: { type?: CategoryType },
+    user?: JwtPayload,
+  ): Promise<CategoryResponseDto[]> {
+    const isAdmin = user?.roles?.includes(Role.ADMIN);
+
+    const where: Prisma.CategoryWhereInput = {
+      type: query.type,
+    };
+
+    const categories = await this.prisma.category.findMany({
+      where,
+      orderBy: { createdAt: 'desc' },
+      include: isAdmin ? { _count: { select: { posts: true } } } : undefined,
+    });
+
+    this.logger.debug(`Found ${categories.length} matching categories.`);
+
+    const result = categories.map((category) => ({
+      ...(category as any),
+      postsCount: (category as any)._count?.posts,
+      _count: undefined,
+    })) as CategoryResponseDto[];
+
+    return result;
+  }
+
+  @TryCatch()
+  async findAllPaginated(
     paginationQuery: PaginationQueryDto,
     user?: JwtPayload,
   ): Promise<PaginatedResponse<CategoryResponseDto>> {
