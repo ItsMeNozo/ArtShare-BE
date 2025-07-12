@@ -8,7 +8,8 @@ export class CorsService {
   getAllowedOrigins(): string[] {
     return [
       this.configService.get<string>('FRONTEND_URL') || 'http://localhost:5173',
-      this.configService.get<string>('ADMIN_FRONTEND_URL') || 'http://localhost:1574',
+      this.configService.get<string>('ADMIN_FRONTEND_URL') ||
+        'http://localhost:1574',
       'https://artsharezone-black.vercel.app',
     ];
   }

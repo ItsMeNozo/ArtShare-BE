@@ -1,6 +1,9 @@
 export class PostSummaryDto {
   id: number;
   title: string;
-  thumbnail_url?: string;
-  created_at: Date;
+  thumbnailUrl?: string;
+  createdAt: Date;
+  likeCount: number;
+  commentCount: number;
+  viewCount: number;
 }

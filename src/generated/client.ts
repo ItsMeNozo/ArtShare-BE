@@ -191,6 +191,11 @@ export type Message = Prisma.MessageModel
  * 
  */
 export type FacebookAccount = Prisma.FacebookAccountModel
+/**
+ * Model PostsOnCollections
+ * 
+ */
+export type PostsOnCollections = Prisma.PostsOnCollectionsModel
 
 export type MessageRole = $Enums.MessageRole
 export const MessageRole = $Enums.MessageRole

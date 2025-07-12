@@ -9,6 +9,7 @@ import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { WebSocketJwtAuthGuard } from './auth/websocket-jwt-auth.guard';
 import { CorsService } from './common/cors.service';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import metadata from './metadata';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const compression = require('compression');
@@ -106,8 +107,12 @@ async function bootstrap() {
       logger.debug(`=== CORS DEBUG ===`);
       logger.debug(`NODE_ENV: ${configService.get<string>('NODE_ENV')}`);
       logger.debug(`isProduction: ${isProduction}`);
-      logger.debug(`FRONTEND_URL from env: ${configService.get<string>('FRONTEND_URL')}`);
-      logger.debug(`ADMIN_FRONTEND_URL from env: ${configService.get<string>('ADMIN_FRONTEND_URL')}`);
+      logger.debug(
+        `FRONTEND_URL from env: ${configService.get<string>('FRONTEND_URL')}`,
+      );
+      logger.debug(
+        `ADMIN_FRONTEND_URL from env: ${configService.get<string>('ADMIN_FRONTEND_URL')}`,
+      );
       logger.debug(`Request origin: ${origin}`);
       logger.debug(`Allowed origins: ${allowedOrigins.join(', ')}`);
       logger.debug(`=== END CORS DEBUG ===`);
@@ -148,6 +153,8 @@ async function bootstrap() {
     maxAge: 86400, // Cache preflight response for 24 hours
   });
 
+  app.useGlobalFilters(new HttpExceptionFilter());
+
   // Enhanced Global Validation Pipe
   app.useGlobalPipes(
     new ValidationPipe({
@@ -162,6 +169,14 @@ async function bootstrap() {
       always: true,
     }),
   );
+
+  // Webhook middleware (MUST be before global body parsing)
+  // Apply raw body parsing specifically for Stripe webhook
+  const webhookRawBodyMiddleware = express.raw({
+    type: 'application/json',
+    limit: '1mb',
+  });
+  app.use('/api/stripe/webhook', webhookRawBodyMiddleware);
 
   // Request size limits
   app.use(
@@ -206,10 +221,6 @@ async function bootstrap() {
     });
     logger.log('Swagger documentation available at /api');
   }
-
-  // Webhook middleware (before other body parsing)
-  const webhookRawBodyMiddleware = express.raw({ type: 'application/json' });
-  app.use('/api/stripe/webhook', webhookRawBodyMiddleware);
 
   // Security logging
   app.use(

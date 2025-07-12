@@ -8,9 +8,10 @@ import { EncryptionService } from 'src/encryption/encryption.service';
 import {
   AutoPostStatus,
   AutoProjectStatus,
+  Prisma,
   SharePlatform,
 } from 'src/generated';
-import { PlatformPageConfig } from 'src/platform/dtos/platform-config.interface.js';
+import { PlatformPageConfig } from 'src/platform/dtos/platform-config.interface';
 import { PrismaService } from 'src/prisma.service';
 
 export interface PlatformConfig {
@@ -50,7 +51,7 @@ export class AutoPostScheduler {
     const duePosts = await this.prisma.autoPost.findMany({
       where: {
         status: AutoPostStatus.PENDING,
-        scheduled_at: {
+        scheduledAt: {
           lte: new Date(),
         },
         autoProject: {
@@ -65,7 +66,7 @@ export class AutoPostScheduler {
         },
       },
       orderBy: {
-        scheduled_at: 'asc',
+        scheduledAt: 'asc',
       },
       take: 10,
     });
@@ -136,9 +137,8 @@ export class AutoPostScheduler {
       const pageSpecificConfig =
         platformRecord.config as unknown as PlatformPageConfig;
 
-      const encryptedPageAccessToken =
-        pageSpecificConfig.encrypted_access_token;
-      const facebookPageId = platformRecord.external_page_id;
+      const encryptedPageAccessToken = pageSpecificConfig.encryptedAccessToken;
+      const facebookPageId = platformRecord.externalPageId;
 
       if (!encryptedPageAccessToken) {
         this.logger.error(
@@ -185,15 +185,15 @@ export class AutoPostScheduler {
           content: post.content,
           facebookPageId: facebookPageId,
           facebookAccessToken: decryptedAccessToken,
-          imageUrls: post.image_urls,
+          imageUrls: post.imageUrls,
           autoProjectId: post.autoProject.id,
-          userId: post.autoProject.user_id,
+          userId: post.autoProject.userId,
         };
 
         await this.prisma.autoPost.update({
           where: { id: post.id },
           data: {
-            n8n_triggered_at: new Date(),
+            n8nTriggeredAt: new Date(),
           },
         });
 
@@ -229,12 +229,12 @@ export class AutoPostScheduler {
     errorMessage: string,
     n8nTriggeredAt: Date | null = null,
   ) {
-    const dataToUpdate: any = {
+    const dataToUpdate: Prisma.AutoPostUpdateInput = {
       status: AutoPostStatus.FAILED,
-      error_message: errorMessage.substring(0, 1000),
+      errorMessage: errorMessage.substring(0, 1000),
     };
     if (n8nTriggeredAt === null) {
-      dataToUpdate.n8n_triggered_at = null;
+      dataToUpdate.n8nTriggeredAt = null;
     }
     await this.prisma.autoPost.update({
       where: { id: postId },

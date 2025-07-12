@@ -9,10 +9,10 @@ export class FollowerDto {
   username: string;
 
   @ApiProperty({ example: 'Alice Smith', nullable: true })
-  full_name: string | null;
+  fullName: string | null;
 
   @ApiProperty({
     nullable: true,
   })
-  profile_picture_url: string | null;
+  profilePictureUrl: string | null;
 }

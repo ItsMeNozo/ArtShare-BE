@@ -39,9 +39,8 @@ export class SearchPostDto {
 
   @IsOptional()
   @IsBoolean()
+  @Transform(({ obj, key }) => {
+    return obj[key] === 'true' ? true : obj[key] === 'false' ? false : obj[key];
+  })
   isAi?: boolean;
-
-  @IsOptional()
-  @IsBoolean()
-  isMature?: boolean;
 }

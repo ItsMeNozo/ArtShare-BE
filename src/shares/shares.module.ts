@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { SharesService } from './shares.service';
-import { SharesController } from './shares.controller';
 import { AuthModule } from 'src/auth/auth.module';
+import { SharesController } from './shares.controller';
+import { SharesService } from './shares.service';
 
 @Module({
   imports: [AuthModule],

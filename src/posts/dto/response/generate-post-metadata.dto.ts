@@ -1,4 +1,4 @@
-import { PostCategoryResponseDto } from "./category.dto";
+import { PostCategoryResponseDto } from './category.dto';
 
 export class GeneratePostMetadataResponseDto {
   title: string;

@@ -2,13 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 import OpenAI from 'openai';
-import { ImageGenerationOptions, ImageGenerationResult, ImageGeneratorStrategy, ModelKey } from '../image-generator.interface';
 import { AspectRatio } from '../enum/aspect-ratio';
+import {
+  ImageGenerationOptions,
+  ImageGenerationResult,
+  ImageGeneratorStrategy,
+  ModelKey,
+} from '../image-generator.interface';
 
 @Injectable()
 export class GptImageStrategy implements ImageGeneratorStrategy {
   private readonly openai: OpenAI;
-  
+
   constructor(private readonly configService: ConfigService) {
     this.openai = new OpenAI({
       apiKey: this.configService.get<string>('OPEN_AI_SECRET_KEY'),
@@ -33,7 +38,7 @@ export class GptImageStrategy implements ImageGeneratorStrategy {
     }
 
     const b64EncodedImages = img.data
-      .map(entry => entry.b64_json)
+      .map((entry) => entry.b64_json)
       .filter((b64_json): b64_json is string => b64_json !== undefined);
 
     return { b64EncodedImages };

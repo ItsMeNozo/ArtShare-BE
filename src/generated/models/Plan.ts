@@ -280,7 +280,7 @@ export type PlanGroupByOutputType = {
   removeWatermark: boolean
   smartSuggestionsEnabled: boolean
   createdAt: Date
-  updatedAt: Date
+  updatedAt: Date | null
   _count: PlanCountAggregateOutputType | null
   _avg: PlanAvgAggregateOutputType | null
   _sum: PlanSumAggregateOutputType | null
@@ -322,7 +322,7 @@ export type PlanWhereInput = {
   removeWatermark?: Prisma.BoolFilter<"Plan"> | boolean
   smartSuggestionsEnabled?: Prisma.BoolFilter<"Plan"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Plan"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Plan"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Plan"> | Date | string | null
   userAccess?: Prisma.UserAccessListRelationFilter
 }
 
@@ -342,7 +342,7 @@ export type PlanOrderByWithRelationInput = {
   removeWatermark?: Prisma.SortOrder
   smartSuggestionsEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   userAccess?: Prisma.UserAccessOrderByRelationAggregateInput
 }
 
@@ -365,7 +365,7 @@ export type PlanWhereUniqueInput = Prisma.AtLeast<{
   removeWatermark?: Prisma.BoolFilter<"Plan"> | boolean
   smartSuggestionsEnabled?: Prisma.BoolFilter<"Plan"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Plan"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Plan"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Plan"> | Date | string | null
   userAccess?: Prisma.UserAccessListRelationFilter
 }, "id" | "stripeProductId">
 
@@ -385,7 +385,7 @@ export type PlanOrderByWithAggregationInput = {
   removeWatermark?: Prisma.SortOrder
   smartSuggestionsEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.PlanCountOrderByAggregateInput
   _avg?: Prisma.PlanAvgOrderByAggregateInput
   _max?: Prisma.PlanMaxOrderByAggregateInput
@@ -412,7 +412,7 @@ export type PlanScalarWhereWithAggregatesInput = {
   removeWatermark?: Prisma.BoolWithAggregatesFilter<"Plan"> | boolean
   smartSuggestionsEnabled?: Prisma.BoolWithAggregatesFilter<"Plan"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Plan"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Plan"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Plan"> | Date | string | null
 }
 
 export type PlanCreateInput = {
@@ -431,7 +431,7 @@ export type PlanCreateInput = {
   removeWatermark?: boolean
   smartSuggestionsEnabled?: boolean
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   userAccess?: Prisma.UserAccessCreateNestedManyWithoutPlanInput
 }
 
@@ -451,7 +451,7 @@ export type PlanUncheckedCreateInput = {
   removeWatermark?: boolean
   smartSuggestionsEnabled?: boolean
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   userAccess?: Prisma.UserAccessUncheckedCreateNestedManyWithoutPlanInput
 }
 
@@ -471,7 +471,7 @@ export type PlanUpdateInput = {
   removeWatermark?: Prisma.BoolFieldUpdateOperationsInput | boolean
   smartSuggestionsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   userAccess?: Prisma.UserAccessUpdateManyWithoutPlanNestedInput
 }
 
@@ -491,7 +491,7 @@ export type PlanUncheckedUpdateInput = {
   removeWatermark?: Prisma.BoolFieldUpdateOperationsInput | boolean
   smartSuggestionsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   userAccess?: Prisma.UserAccessUncheckedUpdateManyWithoutPlanNestedInput
 }
 
@@ -511,7 +511,7 @@ export type PlanCreateManyInput = {
   removeWatermark?: boolean
   smartSuggestionsEnabled?: boolean
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type PlanUpdateManyMutationInput = {
@@ -530,7 +530,7 @@ export type PlanUpdateManyMutationInput = {
   removeWatermark?: Prisma.BoolFieldUpdateOperationsInput | boolean
   smartSuggestionsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type PlanUncheckedUpdateManyInput = {
@@ -549,7 +549,7 @@ export type PlanUncheckedUpdateManyInput = {
   removeWatermark?: Prisma.BoolFieldUpdateOperationsInput | boolean
   smartSuggestionsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type PlanScalarRelationFilter = {
@@ -666,7 +666,7 @@ export type PlanCreateWithoutUserAccessInput = {
   removeWatermark?: boolean
   smartSuggestionsEnabled?: boolean
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type PlanUncheckedCreateWithoutUserAccessInput = {
@@ -685,7 +685,7 @@ export type PlanUncheckedCreateWithoutUserAccessInput = {
   removeWatermark?: boolean
   smartSuggestionsEnabled?: boolean
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type PlanCreateOrConnectWithoutUserAccessInput = {
@@ -720,7 +720,7 @@ export type PlanUpdateWithoutUserAccessInput = {
   removeWatermark?: Prisma.BoolFieldUpdateOperationsInput | boolean
   smartSuggestionsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type PlanUncheckedUpdateWithoutUserAccessInput = {
@@ -739,7 +739,7 @@ export type PlanUncheckedUpdateWithoutUserAccessInput = {
   removeWatermark?: Prisma.BoolFieldUpdateOperationsInput | boolean
   smartSuggestionsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -880,7 +880,7 @@ export type $PlanPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     removeWatermark: boolean
     smartSuggestionsEnabled: boolean
     createdAt: Date
-    updatedAt: Date
+    updatedAt: Date | null
   }, ExtArgs["result"]["plan"]>
   composites: {}
 }

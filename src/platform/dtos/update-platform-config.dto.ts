@@ -10,11 +10,11 @@ import {
 export class UpdatePlatformConfigInput {
   @IsString()
   @IsOptional()
-  page_name?: string;
+  pageName?: string;
 
   @IsString()
   @IsOptional()
-  access_token?: string;
+  accessToken?: string;
 
   @IsString()
   @IsOptional()

@@ -3,12 +3,12 @@ import { TargetType } from 'src/generated';
 
 export class GetCommentsDto {
   @IsInt()
-  target_id: number;
+  targetId: number;
 
   @IsEnum(TargetType)
-  target_type: TargetType;
+  targetType: TargetType;
 
   @IsOptional()
   @IsInt()
-  parent_comment_id?: number;
+  parentCommentId?: number;
 }

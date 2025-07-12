@@ -1,8 +1,8 @@
 import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
 import { OnEvent } from '@nestjs/event-emitter';
-import type { NotificationsGateway } from './notification.gateway';
+import { PrismaService } from 'src/prisma.service';
 import { NotificationUtils } from '../common/utils/notification.utils';
+import type { NotificationsGateway } from './notification.gateway';
 
 interface NotificationTemplate {
   template: string;

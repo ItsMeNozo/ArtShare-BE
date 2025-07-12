@@ -18,8 +18,8 @@ import { CurrentUserType } from 'src/auth/types/current-user.type';
 import { Report, ReportStatus } from 'src/generated';
 import { CreateReportDto } from './dto/create-report.dto';
 import { ResolveReportDto } from './dto/resolve-report.dto';
-import { ReportService } from './report.service';
 import { ViewReportsDto, ViewTab } from './dto/view-report.dto';
+import { ReportService } from './report.service';
 
 @ApiTags('reports')
 @Controller('reports')
@@ -30,9 +30,9 @@ export class ReportController {
   @Post()
   async submitReport(
     @Body() createReportDto: CreateReportDto,
-    @CurrentUser() userInfo: CurrentUserType,
+    @CurrentUser() user: CurrentUserType,
   ): Promise<{ message: string; reportId: number }> {
-    const reporterId = userInfo?.id;
+    const reporterId = user?.id;
     if (!reporterId) {
       throw new InternalServerErrorException(
         'Could not identify reporter from token.',
@@ -75,9 +75,9 @@ export class ReportController {
   async resolve(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: ResolveReportDto,
-    @CurrentUser() userInfo: CurrentUserType,
+    @CurrentUser() user: CurrentUserType,
   ): Promise<Report> {
-    return this.reportService.resolveReport(id, dto, userInfo.id);
+    return this.reportService.resolveReport(id, dto, user.id);
   }
 
   @Get('blogs')

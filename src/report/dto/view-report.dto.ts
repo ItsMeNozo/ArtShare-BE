@@ -1,11 +1,11 @@
 // src/reports/dto/view-reports.dto.ts
-import { IsEnum, IsOptional, IsNumberString } from 'class-validator';
+import { IsEnum, IsNumberString, IsOptional } from 'class-validator';
 
 export enum ViewTab {
-  ALL     = 'all',
-  USER    = 'user',
-  POST    = 'post',
-  BLOG    = 'blog',
+  ALL = 'all',
+  USER = 'user',
+  POST = 'post',
+  BLOG = 'blog',
   COMMENT = 'comment',
 }
 

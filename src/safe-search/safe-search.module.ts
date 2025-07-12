@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { SafeSearchService } from './safe-search.service';
-import { SafeSearchController } from './safe-search.controller';
 import { AuthModule } from 'src/auth/auth.module';
+import { SafeSearchController } from './safe-search.controller';
+import { SafeSearchService } from './safe-search.service';
 
 @Module({
   imports: [AuthModule],
   providers: [SafeSearchService],
-  controllers: [SafeSearchController]
+  controllers: [SafeSearchController],
 })
 export class SafeSearchModule {}

@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsInt, Min, IsOptional } from 'class-validator';
+import { IsInt, IsOptional, Min } from 'class-validator';
 
 export class PaginationDto {
   @Type(() => Number)

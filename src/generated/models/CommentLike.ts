@@ -26,57 +26,57 @@ export type AggregateCommentLike = {
 }
 
 export type CommentLikeAvgAggregateOutputType = {
-  comment_id: number | null
+  commentId: number | null
 }
 
 export type CommentLikeSumAggregateOutputType = {
-  comment_id: number | null
+  commentId: number | null
 }
 
 export type CommentLikeMinAggregateOutputType = {
-  user_id: string | null
-  comment_id: number | null
-  created_at: Date | null
+  userId: string | null
+  commentId: number | null
+  createdAt: Date | null
 }
 
 export type CommentLikeMaxAggregateOutputType = {
-  user_id: string | null
-  comment_id: number | null
-  created_at: Date | null
+  userId: string | null
+  commentId: number | null
+  createdAt: Date | null
 }
 
 export type CommentLikeCountAggregateOutputType = {
-  user_id: number
-  comment_id: number
-  created_at: number
+  userId: number
+  commentId: number
+  createdAt: number
   _all: number
 }
 
 
 export type CommentLikeAvgAggregateInputType = {
-  comment_id?: true
+  commentId?: true
 }
 
 export type CommentLikeSumAggregateInputType = {
-  comment_id?: true
+  commentId?: true
 }
 
 export type CommentLikeMinAggregateInputType = {
-  user_id?: true
-  comment_id?: true
-  created_at?: true
+  userId?: true
+  commentId?: true
+  createdAt?: true
 }
 
 export type CommentLikeMaxAggregateInputType = {
-  user_id?: true
-  comment_id?: true
-  created_at?: true
+  userId?: true
+  commentId?: true
+  createdAt?: true
 }
 
 export type CommentLikeCountAggregateInputType = {
-  user_id?: true
-  comment_id?: true
-  created_at?: true
+  userId?: true
+  commentId?: true
+  createdAt?: true
   _all?: true
 }
 
@@ -167,9 +167,9 @@ export type CommentLikeGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 export type CommentLikeGroupByOutputType = {
-  user_id: string
-  comment_id: number
-  created_at: Date
+  userId: string
+  commentId: number
+  createdAt: Date
   _count: CommentLikeCountAggregateOutputType | null
   _avg: CommentLikeAvgAggregateOutputType | null
   _sum: CommentLikeSumAggregateOutputType | null
@@ -196,37 +196,37 @@ export type CommentLikeWhereInput = {
   AND?: Prisma.CommentLikeWhereInput | Prisma.CommentLikeWhereInput[]
   OR?: Prisma.CommentLikeWhereInput[]
   NOT?: Prisma.CommentLikeWhereInput | Prisma.CommentLikeWhereInput[]
-  user_id?: Prisma.StringFilter<"CommentLike"> | string
-  comment_id?: Prisma.IntFilter<"CommentLike"> | number
-  created_at?: Prisma.DateTimeFilter<"CommentLike"> | Date | string
+  userId?: Prisma.StringFilter<"CommentLike"> | string
+  commentId?: Prisma.IntFilter<"CommentLike"> | number
+  createdAt?: Prisma.DateTimeFilter<"CommentLike"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   comment?: Prisma.XOR<Prisma.CommentScalarRelationFilter, Prisma.CommentWhereInput>
 }
 
 export type CommentLikeOrderByWithRelationInput = {
-  user_id?: Prisma.SortOrder
-  comment_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  commentId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   comment?: Prisma.CommentOrderByWithRelationInput
 }
 
 export type CommentLikeWhereUniqueInput = Prisma.AtLeast<{
-  user_id_comment_id?: Prisma.CommentLikeUser_idComment_idCompoundUniqueInput
+  userId_commentId?: Prisma.CommentLikeUserIdCommentIdCompoundUniqueInput
   AND?: Prisma.CommentLikeWhereInput | Prisma.CommentLikeWhereInput[]
   OR?: Prisma.CommentLikeWhereInput[]
   NOT?: Prisma.CommentLikeWhereInput | Prisma.CommentLikeWhereInput[]
-  user_id?: Prisma.StringFilter<"CommentLike"> | string
-  comment_id?: Prisma.IntFilter<"CommentLike"> | number
-  created_at?: Prisma.DateTimeFilter<"CommentLike"> | Date | string
+  userId?: Prisma.StringFilter<"CommentLike"> | string
+  commentId?: Prisma.IntFilter<"CommentLike"> | number
+  createdAt?: Prisma.DateTimeFilter<"CommentLike"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   comment?: Prisma.XOR<Prisma.CommentScalarRelationFilter, Prisma.CommentWhereInput>
-}, "user_id_comment_id">
+}, "userId_commentId">
 
 export type CommentLikeOrderByWithAggregationInput = {
-  user_id?: Prisma.SortOrder
-  comment_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  commentId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
   _count?: Prisma.CommentLikeCountOrderByAggregateInput
   _avg?: Prisma.CommentLikeAvgOrderByAggregateInput
   _max?: Prisma.CommentLikeMaxOrderByAggregateInput
@@ -238,49 +238,49 @@ export type CommentLikeScalarWhereWithAggregatesInput = {
   AND?: Prisma.CommentLikeScalarWhereWithAggregatesInput | Prisma.CommentLikeScalarWhereWithAggregatesInput[]
   OR?: Prisma.CommentLikeScalarWhereWithAggregatesInput[]
   NOT?: Prisma.CommentLikeScalarWhereWithAggregatesInput | Prisma.CommentLikeScalarWhereWithAggregatesInput[]
-  user_id?: Prisma.StringWithAggregatesFilter<"CommentLike"> | string
-  comment_id?: Prisma.IntWithAggregatesFilter<"CommentLike"> | number
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"CommentLike"> | Date | string
+  userId?: Prisma.StringWithAggregatesFilter<"CommentLike"> | string
+  commentId?: Prisma.IntWithAggregatesFilter<"CommentLike"> | number
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"CommentLike"> | Date | string
 }
 
 export type CommentLikeCreateInput = {
-  created_at?: Date | string
+  createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCommentLikeInput
   comment: Prisma.CommentCreateNestedOneWithoutCommentLikeInput
 }
 
 export type CommentLikeUncheckedCreateInput = {
-  user_id: string
-  comment_id: number
-  created_at?: Date | string
+  userId: string
+  commentId: number
+  createdAt?: Date | string
 }
 
 export type CommentLikeUpdateInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCommentLikeNestedInput
   comment?: Prisma.CommentUpdateOneRequiredWithoutCommentLikeNestedInput
 }
 
 export type CommentLikeUncheckedUpdateInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  comment_id?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  commentId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CommentLikeCreateManyInput = {
-  user_id: string
-  comment_id: number
-  created_at?: Date | string
+  userId: string
+  commentId: number
+  createdAt?: Date | string
 }
 
 export type CommentLikeUpdateManyMutationInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CommentLikeUncheckedUpdateManyInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  comment_id?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  commentId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CommentLikeListRelationFilter = {
@@ -293,35 +293,35 @@ export type CommentLikeOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type CommentLikeUser_idComment_idCompoundUniqueInput = {
-  user_id: string
-  comment_id: number
+export type CommentLikeUserIdCommentIdCompoundUniqueInput = {
+  userId: string
+  commentId: number
 }
 
 export type CommentLikeCountOrderByAggregateInput = {
-  user_id?: Prisma.SortOrder
-  comment_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  commentId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
 }
 
 export type CommentLikeAvgOrderByAggregateInput = {
-  comment_id?: Prisma.SortOrder
+  commentId?: Prisma.SortOrder
 }
 
 export type CommentLikeMaxOrderByAggregateInput = {
-  user_id?: Prisma.SortOrder
-  comment_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  commentId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
 }
 
 export type CommentLikeMinOrderByAggregateInput = {
-  user_id?: Prisma.SortOrder
-  comment_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  commentId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
 }
 
 export type CommentLikeSumOrderByAggregateInput = {
-  comment_id?: Prisma.SortOrder
+  commentId?: Prisma.SortOrder
 }
 
 export type CommentLikeCreateNestedManyWithoutUserInput = {
@@ -409,13 +409,13 @@ export type CommentLikeUncheckedUpdateManyWithoutCommentNestedInput = {
 }
 
 export type CommentLikeCreateWithoutUserInput = {
-  created_at?: Date | string
+  createdAt?: Date | string
   comment: Prisma.CommentCreateNestedOneWithoutCommentLikeInput
 }
 
 export type CommentLikeUncheckedCreateWithoutUserInput = {
-  comment_id: number
-  created_at?: Date | string
+  commentId: number
+  createdAt?: Date | string
 }
 
 export type CommentLikeCreateOrConnectWithoutUserInput = {
@@ -448,19 +448,19 @@ export type CommentLikeScalarWhereInput = {
   AND?: Prisma.CommentLikeScalarWhereInput | Prisma.CommentLikeScalarWhereInput[]
   OR?: Prisma.CommentLikeScalarWhereInput[]
   NOT?: Prisma.CommentLikeScalarWhereInput | Prisma.CommentLikeScalarWhereInput[]
-  user_id?: Prisma.StringFilter<"CommentLike"> | string
-  comment_id?: Prisma.IntFilter<"CommentLike"> | number
-  created_at?: Prisma.DateTimeFilter<"CommentLike"> | Date | string
+  userId?: Prisma.StringFilter<"CommentLike"> | string
+  commentId?: Prisma.IntFilter<"CommentLike"> | number
+  createdAt?: Prisma.DateTimeFilter<"CommentLike"> | Date | string
 }
 
 export type CommentLikeCreateWithoutCommentInput = {
-  created_at?: Date | string
+  createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCommentLikeInput
 }
 
 export type CommentLikeUncheckedCreateWithoutCommentInput = {
-  user_id: string
-  created_at?: Date | string
+  userId: string
+  createdAt?: Date | string
 }
 
 export type CommentLikeCreateOrConnectWithoutCommentInput = {
@@ -490,78 +490,78 @@ export type CommentLikeUpdateManyWithWhereWithoutCommentInput = {
 }
 
 export type CommentLikeCreateManyUserInput = {
-  comment_id: number
-  created_at?: Date | string
+  commentId: number
+  createdAt?: Date | string
 }
 
 export type CommentLikeUpdateWithoutUserInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comment?: Prisma.CommentUpdateOneRequiredWithoutCommentLikeNestedInput
 }
 
 export type CommentLikeUncheckedUpdateWithoutUserInput = {
-  comment_id?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commentId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CommentLikeUncheckedUpdateManyWithoutUserInput = {
-  comment_id?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  commentId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CommentLikeCreateManyCommentInput = {
-  user_id: string
-  created_at?: Date | string
+  userId: string
+  createdAt?: Date | string
 }
 
 export type CommentLikeUpdateWithoutCommentInput = {
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCommentLikeNestedInput
 }
 
 export type CommentLikeUncheckedUpdateWithoutCommentInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CommentLikeUncheckedUpdateManyWithoutCommentInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
 
 export type CommentLikeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  user_id?: boolean
-  comment_id?: boolean
-  created_at?: boolean
+  userId?: boolean
+  commentId?: boolean
+  createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   comment?: boolean | Prisma.CommentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["commentLike"]>
 
 export type CommentLikeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  user_id?: boolean
-  comment_id?: boolean
-  created_at?: boolean
+  userId?: boolean
+  commentId?: boolean
+  createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   comment?: boolean | Prisma.CommentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["commentLike"]>
 
 export type CommentLikeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  user_id?: boolean
-  comment_id?: boolean
-  created_at?: boolean
+  userId?: boolean
+  commentId?: boolean
+  createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   comment?: boolean | Prisma.CommentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["commentLike"]>
 
 export type CommentLikeSelectScalar = {
-  user_id?: boolean
-  comment_id?: boolean
-  created_at?: boolean
+  userId?: boolean
+  commentId?: boolean
+  createdAt?: boolean
 }
 
-export type CommentLikeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"user_id" | "comment_id" | "created_at", ExtArgs["result"]["commentLike"]>
+export type CommentLikeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "commentId" | "createdAt", ExtArgs["result"]["commentLike"]>
 export type CommentLikeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   comment?: boolean | Prisma.CommentDefaultArgs<ExtArgs>
@@ -582,9 +582,9 @@ export type $CommentLikePayload<ExtArgs extends runtime.Types.Extensions.Interna
     comment: Prisma.$CommentPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    user_id: string
-    comment_id: number
-    created_at: Date
+    userId: string
+    commentId: number
+    createdAt: Date
   }, ExtArgs["result"]["commentLike"]>
   composites: {}
 }
@@ -668,8 +668,8 @@ export interface CommentLikeDelegate<ExtArgs extends runtime.Types.Extensions.In
    * // Get first 10 CommentLikes
    * const commentLikes = await prisma.commentLike.findMany({ take: 10 })
    * 
-   * // Only select the `user_id`
-   * const commentLikeWithUser_idOnly = await prisma.commentLike.findMany({ select: { user_id: true } })
+   * // Only select the `userId`
+   * const commentLikeWithUserIdOnly = await prisma.commentLike.findMany({ select: { userId: true } })
    * 
    */
   findMany<T extends CommentLikeFindManyArgs>(args?: Prisma.SelectSubset<T, CommentLikeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -713,9 +713,9 @@ export interface CommentLikeDelegate<ExtArgs extends runtime.Types.Extensions.In
    *   ]
    * })
    * 
-   * // Create many CommentLikes and only return the `user_id`
-   * const commentLikeWithUser_idOnly = await prisma.commentLike.createManyAndReturn({
-   *   select: { user_id: true },
+   * // Create many CommentLikes and only return the `userId`
+   * const commentLikeWithUserIdOnly = await prisma.commentLike.createManyAndReturn({
+   *   select: { userId: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -804,9 +804,9 @@ export interface CommentLikeDelegate<ExtArgs extends runtime.Types.Extensions.In
    *   ]
    * })
    * 
-   * // Update zero or more CommentLikes and only return the `user_id`
-   * const commentLikeWithUser_idOnly = await prisma.commentLike.updateManyAndReturn({
-   *   select: { user_id: true },
+   * // Update zero or more CommentLikes and only return the `userId`
+   * const commentLikeWithUserIdOnly = await prisma.commentLike.updateManyAndReturn({
+   *   select: { userId: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1010,9 +1010,9 @@ export interface Prisma__CommentLikeClient<T, Null = never, ExtArgs extends runt
  * Fields of the CommentLike model
  */
 export interface CommentLikeFieldRefs {
-  readonly user_id: Prisma.FieldRef<"CommentLike", 'String'>
-  readonly comment_id: Prisma.FieldRef<"CommentLike", 'Int'>
-  readonly created_at: Prisma.FieldRef<"CommentLike", 'DateTime'>
+  readonly userId: Prisma.FieldRef<"CommentLike", 'String'>
+  readonly commentId: Prisma.FieldRef<"CommentLike", 'Int'>
+  readonly createdAt: Prisma.FieldRef<"CommentLike", 'DateTime'>
 }
     
 

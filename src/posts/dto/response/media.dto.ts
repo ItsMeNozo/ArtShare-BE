@@ -3,10 +3,10 @@ import { MediaType } from 'src/generated';
 
 export class MediaResponseDto {
   @Expose() id: number;
-  media_type: MediaType;
+  mediaType: MediaType;
   description?: string;
   url: string;
-  creator_id: string;
+  creatorId: string;
   downloads: number;
-  created_at: Date;
+  createdAt: Date;
 }

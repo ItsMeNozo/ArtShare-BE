@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { StripeService } from './stripe.service';
-import { StripeController } from './stripe.controller';
+import { AuthModule } from 'src/auth/auth.module';
 import { StripeCoreService } from './stripe-core.service';
 import { StripeDbService } from './stripe-db.service';
 import { StripeWebhookProcessorService } from './stripe-webhook-processor.service';
-import { AuthModule } from 'src/auth/auth.module';
+import { StripeController } from './stripe.controller';
+import { StripeService } from './stripe.service';
 
 @Module({
   imports: [ConfigModule, AuthModule],

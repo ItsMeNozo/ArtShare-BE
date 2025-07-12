@@ -7,10 +7,10 @@ import { JwtPayload } from '../types/jwtPayload.type';
 @Injectable()
 export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
   private readonly logger = new Logger(AtStrategy.name);
-  
+
   constructor(config: ConfigService) {
     const secret = config.get<string>('AT_SECRET');
-    
+
     if (!secret) {
       throw new Error('AT_SECRET is not defined in configuration');
     }
@@ -27,7 +27,7 @@ export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
       email: payload.email,
       roles: payload.roles,
     };
-    
+
     this.logger.debug(`AT Strategy returning user: ${payload.userId}`);
     return result;
   }

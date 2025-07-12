@@ -1,4 +1,4 @@
 export interface DailyBreakdown {
-  date: string; 
+  date: string;
   amount: number;
 }

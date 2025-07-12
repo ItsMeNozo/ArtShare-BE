@@ -14,13 +14,13 @@ export class LikingUserResponseDto {
 
   /** The user's full name */
   @Expose()
-  full_name: string;
+  fullName: string;
 
   /** URL of the user's profile picture, or null if none */
   @Expose()
-  profile_picture_url: string | null;
+  profilePictureUrl: string | null;
 
-  /** Whether the requesting user is following this user */
+  /** Whether the current user is following this user */
   @Expose()
-  is_following: boolean;
+  isFollowing: boolean;
 }

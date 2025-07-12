@@ -176,7 +176,7 @@ export class PostsController {
   async getRelevantPosts(
     @Param('post_id', ParseIntPipe) postId: number,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-    @Query('page_size', new DefaultValuePipe(25), ParseIntPipe)
+    @Query('pageSize', new DefaultValuePipe(25), ParseIntPipe)
     pageSize: number,
     @CurrentUser() user?: CurrentUserType,
   ): Promise<PostListItemResponse[]> {

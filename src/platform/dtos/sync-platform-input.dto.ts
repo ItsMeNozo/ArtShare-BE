@@ -4,10 +4,10 @@ import { SharePlatform } from 'src/generated';
 export interface ApiPageData {
   id: string;
   name: string;
-  access_token: string;
+  accessToken: string;
   category: string;
-  token_expires_at: Date | null;
-  picture_url?: string;
+  tokenExpiresAt: Date | null;
+  pictureUrl?: string;
   [key: string]: any;
 }
 

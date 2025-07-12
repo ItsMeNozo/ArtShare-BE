@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { LikesService } from './likes.service';
-import { LikesController } from './likes.controller';
 import { AuthModule } from 'src/auth/auth.module';
+import { LikesController } from './likes.controller';
+import { LikesService } from './likes.service';
 
 @Module({
   imports: [AuthModule],
   providers: [LikesService],
   controllers: [LikesController],
-  exports:   [LikesService],
+  exports: [LikesService],
 })
 export class LikesModule {}

@@ -40,23 +40,21 @@ export class PostsExploreService {
     userId: string,
     query: GetPostsDto,
   ): Promise<PaginatedResponse<PostListItemResponse>> {
-    const { page = 1, limit = 25, filter = [] } = query;
-    console.log('getForYouPosts', {
-      userId,
-      page,
-      limit,
-      filter,
-    });
+    const { page = 1, limit = 25, filter = [], isAi } = query;
 
-    const whereClause =
+    const whereClause: Prisma.PostWhereInput =
       filter && filter.length > 0
         ? { categories: { some: { name: { in: filter } } } }
         : {};
 
+    if (isAi && isAi === true) {
+      whereClause.aiCreated = true;
+    }
+
     const [posts, total] = await Promise.all([
       this.prisma.post.findMany({
         where: whereClause,
-        orderBy: [{ share_count: 'desc' }, { id: 'desc' }],
+        orderBy: [{ shareCount: 'desc' }, { id: 'desc' }],
         take: limit,
         skip: (page - 1) * limit,
         include: this.buildPostIncludes(userId),
@@ -79,23 +77,28 @@ export class PostsExploreService {
     userId: string,
     query: GetPostsDto,
   ): Promise<PaginatedResponse<PostListItemResponse>> {
-    const { page = 1, limit = 25, filter = [] } = query;
-    console.log('getForYouPosts', {
+    const { page = 1, limit = 25, filter = [], isAi } = query;
+    console.log('getTrendingPosts', {
       userId,
       page,
       limit,
       filter,
+      isAi,
     });
 
-    const whereClause =
+    const whereClause: Prisma.PostWhereInput =
       filter && filter.length > 0
         ? { categories: { some: { name: { in: filter } } } }
         : {};
 
+    if (isAi && isAi === true) {
+      whereClause.aiCreated = true;
+    }
+
     const [posts, total] = await Promise.all([
       this.prisma.post.findMany({
         where: whereClause,
-        orderBy: [{ share_count: 'desc' }, { id: 'desc' }],
+        orderBy: [{ shareCount: 'desc' }, { id: 'desc' }],
         take: limit,
         skip: (page - 1) * limit,
         include: this.buildPostIncludes(userId),
@@ -119,16 +122,16 @@ export class PostsExploreService {
   ): Promise<PaginatedResponse<PostListItemResponse>> {
     const { page = 1, limit = 24, filter = [] } = query;
     const followingUsers = await this.prisma.follow.findMany({
-      where: { follower_id: userId },
-      select: { following_id: true },
+      where: { followerId: userId },
+      select: { followingId: true },
     });
 
-    const followingIds = followingUsers.map((follow) => follow.following_id);
+    const followingIds = followingUsers.map((follow) => follow.followingId);
 
     const skip = (page - 1) * limit;
 
     const whereClause = {
-      user_id: { in: followingIds },
+      userId: { in: followingIds },
       ...(filter &&
         filter.length > 0 && {
           categories: { some: { name: { in: filter } } },
@@ -142,7 +145,7 @@ export class PostsExploreService {
         take: limit,
         include: this.buildPostIncludes(userId),
         orderBy: {
-          created_at: 'desc',
+          createdAt: 'desc',
         },
       }),
       this.prisma.post.count({
@@ -175,7 +178,7 @@ export class PostsExploreService {
     // update the view count
     await this.prisma.post.update({
       where: { id: postId },
-      data: { view_count: { increment: 1 } },
+      data: { viewCount: { increment: 1 } },
     });
     return mapPostToDto(post);
   }
@@ -184,7 +187,7 @@ export class PostsExploreService {
   async findPostsByUsername(
     username: string,
     page: number,
-    page_size: number,
+    pageSize: number,
     userId: string = '',
   ): Promise<PostListItemResponse[]> {
     const user = await this.prisma.user.findUnique({
@@ -196,15 +199,15 @@ export class PostsExploreService {
       throw new NotFoundException('User not found');
     }
 
-    const skip = (page - 1) * page_size;
+    const skip = (page - 1) * pageSize;
 
     const posts = await this.prisma.post.findMany({
-      where: { user_id: user.id },
+      where: { userId: user.id },
       skip,
-      take: page_size,
+      take: pageSize,
       include: this.buildPostIncludes(userId),
       orderBy: {
-        created_at: 'desc',
+        createdAt: 'desc',
       },
     });
 
@@ -216,7 +219,7 @@ export class PostsExploreService {
     body: SearchPostDto,
     userId: string,
   ): Promise<PaginatedResponse<PostListItemResponse>> {
-    const { q, page = 1, limit = 25, filter } = body;
+    const { q, page = 1, limit = 25, filter, isAi } = body;
 
     const queryEmbedding =
       await this.embeddingService.generateEmbeddingFromText(q);
@@ -255,21 +258,30 @@ export class PostsExploreService {
       .map((point) => Number(point.id))
       .filter((pointId) => !isNaN(pointId));
 
+    let whereClause: Prisma.PostWhereInput = {
+      id: { in: pointIds },
+    };
+    if (filter && filter.length > 0) {
+      whereClause = {
+        ...whereClause,
+        categories: { some: { name: { in: filter } } },
+      };
+    }
+
+    if (isAi && isAi === true) {
+      whereClause.aiCreated = true;
+    }
+
     const posts: PostWithRelations[] = await this.prisma.post.findMany({
-      where: { id: { in: pointIds } },
+      where: whereClause,
       include: this.buildPostIncludes(userId),
     });
 
     // Sort posts in the same order as returned by Qdrant
-    let sortedPosts: PostWithRelations[] = pointIds
+    const sortedPosts: PostWithRelations[] = pointIds
       .map((id) => posts.find((post: PostWithRelations) => post.id === id))
       .filter((post): post is PostWithRelations => post !== undefined);
 
-    if (filter && filter.length > 0) {
-      sortedPosts = sortedPosts.filter((post) =>
-        post.categories.some((category) => filter.includes(category.name)),
-      );
-    }
     const mappedPosts = mapPostListToDto(sortedPosts);
 
     return generatePaginatedResponseWithUnknownTotal(mappedPosts, {
@@ -282,7 +294,7 @@ export class PostsExploreService {
   async getRelevantPosts(
     postId: number,
     page: number,
-    page_size: number,
+    pageSize: number,
     userId: string,
   ): Promise<PostListItemResponse[]> {
     const post: Post | null = await this.prisma.post.findUnique({
@@ -317,8 +329,8 @@ export class PostsExploreService {
         query: {
           fusion: 'dbsf',
         },
-        offset: (page - 1) * page_size,
-        limit: page_size,
+        offset: (page - 1) * pageSize,
+        limit: pageSize,
       },
     );
 
@@ -342,12 +354,12 @@ export class PostsExploreService {
   @TryCatch()
   async getAiTrendingPosts(
     page: number,
-    page_size: number,
+    pageSize: number,
   ): Promise<PostListItemResponse[]> {
-    const skip = (page - 1) * page_size;
+    const skip = (page - 1) * pageSize;
 
     const customIncludes: Prisma.PostInclude = {
-      art_generation: true,
+      artGeneration: true,
     };
 
     // 3. Merge them using spread syntax
@@ -357,9 +369,9 @@ export class PostsExploreService {
     };
 
     const posts = await this.prisma.post.findMany({
-      where: { ai_created: true },
-      orderBy: [{ view_count: 'desc' }, { share_count: 'desc' }, { id: 'asc' }],
-      take: page_size,
+      where: { aiCreated: true },
+      orderBy: [{ viewCount: 'desc' }, { shareCount: 'desc' }, { id: 'asc' }],
+      take: pageSize,
       skip,
       // common includes with custom includes for art generation
       include: finalIncludes,
@@ -374,7 +386,7 @@ export class PostsExploreService {
       user: true,
       categories: true,
       likes: {
-        where: { user_id: userId },
+        where: { userId: userId },
         take: 1,
         select: { id: true }, // only need existence
       },

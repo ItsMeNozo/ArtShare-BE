@@ -27,94 +27,94 @@ export type AggregateMedia = {
 
 export type MediaAvgAggregateOutputType = {
   id: number | null
-  post_id: number | null
+  postId: number | null
   downloads: number | null
 }
 
 export type MediaSumAggregateOutputType = {
   id: number | null
-  post_id: number | null
+  postId: number | null
   downloads: number | null
 }
 
 export type MediaMinAggregateOutputType = {
   id: number | null
-  post_id: number | null
-  media_type: $Enums.MediaType | null
+  postId: number | null
+  mediaType: $Enums.MediaType | null
   description: string | null
   url: string | null
   downloads: number | null
-  created_at: Date | null
-  creator_id: string | null
+  createdAt: Date | null
+  creatorId: string | null
 }
 
 export type MediaMaxAggregateOutputType = {
   id: number | null
-  post_id: number | null
-  media_type: $Enums.MediaType | null
+  postId: number | null
+  mediaType: $Enums.MediaType | null
   description: string | null
   url: string | null
   downloads: number | null
-  created_at: Date | null
-  creator_id: string | null
+  createdAt: Date | null
+  creatorId: string | null
 }
 
 export type MediaCountAggregateOutputType = {
   id: number
-  post_id: number
-  media_type: number
+  postId: number
+  mediaType: number
   description: number
   url: number
   downloads: number
-  created_at: number
-  creator_id: number
+  createdAt: number
+  creatorId: number
   _all: number
 }
 
 
 export type MediaAvgAggregateInputType = {
   id?: true
-  post_id?: true
+  postId?: true
   downloads?: true
 }
 
 export type MediaSumAggregateInputType = {
   id?: true
-  post_id?: true
+  postId?: true
   downloads?: true
 }
 
 export type MediaMinAggregateInputType = {
   id?: true
-  post_id?: true
-  media_type?: true
+  postId?: true
+  mediaType?: true
   description?: true
   url?: true
   downloads?: true
-  created_at?: true
-  creator_id?: true
+  createdAt?: true
+  creatorId?: true
 }
 
 export type MediaMaxAggregateInputType = {
   id?: true
-  post_id?: true
-  media_type?: true
+  postId?: true
+  mediaType?: true
   description?: true
   url?: true
   downloads?: true
-  created_at?: true
-  creator_id?: true
+  createdAt?: true
+  creatorId?: true
 }
 
 export type MediaCountAggregateInputType = {
   id?: true
-  post_id?: true
-  media_type?: true
+  postId?: true
+  mediaType?: true
   description?: true
   url?: true
   downloads?: true
-  created_at?: true
-  creator_id?: true
+  createdAt?: true
+  creatorId?: true
   _all?: true
 }
 
@@ -206,13 +206,13 @@ export type MediaGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type MediaGroupByOutputType = {
   id: number
-  post_id: number
-  media_type: $Enums.MediaType
+  postId: number
+  mediaType: $Enums.MediaType
   description: string | null
   url: string
   downloads: number
-  created_at: Date
-  creator_id: string
+  createdAt: Date
+  creatorId: string
   _count: MediaCountAggregateOutputType | null
   _avg: MediaAvgAggregateOutputType | null
   _sum: MediaSumAggregateOutputType | null
@@ -240,25 +240,25 @@ export type MediaWhereInput = {
   OR?: Prisma.MediaWhereInput[]
   NOT?: Prisma.MediaWhereInput | Prisma.MediaWhereInput[]
   id?: Prisma.IntFilter<"Media"> | number
-  post_id?: Prisma.IntFilter<"Media"> | number
-  media_type?: Prisma.EnumMediaTypeFilter<"Media"> | $Enums.MediaType
+  postId?: Prisma.IntFilter<"Media"> | number
+  mediaType?: Prisma.EnumMediaTypeFilter<"Media"> | $Enums.MediaType
   description?: Prisma.StringNullableFilter<"Media"> | string | null
   url?: Prisma.StringFilter<"Media"> | string
   downloads?: Prisma.IntFilter<"Media"> | number
-  created_at?: Prisma.DateTimeFilter<"Media"> | Date | string
-  creator_id?: Prisma.StringFilter<"Media"> | string
+  createdAt?: Prisma.DateTimeFilter<"Media"> | Date | string
+  creatorId?: Prisma.StringFilter<"Media"> | string
   post?: Prisma.XOR<Prisma.PostScalarRelationFilter, Prisma.PostWhereInput>
 }
 
 export type MediaOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  post_id?: Prisma.SortOrder
-  media_type?: Prisma.SortOrder
+  postId?: Prisma.SortOrder
+  mediaType?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   url?: Prisma.SortOrder
   downloads?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  creator_id?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  creatorId?: Prisma.SortOrder
   post?: Prisma.PostOrderByWithRelationInput
 }
 
@@ -267,25 +267,25 @@ export type MediaWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.MediaWhereInput | Prisma.MediaWhereInput[]
   OR?: Prisma.MediaWhereInput[]
   NOT?: Prisma.MediaWhereInput | Prisma.MediaWhereInput[]
-  post_id?: Prisma.IntFilter<"Media"> | number
-  media_type?: Prisma.EnumMediaTypeFilter<"Media"> | $Enums.MediaType
+  postId?: Prisma.IntFilter<"Media"> | number
+  mediaType?: Prisma.EnumMediaTypeFilter<"Media"> | $Enums.MediaType
   description?: Prisma.StringNullableFilter<"Media"> | string | null
   url?: Prisma.StringFilter<"Media"> | string
   downloads?: Prisma.IntFilter<"Media"> | number
-  created_at?: Prisma.DateTimeFilter<"Media"> | Date | string
-  creator_id?: Prisma.StringFilter<"Media"> | string
+  createdAt?: Prisma.DateTimeFilter<"Media"> | Date | string
+  creatorId?: Prisma.StringFilter<"Media"> | string
   post?: Prisma.XOR<Prisma.PostScalarRelationFilter, Prisma.PostWhereInput>
 }, "id">
 
 export type MediaOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  post_id?: Prisma.SortOrder
-  media_type?: Prisma.SortOrder
+  postId?: Prisma.SortOrder
+  mediaType?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   url?: Prisma.SortOrder
   downloads?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  creator_id?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  creatorId?: Prisma.SortOrder
   _count?: Prisma.MediaCountOrderByAggregateInput
   _avg?: Prisma.MediaAvgOrderByAggregateInput
   _max?: Prisma.MediaMaxOrderByAggregateInput
@@ -298,86 +298,86 @@ export type MediaScalarWhereWithAggregatesInput = {
   OR?: Prisma.MediaScalarWhereWithAggregatesInput[]
   NOT?: Prisma.MediaScalarWhereWithAggregatesInput | Prisma.MediaScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Media"> | number
-  post_id?: Prisma.IntWithAggregatesFilter<"Media"> | number
-  media_type?: Prisma.EnumMediaTypeWithAggregatesFilter<"Media"> | $Enums.MediaType
+  postId?: Prisma.IntWithAggregatesFilter<"Media"> | number
+  mediaType?: Prisma.EnumMediaTypeWithAggregatesFilter<"Media"> | $Enums.MediaType
   description?: Prisma.StringNullableWithAggregatesFilter<"Media"> | string | null
   url?: Prisma.StringWithAggregatesFilter<"Media"> | string
   downloads?: Prisma.IntWithAggregatesFilter<"Media"> | number
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"Media"> | Date | string
-  creator_id?: Prisma.StringWithAggregatesFilter<"Media"> | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Media"> | Date | string
+  creatorId?: Prisma.StringWithAggregatesFilter<"Media"> | string
 }
 
 export type MediaCreateInput = {
-  media_type: $Enums.MediaType
+  mediaType: $Enums.MediaType
   description?: string | null
   url: string
   downloads?: number
-  created_at?: Date | string
-  creator_id: string
+  createdAt?: Date | string
+  creatorId: string
   post: Prisma.PostCreateNestedOneWithoutMediasInput
 }
 
 export type MediaUncheckedCreateInput = {
   id?: number
-  post_id: number
-  media_type: $Enums.MediaType
+  postId: number
+  mediaType: $Enums.MediaType
   description?: string | null
   url: string
   downloads?: number
-  created_at?: Date | string
-  creator_id: string
+  createdAt?: Date | string
+  creatorId: string
 }
 
 export type MediaUpdateInput = {
-  media_type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
+  mediaType?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.StringFieldUpdateOperationsInput | string
   downloads?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  creator_id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorId?: Prisma.StringFieldUpdateOperationsInput | string
   post?: Prisma.PostUpdateOneRequiredWithoutMediasNestedInput
 }
 
 export type MediaUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  post_id?: Prisma.IntFieldUpdateOperationsInput | number
-  media_type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
+  postId?: Prisma.IntFieldUpdateOperationsInput | number
+  mediaType?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.StringFieldUpdateOperationsInput | string
   downloads?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  creator_id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type MediaCreateManyInput = {
   id?: number
-  post_id: number
-  media_type: $Enums.MediaType
+  postId: number
+  mediaType: $Enums.MediaType
   description?: string | null
   url: string
   downloads?: number
-  created_at?: Date | string
-  creator_id: string
+  createdAt?: Date | string
+  creatorId: string
 }
 
 export type MediaUpdateManyMutationInput = {
-  media_type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
+  mediaType?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.StringFieldUpdateOperationsInput | string
   downloads?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  creator_id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type MediaUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  post_id?: Prisma.IntFieldUpdateOperationsInput | number
-  media_type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
+  postId?: Prisma.IntFieldUpdateOperationsInput | number
+  mediaType?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.StringFieldUpdateOperationsInput | string
   downloads?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  creator_id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type MediaListRelationFilter = {
@@ -392,46 +392,46 @@ export type MediaOrderByRelationAggregateInput = {
 
 export type MediaCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  post_id?: Prisma.SortOrder
-  media_type?: Prisma.SortOrder
+  postId?: Prisma.SortOrder
+  mediaType?: Prisma.SortOrder
   description?: Prisma.SortOrder
   url?: Prisma.SortOrder
   downloads?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  creator_id?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  creatorId?: Prisma.SortOrder
 }
 
 export type MediaAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  post_id?: Prisma.SortOrder
+  postId?: Prisma.SortOrder
   downloads?: Prisma.SortOrder
 }
 
 export type MediaMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  post_id?: Prisma.SortOrder
-  media_type?: Prisma.SortOrder
+  postId?: Prisma.SortOrder
+  mediaType?: Prisma.SortOrder
   description?: Prisma.SortOrder
   url?: Prisma.SortOrder
   downloads?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  creator_id?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  creatorId?: Prisma.SortOrder
 }
 
 export type MediaMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  post_id?: Prisma.SortOrder
-  media_type?: Prisma.SortOrder
+  postId?: Prisma.SortOrder
+  mediaType?: Prisma.SortOrder
   description?: Prisma.SortOrder
   url?: Prisma.SortOrder
   downloads?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  creator_id?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  creatorId?: Prisma.SortOrder
 }
 
 export type MediaSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  post_id?: Prisma.SortOrder
+  postId?: Prisma.SortOrder
   downloads?: Prisma.SortOrder
 }
 
@@ -482,22 +482,22 @@ export type EnumMediaTypeFieldUpdateOperationsInput = {
 }
 
 export type MediaCreateWithoutPostInput = {
-  media_type: $Enums.MediaType
+  mediaType: $Enums.MediaType
   description?: string | null
   url: string
   downloads?: number
-  created_at?: Date | string
-  creator_id: string
+  createdAt?: Date | string
+  creatorId: string
 }
 
 export type MediaUncheckedCreateWithoutPostInput = {
   id?: number
-  media_type: $Enums.MediaType
+  mediaType: $Enums.MediaType
   description?: string | null
   url: string
   downloads?: number
-  created_at?: Date | string
-  creator_id: string
+  createdAt?: Date | string
+  creatorId: string
 }
 
 export type MediaCreateOrConnectWithoutPostInput = {
@@ -531,104 +531,104 @@ export type MediaScalarWhereInput = {
   OR?: Prisma.MediaScalarWhereInput[]
   NOT?: Prisma.MediaScalarWhereInput | Prisma.MediaScalarWhereInput[]
   id?: Prisma.IntFilter<"Media"> | number
-  post_id?: Prisma.IntFilter<"Media"> | number
-  media_type?: Prisma.EnumMediaTypeFilter<"Media"> | $Enums.MediaType
+  postId?: Prisma.IntFilter<"Media"> | number
+  mediaType?: Prisma.EnumMediaTypeFilter<"Media"> | $Enums.MediaType
   description?: Prisma.StringNullableFilter<"Media"> | string | null
   url?: Prisma.StringFilter<"Media"> | string
   downloads?: Prisma.IntFilter<"Media"> | number
-  created_at?: Prisma.DateTimeFilter<"Media"> | Date | string
-  creator_id?: Prisma.StringFilter<"Media"> | string
+  createdAt?: Prisma.DateTimeFilter<"Media"> | Date | string
+  creatorId?: Prisma.StringFilter<"Media"> | string
 }
 
 export type MediaCreateManyPostInput = {
   id?: number
-  media_type: $Enums.MediaType
+  mediaType: $Enums.MediaType
   description?: string | null
   url: string
   downloads?: number
-  created_at?: Date | string
-  creator_id: string
+  createdAt?: Date | string
+  creatorId: string
 }
 
 export type MediaUpdateWithoutPostInput = {
-  media_type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
+  mediaType?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.StringFieldUpdateOperationsInput | string
   downloads?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  creator_id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type MediaUncheckedUpdateWithoutPostInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  media_type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
+  mediaType?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.StringFieldUpdateOperationsInput | string
   downloads?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  creator_id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type MediaUncheckedUpdateManyWithoutPostInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  media_type?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
+  mediaType?: Prisma.EnumMediaTypeFieldUpdateOperationsInput | $Enums.MediaType
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   url?: Prisma.StringFieldUpdateOperationsInput | string
   downloads?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  creator_id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
 
 export type MediaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  post_id?: boolean
-  media_type?: boolean
+  postId?: boolean
+  mediaType?: boolean
   description?: boolean
   url?: boolean
   downloads?: boolean
-  created_at?: boolean
-  creator_id?: boolean
+  createdAt?: boolean
+  creatorId?: boolean
   post?: boolean | Prisma.PostDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["media"]>
 
 export type MediaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  post_id?: boolean
-  media_type?: boolean
+  postId?: boolean
+  mediaType?: boolean
   description?: boolean
   url?: boolean
   downloads?: boolean
-  created_at?: boolean
-  creator_id?: boolean
+  createdAt?: boolean
+  creatorId?: boolean
   post?: boolean | Prisma.PostDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["media"]>
 
 export type MediaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  post_id?: boolean
-  media_type?: boolean
+  postId?: boolean
+  mediaType?: boolean
   description?: boolean
   url?: boolean
   downloads?: boolean
-  created_at?: boolean
-  creator_id?: boolean
+  createdAt?: boolean
+  creatorId?: boolean
   post?: boolean | Prisma.PostDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["media"]>
 
 export type MediaSelectScalar = {
   id?: boolean
-  post_id?: boolean
-  media_type?: boolean
+  postId?: boolean
+  mediaType?: boolean
   description?: boolean
   url?: boolean
   downloads?: boolean
-  created_at?: boolean
-  creator_id?: boolean
+  createdAt?: boolean
+  creatorId?: boolean
 }
 
-export type MediaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "post_id" | "media_type" | "description" | "url" | "downloads" | "created_at" | "creator_id", ExtArgs["result"]["media"]>
+export type MediaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "postId" | "mediaType" | "description" | "url" | "downloads" | "createdAt" | "creatorId", ExtArgs["result"]["media"]>
 export type MediaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   post?: boolean | Prisma.PostDefaultArgs<ExtArgs>
 }
@@ -646,13 +646,13 @@ export type $MediaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    post_id: number
-    media_type: $Enums.MediaType
+    postId: number
+    mediaType: $Enums.MediaType
     description: string | null
     url: string
     downloads: number
-    created_at: Date
-    creator_id: string
+    createdAt: Date
+    creatorId: string
   }, ExtArgs["result"]["media"]>
   composites: {}
 }
@@ -1078,13 +1078,13 @@ export interface Prisma__MediaClient<T, Null = never, ExtArgs extends runtime.Ty
  */
 export interface MediaFieldRefs {
   readonly id: Prisma.FieldRef<"Media", 'Int'>
-  readonly post_id: Prisma.FieldRef<"Media", 'Int'>
-  readonly media_type: Prisma.FieldRef<"Media", 'MediaType'>
+  readonly postId: Prisma.FieldRef<"Media", 'Int'>
+  readonly mediaType: Prisma.FieldRef<"Media", 'MediaType'>
   readonly description: Prisma.FieldRef<"Media", 'String'>
   readonly url: Prisma.FieldRef<"Media", 'String'>
   readonly downloads: Prisma.FieldRef<"Media", 'Int'>
-  readonly created_at: Prisma.FieldRef<"Media", 'DateTime'>
-  readonly creator_id: Prisma.FieldRef<"Media", 'String'>
+  readonly createdAt: Prisma.FieldRef<"Media", 'DateTime'>
+  readonly creatorId: Prisma.FieldRef<"Media", 'String'>
 }
     
 

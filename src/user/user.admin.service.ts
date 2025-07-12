@@ -7,7 +7,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import * as admin from 'firebase-admin';
 import { FirebaseError } from 'firebase-admin';
 import { Auth } from 'firebase-admin/auth';
 import { Role } from 'src/auth/enums/role.enum';
@@ -31,7 +30,7 @@ export class UserAdminService {
 
   private mapUserToUserResponseDto(
     userWithRelations: User & {
-      roles: Array<{ role: { role_name: string } }>;
+      roles: Array<{ role: { roleName: string } }>;
       userAccess: UserAccess | null;
     },
   ): UserResponseDto {
@@ -39,15 +38,15 @@ export class UserAdminService {
       id: userWithRelations.id,
       email: userWithRelations.email,
       username: userWithRelations.username,
-      fullName: userWithRelations.full_name,
-      profilePictureUrl: userWithRelations.profile_picture_url,
+      fullName: userWithRelations.fullName,
+      profilePictureUrl: userWithRelations.profilePictureUrl,
       bio: userWithRelations.bio,
-      createdAt: userWithRelations.created_at,
-      updatedAt: userWithRelations.updated_at,
+      createdAt: userWithRelations.createdAt,
+      updatedAt: userWithRelations.updatedAt,
       birthday: userWithRelations.birthday,
-      followersCount: userWithRelations.followers_count,
-      followingsCount: userWithRelations.followings_count,
-      roles: userWithRelations.roles.map((ur) => ur.role.role_name as Role),
+      followersCount: userWithRelations.followersCount,
+      followingsCount: userWithRelations.followingsCount,
+      roles: userWithRelations.roles.map((ur) => ur.role.roleName as Role),
       status: userWithRelations.status,
       userAccess: userWithRelations.userAccess,
     };
@@ -59,7 +58,7 @@ export class UserAdminService {
     const {
       page = 1,
       limit = 10,
-      sortBy = 'created_at',
+      sortBy = 'createdAt',
       sortOrder = 'desc',
       search,
       filter,
@@ -67,13 +66,13 @@ export class UserAdminService {
 
     const skip = (page - 1) * limit;
 
-    const whereClause: any = {};
+    const whereClause: Prisma.UserWhereInput = {};
 
     if (search) {
       whereClause.OR = [
         { username: { contains: search, mode: 'insensitive' } },
         { email: { contains: search, mode: 'insensitive' } },
-        { full_name: { contains: search, mode: 'insensitive' } },
+        { fullName: { contains: search, mode: 'insensitive' } },
       ];
     }
 
@@ -84,7 +83,7 @@ export class UserAdminService {
         whereClause.roles = {
           some: {
             role: {
-              role_name: { in: roles },
+              roleName: { in: roles },
             },
           },
         };
@@ -92,15 +91,6 @@ export class UserAdminService {
       if (status) {
         whereClause.status = status;
       }
-    }
-
-    let prismaSortBy = sortBy;
-    if (sortBy === 'createdAt') {
-      prismaSortBy = 'created_at';
-    } else if (sortBy === 'updatedAt') {
-      prismaSortBy = 'updated_at';
-    } else if (sortBy === 'fullName') {
-      prismaSortBy = 'full_name';
     }
 
     const users = await this.prisma.user.findMany({
@@ -112,7 +102,7 @@ export class UserAdminService {
         userAccess: true,
       },
       orderBy: {
-        [prismaSortBy]: sortOrder,
+        [sortBy]: sortOrder,
       },
     });
 
@@ -121,7 +111,7 @@ export class UserAdminService {
     });
 
     const mappedUsers = users
-      .map((user) => this.mapUserToUserResponseDto(user))
+      .map((user) => this.mapUserToUserResponseDto(user as any))
       .filter((dto) => dto !== null) as UserResponseDto[];
 
     return {
@@ -138,7 +128,7 @@ export class UserAdminService {
         roles: { include: { role: true } },
         userAccess: true,
       },
-      orderBy: { created_at: 'desc' },
+      orderBy: { createdAt: 'desc' },
     });
     return users
       .map((user) => this.mapUserToUserResponseDto(user))
@@ -194,10 +184,10 @@ export class UserAdminService {
       throw new ConflictException(`Username '${username}' is already in use.`);
 
     const dbRoles = await this.prisma.role.findMany({
-      where: { role_name: { in: roleNames } },
+      where: { roleName: { in: roleNames } },
     });
     if (dbRoles.length !== roleNames.length) {
-      const foundDbRoleNames = dbRoles.map((r) => r.role_name);
+      const foundDbRoleNames = dbRoles.map((r) => r.roleName);
       const missingRoles = roleNames.filter(
         (rName) => !foundDbRoleNames.includes(rName),
       );
@@ -212,14 +202,14 @@ export class UserAdminService {
           id,
           username,
           email,
-          full_name: fullName || null,
-          profile_picture_url: profilePictureUrl || null,
+          fullName: fullName || null,
+          profilePictureUrl: profilePictureUrl || null,
           bio: bio || null,
           birthday: birthday ? new Date(birthday) : null,
           status: status,
           roles: {
             create: dbRoles.map((role) => ({
-              role_id: role.role_id,
+              roleId: role.roleId,
               assignedAt: new Date(),
             })),
           },
@@ -282,7 +272,7 @@ export class UserAdminService {
 
     if (dto.username !== undefined) dataToUpdate.username = dto.username;
     if (dto.email !== undefined) dataToUpdate.email = dto.email;
-    if (dto.fullName !== undefined) dataToUpdate.full_name = dto.fullName;
+    if (dto.fullName !== undefined) dataToUpdate.fullName = dto.fullName;
     if (dto.bio !== undefined) dataToUpdate.bio = dto.bio;
     if (dto.status !== undefined) dataToUpdate.status = dto.status;
     if (dto.birthday !== undefined) {
@@ -299,16 +289,16 @@ export class UserAdminService {
       }
     }
     if (newProfilePictureUrlFromStorage !== undefined) {
-      dataToUpdate.profile_picture_url = newProfilePictureUrlFromStorage;
+      dataToUpdate.profilePictureUrl = newProfilePictureUrlFromStorage;
     }
 
     if (dto.roles) {
       const dbRoles = await this.prisma.role.findMany({
-        where: { role_name: { in: dto.roles as string[] } },
+        where: { roleName: { in: dto.roles as string[] } },
       });
 
       if (dbRoles.length !== dto.roles.length) {
-        const foundDbRoleNames = dbRoles.map((r) => r.role_name);
+        const foundDbRoleNames = dbRoles.map((r) => r.roleName);
         const missingRoles = dto.roles.filter(
           (rName) => !foundDbRoleNames.includes(rName),
         );
@@ -320,7 +310,7 @@ export class UserAdminService {
       dataToUpdate.roles = {
         deleteMany: {},
         create: dbRoles.map((role) => ({
-          role_id: role.role_id,
+          roleId: role.roleId,
           assignedAt: new Date(),
         })),
       };
@@ -377,10 +367,10 @@ export class UserAdminService {
   ): Promise<{ id: string; profilePictureUrl: string | null } | null> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      select: { id: true, profile_picture_url: true },
+      select: { id: true, profilePictureUrl: true },
     });
     if (!user) return null;
-    return { id: user.id, profilePictureUrl: user.profile_picture_url };
+    return { id: user.id, profilePictureUrl: user.profilePictureUrl };
   }
 
   async deleteUserById(userId: string): Promise<{
@@ -399,15 +389,15 @@ export class UserAdminService {
       const firebaseError = error as FirebaseError;
       if (firebaseError.code === 'auth/user-not-found') {
         this.logger.warn(
-          `User ${userId} not found in Firebase. Proceeding with DB deletion.`,
+          `User ${userId} not found in Firebase, proceeding with DB deletion.`,
         );
       } else {
         this.logger.error(
-          `Firebase error deleting user ${userId}: ${firebaseError.message}`,
-          firebaseError.stack,
+          `Failed to delete user ${userId} from Firebase:`,
+          firebaseError.message,
         );
         throw new InternalServerErrorException(
-          `Failed to delete user ${userId} from Firebase: ${firebaseError.message}. DB deletion not attempted.`,
+          `Firebase deletion failed: ${firebaseError.message}`,
         );
       }
     }
@@ -415,166 +405,58 @@ export class UserAdminService {
     try {
       await this.prisma.user.delete({ where: { id: userId } });
       dbUserFoundAndDeleted = true;
-      this.logger.log(`User ${userId} successfully deleted from Prisma DB.`);
-    } catch (error) {
+      this.logger.log(`User ${userId} successfully deleted from the database.`);
+    } catch (error: any) {
       if (
-        error instanceof PrismaClientKnownRequestError &&
+        error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === 'P2025'
       ) {
-        this.logger.warn(`User ${userId} not found in Prisma DB (P2025).`);
+        this.logger.warn(
+          `User ${userId} not found in the database, but corresponding Firebase user (if existed) was deleted.`,
+        );
       } else {
-        this.logger.error(`Prisma error deleting user ${userId}:`, error);
-        const firebaseMessage = firebaseUserFoundAndDeleted
-          ? 'Firebase deletion succeeded.'
-          : 'User not found in Firebase or Firebase deletion failed/skipped.';
-        throw new InternalServerErrorException(
-          `Failed to delete user ${userId} from Prisma DB. ${firebaseMessage} Prisma error: ${(error as Error).message}`,
-        );
-      }
-    }
-
-    if (firebaseUserFoundAndDeleted && dbUserFoundAndDeleted) {
-      return {
-        message: `User with ID ${userId} deleted successfully from Firebase and DB.`,
-        firebaseDeleted: true,
-        dbDeleted: true,
-      };
-    } else if (firebaseUserFoundAndDeleted && !dbUserFoundAndDeleted) {
-      return {
-        message: `User with ID ${userId} deleted from Firebase, but was not found/already deleted from DB.`,
-        firebaseDeleted: true,
-        dbDeleted: false,
-      };
-    } else if (!firebaseUserFoundAndDeleted && dbUserFoundAndDeleted) {
-      return {
-        message: `User with ID ${userId} deleted from DB, but was not found in Firebase.`,
-        firebaseDeleted: false,
-        dbDeleted: true,
-      };
-    } else {
-      throw new NotFoundException(
-        `User with ID ${userId} not found in Firebase and not found in DB.`,
-      );
-    }
-  }
-
-  async deleteMultipleUsers(deleteUsersDTO: DeleteUsersDTO): Promise<{
-    message: string;
-    firebase: {
-      successCount: number;
-      failureCount: number;
-      errors: Array<{
-        index: number;
-        uid: string;
-        reason: string;
-        code?: string;
-      }>;
-    };
-    prisma: { deletedCount: number; requestedCount: number };
-  }> {
-    const { userIds } = deleteUsersDTO;
-
-    if (!userIds || userIds.length === 0) {
-      return {
-        message: 'No user IDs provided for deletion.',
-        firebase: { successCount: 0, failureCount: 0, errors: [] },
-        prisma: { deletedCount: 0, requestedCount: 0 },
-      };
-    }
-    this.logger.log(
-      `Attempting to delete ${userIds.length} users: [${userIds.join(', ')}]`,
-    );
-
-    let firebaseResult: admin.auth.DeleteUsersResult = {
-      successCount: 0,
-      failureCount: 0,
-      errors: [],
-    };
-    const firebaseErrorsFormatted: Array<{
-      index: number;
-      uid: string;
-      reason: string;
-      code?: string;
-    }> = [];
-
-    if (userIds.length > 0) {
-      try {
-        firebaseResult = await this.firebaseAuth.deleteUsers(userIds);
-        this.logger.log(
-          `Firebase deleteUsers result: ${firebaseResult.successCount} successes, ${firebaseResult.failureCount} failures.`,
-        );
-        if (firebaseResult.failureCount > 0) {
-          firebaseResult.errors.forEach((errorDetail) => {
-            const failedUid = userIds[errorDetail.index];
-            firebaseErrorsFormatted.push({
-              index: errorDetail.index,
-              uid: failedUid,
-              reason: errorDetail.error.message,
-              code: errorDetail.error.code,
-            });
-            this.logger.warn(
-              `Failed to delete UID ${failedUid} from Firebase (index ${errorDetail.index}): ${errorDetail.error.code} - ${errorDetail.error.message}`,
-            );
-          });
-        }
-      } catch (error: any) {
-        const firebaseError = error as FirebaseError;
         this.logger.error(
-          `A general error occurred during Firebase deleteUsers: ${firebaseError.message}`,
-          firebaseError.stack,
+          `Database deletion for user ${userId} failed after Firebase deletion.`,
+          error,
         );
-
         throw new InternalServerErrorException(
-          `A general error occurred with Firebase while trying to delete multiple users. Error: ${firebaseError.message}. DB deletion not attempted.`,
+          'Database deletion failed after successful Firebase deletion. Manual cleanup may be required.',
         );
       }
     }
 
-    let prismaDeletedCount = 0;
-    try {
-      const { count } = await this.prisma.user.deleteMany({
-        where: { id: { in: userIds } },
-      });
-      prismaDeletedCount = count;
-      this.logger.log(
-        `Prisma deleted ${prismaDeletedCount} users from DB out of ${userIds.length} requested.`,
-      );
-    } catch (error) {
-      this.logger.error(
-        `Prisma error during deleteMany for UIDs ${userIds.join(', ')}:`,
-        error,
-      );
-      throw new InternalServerErrorException(
-        `Failed to delete users from Prisma DB. Firebase deletions: ${firebaseResult.successCount} succeeded, ${firebaseResult.failureCount} failed. Prisma error: ${(error as Error).message}`,
-      );
-    }
-
-    let summaryMessage = `Processed deletion for ${userIds.length} user IDs. `;
-    summaryMessage += `Firebase: ${firebaseResult.successCount} deleted, ${firebaseResult.failureCount} failed. `;
-    summaryMessage += `Prisma DB: ${prismaDeletedCount} deleted.`;
-    if (firebaseResult.failureCount > 0)
-      summaryMessage += ` Check 'firebase.errors' for details on Firebase failures.`;
-
-    const expectedDbDeletes =
-      userIds.length -
-      firebaseErrorsFormatted.filter(
-        (err) => err.code !== 'auth/user-not-found',
-      ).length;
-    if (prismaDeletedCount < expectedDbDeletes) {
-      summaryMessage += ` Some users might not have been found in the DB or an error occurred during their deletion.`;
+    let message = 'User processed.';
+    if (firebaseUserFoundAndDeleted && dbUserFoundAndDeleted) {
+      message = `User ${userId} was successfully deleted from both Firebase and the database.`;
+    } else if (firebaseUserFoundAndDeleted) {
+      message = `User ${userId} was deleted from Firebase, but was not found in the database.`;
+    } else if (dbUserFoundAndDeleted) {
+      message = `User ${userId} was deleted from the database, but was not found in Firebase.`;
+    } else {
+      message = `User ${userId} was not found in either Firebase or the database.`;
     }
 
     return {
-      message: summaryMessage,
-      firebase: {
-        successCount: firebaseResult.successCount,
-        failureCount: firebaseResult.failureCount,
-        errors: firebaseErrorsFormatted,
-      },
-      prisma: {
-        deletedCount: prismaDeletedCount,
-        requestedCount: userIds.length,
-      },
+      message,
+      firebaseDeleted: firebaseUserFoundAndDeleted,
+      dbDeleted: dbUserFoundAndDeleted,
     };
+  }
+
+  async deleteUsers(deleteUsersDto: DeleteUsersDTO): Promise<any> {
+    const { userIds } = deleteUsersDto;
+
+    const results = [];
+    for (const userId of userIds) {
+      try {
+        const result = await this.deleteUserById(userId);
+        results.push({ userId, status: 'success', details: result.message });
+      } catch (error: any) {
+        this.logger.error(`Failed to delete user ${userId}:`, error.message);
+        results.push({ userId, status: 'error', details: error.message });
+      }
+    }
+
+    return results;
   }
 }
