@@ -16,13 +16,18 @@ module.exports = {
     jest: true,
   },
   ignorePatterns: [
-    '.eslintrc.js',
-    'node_modules/',
-    'dist/',
     './github/',
+    'dist/',
+    'node_modules/',
+    'scripts/',
     'src/metadata.ts',
-    "src/generated/**/*",
-    "test/"
+    'src/generated/**/*',
+    'test/',
+    '.eslintrc.js',
+    'package-lock.json',
+    'package.json',
+    'tsconfig.build.tsbuildinfo',
+    'yarn.lock',
   ],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
