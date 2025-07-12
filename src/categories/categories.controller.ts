@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  DefaultValuePipe,
   Delete,
   Get,
   Param,
@@ -15,6 +14,8 @@ import {
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { OptionalJwtAuthGuard } from 'src/auth/optional-jwt-auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
+import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { SyncEmbeddingResponseDto } from '../common/response/sync-embedding.dto';
 import { CategoriesEmbeddingService } from './categories-embedding.service';
 import { CategoriesManagementService } from './categories-management.service';
@@ -45,11 +46,9 @@ export class CategoriesController {
   @UseGuards(OptionalJwtAuthGuard)
   async findAll(
     @Request() req: any,
-    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-    @Query('pageSize', new DefaultValuePipe(25), ParseIntPipe)
-    pageSize: number,
-  ): Promise<CategoryResponseDto[]> {
-    return this.categoriesSearchService.findAll(page, pageSize, req.user);
+    @Query() paginationQuery: PaginationQueryDto,
+  ): Promise<PaginatedResponse<CategoryResponseDto>> {
+    return this.categoriesSearchService.findAll(paginationQuery, req.user);
   }
 
   @Get('v2')

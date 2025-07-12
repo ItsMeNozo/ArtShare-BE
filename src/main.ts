@@ -9,6 +9,7 @@ import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { WebSocketJwtAuthGuard } from './auth/websocket-jwt-auth.guard';
 import { CorsService } from './common/cors.service';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import metadata from './metadata';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const compression = require('compression');
@@ -151,6 +152,8 @@ async function bootstrap() {
     credentials: true,
     maxAge: 86400, // Cache preflight response for 24 hours
   });
+
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   // Enhanced Global Validation Pipe
   app.useGlobalPipes(
