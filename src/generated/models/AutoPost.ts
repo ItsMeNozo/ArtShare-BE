@@ -234,7 +234,7 @@ export type AutoPostGroupByOutputType = {
   scheduledAt: Date | null
   status: $Enums.AutoPostStatus
   createdAt: Date
-  updatedAt: Date
+  updatedAt: Date | null
   postedAt: Date | null
   errorMessage: string | null
   n8nTriggeredAt: Date | null
@@ -273,7 +273,7 @@ export type AutoPostWhereInput = {
   scheduledAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
   status?: Prisma.EnumAutoPostStatusFilter<"AutoPost"> | $Enums.AutoPostStatus
   createdAt?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
   postedAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
   errorMessage?: Prisma.StringNullableFilter<"AutoPost"> | string | null
   n8nTriggeredAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
@@ -290,7 +290,7 @@ export type AutoPostOrderByWithRelationInput = {
   scheduledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   postedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   errorMessage?: Prisma.SortOrderInput | Prisma.SortOrder
   n8nTriggeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -310,7 +310,7 @@ export type AutoPostWhereUniqueInput = Prisma.AtLeast<{
   scheduledAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
   status?: Prisma.EnumAutoPostStatusFilter<"AutoPost"> | $Enums.AutoPostStatus
   createdAt?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
   postedAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
   errorMessage?: Prisma.StringNullableFilter<"AutoPost"> | string | null
   n8nTriggeredAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
@@ -327,7 +327,7 @@ export type AutoPostOrderByWithAggregationInput = {
   scheduledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   postedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   errorMessage?: Prisma.SortOrderInput | Prisma.SortOrder
   n8nTriggeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -351,7 +351,7 @@ export type AutoPostScalarWhereWithAggregatesInput = {
   scheduledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AutoPost"> | Date | string | null
   status?: Prisma.EnumAutoPostStatusWithAggregatesFilter<"AutoPost"> | $Enums.AutoPostStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AutoPost"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AutoPost"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AutoPost"> | Date | string | null
   postedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AutoPost"> | Date | string | null
   errorMessage?: Prisma.StringNullableWithAggregatesFilter<"AutoPost"> | string | null
   n8nTriggeredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AutoPost"> | Date | string | null
@@ -365,7 +365,7 @@ export type AutoPostCreateInput = {
   scheduledAt?: Date | string | null
   status?: $Enums.AutoPostStatus
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   postedAt?: Date | string | null
   errorMessage?: string | null
   n8nTriggeredAt?: Date | string | null
@@ -382,7 +382,7 @@ export type AutoPostUncheckedCreateInput = {
   scheduledAt?: Date | string | null
   status?: $Enums.AutoPostStatus
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   postedAt?: Date | string | null
   errorMessage?: string | null
   n8nTriggeredAt?: Date | string | null
@@ -396,7 +396,7 @@ export type AutoPostUpdateInput = {
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumAutoPostStatusFieldUpdateOperationsInput | $Enums.AutoPostStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   n8nTriggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -413,7 +413,7 @@ export type AutoPostUncheckedUpdateInput = {
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumAutoPostStatusFieldUpdateOperationsInput | $Enums.AutoPostStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   n8nTriggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -429,7 +429,7 @@ export type AutoPostCreateManyInput = {
   scheduledAt?: Date | string | null
   status?: $Enums.AutoPostStatus
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   postedAt?: Date | string | null
   errorMessage?: string | null
   n8nTriggeredAt?: Date | string | null
@@ -443,7 +443,7 @@ export type AutoPostUpdateManyMutationInput = {
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumAutoPostStatusFieldUpdateOperationsInput | $Enums.AutoPostStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   n8nTriggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -459,7 +459,7 @@ export type AutoPostUncheckedUpdateManyInput = {
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumAutoPostStatusFieldUpdateOperationsInput | $Enums.AutoPostStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   n8nTriggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -594,7 +594,7 @@ export type AutoPostCreateWithoutAutoProjectInput = {
   scheduledAt?: Date | string | null
   status?: $Enums.AutoPostStatus
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   postedAt?: Date | string | null
   errorMessage?: string | null
   n8nTriggeredAt?: Date | string | null
@@ -609,7 +609,7 @@ export type AutoPostUncheckedCreateWithoutAutoProjectInput = {
   scheduledAt?: Date | string | null
   status?: $Enums.AutoPostStatus
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   postedAt?: Date | string | null
   errorMessage?: string | null
   n8nTriggeredAt?: Date | string | null
@@ -654,7 +654,7 @@ export type AutoPostScalarWhereInput = {
   scheduledAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
   status?: Prisma.EnumAutoPostStatusFilter<"AutoPost"> | $Enums.AutoPostStatus
   createdAt?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"AutoPost"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
   postedAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
   errorMessage?: Prisma.StringNullableFilter<"AutoPost"> | string | null
   n8nTriggeredAt?: Prisma.DateTimeNullableFilter<"AutoPost"> | Date | string | null
@@ -669,7 +669,7 @@ export type AutoPostCreateManyAutoProjectInput = {
   scheduledAt?: Date | string | null
   status?: $Enums.AutoPostStatus
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   postedAt?: Date | string | null
   errorMessage?: string | null
   n8nTriggeredAt?: Date | string | null
@@ -683,7 +683,7 @@ export type AutoPostUpdateWithoutAutoProjectInput = {
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumAutoPostStatusFieldUpdateOperationsInput | $Enums.AutoPostStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   n8nTriggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -698,7 +698,7 @@ export type AutoPostUncheckedUpdateWithoutAutoProjectInput = {
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumAutoPostStatusFieldUpdateOperationsInput | $Enums.AutoPostStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   n8nTriggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -713,7 +713,7 @@ export type AutoPostUncheckedUpdateManyWithoutAutoProjectInput = {
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumAutoPostStatusFieldUpdateOperationsInput | $Enums.AutoPostStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   postedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   n8nTriggeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -814,7 +814,7 @@ export type $AutoPostPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     scheduledAt: Date | null
     status: $Enums.AutoPostStatus
     createdAt: Date
-    updatedAt: Date
+    updatedAt: Date | null
     postedAt: Date | null
     errorMessage: string | null
     n8nTriggeredAt: Date | null

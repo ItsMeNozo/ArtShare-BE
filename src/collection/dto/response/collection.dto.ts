@@ -8,6 +8,6 @@ export class CollectionDto {
   description?: string;
   userId: string;
   createdAt: Date;
-  updatedAt: Date;
+  updatedAt: Date | null;
   posts: PostSummaryDto[];
 }

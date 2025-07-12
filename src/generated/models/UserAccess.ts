@@ -178,7 +178,7 @@ export type UserAccessGroupByOutputType = {
   stripePriceId: string | null
   stripeCustomerId: string | null
   createdAt: Date
-  updatedAt: Date
+  updatedAt: Date | null
   cancelAtPeriodEnd: boolean
   _count: UserAccessCountAggregateOutputType | null
   _min: UserAccessMinAggregateOutputType | null
@@ -211,7 +211,7 @@ export type UserAccessWhereInput = {
   stripePriceId?: Prisma.StringNullableFilter<"UserAccess"> | string | null
   stripeCustomerId?: Prisma.StringNullableFilter<"UserAccess"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UserAccess"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"UserAccess"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"UserAccess"> | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFilter<"UserAccess"> | boolean
   plan?: Prisma.XOR<Prisma.PlanScalarRelationFilter, Prisma.PlanWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -225,7 +225,7 @@ export type UserAccessOrderByWithRelationInput = {
   stripePriceId?: Prisma.SortOrderInput | Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   cancelAtPeriodEnd?: Prisma.SortOrder
   plan?: Prisma.PlanOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
@@ -242,7 +242,7 @@ export type UserAccessWhereUniqueInput = Prisma.AtLeast<{
   stripePriceId?: Prisma.StringNullableFilter<"UserAccess"> | string | null
   stripeCustomerId?: Prisma.StringNullableFilter<"UserAccess"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UserAccess"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"UserAccess"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"UserAccess"> | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFilter<"UserAccess"> | boolean
   plan?: Prisma.XOR<Prisma.PlanScalarRelationFilter, Prisma.PlanWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -256,7 +256,7 @@ export type UserAccessOrderByWithAggregationInput = {
   stripePriceId?: Prisma.SortOrderInput | Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   cancelAtPeriodEnd?: Prisma.SortOrder
   _count?: Prisma.UserAccessCountOrderByAggregateInput
   _max?: Prisma.UserAccessMaxOrderByAggregateInput
@@ -274,7 +274,7 @@ export type UserAccessScalarWhereWithAggregatesInput = {
   stripePriceId?: Prisma.StringNullableWithAggregatesFilter<"UserAccess"> | string | null
   stripeCustomerId?: Prisma.StringNullableWithAggregatesFilter<"UserAccess"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserAccess"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserAccess"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"UserAccess"> | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolWithAggregatesFilter<"UserAccess"> | boolean
 }
 
@@ -284,7 +284,7 @@ export type UserAccessCreateInput = {
   stripePriceId?: string | null
   stripeCustomerId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   cancelAtPeriodEnd?: boolean
   plan: Prisma.PlanCreateNestedOneWithoutUserAccessInput
   user: Prisma.UserCreateNestedOneWithoutUserAccessInput
@@ -298,7 +298,7 @@ export type UserAccessUncheckedCreateInput = {
   stripePriceId?: string | null
   stripeCustomerId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   cancelAtPeriodEnd?: boolean
 }
 
@@ -308,7 +308,7 @@ export type UserAccessUpdateInput = {
   stripePriceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
   plan?: Prisma.PlanUpdateOneRequiredWithoutUserAccessNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutUserAccessNestedInput
@@ -322,7 +322,7 @@ export type UserAccessUncheckedUpdateInput = {
   stripePriceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -334,7 +334,7 @@ export type UserAccessCreateManyInput = {
   stripePriceId?: string | null
   stripeCustomerId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   cancelAtPeriodEnd?: boolean
 }
 
@@ -344,7 +344,7 @@ export type UserAccessUpdateManyMutationInput = {
   stripePriceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -356,7 +356,7 @@ export type UserAccessUncheckedUpdateManyInput = {
   stripePriceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -495,7 +495,7 @@ export type UserAccessCreateWithoutUserInput = {
   stripePriceId?: string | null
   stripeCustomerId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   cancelAtPeriodEnd?: boolean
   plan: Prisma.PlanCreateNestedOneWithoutUserAccessInput
 }
@@ -507,7 +507,7 @@ export type UserAccessUncheckedCreateWithoutUserInput = {
   stripePriceId?: string | null
   stripeCustomerId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   cancelAtPeriodEnd?: boolean
 }
 
@@ -533,7 +533,7 @@ export type UserAccessUpdateWithoutUserInput = {
   stripePriceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
   plan?: Prisma.PlanUpdateOneRequiredWithoutUserAccessNestedInput
 }
@@ -545,7 +545,7 @@ export type UserAccessUncheckedUpdateWithoutUserInput = {
   stripePriceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -555,7 +555,7 @@ export type UserAccessCreateWithoutPlanInput = {
   stripePriceId?: string | null
   stripeCustomerId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   cancelAtPeriodEnd?: boolean
   user: Prisma.UserCreateNestedOneWithoutUserAccessInput
 }
@@ -567,7 +567,7 @@ export type UserAccessUncheckedCreateWithoutPlanInput = {
   stripePriceId?: string | null
   stripeCustomerId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   cancelAtPeriodEnd?: boolean
 }
 
@@ -608,7 +608,7 @@ export type UserAccessScalarWhereInput = {
   stripePriceId?: Prisma.StringNullableFilter<"UserAccess"> | string | null
   stripeCustomerId?: Prisma.StringNullableFilter<"UserAccess"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UserAccess"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"UserAccess"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"UserAccess"> | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFilter<"UserAccess"> | boolean
 }
 
@@ -619,7 +619,7 @@ export type UserAccessCreateManyPlanInput = {
   stripePriceId?: string | null
   stripeCustomerId?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   cancelAtPeriodEnd?: boolean
 }
 
@@ -629,7 +629,7 @@ export type UserAccessUpdateWithoutPlanInput = {
   stripePriceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
   user?: Prisma.UserUpdateOneRequiredWithoutUserAccessNestedInput
 }
@@ -641,7 +641,7 @@ export type UserAccessUncheckedUpdateWithoutPlanInput = {
   stripePriceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -652,7 +652,7 @@ export type UserAccessUncheckedUpdateManyWithoutPlanInput = {
   stripePriceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -740,7 +740,7 @@ export type $UserAccessPayload<ExtArgs extends runtime.Types.Extensions.Internal
     stripePriceId: string | null
     stripeCustomerId: string | null
     createdAt: Date
-    updatedAt: Date
+    updatedAt: Date | null
     cancelAtPeriodEnd: boolean
   }, ExtArgs["result"]["userAccess"]>
   composites: {}

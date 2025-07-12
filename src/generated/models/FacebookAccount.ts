@@ -211,7 +211,7 @@ export type FacebookAccountGroupByOutputType = {
   longLivedUserAccessToken: string
   tokenExpiresAt: Date | null
   createdAt: Date
-  updatedAt: Date
+  updatedAt: Date | null
   _count: FacebookAccountCountAggregateOutputType | null
   _avg: FacebookAccountAvgAggregateOutputType | null
   _sum: FacebookAccountSumAggregateOutputType | null
@@ -246,7 +246,7 @@ export type FacebookAccountWhereInput = {
   longLivedUserAccessToken?: Prisma.StringFilter<"FacebookAccount"> | string
   tokenExpiresAt?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"FacebookAccount"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"FacebookAccount"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
   platforms?: Prisma.PlatformListRelationFilter
 }
 
@@ -259,7 +259,7 @@ export type FacebookAccountOrderByWithRelationInput = {
   longLivedUserAccessToken?: Prisma.SortOrder
   tokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   platforms?: Prisma.PlatformOrderByRelationAggregateInput
 }
 
@@ -275,7 +275,7 @@ export type FacebookAccountWhereUniqueInput = Prisma.AtLeast<{
   longLivedUserAccessToken?: Prisma.StringFilter<"FacebookAccount"> | string
   tokenExpiresAt?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"FacebookAccount"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"FacebookAccount"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
   platforms?: Prisma.PlatformListRelationFilter
 }, "id" | "facebookUserId">
 
@@ -288,7 +288,7 @@ export type FacebookAccountOrderByWithAggregationInput = {
   longLivedUserAccessToken?: Prisma.SortOrder
   tokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.FacebookAccountCountOrderByAggregateInput
   _avg?: Prisma.FacebookAccountAvgOrderByAggregateInput
   _max?: Prisma.FacebookAccountMaxOrderByAggregateInput
@@ -308,7 +308,7 @@ export type FacebookAccountScalarWhereWithAggregatesInput = {
   longLivedUserAccessToken?: Prisma.StringWithAggregatesFilter<"FacebookAccount"> | string
   tokenExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"FacebookAccount"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"FacebookAccount"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"FacebookAccount"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"FacebookAccount"> | Date | string | null
 }
 
 export type FacebookAccountCreateInput = {
@@ -319,7 +319,7 @@ export type FacebookAccountCreateInput = {
   longLivedUserAccessToken: string
   tokenExpiresAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   platforms?: Prisma.PlatformCreateNestedManyWithoutFacebookAccountInput
 }
 
@@ -332,7 +332,7 @@ export type FacebookAccountUncheckedCreateInput = {
   longLivedUserAccessToken: string
   tokenExpiresAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   platforms?: Prisma.PlatformUncheckedCreateNestedManyWithoutFacebookAccountInput
 }
 
@@ -344,7 +344,7 @@ export type FacebookAccountUpdateInput = {
   longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
   tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   platforms?: Prisma.PlatformUpdateManyWithoutFacebookAccountNestedInput
 }
 
@@ -357,7 +357,7 @@ export type FacebookAccountUncheckedUpdateInput = {
   longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
   tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   platforms?: Prisma.PlatformUncheckedUpdateManyWithoutFacebookAccountNestedInput
 }
 
@@ -370,7 +370,7 @@ export type FacebookAccountCreateManyInput = {
   longLivedUserAccessToken: string
   tokenExpiresAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type FacebookAccountUpdateManyMutationInput = {
@@ -381,7 +381,7 @@ export type FacebookAccountUpdateManyMutationInput = {
   longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
   tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type FacebookAccountUncheckedUpdateManyInput = {
@@ -393,7 +393,7 @@ export type FacebookAccountUncheckedUpdateManyInput = {
   longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
   tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type FacebookAccountNullableScalarRelationFilter = {
@@ -469,7 +469,7 @@ export type FacebookAccountCreateWithoutPlatformsInput = {
   longLivedUserAccessToken: string
   tokenExpiresAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type FacebookAccountUncheckedCreateWithoutPlatformsInput = {
@@ -481,7 +481,7 @@ export type FacebookAccountUncheckedCreateWithoutPlatformsInput = {
   longLivedUserAccessToken: string
   tokenExpiresAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type FacebookAccountCreateOrConnectWithoutPlatformsInput = {
@@ -508,7 +508,7 @@ export type FacebookAccountUpdateWithoutPlatformsInput = {
   longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
   tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type FacebookAccountUncheckedUpdateWithoutPlatformsInput = {
@@ -520,7 +520,7 @@ export type FacebookAccountUncheckedUpdateWithoutPlatformsInput = {
   longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
   tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -626,7 +626,7 @@ export type $FacebookAccountPayload<ExtArgs extends runtime.Types.Extensions.Int
     longLivedUserAccessToken: string
     tokenExpiresAt: Date | null
     createdAt: Date
-    updatedAt: Date
+    updatedAt: Date | null
   }, ExtArgs["result"]["facebookAccount"]>
   composites: {}
 }

@@ -259,11 +259,11 @@ model Bookmark {
 }
 
 model Rating {
-  userId    String   @map("user_id")
-  blogId    Int      @map("blog_id")
+  userId    String    @map("user_id")
+  blogId    Int       @map("blog_id")
   value     Int
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
 
   blog Blog @relation(fields: [blogId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -274,14 +274,14 @@ model Rating {
 }
 
 model Collection {
-  id           Int      @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   name         String
   description  String?
-  isPrivate    Boolean  @default(false) @map("is_private")
-  thumbnailUrl String?  @map("thumbnail_url")
-  userId       String   @map("user_id")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  isPrivate    Boolean   @default(false) @map("is_private")
+  thumbnailUrl String?   @map("thumbnail_url")
+  userId       String    @map("user_id")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime? @updatedAt @map("updated_at")
 
   user  User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   posts PostsOnCollections[]
@@ -321,7 +321,7 @@ model UserAccess {
   stripePriceId        String?         @map("stripe_price_id")
   stripeCustomerId     String?         @map("stripe_customer_id")
   createdAt            DateTime        @default(now()) @map("created_at")
-  updatedAt            DateTime        @updatedAt @map("updated_at")
+  updatedAt            DateTime?       @updatedAt @map("updated_at")
   cancelAtPeriodEnd    Boolean         @default(false) @map("cancel_at_period_end")
   plan                 Plan            @relation(fields: [planId], references: [id])
   user                 User            @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -346,7 +346,7 @@ model Plan {
   removeWatermark         Boolean         @default(false) @map("remove_watermark")
   smartSuggestionsEnabled Boolean         @default(false) @map("smart_suggestions_enabled")
   createdAt               DateTime        @default(now()) @map("created_at")
-  updatedAt               DateTime        @updatedAt @map("updated_at")
+  updatedAt               DateTime?       @updatedAt @map("updated_at")
 
   userAccess UserAccess[]
 
@@ -354,14 +354,14 @@ model Plan {
 }
 
 model UserUsage {
-  id             String   @id @default(cuid())
-  userId         String   @map("user_id")
-  featureKey     String   @map("feature_key")
-  usedAmount     Float    @default(0) @map("used_amount")
-  cycleStartedAt DateTime @map("cycle_started_at")
-  cycleEndsAt    DateTime @map("cycle_ends_at")
-  createdAt      DateTime @default(now()) @map("created_at")
-  updatedAt      DateTime @updatedAt @map("updated_at")
+  id             String    @id @default(cuid())
+  userId         String    @map("user_id")
+  featureKey     String    @map("feature_key")
+  usedAmount     Float     @default(0) @map("used_amount")
+  cycleStartedAt DateTime  @map("cycle_started_at")
+  cycleEndsAt    DateTime  @map("cycle_ends_at")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime? @updatedAt @map("updated_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -391,11 +391,11 @@ model ArtGeneration {
 }
 
 model TrendingPrompt {
-  id        Int      @id @default(autoincrement())
-  promptKey String   @unique @map("prompt_key")
+  id        Int       @id @default(autoincrement())
+  promptKey String    @unique @map("prompt_key")
   prompts   String[]
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
 
   @@map("trending_prompts")
 }
@@ -458,7 +458,7 @@ model AutoPost {
   scheduledAt    DateTime?      @map("scheduled_at")
   status         AutoPostStatus @default(PENDING)
   createdAt      DateTime       @default(now()) @map("created_at")
-  updatedAt      DateTime       @updatedAt @map("updated_at")
+  updatedAt      DateTime?      @updatedAt @map("updated_at")
   postedAt       DateTime?      @map("posted_at")
   errorMessage   String?        @map("error_message")
   n8nTriggeredAt DateTime?      @map("n8n_triggered_at")
@@ -471,12 +471,12 @@ model AutoPost {
 }
 
 model Conversation {
-  id            String   @id @default(cuid())
-  userId        String   @map("user_id")
+  id            String    @id @default(cuid())
+  userId        String    @map("user_id")
   title         String?
-  lastMessageAt DateTime @default(now()) @map("last_message_at")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  lastMessageAt DateTime  @default(now()) @map("last_message_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime? @updatedAt @map("updated_at")
 
   messages Message[]
   user     User      @relation(fields: [userId], references: [id])
@@ -508,7 +508,7 @@ model FacebookAccount {
   longLivedUserAccessToken String    @map("long_lived_user_access_token")
   tokenExpiresAt           DateTime? @map("token_expires_at")
   createdAt                DateTime  @default(now()) @map("created_at")
-  updatedAt                DateTime  @updatedAt @map("updated_at")
+  updatedAt                DateTime? @updatedAt @map("updated_at")
 
   platforms Platform[]
 

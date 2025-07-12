@@ -1,6 +1,7 @@
-src/metadata.ts
-src/generated/*
 dist
 node_modules
-tsconfig.build.tsbuildinfo
+src/metadata.ts
+src/generated/*
 package-lock.json
+tsconfig.build.tsbuildinfo
+yarn.lock
