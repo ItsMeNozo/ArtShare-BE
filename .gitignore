@@ -64,3 +64,4 @@ src/metadata.ts
 package-lock.json
 serviceKey.json
 tsconfig.build.tsbuildinfo
+src/generated/internal/class.ts
