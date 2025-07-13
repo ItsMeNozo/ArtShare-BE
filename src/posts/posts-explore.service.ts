@@ -78,13 +78,6 @@ export class PostsExploreService {
     query: GetPostsDto,
   ): Promise<PaginatedResponse<PostListItemResponse>> {
     const { page = 1, limit = 25, filter = [], isAi } = query;
-    console.log('getTrendingPosts', {
-      userId,
-      page,
-      limit,
-      filter,
-      isAi,
-    });
 
     const whereClause: Prisma.PostWhereInput =
       filter && filter.length > 0

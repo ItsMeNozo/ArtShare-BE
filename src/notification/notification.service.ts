@@ -418,9 +418,8 @@ export class NotificationService {
         payload.type, // Use the specific type for template selection
         payload,
       );
-      console.log(newNotification);
       this.logger.log(
-        `Notification (${payload.type}) successfully created & pushed to user ${payload.to}`,
+        `Push notification (${payload.type}) successfully created & pushed to user ${payload.to}, ID: ${newNotification.id}`,
       );
     } catch (error) {
       this.logger.error(
