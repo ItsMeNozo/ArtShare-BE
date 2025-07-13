@@ -7,6 +7,6 @@ import { UsageService } from './usage.service';
 @Module({
   imports: [ConfigModule, ScheduleModule.forRoot()],
   providers: [UsageScheduler, UsageService],
-  exports: [UsageService],
+  exports: [UsageService, UsageScheduler],
 })
 export class UsageModule {}

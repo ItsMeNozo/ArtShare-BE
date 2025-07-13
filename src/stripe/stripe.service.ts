@@ -26,11 +26,11 @@ export class StripeService {
     private readonly configService: ConfigService,
   ) {
     this.planToPriceIdMap = {
-      artist_monthly: this.configService.get<string>(
+      artist_pro_monthly: this.configService.get<string>(
         'STRIPE_ARTIST_MONTHLY_PRICE_ID',
         '',
       ),
-      artist_yearly: this.configService.get<string>(
+      artist_pro_yearly: this.configService.get<string>(
         'STRIPE_ARTIST_YEARLY_PRICE_ID',
         '',
       ),

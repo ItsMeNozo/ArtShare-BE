@@ -20,6 +20,7 @@ import { Roles } from 'src/auth/decorators/roles.decorators';
 import { CurrentUser } from 'src/auth/decorators/users.decorator';
 import { Role } from 'src/auth/enums/role.enum';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { OptionalJwtAuthGuard } from 'src/auth/optional-jwt-auth.guard';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
 import Stripe from 'stripe';
 import { CreateCheckoutSessionDto } from './dto/create-checkout-session';
@@ -33,7 +34,6 @@ export class StripeController {
   constructor(
     private readonly stripeService: StripeService,
     private readonly stripeCoreService: StripeCoreService,
-
     private readonly configService: ConfigService,
   ) {
     const nodeEnv = this.configService.get<string>('NODE_ENV');
@@ -49,6 +49,7 @@ export class StripeController {
   }
 
   @Post('create-checkout-session')
+  @UseGuards(OptionalJwtAuthGuard)
   @UsePipes(
     new ValidationPipe({
       whitelist: true,
@@ -94,8 +95,9 @@ export class StripeController {
   }
 
   @Post('create-customer-portal-session')
+  @UseGuards(OptionalJwtAuthGuard)
   async createPortalSession(@CurrentUser() user: CurrentUserType) {
-    if (!user || !user.id) {
+    if (!user || !user.id || !user.email) {
       throw new BadRequestException('User context is required.');
     }
     this.logger.log(
