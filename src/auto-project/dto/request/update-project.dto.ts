@@ -1,16 +1,9 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 import { AutoProjectStatus } from 'src/generated';
+import { CreateAutoProjectDto } from './create-project.dto';
 
-export class UpdateAutoProjectDto {
+export class UpdateAutoProjectDto extends CreateAutoProjectDto {
   @IsString()
-  title?: string;
-
-  @IsString()
-  description?: string;
-
-  @IsNumber()
-  platformId?: number;
-
-  @IsString()
+  @IsOptional()
   status?: AutoProjectStatus;
 }

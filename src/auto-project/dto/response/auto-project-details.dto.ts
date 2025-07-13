@@ -19,7 +19,7 @@ export class PlatformDto {
 export class AutoProjectDetailsDto {
   id: number;
   title: string;
-  description: string;
+  description: string | null;
   status: AutoProjectStatus;
   createdAt: Date;
   updatedAt: Date | null;

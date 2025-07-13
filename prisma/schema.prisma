@@ -1,5 +1,5 @@
 generator client {
-  binaryTargets = ["native", "debian-openssl-1.1.x", "debian-openssl-3.0.x", "linux-musl-arm64-openssl-3.0.x", "windows"]
+  binaryTargets = ["native", "darwin-arm64", "debian-openssl-1.1.x", "debian-openssl-3.0.x", "linux-musl-arm64-openssl-3.0.x", "windows"]
   provider      = "prisma-client"
   output        = "../src/generated"
 }
@@ -436,7 +436,7 @@ model Platform {
 model AutoProject {
   id          Int               @id @default(autoincrement())
   title       String
-  description String
+  description String?
   status      AutoProjectStatus @default(ACTIVE)
   createdAt   DateTime          @default(now()) @map("created_at")
   userId      String            @map("user_id")
