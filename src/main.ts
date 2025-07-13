@@ -201,8 +201,7 @@ async function bootstrap() {
 
   const enableSwagger =
     configService.get<string>('ENABLE_SWAGGER_FOR_CI') === 'true';
-  console.log(`ENABLE_SWAGGER_FOR_CI: ${enableSwagger}`);
-  // Swagger setup (disable in production for security)
+
   if (!isProduction || enableSwagger) {
     const config = new DocumentBuilder()
       .setTitle('Art Sharing API')

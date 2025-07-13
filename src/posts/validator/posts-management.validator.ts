@@ -12,7 +12,6 @@ export class PostsManagementValidator {
   ): Promise<{ parsedCropMeta: any }> {
     const { categoryIds = [], videoUrl } = request;
 
-    console.log(request.thumbnailCropMeta);
     // Validate and parse crop metadata
     // TODO: should define a proper type for this crop metadata
     let parsedCropMeta: any;
