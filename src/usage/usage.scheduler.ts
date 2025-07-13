@@ -216,7 +216,7 @@ export class UsageScheduler {
    * Zeroes out (or creates) today’s usage record so that
    * availableCredits = dailyQuotaCredits - usedAmount = 100 - 0 = 100.
    */
-  private async resetDailyFeatureUsage(
+  async resetDailyFeatureUsage(
     userId: string,
     featureKey: FeatureKey,
     subscriptionEnd: Date,
