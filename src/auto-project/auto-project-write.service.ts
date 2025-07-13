@@ -6,12 +6,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { AutoPostGenerateService } from 'src/auto-post/auto-post-generate.service';
-import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
 import { TryCatch } from 'src/common/try-catch.decorator';
-import { Platform } from 'src/generated';
+import { AutoProjectStatus, Platform } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
-import { UsageService } from 'src/usage/usage.service';
 import { CreateAutoProjectDto } from './dto/request/create-project.dto';
 import { UpdateAutoProjectDto } from './dto/request/update-project.dto';
 import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
@@ -20,43 +17,21 @@ import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
 export class AutoProjectWriteService {
   private readonly logger: Logger;
 
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly autoPostGenerateService: AutoPostGenerateService,
-    private readonly usageService: UsageService,
-  ) {
+  constructor(private readonly prisma: PrismaService) {
     this.logger = new Logger(AutoProjectWriteService.name);
   }
-
-  private readonly textCost = 2;
-  private readonly imageCost = 5;
 
   @TryCatch()
   async create(
     createDto: CreateAutoProjectDto,
     userId: string,
   ): Promise<AutoProjectDetailsDto> {
-    const { title, description, platformId, autoPostMetaList = [] } = createDto;
+    const { title, description, platformId } = createDto;
 
     const validatedPlatformRecord = await this.validatePlatform(
       platformId,
       userId,
     );
-
-    const safeAutoPostMetaList = autoPostMetaList ?? [];
-
-    await this.usageService.handleCreditUsage(
-      userId,
-      FeatureKey.AI_CREDITS,
-      this.textCost + this.imageCost * safeAutoPostMetaList.length,
-    );
-
-    const generatedAutoPosts =
-      await this.autoPostGenerateService.generateAutoPosts(
-        safeAutoPostMetaList,
-        { projectTitle: title, projectDescription: description },
-        userId,
-      );
 
     const createdAutoProject = await this.prisma.autoProject.create({
       data: {
@@ -64,13 +39,6 @@ export class AutoProjectWriteService {
         description,
         userId: userId,
         platformId: validatedPlatformRecord.id,
-        autoPosts: {
-          create: generatedAutoPosts.map((post) => ({
-            content: post.content,
-            imageUrls: post.imageUrls,
-            scheduledAt: post.scheduledAt,
-          })),
-        },
       },
       include: {
         platform: true,
@@ -125,6 +93,31 @@ export class AutoProjectWriteService {
     const updatedProject = await this.prisma.autoProject.update({
       where: { id },
       data: updateDto,
+      include: { autoPosts: true, platform: true },
+    });
+
+    return plainToInstance(AutoProjectDetailsDto, updatedProject);
+  }
+
+  @TryCatch()
+  async updateStatus(
+    id: number,
+    status: AutoProjectStatus,
+    userId: string,
+  ): Promise<AutoProjectDetailsDto> {
+    const existingProject = await this.prisma.autoProject.findFirst({
+      where: { id, userId: userId },
+    });
+
+    if (!existingProject) {
+      throw new BadRequestException(
+        `Auto project with ID ${id} not found or does not belong to user ${userId}.`,
+      );
+    }
+
+    const updatedProject = await this.prisma.autoProject.update({
+      where: { id },
+      data: { status },
       include: { autoPosts: true, platform: true },
     });
 

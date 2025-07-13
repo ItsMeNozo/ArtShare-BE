@@ -203,7 +203,7 @@ export type AutoProjectGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type AutoProjectGroupByOutputType = {
   id: number
   title: string
-  description: string
+  description: string | null
   status: $Enums.AutoProjectStatus
   createdAt: Date
   userId: string
@@ -237,7 +237,7 @@ export type AutoProjectWhereInput = {
   NOT?: Prisma.AutoProjectWhereInput | Prisma.AutoProjectWhereInput[]
   id?: Prisma.IntFilter<"AutoProject"> | number
   title?: Prisma.StringFilter<"AutoProject"> | string
-  description?: Prisma.StringFilter<"AutoProject"> | string
+  description?: Prisma.StringNullableFilter<"AutoProject"> | string | null
   status?: Prisma.EnumAutoProjectStatusFilter<"AutoProject"> | $Enums.AutoProjectStatus
   createdAt?: Prisma.DateTimeFilter<"AutoProject"> | Date | string
   userId?: Prisma.StringFilter<"AutoProject"> | string
@@ -251,7 +251,7 @@ export type AutoProjectWhereInput = {
 export type AutoProjectOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -268,7 +268,7 @@ export type AutoProjectWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.AutoProjectWhereInput[]
   NOT?: Prisma.AutoProjectWhereInput | Prisma.AutoProjectWhereInput[]
   title?: Prisma.StringFilter<"AutoProject"> | string
-  description?: Prisma.StringFilter<"AutoProject"> | string
+  description?: Prisma.StringNullableFilter<"AutoProject"> | string | null
   status?: Prisma.EnumAutoProjectStatusFilter<"AutoProject"> | $Enums.AutoProjectStatus
   createdAt?: Prisma.DateTimeFilter<"AutoProject"> | Date | string
   userId?: Prisma.StringFilter<"AutoProject"> | string
@@ -282,7 +282,7 @@ export type AutoProjectWhereUniqueInput = Prisma.AtLeast<{
 export type AutoProjectOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -301,7 +301,7 @@ export type AutoProjectScalarWhereWithAggregatesInput = {
   NOT?: Prisma.AutoProjectScalarWhereWithAggregatesInput | Prisma.AutoProjectScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"AutoProject"> | number
   title?: Prisma.StringWithAggregatesFilter<"AutoProject"> | string
-  description?: Prisma.StringWithAggregatesFilter<"AutoProject"> | string
+  description?: Prisma.StringNullableWithAggregatesFilter<"AutoProject"> | string | null
   status?: Prisma.EnumAutoProjectStatusWithAggregatesFilter<"AutoProject"> | $Enums.AutoProjectStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AutoProject"> | Date | string
   userId?: Prisma.StringWithAggregatesFilter<"AutoProject"> | string
@@ -311,7 +311,7 @@ export type AutoProjectScalarWhereWithAggregatesInput = {
 
 export type AutoProjectCreateInput = {
   title: string
-  description: string
+  description?: string | null
   status?: $Enums.AutoProjectStatus
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -323,7 +323,7 @@ export type AutoProjectCreateInput = {
 export type AutoProjectUncheckedCreateInput = {
   id?: number
   title: string
-  description: string
+  description?: string | null
   status?: $Enums.AutoProjectStatus
   createdAt?: Date | string
   userId: string
@@ -334,7 +334,7 @@ export type AutoProjectUncheckedCreateInput = {
 
 export type AutoProjectUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumAutoProjectStatusFieldUpdateOperationsInput | $Enums.AutoProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -346,7 +346,7 @@ export type AutoProjectUpdateInput = {
 export type AutoProjectUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumAutoProjectStatusFieldUpdateOperationsInput | $Enums.AutoProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -358,7 +358,7 @@ export type AutoProjectUncheckedUpdateInput = {
 export type AutoProjectCreateManyInput = {
   id?: number
   title: string
-  description: string
+  description?: string | null
   status?: $Enums.AutoProjectStatus
   createdAt?: Date | string
   userId: string
@@ -368,7 +368,7 @@ export type AutoProjectCreateManyInput = {
 
 export type AutoProjectUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumAutoProjectStatusFieldUpdateOperationsInput | $Enums.AutoProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -377,7 +377,7 @@ export type AutoProjectUpdateManyMutationInput = {
 export type AutoProjectUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumAutoProjectStatusFieldUpdateOperationsInput | $Enums.AutoProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -547,7 +547,7 @@ export type AutoProjectUpdateOneRequiredWithoutAutoPostsNestedInput = {
 
 export type AutoProjectCreateWithoutUserInput = {
   title: string
-  description: string
+  description?: string | null
   status?: $Enums.AutoProjectStatus
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -558,7 +558,7 @@ export type AutoProjectCreateWithoutUserInput = {
 export type AutoProjectUncheckedCreateWithoutUserInput = {
   id?: number
   title: string
-  description: string
+  description?: string | null
   status?: $Enums.AutoProjectStatus
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -598,7 +598,7 @@ export type AutoProjectScalarWhereInput = {
   NOT?: Prisma.AutoProjectScalarWhereInput | Prisma.AutoProjectScalarWhereInput[]
   id?: Prisma.IntFilter<"AutoProject"> | number
   title?: Prisma.StringFilter<"AutoProject"> | string
-  description?: Prisma.StringFilter<"AutoProject"> | string
+  description?: Prisma.StringNullableFilter<"AutoProject"> | string | null
   status?: Prisma.EnumAutoProjectStatusFilter<"AutoProject"> | $Enums.AutoProjectStatus
   createdAt?: Prisma.DateTimeFilter<"AutoProject"> | Date | string
   userId?: Prisma.StringFilter<"AutoProject"> | string
@@ -608,7 +608,7 @@ export type AutoProjectScalarWhereInput = {
 
 export type AutoProjectCreateWithoutPlatformInput = {
   title: string
-  description: string
+  description?: string | null
   status?: $Enums.AutoProjectStatus
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -619,7 +619,7 @@ export type AutoProjectCreateWithoutPlatformInput = {
 export type AutoProjectUncheckedCreateWithoutPlatformInput = {
   id?: number
   title: string
-  description: string
+  description?: string | null
   status?: $Enums.AutoProjectStatus
   createdAt?: Date | string
   userId: string
@@ -655,7 +655,7 @@ export type AutoProjectUpdateManyWithWhereWithoutPlatformInput = {
 
 export type AutoProjectCreateWithoutAutoPostsInput = {
   title: string
-  description: string
+  description?: string | null
   status?: $Enums.AutoProjectStatus
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -666,7 +666,7 @@ export type AutoProjectCreateWithoutAutoPostsInput = {
 export type AutoProjectUncheckedCreateWithoutAutoPostsInput = {
   id?: number
   title: string
-  description: string
+  description?: string | null
   status?: $Enums.AutoProjectStatus
   createdAt?: Date | string
   userId: string
@@ -692,7 +692,7 @@ export type AutoProjectUpdateToOneWithWhereWithoutAutoPostsInput = {
 
 export type AutoProjectUpdateWithoutAutoPostsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumAutoProjectStatusFieldUpdateOperationsInput | $Enums.AutoProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -703,7 +703,7 @@ export type AutoProjectUpdateWithoutAutoPostsInput = {
 export type AutoProjectUncheckedUpdateWithoutAutoPostsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumAutoProjectStatusFieldUpdateOperationsInput | $Enums.AutoProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -714,7 +714,7 @@ export type AutoProjectUncheckedUpdateWithoutAutoPostsInput = {
 export type AutoProjectCreateManyUserInput = {
   id?: number
   title: string
-  description: string
+  description?: string | null
   status?: $Enums.AutoProjectStatus
   createdAt?: Date | string
   updatedAt?: Date | string | null
@@ -723,7 +723,7 @@ export type AutoProjectCreateManyUserInput = {
 
 export type AutoProjectUpdateWithoutUserInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumAutoProjectStatusFieldUpdateOperationsInput | $Enums.AutoProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -734,7 +734,7 @@ export type AutoProjectUpdateWithoutUserInput = {
 export type AutoProjectUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumAutoProjectStatusFieldUpdateOperationsInput | $Enums.AutoProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -745,7 +745,7 @@ export type AutoProjectUncheckedUpdateWithoutUserInput = {
 export type AutoProjectUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumAutoProjectStatusFieldUpdateOperationsInput | $Enums.AutoProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -755,7 +755,7 @@ export type AutoProjectUncheckedUpdateManyWithoutUserInput = {
 export type AutoProjectCreateManyPlatformInput = {
   id?: number
   title: string
-  description: string
+  description?: string | null
   status?: $Enums.AutoProjectStatus
   createdAt?: Date | string
   userId: string
@@ -764,7 +764,7 @@ export type AutoProjectCreateManyPlatformInput = {
 
 export type AutoProjectUpdateWithoutPlatformInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumAutoProjectStatusFieldUpdateOperationsInput | $Enums.AutoProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -775,7 +775,7 @@ export type AutoProjectUpdateWithoutPlatformInput = {
 export type AutoProjectUncheckedUpdateWithoutPlatformInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumAutoProjectStatusFieldUpdateOperationsInput | $Enums.AutoProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -786,7 +786,7 @@ export type AutoProjectUncheckedUpdateWithoutPlatformInput = {
 export type AutoProjectUncheckedUpdateManyWithoutPlatformInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumAutoProjectStatusFieldUpdateOperationsInput | $Enums.AutoProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -902,7 +902,7 @@ export type $AutoProjectPayload<ExtArgs extends runtime.Types.Extensions.Interna
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     title: string
-    description: string
+    description: string | null
     status: $Enums.AutoProjectStatus
     createdAt: Date
     userId: string

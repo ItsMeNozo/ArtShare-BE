@@ -80,9 +80,9 @@ export class AutoProjectController {
     @Param('id', ParseIntPipe) id: number,
     @CurrentUser() user: CurrentUserType,
   ): Promise<AutoProjectDetailsDto> {
-    return this.autoProjectWriteService.update(
+    return this.autoProjectWriteService.updateStatus(
       id,
-      { status: AutoProjectStatus.PAUSED },
+      AutoProjectStatus.PAUSED,
       user.id,
     );
   }
@@ -92,9 +92,9 @@ export class AutoProjectController {
     @Param('id', ParseIntPipe) id: number,
     @CurrentUser() user: CurrentUserType,
   ): Promise<AutoProjectDetailsDto> {
-    return this.autoProjectWriteService.update(
+    return this.autoProjectWriteService.updateStatus(
       id,
-      { status: AutoProjectStatus.ACTIVE },
+      AutoProjectStatus.ACTIVE,
       user.id,
     );
   }
