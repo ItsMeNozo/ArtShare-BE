@@ -298,7 +298,7 @@ jobs:
   deploy-test:
     name: Deploy Test Environment
     runs-on: ubuntu-latest
-    needs: [ci-result]
+    needs: [build-and-test]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
@@ -310,26 +310,25 @@ jobs:
           key: ${{ secrets.DO_SSH_KEY }}
           envs: GITHUB_SHA,REGISTRY,IMAGE_NAME
           script: |
-            set -e
+            set -euo pipefail
 
-            echo "🧪 Deploying test environment for commit: $GITHUB_SHA"
-
-            # Navigate to project directory
+            echo "🚀 Deploying test env with commit: $GITHUB_SHA"
+            docker volume create "$VOLUME_NAME" >/dev/null 2>&1 || true
             cd ArtShare-BE/
+
+            # Pull latest image
+            docker pull $IMAGE_NAME:$GITHUB_SHA
 
             # Stop and remove existing test container
             docker stop backend-test 2>/dev/null || true
             docker rm backend-test 2>/dev/null || true
-
-            # Pull latest image
-            docker pull $IMAGE_NAME:$GITHUB_SHA
 
             # Start test container with memory limits
             docker run -d --name backend-test \
               --restart=unless-stopped \
               --memory=2g \
               --memory-swap=2g \
-              --cpus=2" \
+              --cpus=2 \
               --cap-drop=ALL \
               --cap-add=CHOWN \
               --cap-add=SETGID \
@@ -347,9 +346,6 @@ jobs:
               --no-healthcheck \
               $IMAGE_NAME:$GITHUB_SHA
 
-            # Wait for test container to start
-            echo "⏳ Waiting for test environment to start..."
-            sleep 60
 
             # Health check for test environment
             for i in {1..120}; do  # 4 minutes total timeout like production
