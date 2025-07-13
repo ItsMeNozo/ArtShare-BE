@@ -49,7 +49,7 @@ export class WorkflowAssistService {
     const imageFiles = files.filter((file) =>
       file.mimetype.startsWith('image/'),
     );
-    if (!imageFiles || imageFiles.length === 0) {
+    if (imageFiles.length === 0) {
       throw new BadRequestException('No images provided');
     }
 
