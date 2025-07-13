@@ -230,12 +230,13 @@ jobs:
               --security-opt=no-new-privileges:true \
               -p 127.0.0.1:3000:3000 \
               --env-file .env \
-              -e OMP_NUM_THREADS=2 \
-              -e ONNX_DISABLE_OPTIMIZATION=1 \
+              --memory=3g \
+              --memory-swap=4g \
+              --cpus=1.8 \
               -e TZ=Asia/Ho_Chi_Minh \
+              -e LC_ALL=en_GB.UTF-8 \
               -v ${VOLUME_NAME}:/app/.cache \
-              --no-healthcheck \
-              ${IMAGE_NAME}:latest || rollback
+              ${IMAGE_NAME}:${GITHUB_SHA} || rollback
 
             # Wait for app to start (longer for AI model loading)
             echo "⏳ Waiting for application to start (including AI models)..."
@@ -323,7 +324,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ci-result]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    
+
     steps:
       - name: Deploy Test Environment to Digital Ocean
         uses: appleboy/ssh-action@v1.0.3
@@ -334,19 +335,19 @@ jobs:
           envs: GITHUB_SHA,REGISTRY,IMAGE_NAME
           script: |
             set -e
-            
+
             echo "🧪 Deploying test environment for commit: $GITHUB_SHA"
-            
+
             # Navigate to project directory
             cd ArtShare-BE/
-            
+
             # Stop and remove existing test container
             docker stop backend-test 2>/dev/null || true
             docker rm backend-test 2>/dev/null || true
-            
+
             # Pull latest image
             docker pull $IMAGE_NAME:$GITHUB_SHA
-            
+
             # Start test container with memory limits
             docker run -d --name backend-test \
               --restart=unless-stopped \
@@ -362,16 +363,17 @@ jobs:
               -e OMP_NUM_THREADS=1 \
               -e ONNX_DISABLE_OPTIMIZATION=1 \
               -e TZ=Asia/Ho_Chi_Minh \
+              -e LC_ALL=en_GB.UTF-8 \
               -e NODE_ENV=test \
               -e PORT=3001 \
               -v artshare_test_model_cache:/app/.cache \
               --no-healthcheck \
               $IMAGE_NAME:$GITHUB_SHA
-            
+
             # Wait for test container to start
             echo "⏳ Waiting for test environment to start..."
             sleep 60
-            
+
             # Health check for test environment
             for i in {1..120}; do  # 4 minutes total timeout like production
               if docker exec backend-test curl -f http://localhost:3001/ >/dev/null 2>&1; then
@@ -387,7 +389,7 @@ jobs:
               echo "Waiting for test environment... ($i/120)"
               sleep 2
             done
-            
+
             echo "✅ Test environment deployed successfully!"
             echo "🌐 Test environment will be available at: https://test.artsharebe.id.vn"
             echo "📊 Container status:"
@@ -402,13 +404,13 @@ jobs:
           key: ${{ secrets.DO_SSH_KEY }}
           script: |
             echo "🔍 Verifying test environment..."
-            
+
             # Check container is running
             if ! docker ps | grep -q "backend-test"; then
               echo "❌ Test container is not running!"
               exit 1
             fi
-            
+
             # Check health endpoint
             if docker exec backend-test curl -f http://localhost:3001/ >/dev/null 2>&1; then
               echo "✅ Test environment health check passed"
@@ -418,7 +420,7 @@ jobs:
               echo "❌ Test environment health check failed"
               exit 1
             fi
-            
+
             echo "🎉 Test environment verification successful!"
 
       - name: Notify Test Deployment Success
