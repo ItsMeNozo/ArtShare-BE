@@ -231,7 +231,7 @@ jobs:
               -p 127.0.0.1:3000:3000 \
               --env-file .env \
               --memory=3g \
-              --memory-swap=3g \
+              --memory-swap=4g \
               --cpus=1.8 \
               -e TZ=Asia/Ho_Chi_Minh \
               -e LC_ALL=en_GB.UTF-8 \
