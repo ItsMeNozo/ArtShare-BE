@@ -184,38 +184,71 @@ jobs:
             # Navigate to project directory
             cd ArtShare-BE/
 
-            # Memory cleanup before deployment
-            echo "🧹 Cleaning up memory and Docker cache..."
-            docker stop $CONTAINER_NAME 2>/dev/null || true
-            docker rm $CONTAINER_NAME 2>/dev/null || true
-            docker system prune -af || true
-            sync && echo 3 > /proc/sys/vm/drop_caches || true
-
-            echo "💾 Available memory after cleanup:"
-            free -h
-
-            # Create backup
+             # CREATE BACKUP FIRST - before any cleanup!
             echo "📦 Creating backup of current deployment..."
             BACKUP_IMAGE="${DOCKER_IMAGE}:backup-current"
             if docker images | grep -q "${DOCKER_IMAGE}:latest"; then
               docker rmi ${DOCKER_IMAGE}:backup-current 2>/dev/null || true
               docker tag ${DOCKER_IMAGE}:latest $BACKUP_IMAGE
-              echo "Backup created: $BACKUP_IMAGE"
+              echo "✅ Backup created: $BACKUP_IMAGE"
+            else
+              echo "⚠️ No existing image to backup (first deployment or after manual cleanup)"
             fi
+
+            # Now stop container (but keep backup image safe)
+            echo "🛑 Stopping current container..."
+            docker stop $CONTAINER_NAME 2>/dev/null || true
+            docker rm $CONTAINER_NAME 2>/dev/null || true
+
+            # Conservative cleanup - preserve backup image
+            echo "🧹 Conservative cleanup (preserving backup)..."
+            docker container prune -f || true
+            docker network prune -f || true
+            # Remove old images but NOT the backup we just created
+            docker images | grep "${DOCKER_IMAGE}" | grep -v "backup-current" | grep -v "latest" | awk '{print $3}' | xargs -r docker rmi -f || true
+            sync && echo 3 > /proc/sys/vm/drop_caches || true
+
+            echo "💾 Available memory after cleanup:"
+            free -h
 
             echo "📥 Pulling image for commit ${GITHUB_SHA}..."
             docker pull $IMAGE_NAME:${GITHUB_SHA}
             docker tag $IMAGE_NAME:${GITHUB_SHA} ${DOCKER_IMAGE}:latest
 
-            # Rollback function
             rollback() {
               echo "❌ Deployment failed, rolling back..."
               if docker images | grep -q "${DOCKER_IMAGE}:backup-current"; then
+                # Stop failed container
+                docker stop $CONTAINER_NAME 2>/dev/null || true
+                docker rm $CONTAINER_NAME 2>/dev/null || true
+                
+                # Re-tag backup as latest
                 docker tag ${DOCKER_IMAGE}:backup-current ${DOCKER_IMAGE}:latest
-                echo "✅ Rollback completed"
+                
+                # Start rollback container with the backup image
+                echo "🔄 Starting rollback container..."
+                docker run -d --name $CONTAINER_NAME \
+                  --restart=unless-stopped \
+                  --cap-drop=ALL \
+                  --cap-add=CHOWN \
+                  --cap-add=SETGID \
+                  --cap-add=SETUID \
+                  --security-opt=no-new-privileges:true \
+                  -p 127.0.0.1:3000:3000 \
+                  --env-file .env \
+                  --memory=3g \
+                  --memory-swap=4g \
+                  --cpus=1.8 \
+                  -e TZ=Asia/Ho_Chi_Minh \
+                  -e LC_ALL=en_GB.UTF-8 \
+                  -v ${VOLUME_NAME}:/app/.cache \
+                  ${DOCKER_IMAGE}:latest
+                
+                echo "✅ Rollback completed - service restored with backup"
                 return 0
               else
-                echo "⚠️ No backup available"
+                echo "⚠️ No backup available for rollback"
+                return 1
               fi
             }
 
