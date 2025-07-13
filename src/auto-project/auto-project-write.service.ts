@@ -6,11 +6,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { AutoPostGenerateService } from 'src/auto-post/auto-post-generate.service';
 import { TryCatch } from 'src/common/try-catch.decorator';
 import { AutoProjectStatus, Platform } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
-import { UsageService } from 'src/usage/usage.service';
 import { CreateAutoProjectDto } from './dto/request/create-project.dto';
 import { UpdateAutoProjectDto } from './dto/request/update-project.dto';
 import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
@@ -19,16 +17,9 @@ import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
 export class AutoProjectWriteService {
   private readonly logger: Logger;
 
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly autoPostGenerateService: AutoPostGenerateService,
-    private readonly usageService: UsageService,
-  ) {
+  constructor(private readonly prisma: PrismaService) {
     this.logger = new Logger(AutoProjectWriteService.name);
   }
-
-  private readonly textCost = 2;
-  private readonly imageCost = 5;
 
   @TryCatch()
   async create(
