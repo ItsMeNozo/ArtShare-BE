@@ -43,9 +43,12 @@ export class WorkflowAssistService {
 
   @TryCatch()
   async generatePostMetadata(
-    imageFiles: Express.Multer.File[],
+    files: Express.Multer.File[],
     userId: string,
   ): Promise<GeneratePostMetadataResponseDto> {
+    const imageFiles = files.filter((file) =>
+      file.mimetype.startsWith('image/'),
+    );
     if (!imageFiles || imageFiles.length === 0) {
       throw new BadRequestException('No images provided');
     }
