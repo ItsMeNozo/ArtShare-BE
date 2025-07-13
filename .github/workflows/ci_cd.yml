@@ -172,140 +172,116 @@ jobs:
           host: ${{ secrets.DO_HOST }}
           username: root
           key: ${{ secrets.DO_SSH_KEY }}
-          envs: GITHUB_SHA,REGISTRY,IMAGE_NAME,DOCKER_IMAGE,CONTAINER_NAME,VOLUME_NAME
+          envs: GITHUB_SHA,REGISTRY,IMAGE_NAME,DOCKER_IMAGE,CONTAINER_NAME,VOLUME_NAME,MEM_LIMIT,CPU_LIMIT
           script: |
-            set -e
+            set -euo pipefail
 
-            echo "🚀 Starting deployment for commit: $GITHUB_SHA"
-
-            echo "📦 Ensuring cache volume '${VOLUME_NAME}' exists..."
-            docker volume create ${VOLUME_NAME} || true
-
-            # Navigate to project directory
+            echo "🚀 Deploying commit: $GITHUB_SHA"
+            docker volume create "$VOLUME_NAME" >/dev/null 2>&1 || true
             cd ArtShare-BE/
 
-            # Memory cleanup before deployment
-            echo "🧹 Cleaning up memory and Docker cache..."
-            docker stop $CONTAINER_NAME 2>/dev/null || true
-            docker rm $CONTAINER_NAME 2>/dev/null || true
-            docker system prune -af || true
-            sync && echo 3 > /proc/sys/vm/drop_caches || true
+            start_prod_container() {
+              local tag="${1:-latest}" 
+              local name="${2:-$CONTAINER_NAME}"
+              local host_port="${3:-3000}"
+              printf "▶️  Starting container %s:%s as %s on port %s\n" \
+                    "$DOCKER_IMAGE" "$tag" "$name" "$host_port"
 
-            echo "💾 Available memory after cleanup:"
-            free -h
+              docker run -d --name "$name" \
+                --restart=unless-stopped \
+                --cap-drop=ALL \
+                --cap-add=CHOWN --cap-add=SETGID --cap-add=SETUID \
+                --security-opt no-new-privileges:true \
+                -p "127.0.0.1:${host_port}:3000" \
+                --env-file .env \
+                --memory="${MEM_LIMIT:=7g}" \
+                --memory-swap="${MEM_LIMIT:=7g}" \
+                --cpus="${CPU_LIMIT:=3.8}" \
+                -e TZ=Asia/Ho_Chi_Minh \
+                -e LC_ALL=en_GB.UTF-8 \
+                -v "${VOLUME_NAME}:/app/.cache" \
+                --label "app=artshare" \
+                --label "deploy_sha=${GITHUB_SHA}" \
+                "${DOCKER_IMAGE}:${tag}"
+            }
 
-            # Create backup
-            echo "📦 Creating backup of current deployment..."
-            BACKUP_IMAGE="${DOCKER_IMAGE}:backup-current"
-            if docker images | grep -q "${DOCKER_IMAGE}:latest"; then
-              docker rmi ${DOCKER_IMAGE}:backup-current 2>/dev/null || true
-              docker tag ${DOCKER_IMAGE}:latest $BACKUP_IMAGE
-              echo "Backup created: $BACKUP_IMAGE"
-            fi
-
-            echo "📥 Pulling image for commit ${GITHUB_SHA}..."
-            docker pull $IMAGE_NAME:${GITHUB_SHA}
-            docker tag $IMAGE_NAME:${GITHUB_SHA} ${DOCKER_IMAGE}:latest
-
-            # Rollback function
             rollback() {
-              echo "❌ Deployment failed, rolling back..."
-              if docker images | grep -q "${DOCKER_IMAGE}:backup-current"; then
-                docker tag ${DOCKER_IMAGE}:backup-current ${DOCKER_IMAGE}:latest
-                echo "✅ Rollback completed"
-                return 0
+              echo "❌ Deployment failed – rolling back…"
+              trap - ERR
+              
+              if docker image inspect "$BACKUP_TAG" >/dev/null 2>&1; then
+                docker stop "${CONTAINER_NAME}" 2>/dev/null || true
+                docker rm   "${CONTAINER_NAME}" 2>/dev/null || true
+                docker tag "${BACKUP_TAG}" "${DOCKER_IMAGE}:latest"
+                start_prod_container latest
+                echo "✅ Rollback complete – service restored from backup"
               else
-                echo "⚠️ No backup available"
+                echo "⚠️  No backup available; manual fix required"
+                exit 1
               fi
             }
 
-            # Simple deployment - stop old, start new
-            echo "🚀 Starting new container..."
-            docker run -d --name $CONTAINER_NAME \
-              --restart=unless-stopped \
-              --cap-drop=ALL \
-              --cap-add=CHOWN \
-              --cap-add=SETGID \
-              --cap-add=SETUID \
-              --security-opt=no-new-privileges:true \
-              -p 127.0.0.1:3000:3000 \
-              --env-file .env \
-              --memory=3g \
-              --memory-swap=4g \
-              --cpus=1.8 \
-              -e TZ=Asia/Ho_Chi_Minh \
-              -e LC_ALL=en_GB.UTF-8 \
-              -v ${VOLUME_NAME}:/app/.cache \
-              ${IMAGE_NAME}:${GITHUB_SHA} || rollback
+            trap 'rollback' ERR
 
-            # Wait for app to start (longer for AI model loading)
-            echo "⏳ Waiting for application to start (including AI models)..."
-            sleep 60 
+            # ------------------------------------------------------------------
+            # Backup current image (if any)
+            # ------------------------------------------------------------------
+            BACKUP_TAG="${DOCKER_IMAGE}:backup-current"
+            if docker image inspect "$DOCKER_IMAGE:latest" >/dev/null 2>&1; then
+              docker rmi "${BACKUP_TAG}" 2>/dev/null || true
+              docker tag "${DOCKER_IMAGE}:latest" "${BACKUP_TAG}"
+              echo "✅ Backup created → ${BACKUP_TAG}"
+            else
+              echo "ℹ️  No existing image to back up."
+            fi
 
-            # Health check with much longer timeout for AI loading
-            echo "🔍 Performing health check..."
-            for i in {1..120}; do  # 4 minutes total timeout
-              if docker exec $CONTAINER_NAME curl -f http://localhost:3000/ >/dev/null 2>&1; then
+            # ------------------------------------------------------------------
+            # Pull new image and tag
+            # ------------------------------------------------------------------
+            docker pull "${IMAGE_NAME}:${GITHUB_SHA}"
+            docker tag  "${IMAGE_NAME}:${GITHUB_SHA}" "${DOCKER_IMAGE}:latest"
+
+            # ------------------------------------------------------------------
+            # Stop & clean
+            # ------------------------------------------------------------------
+            docker stop -t 30 "${CONTAINER_NAME}" 2>/dev/null || true
+            docker rm   "${CONTAINER_NAME}" 2>/dev/null || true
+
+
+            # ------------------------------------------------------------------
+            # Start new container with health checks
+            # ------------------------------------------------------------------
+            start_prod_container latest
+
+            echo "⏳ Waiting for app to be healthy…"
+            for i in {1..120}; do
+              if docker exec "${CONTAINER_NAME}" curl -fSs http://localhost:3000/ >/dev/null 2>&1; then
                 echo "✅ Health check passed"
                 break
               fi
-              if [ $i -eq 120 ]; then
-                echo "❌ Health check failed"
-                echo "📋 Container logs:"
-                docker logs --tail 100 $CONTAINER_NAME || true
-                echo "📊 Container stats:"
-                docker stats $CONTAINER_NAME --no-stream || true
-                rollback
+              if [ "$i" -eq 120 ]; then
+                echo "❌ Health check timed out"
+                docker logs --tail 100 "${CONTAINER_NAME}" || true
+                false # ← returns exit-code 1
               fi
-              echo "Waiting for application to respond... ($i/120)"
               sleep 2
             done
 
-            # Cleanup
-            echo "🧹 Cleaning up..."
-            docker images | grep "${DOCKER_IMAGE}:backup-" | grep -v "backup-current" | awk '{print $3}' | xargs -r docker rmi || true
-            docker image prune -f || true
-
-            echo "✅ Deployment completed successfully!"
-            echo "📊 Container status:"
-            docker ps | grep $CONTAINER_NAME
-            echo "📝 Recent logs:"
-            docker logs --tail 20 $CONTAINER_NAME
-
-      - name: Verify Deployment
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.DO_HOST }}
-          username: root
-          key: ${{ secrets.DO_SSH_KEY }}
-          envs: CONTAINER_NAME
-          script: |
-            echo "🔍 Final deployment verification..."
-
-            # Check container is running
-            if ! docker ps | grep -q "$CONTAINER_NAME"; then
-              echo "❌ Container is not running!"
-              exit 1
+            if docker ps -q --filter "name=$CONTAINER_NAME" --filter "status=running" | grep -q .; then
+              docker stats --no-stream "$CONTAINER_NAME"
             fi
 
-            for i in {1..60}; do  # Longer verification timeout
-              if docker exec $CONTAINER_NAME curl -f http://localhost:3000/ >/dev/null 2>&1; then
-                echo "✅ Application is responding with 'Hello World!'"
-                break
-              fi
-              if [ $i -eq 60 ]; then
-                echo "❌ Application is not responding"
-                echo "Container logs:"
-                docker logs --tail 100 $CONTAINER_NAME
-                echo "Container stats:"
-                docker stats $CONTAINER_NAME --no-stream || true
-                exit 1
-              fi
-              echo "Verifying application... ($i/60)"
-              sleep 3
-            done
+            trap - ERR  # success → disable rollback trap
 
-            echo "🎉 Deployment verification successful!"
+            # ------------------------------------------------------------------
+            # House-keeping
+            # ------------------------------------------------------------------
+            docker images --filter "reference=${DOCKER_IMAGE}:backup-*" -q \
+              | xargs -r docker rmi || true
+            docker image prune -f
+
+            echo "🎉 Deployment finished successfully!"
+            docker ps --filter "name=${CONTAINER_NAME}"
 
       - name: Notify Deployment Success
         if: success()
@@ -353,6 +329,7 @@ jobs:
               --restart=unless-stopped \
               --memory=2g \
               --memory-swap=2g \
+              --cpus=2" \
               --cap-drop=ALL \
               --cap-add=CHOWN \
               --cap-add=SETGID \
@@ -395,33 +372,6 @@ jobs:
             echo "📊 Container status:"
             docker ps | grep backend-test
             docker stats backend-test --no-stream
-
-      - name: Verify Test Environment
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.DO_HOST }}
-          username: root
-          key: ${{ secrets.DO_SSH_KEY }}
-          script: |
-            echo "🔍 Verifying test environment..."
-
-            # Check container is running
-            if ! docker ps | grep -q "backend-test"; then
-              echo "❌ Test container is not running!"
-              exit 1
-            fi
-
-            # Check health endpoint
-            if docker exec backend-test curl -f http://localhost:3001/ >/dev/null 2>&1; then
-              echo "✅ Test environment health check passed"
-              echo "📋 Health response:"
-              docker exec backend-test curl -s http://localhost:3001/ | head -10
-            else
-              echo "❌ Test environment health check failed"
-              exit 1
-            fi
-
-            echo "🎉 Test environment verification successful!"
 
       - name: Notify Test Deployment Success
         if: success()
