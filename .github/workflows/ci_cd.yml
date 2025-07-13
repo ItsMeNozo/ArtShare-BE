@@ -308,23 +308,28 @@ jobs:
           host: ${{ secrets.DO_HOST }}
           username: root
           key: ${{ secrets.DO_SSH_KEY }}
-          envs: GITHUB_SHA,REGISTRY,IMAGE_NAME
+          envs: GITHUB_SHA,IMAGE_NAME
           script: |
             set -euo pipefail
+
+            CONTAINER_NAME="backend-test"
+            VOLUME_NAME="artshare_test_model_cache"
+            HOST_PORT="3001"
+            ENV_FILE=".env.test"
 
             echo "🚀 Deploying test env with commit: $GITHUB_SHA"
             docker volume create "$VOLUME_NAME" >/dev/null 2>&1 || true
             cd ArtShare-BE/
 
             # Pull latest image
-            docker pull $IMAGE_NAME:$GITHUB_SHA
+            docker pull "${IMAGE_NAME}:${GITHUB_SHA}"
 
             # Stop and remove existing test container
-            docker stop backend-test 2>/dev/null || true
-            docker rm backend-test 2>/dev/null || true
+            docker stop "$CONTAINER_NAME" 2>/dev/null || true
+            docker rm "$CONTAINER_NAME" 2>/dev/null || true
 
             # Start test container with memory limits
-            docker run -d --name backend-test \
+            docker run -d --name "$CONTAINER_NAME" \
               --restart=unless-stopped \
               --memory=2g \
               --memory-swap=2g \
@@ -335,28 +340,28 @@ jobs:
               --cap-add=SETUID \
               --security-opt=no-new-privileges:true \
               -p 127.0.0.1:3001:3001 \
-              --env-file .env.test \
+              --env-file "$ENV_FILE" \
               -e OMP_NUM_THREADS=1 \
               -e ONNX_DISABLE_OPTIMIZATION=1 \
               -e TZ=Asia/Ho_Chi_Minh \
               -e LC_ALL=en_GB.UTF-8 \
               -e NODE_ENV=test \
               -e PORT=3001 \
-              -v artshare_test_model_cache:/app/.cache \
+              -v "${VOLUME_NAME}:/app/.cache" \
               --no-healthcheck \
-              $IMAGE_NAME:$GITHUB_SHA
+              "${IMAGE_NAME}:${GITHUB_SHA}"
 
 
             # Health check for test environment
             for i in {1..120}; do  # 4 minutes total timeout like production
-              if docker exec backend-test curl -f http://localhost:3001/ >/dev/null 2>&1; then
+              if docker exec "$CONTAINER_NAME" curl -fSs http://localhost:3001/ >/dev/null 2>&1; then
                 echo "✅ Test environment is running and healthy"
                 break
               fi
               if [ $i -eq 120 ]; then
                 echo "❌ Test environment failed to start"
                 echo "📋 Container logs:"
-                docker logs --tail 50 backend-test
+                docker logs --tail 100 "$CONTAINER_NAME" || true
                 exit 1
               fi
               echo "Waiting for test environment... ($i/120)"
