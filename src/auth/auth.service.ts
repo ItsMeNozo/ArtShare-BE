@@ -298,8 +298,8 @@ export class AuthService {
     ]);
 
     return {
-      accessToken: at,
-      refreshToken: rt,
+      access_token: at,
+      refresh_token: rt,
     };
   }
 
