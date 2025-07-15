@@ -19,6 +19,7 @@ import { CreateBlogDto } from './dto/request/create-blog.dto';
 import { GetBlogsQueryDto } from './dto/request/get-blogs-query.dto';
 import { RateBlogDto } from './dto/request/rate-blog.dto';
 import { UpdateBlogDto } from './dto/request/update-blog.dto';
+import { UserBlogsQueryDto } from './dto/request/user-blogs-query.dto';
 
 import { BlogDetailsResponseDto } from './dto/response/blog-details.dto';
 import { BlogListItemResponseDto } from './dto/response/blog-list-item.dto';
@@ -38,7 +39,6 @@ import { LikesService } from 'src/likes/likes.service';
 import { BlogEmbeddingService } from './blog-embedding.service';
 import { BlogExploreService } from './blog-explore.service';
 import { BlogManagementService } from './blog-management.service';
-import { PaginationDto } from './dto/request/pagination.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('blogs')
@@ -218,10 +218,9 @@ export class BlogController {
   @Public()
   async getBlogsByUsername(
     @Param('username') username: string,
-    @Query() paging: PaginationDto,
+    @Query() query: UserBlogsQueryDto,
   ): Promise<BlogListItemResponseDto[]> {
-    const { take, skip } = paging;
-    return this.blogExploreService.getBlogsByUsername(username, take, skip);
+    return this.blogExploreService.getBlogsByUsername(username, query);
   }
 
   @Get(':blogId/relevant')
