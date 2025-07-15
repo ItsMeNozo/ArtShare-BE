@@ -19,23 +19,33 @@ export class CreatePostRequestDto {
 
   @IsOptional()
   @IsString()
-  video_url?: string;
+  videoUrl?: string;
 
   @IsString()
   @IsNotEmpty()
-  thumbnail_url: string;
+  thumbnailUrl: string;
 
   @IsBoolean()
   @Transform(({ obj, key }) => {
-    return obj[key] === 'true' ? true : obj[key] === 'false' ? false : obj[key];
+    const value = obj[key];
+    if (typeof value === 'string') {
+      if (value.toLowerCase() === 'true') return true;
+      if (value.toLowerCase() === 'false') return false;
+    }
+    return value;
   })
-  is_mature: boolean = false;
+  isMature: boolean = false;
 
   @IsBoolean()
   @Transform(({ obj, key }) => {
-    return obj[key] === 'true' ? true : obj[key] === 'false' ? false : obj[key];
+    const value = obj[key];
+    if (typeof value === 'string') {
+      if (value.toLowerCase() === 'true') return true;
+      if (value.toLowerCase() === 'false') return false;
+    }
+    return value;
   })
-  ai_created: boolean = false;
+  aiCreated: boolean = false;
 
   @IsArray()
   @IsInt({ each: true })
@@ -55,12 +65,12 @@ export class CreatePostRequestDto {
     },
     { toClassOnly: true },
   )
-  cate_ids?: number[];
+  categoryIds?: number[];
 
   @IsString()
-  thumbnail_crop_meta: string = "{}";
+  thumbnailCropMeta: string = '{}';
 
   @IsInt()
   @IsOptional()
-  prompt_id?: number;
+  promptId?: number;
 }

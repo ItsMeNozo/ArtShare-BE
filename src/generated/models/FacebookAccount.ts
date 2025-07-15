@@ -35,38 +35,38 @@ export type FacebookAccountSumAggregateOutputType = {
 
 export type FacebookAccountMinAggregateOutputType = {
   id: number | null
-  user_id: string | null
-  facebook_user_id: string | null
+  userId: string | null
+  facebookUserId: string | null
   name: string | null
-  picture_url: string | null
-  long_lived_user_access_token: string | null
-  token_expires_at: Date | null
-  created_at: Date | null
-  updated_at: Date | null
+  pictureUrl: string | null
+  longLivedUserAccessToken: string | null
+  tokenExpiresAt: Date | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type FacebookAccountMaxAggregateOutputType = {
   id: number | null
-  user_id: string | null
-  facebook_user_id: string | null
+  userId: string | null
+  facebookUserId: string | null
   name: string | null
-  picture_url: string | null
-  long_lived_user_access_token: string | null
-  token_expires_at: Date | null
-  created_at: Date | null
-  updated_at: Date | null
+  pictureUrl: string | null
+  longLivedUserAccessToken: string | null
+  tokenExpiresAt: Date | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type FacebookAccountCountAggregateOutputType = {
   id: number
-  user_id: number
-  facebook_user_id: number
+  userId: number
+  facebookUserId: number
   name: number
-  picture_url: number
-  long_lived_user_access_token: number
-  token_expires_at: number
-  created_at: number
-  updated_at: number
+  pictureUrl: number
+  longLivedUserAccessToken: number
+  tokenExpiresAt: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -81,38 +81,38 @@ export type FacebookAccountSumAggregateInputType = {
 
 export type FacebookAccountMinAggregateInputType = {
   id?: true
-  user_id?: true
-  facebook_user_id?: true
+  userId?: true
+  facebookUserId?: true
   name?: true
-  picture_url?: true
-  long_lived_user_access_token?: true
-  token_expires_at?: true
-  created_at?: true
-  updated_at?: true
+  pictureUrl?: true
+  longLivedUserAccessToken?: true
+  tokenExpiresAt?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type FacebookAccountMaxAggregateInputType = {
   id?: true
-  user_id?: true
-  facebook_user_id?: true
+  userId?: true
+  facebookUserId?: true
   name?: true
-  picture_url?: true
-  long_lived_user_access_token?: true
-  token_expires_at?: true
-  created_at?: true
-  updated_at?: true
+  pictureUrl?: true
+  longLivedUserAccessToken?: true
+  tokenExpiresAt?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type FacebookAccountCountAggregateInputType = {
   id?: true
-  user_id?: true
-  facebook_user_id?: true
+  userId?: true
+  facebookUserId?: true
   name?: true
-  picture_url?: true
-  long_lived_user_access_token?: true
-  token_expires_at?: true
-  created_at?: true
-  updated_at?: true
+  pictureUrl?: true
+  longLivedUserAccessToken?: true
+  tokenExpiresAt?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -204,14 +204,14 @@ export type FacebookAccountGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 
 export type FacebookAccountGroupByOutputType = {
   id: number
-  user_id: string
-  facebook_user_id: string
+  userId: string
+  facebookUserId: string
   name: string
-  picture_url: string | null
-  long_lived_user_access_token: string
-  token_expires_at: Date | null
-  created_at: Date
-  updated_at: Date
+  pictureUrl: string | null
+  longLivedUserAccessToken: string
+  tokenExpiresAt: Date | null
+  createdAt: Date
+  updatedAt: Date | null
   _count: FacebookAccountCountAggregateOutputType | null
   _avg: FacebookAccountAvgAggregateOutputType | null
   _sum: FacebookAccountSumAggregateOutputType | null
@@ -239,56 +239,56 @@ export type FacebookAccountWhereInput = {
   OR?: Prisma.FacebookAccountWhereInput[]
   NOT?: Prisma.FacebookAccountWhereInput | Prisma.FacebookAccountWhereInput[]
   id?: Prisma.IntFilter<"FacebookAccount"> | number
-  user_id?: Prisma.StringFilter<"FacebookAccount"> | string
-  facebook_user_id?: Prisma.StringFilter<"FacebookAccount"> | string
+  userId?: Prisma.StringFilter<"FacebookAccount"> | string
+  facebookUserId?: Prisma.StringFilter<"FacebookAccount"> | string
   name?: Prisma.StringFilter<"FacebookAccount"> | string
-  picture_url?: Prisma.StringNullableFilter<"FacebookAccount"> | string | null
-  long_lived_user_access_token?: Prisma.StringFilter<"FacebookAccount"> | string
-  token_expires_at?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
-  created_at?: Prisma.DateTimeFilter<"FacebookAccount"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"FacebookAccount"> | Date | string
+  pictureUrl?: Prisma.StringNullableFilter<"FacebookAccount"> | string | null
+  longLivedUserAccessToken?: Prisma.StringFilter<"FacebookAccount"> | string
+  tokenExpiresAt?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
+  createdAt?: Prisma.DateTimeFilter<"FacebookAccount"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
   platforms?: Prisma.PlatformListRelationFilter
 }
 
 export type FacebookAccountOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  facebook_user_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  facebookUserId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  picture_url?: Prisma.SortOrderInput | Prisma.SortOrder
-  long_lived_user_access_token?: Prisma.SortOrder
-  token_expires_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  pictureUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  longLivedUserAccessToken?: Prisma.SortOrder
+  tokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   platforms?: Prisma.PlatformOrderByRelationAggregateInput
 }
 
 export type FacebookAccountWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  facebook_user_id?: string
+  facebookUserId?: string
   AND?: Prisma.FacebookAccountWhereInput | Prisma.FacebookAccountWhereInput[]
   OR?: Prisma.FacebookAccountWhereInput[]
   NOT?: Prisma.FacebookAccountWhereInput | Prisma.FacebookAccountWhereInput[]
-  user_id?: Prisma.StringFilter<"FacebookAccount"> | string
+  userId?: Prisma.StringFilter<"FacebookAccount"> | string
   name?: Prisma.StringFilter<"FacebookAccount"> | string
-  picture_url?: Prisma.StringNullableFilter<"FacebookAccount"> | string | null
-  long_lived_user_access_token?: Prisma.StringFilter<"FacebookAccount"> | string
-  token_expires_at?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
-  created_at?: Prisma.DateTimeFilter<"FacebookAccount"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"FacebookAccount"> | Date | string
+  pictureUrl?: Prisma.StringNullableFilter<"FacebookAccount"> | string | null
+  longLivedUserAccessToken?: Prisma.StringFilter<"FacebookAccount"> | string
+  tokenExpiresAt?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
+  createdAt?: Prisma.DateTimeFilter<"FacebookAccount"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
   platforms?: Prisma.PlatformListRelationFilter
-}, "id" | "facebook_user_id">
+}, "id" | "facebookUserId">
 
 export type FacebookAccountOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  facebook_user_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  facebookUserId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  picture_url?: Prisma.SortOrderInput | Prisma.SortOrder
-  long_lived_user_access_token?: Prisma.SortOrder
-  token_expires_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  pictureUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  longLivedUserAccessToken?: Prisma.SortOrder
+  tokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.FacebookAccountCountOrderByAggregateInput
   _avg?: Prisma.FacebookAccountAvgOrderByAggregateInput
   _max?: Prisma.FacebookAccountMaxOrderByAggregateInput
@@ -301,99 +301,99 @@ export type FacebookAccountScalarWhereWithAggregatesInput = {
   OR?: Prisma.FacebookAccountScalarWhereWithAggregatesInput[]
   NOT?: Prisma.FacebookAccountScalarWhereWithAggregatesInput | Prisma.FacebookAccountScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"FacebookAccount"> | number
-  user_id?: Prisma.StringWithAggregatesFilter<"FacebookAccount"> | string
-  facebook_user_id?: Prisma.StringWithAggregatesFilter<"FacebookAccount"> | string
+  userId?: Prisma.StringWithAggregatesFilter<"FacebookAccount"> | string
+  facebookUserId?: Prisma.StringWithAggregatesFilter<"FacebookAccount"> | string
   name?: Prisma.StringWithAggregatesFilter<"FacebookAccount"> | string
-  picture_url?: Prisma.StringNullableWithAggregatesFilter<"FacebookAccount"> | string | null
-  long_lived_user_access_token?: Prisma.StringWithAggregatesFilter<"FacebookAccount"> | string
-  token_expires_at?: Prisma.DateTimeNullableWithAggregatesFilter<"FacebookAccount"> | Date | string | null
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"FacebookAccount"> | Date | string
-  updated_at?: Prisma.DateTimeWithAggregatesFilter<"FacebookAccount"> | Date | string
+  pictureUrl?: Prisma.StringNullableWithAggregatesFilter<"FacebookAccount"> | string | null
+  longLivedUserAccessToken?: Prisma.StringWithAggregatesFilter<"FacebookAccount"> | string
+  tokenExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"FacebookAccount"> | Date | string | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"FacebookAccount"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"FacebookAccount"> | Date | string | null
 }
 
 export type FacebookAccountCreateInput = {
-  user_id: string
-  facebook_user_id: string
+  userId: string
+  facebookUserId: string
   name: string
-  picture_url?: string | null
-  long_lived_user_access_token: string
-  token_expires_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
+  pictureUrl?: string | null
+  longLivedUserAccessToken: string
+  tokenExpiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
   platforms?: Prisma.PlatformCreateNestedManyWithoutFacebookAccountInput
 }
 
 export type FacebookAccountUncheckedCreateInput = {
   id?: number
-  user_id: string
-  facebook_user_id: string
+  userId: string
+  facebookUserId: string
   name: string
-  picture_url?: string | null
-  long_lived_user_access_token: string
-  token_expires_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
+  pictureUrl?: string | null
+  longLivedUserAccessToken: string
+  tokenExpiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
   platforms?: Prisma.PlatformUncheckedCreateNestedManyWithoutFacebookAccountInput
 }
 
 export type FacebookAccountUpdateInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  facebook_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  long_lived_user_access_token?: Prisma.StringFieldUpdateOperationsInput | string
-  token_expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   platforms?: Prisma.PlatformUpdateManyWithoutFacebookAccountNestedInput
 }
 
 export type FacebookAccountUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  facebook_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  long_lived_user_access_token?: Prisma.StringFieldUpdateOperationsInput | string
-  token_expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   platforms?: Prisma.PlatformUncheckedUpdateManyWithoutFacebookAccountNestedInput
 }
 
 export type FacebookAccountCreateManyInput = {
   id?: number
-  user_id: string
-  facebook_user_id: string
+  userId: string
+  facebookUserId: string
   name: string
-  picture_url?: string | null
-  long_lived_user_access_token: string
-  token_expires_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
+  pictureUrl?: string | null
+  longLivedUserAccessToken: string
+  tokenExpiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type FacebookAccountUpdateManyMutationInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  facebook_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  long_lived_user_access_token?: Prisma.StringFieldUpdateOperationsInput | string
-  token_expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type FacebookAccountUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  facebook_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  long_lived_user_access_token?: Prisma.StringFieldUpdateOperationsInput | string
-  token_expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type FacebookAccountNullableScalarRelationFilter = {
@@ -403,14 +403,14 @@ export type FacebookAccountNullableScalarRelationFilter = {
 
 export type FacebookAccountCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  facebook_user_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  facebookUserId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  picture_url?: Prisma.SortOrder
-  long_lived_user_access_token?: Prisma.SortOrder
-  token_expires_at?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  pictureUrl?: Prisma.SortOrder
+  longLivedUserAccessToken?: Prisma.SortOrder
+  tokenExpiresAt?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type FacebookAccountAvgOrderByAggregateInput = {
@@ -419,26 +419,26 @@ export type FacebookAccountAvgOrderByAggregateInput = {
 
 export type FacebookAccountMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  facebook_user_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  facebookUserId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  picture_url?: Prisma.SortOrder
-  long_lived_user_access_token?: Prisma.SortOrder
-  token_expires_at?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  pictureUrl?: Prisma.SortOrder
+  longLivedUserAccessToken?: Prisma.SortOrder
+  tokenExpiresAt?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type FacebookAccountMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  facebook_user_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  facebookUserId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  picture_url?: Prisma.SortOrder
-  long_lived_user_access_token?: Prisma.SortOrder
-  token_expires_at?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  pictureUrl?: Prisma.SortOrder
+  longLivedUserAccessToken?: Prisma.SortOrder
+  tokenExpiresAt?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type FacebookAccountSumOrderByAggregateInput = {
@@ -462,26 +462,26 @@ export type FacebookAccountUpdateOneWithoutPlatformsNestedInput = {
 }
 
 export type FacebookAccountCreateWithoutPlatformsInput = {
-  user_id: string
-  facebook_user_id: string
+  userId: string
+  facebookUserId: string
   name: string
-  picture_url?: string | null
-  long_lived_user_access_token: string
-  token_expires_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
+  pictureUrl?: string | null
+  longLivedUserAccessToken: string
+  tokenExpiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type FacebookAccountUncheckedCreateWithoutPlatformsInput = {
   id?: number
-  user_id: string
-  facebook_user_id: string
+  userId: string
+  facebookUserId: string
   name: string
-  picture_url?: string | null
-  long_lived_user_access_token: string
-  token_expires_at?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string
+  pictureUrl?: string | null
+  longLivedUserAccessToken: string
+  tokenExpiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type FacebookAccountCreateOrConnectWithoutPlatformsInput = {
@@ -501,26 +501,26 @@ export type FacebookAccountUpdateToOneWithWhereWithoutPlatformsInput = {
 }
 
 export type FacebookAccountUpdateWithoutPlatformsInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  facebook_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  long_lived_user_access_token?: Prisma.StringFieldUpdateOperationsInput | string
-  token_expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type FacebookAccountUncheckedUpdateWithoutPlatformsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  facebook_user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  long_lived_user_access_token?: Prisma.StringFieldUpdateOperationsInput | string
-  token_expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -556,55 +556,55 @@ export type FacebookAccountCountOutputTypeCountPlatformsArgs<ExtArgs extends run
 
 export type FacebookAccountSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  user_id?: boolean
-  facebook_user_id?: boolean
+  userId?: boolean
+  facebookUserId?: boolean
   name?: boolean
-  picture_url?: boolean
-  long_lived_user_access_token?: boolean
-  token_expires_at?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  pictureUrl?: boolean
+  longLivedUserAccessToken?: boolean
+  tokenExpiresAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   platforms?: boolean | Prisma.FacebookAccount$platformsArgs<ExtArgs>
   _count?: boolean | Prisma.FacebookAccountCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["facebookAccount"]>
 
 export type FacebookAccountSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  user_id?: boolean
-  facebook_user_id?: boolean
+  userId?: boolean
+  facebookUserId?: boolean
   name?: boolean
-  picture_url?: boolean
-  long_lived_user_access_token?: boolean
-  token_expires_at?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  pictureUrl?: boolean
+  longLivedUserAccessToken?: boolean
+  tokenExpiresAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["facebookAccount"]>
 
 export type FacebookAccountSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  user_id?: boolean
-  facebook_user_id?: boolean
+  userId?: boolean
+  facebookUserId?: boolean
   name?: boolean
-  picture_url?: boolean
-  long_lived_user_access_token?: boolean
-  token_expires_at?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  pictureUrl?: boolean
+  longLivedUserAccessToken?: boolean
+  tokenExpiresAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["facebookAccount"]>
 
 export type FacebookAccountSelectScalar = {
   id?: boolean
-  user_id?: boolean
-  facebook_user_id?: boolean
+  userId?: boolean
+  facebookUserId?: boolean
   name?: boolean
-  picture_url?: boolean
-  long_lived_user_access_token?: boolean
-  token_expires_at?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  pictureUrl?: boolean
+  longLivedUserAccessToken?: boolean
+  tokenExpiresAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type FacebookAccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "facebook_user_id" | "name" | "picture_url" | "long_lived_user_access_token" | "token_expires_at" | "created_at" | "updated_at", ExtArgs["result"]["facebookAccount"]>
+export type FacebookAccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "facebookUserId" | "name" | "pictureUrl" | "longLivedUserAccessToken" | "tokenExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["facebookAccount"]>
 export type FacebookAccountInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   platforms?: boolean | Prisma.FacebookAccount$platformsArgs<ExtArgs>
   _count?: boolean | Prisma.FacebookAccountCountOutputTypeDefaultArgs<ExtArgs>
@@ -619,14 +619,14 @@ export type $FacebookAccountPayload<ExtArgs extends runtime.Types.Extensions.Int
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    user_id: string
-    facebook_user_id: string
+    userId: string
+    facebookUserId: string
     name: string
-    picture_url: string | null
-    long_lived_user_access_token: string
-    token_expires_at: Date | null
-    created_at: Date
-    updated_at: Date
+    pictureUrl: string | null
+    longLivedUserAccessToken: string
+    tokenExpiresAt: Date | null
+    createdAt: Date
+    updatedAt: Date | null
   }, ExtArgs["result"]["facebookAccount"]>
   composites: {}
 }
@@ -1052,14 +1052,14 @@ export interface Prisma__FacebookAccountClient<T, Null = never, ExtArgs extends 
  */
 export interface FacebookAccountFieldRefs {
   readonly id: Prisma.FieldRef<"FacebookAccount", 'Int'>
-  readonly user_id: Prisma.FieldRef<"FacebookAccount", 'String'>
-  readonly facebook_user_id: Prisma.FieldRef<"FacebookAccount", 'String'>
+  readonly userId: Prisma.FieldRef<"FacebookAccount", 'String'>
+  readonly facebookUserId: Prisma.FieldRef<"FacebookAccount", 'String'>
   readonly name: Prisma.FieldRef<"FacebookAccount", 'String'>
-  readonly picture_url: Prisma.FieldRef<"FacebookAccount", 'String'>
-  readonly long_lived_user_access_token: Prisma.FieldRef<"FacebookAccount", 'String'>
-  readonly token_expires_at: Prisma.FieldRef<"FacebookAccount", 'DateTime'>
-  readonly created_at: Prisma.FieldRef<"FacebookAccount", 'DateTime'>
-  readonly updated_at: Prisma.FieldRef<"FacebookAccount", 'DateTime'>
+  readonly pictureUrl: Prisma.FieldRef<"FacebookAccount", 'String'>
+  readonly longLivedUserAccessToken: Prisma.FieldRef<"FacebookAccount", 'String'>
+  readonly tokenExpiresAt: Prisma.FieldRef<"FacebookAccount", 'DateTime'>
+  readonly createdAt: Prisma.FieldRef<"FacebookAccount", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"FacebookAccount", 'DateTime'>
 }
     
 

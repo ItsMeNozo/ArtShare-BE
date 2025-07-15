@@ -186,7 +186,7 @@ export class UsageScheduler {
   @TryCatch()
   async handleDailyQuotaReset(): Promise<void> {
     this.logger.log('Running scheduled task: handleDailyQuotaReset…');
-    // console.log('Running scheduled task: handleDailyQuotaReset…');
+
     const now = new Date();
 
     // Only users on the Artist Pro plan get a daily reset
@@ -216,7 +216,7 @@ export class UsageScheduler {
    * Zeroes out (or creates) today’s usage record so that
    * availableCredits = dailyQuotaCredits - usedAmount = 100 - 0 = 100.
    */
-  private async resetDailyFeatureUsage(
+  async resetDailyFeatureUsage(
     userId: string,
     featureKey: FeatureKey,
     subscriptionEnd: Date,

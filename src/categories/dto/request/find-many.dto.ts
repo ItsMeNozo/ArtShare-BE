@@ -1,5 +1,5 @@
-import { IsEnum, IsInt, IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer'; // You might need this for numbers!
+import { IsEnum, IsInt, IsOptional, IsString } from 'class-validator';
 import { CategoryType } from './create-category.dto';
 
 export class FindManyCategoriesDto {
@@ -9,7 +9,7 @@ export class FindManyCategoriesDto {
 
   @IsOptional()
   @IsString()
-  search_query?: string;
+  searchQuery?: string;
 
   @IsOptional()
   @Type(() => Number)
@@ -19,5 +19,5 @@ export class FindManyCategoriesDto {
   @IsOptional()
   @Type(() => Number)
   @IsInt()
-  page_size?: number;
+  pageSize?: number;
 }

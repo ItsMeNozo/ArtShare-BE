@@ -84,7 +84,7 @@ export class AutoPostGenerateServiceV2 {
     // save the generated posts to the database
     const posts = response.output_parsed.posts.map((post) => ({
       content: post.content,
-      auto_project_id: autoProjectId,
+      autoProjectId: autoProjectId,
     }));
 
     return await this.prisma.autoPost.createManyAndReturn({

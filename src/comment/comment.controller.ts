@@ -12,15 +12,15 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
-import { CurrentUser } from 'src/auth/decorators/users.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
 import { Comment } from 'src/generated';
+import { CurrentUser } from '../auth/decorators/users.decorator';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import { GetCommentsDto } from './dto/request/get-comments.dto';
+import { GetCommentsQueryDto } from './dto/get-comments-query.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 
 @UseGuards(JwtAuthGuard)
@@ -29,25 +29,28 @@ export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
   @Post('create')
+  @ApiOkResponse({ description: 'Comment created successfully' })
   async create(
     @Body() createCommentDto: CreateCommentDto,
-    @CurrentUser() currentUser: CurrentUserType,
+    @CurrentUser() user: CurrentUserType,
   ): Promise<Comment> {
-    const userId = currentUser.id;
+    const userId = user.id;
     return this.commentService.create(createCommentDto, userId);
   }
 
   @Get()
   @Public()
+  @ApiOkResponse({ description: 'Comments retrieved successfully' })
   async getComments(
-    @Query() query: GetCommentsDto,
-    @CurrentUser() currentUser?: CurrentUserType,
+    @Query() query: GetCommentsQueryDto,
+    @CurrentUser() user?: CurrentUserType,
   ) {
+    const { targetId, targetType, parentCommentId } = query;
     return this.commentService.getComments(
-      query.target_id,
-      query.target_type,
-      currentUser?.id,
-      query.parent_comment_id,
+      targetId,
+      targetType,
+      user?.id,
+      parentCommentId,
     );
   }
 

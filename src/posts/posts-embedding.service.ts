@@ -227,7 +227,7 @@ export class PostsEmbeddingService {
           post.title,
           post.description ?? undefined,
           post.medias
-            .filter((m) => m.media_type === MediaType.image)
+            .filter((m) => m.mediaType === MediaType.image)
             .map((m) => m.url),
         ),
       }),

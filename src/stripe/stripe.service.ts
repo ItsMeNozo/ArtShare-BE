@@ -26,11 +26,11 @@ export class StripeService {
     private readonly configService: ConfigService,
   ) {
     this.planToPriceIdMap = {
-      artist_monthly: this.configService.get<string>(
+      artist_pro_monthly: this.configService.get<string>(
         'STRIPE_ARTIST_MONTHLY_PRICE_ID',
         '',
       ),
-      artist_yearly: this.configService.get<string>(
+      artist_pro_yearly: this.configService.get<string>(
         'STRIPE_ARTIST_YEARLY_PRICE_ID',
         '',
       ),
@@ -83,11 +83,11 @@ export class StripeService {
         null,
         userId,
       );
-      customerId = userRecord?.stripe_customer_id;
+      customerId = userRecord?.stripeCustomerId;
     }
     if (!userRecord && email) {
       userRecord = await this.stripeDbService.findUserByEmail(email);
-      customerId = userRecord?.stripe_customer_id;
+      customerId = userRecord?.stripeCustomerId;
     }
 
     if (userRecord && !customerId && email) {
@@ -104,7 +104,7 @@ export class StripeService {
 
     if (!customerId && email) {
       const newCustomerParams: Stripe.CustomerCreateParams = { email };
-      if (userRecord?.full_name) newCustomerParams.name = userRecord.full_name;
+      if (userRecord?.fullName) newCustomerParams.name = userRecord.fullName;
       if (userRecord?.id || userId)
         newCustomerParams.metadata = { userId: userRecord?.id || userId || '' };
 
@@ -340,7 +340,7 @@ export class StripeService {
       userId,
     );
 
-    if (!userRecord || !userRecord.stripe_customer_id) {
+    if (!userRecord || !userRecord.stripeCustomerId) {
       this.logger.error(
         `User ${userId} requested portal session but has no Stripe Customer ID or user not found.`,
       );
@@ -349,7 +349,7 @@ export class StripeService {
       );
     }
 
-    const customerId = userRecord.stripe_customer_id;
+    const customerId = userRecord.stripeCustomerId;
 
     const portalSession =
       await this.stripeCoreService.createBillingPortalSession({

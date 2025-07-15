@@ -2,7 +2,7 @@
 
 import * as dotenv from 'dotenv';
 import * as admin from 'firebase-admin';
-import { PrismaClient } from 'src/generated';
+import { PrismaClient } from '../src/generated';
 
 // Load environment variables
 dotenv.config();
@@ -76,7 +76,9 @@ async function deleteUserAndVerify(userId: string) {
       const deletedConversations = await tx.conversation.deleteMany({
         where: { userId: userId },
       });
-      console.log(`Deleted ${deletedConversations.count} conversation(s) with messages.`);
+      console.log(
+        `Deleted ${deletedConversations.count} conversation(s) with messages.`,
+      );
 
       // 4.2 Delete notifications for user:
       console.log(`Deleting notifications for user ${userId}...`);
@@ -88,28 +90,28 @@ async function deleteUserAndVerify(userId: string) {
       // 4.3 Delete auto projects (and their auto posts via cascade):
       console.log(`Deleting auto projects for user ${userId}...`);
       const deletedAutoProjects = await tx.autoProject.deleteMany({
-        where: { user_id: userId },
+        where: { userId: userId },
       });
       console.log(`Deleted ${deletedAutoProjects.count} auto project(s).`);
 
       // 4.4 Delete platforms for user:
       console.log(`Deleting platforms for user ${userId}...`);
       const deletedPlatforms = await tx.platform.deleteMany({
-        where: { user_id: userId },
+        where: { userId: userId },
       });
       console.log(`Deleted ${deletedPlatforms.count} platform(s).`);
 
       // 4.6 Delete any collections explicitly if not cascaded:
       console.log(`Deleting collections for user ${userId}...`);
       const deletedCollections = await tx.collection.deleteMany({
-        where: { user_id: userId },
+        where: { userId: userId },
       });
       console.log(`Deleted ${deletedCollections.count} collection(s).`);
 
       // 4.7 Delete art generations by user:
       console.log(`Deleting art generations for user ${userId}...`);
       const deletedArtGenerations = await tx.artGeneration.deleteMany({
-        where: { user_id: userId },
+        where: { userId: userId },
       });
       console.log(`Deleted ${deletedArtGenerations.count} art generation(s).`);
 
@@ -186,28 +188,28 @@ async function verifyUserDeletion(userId: string) {
     countAutoProjects,
     countPlatforms,
   ] = await prisma.$transaction([
-    prisma.userRole.count({ where: { user_id: userId } }),
-    prisma.post.count({ where: { user_id: userId } }),
-    prisma.blog.count({ where: { user_id: userId } }),
-    prisma.media.count({ where: { post: { user_id: userId } } }),
-    prisma.like.count({ where: { user_id: userId } }),
-    prisma.commentLike.count({ where: { user_id: userId } }),
-    prisma.comment.count({ where: { user_id: userId } }),
-    prisma.share.count({ where: { user_id: userId } }),
+    prisma.userRole.count({ where: { userId: userId } }),
+    prisma.post.count({ where: { userId: userId } }),
+    prisma.blog.count({ where: { userId: userId } }),
+    prisma.media.count({ where: { post: { userId: userId } } }),
+    prisma.like.count({ where: { userId: userId } }),
+    prisma.commentLike.count({ where: { userId: userId } }),
+    prisma.comment.count({ where: { userId: userId } }),
+    prisma.share.count({ where: { userId: userId } }),
     prisma.follow.count({
-      where: { OR: [{ follower_id: userId }, { following_id: userId }] },
+      where: { OR: [{ followerId: userId }, { followingId: userId }] },
     }),
-    prisma.bookmark.count({ where: { user_id: userId } }),
-    prisma.rating.count({ where: { user_id: userId } }),
-    prisma.collection.count({ where: { user_id: userId } }),
-    prisma.report.count({ where: { reporter_id: userId } }),
+    prisma.bookmark.count({ where: { userId: userId } }),
+    prisma.rating.count({ where: { userId: userId } }),
+    prisma.collection.count({ where: { userId: userId } }),
+    prisma.report.count({ where: { reporterId: userId } }),
     prisma.userAccess.count({ where: { userId: userId } }),
     prisma.userUsage.count({ where: { userId: userId } }),
-    prisma.artGeneration.count({ where: { user_id: userId } }),
+    prisma.artGeneration.count({ where: { userId: userId } }),
     prisma.conversation.count({ where: { userId: userId } }),
     prisma.notification.count({ where: { userId: userId } }),
-    prisma.autoProject.count({ where: { user_id: userId } }),
-    prisma.platform.count({ where: { user_id: userId } }),
+    prisma.autoProject.count({ where: { userId: userId } }),
+    prisma.platform.count({ where: { userId: userId } }),
   ]);
 
   const modelNames = [

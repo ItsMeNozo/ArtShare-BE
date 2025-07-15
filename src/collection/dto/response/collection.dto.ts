@@ -3,11 +3,11 @@ import { PostSummaryDto } from './post-summary.dto';
 export class CollectionDto {
   id: number;
   name: string;
-  is_private: boolean;
-  thumbnail_url?: string;
+  isPrivate: boolean;
+  thumbnailUrl?: string;
   description?: string;
-  user_id: string;
-  created_at: Date;
-  updated_at: Date;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date | null;
   posts: PostSummaryDto[];
 }

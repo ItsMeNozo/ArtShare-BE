@@ -1,7 +1,7 @@
 import {
-  IsString,
-  IsOptional,
   IsBoolean,
+  IsOptional,
+  IsString,
   MinLength,
   ValidateIf,
 } from 'class-validator';
@@ -22,6 +22,6 @@ export class UpdateCollectionDto {
 
   @IsOptional()
   @IsString()
-  @ValidateIf((o) => o.thumbnail_url !== null)
-  thumbnail_url?: string | null;
+  @ValidateIf((o) => o.thumbnailUrl !== null)
+  thumbnailUrl?: string | null;
 }

@@ -1,5 +1,5 @@
 // src/comment/dto/update-comment.dto.ts
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class UpdateCommentDto {
   @IsString()

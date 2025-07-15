@@ -7,5 +7,5 @@ export class MediaDto {
   url: string;
 
   @IsEnum(MediaType)
-  media_type: MediaType;
+  mediaType: MediaType;
 }

@@ -3,13 +3,13 @@ import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CorsService } from './common/cors.service';
 import { ArtGenerationModule } from './art-generation/art-generation.module';
 import { AuthModule } from './auth/auth.module';
 import { BlogModule } from './blog/blog.module';
 import { CategoriesModule } from './categories/categories.module';
 import { CollectionModule } from './collection/collection.module';
 import { CommentModule } from './comment/comment.module';
+import { CorsService } from './common/cors.service';
 import { EmbeddingModule } from './embedding/embedding.module';
 import { LikesModule } from './likes/likes.module';
 import { PostsModule } from './posts/posts.module';
@@ -43,6 +43,7 @@ import { PlatformModule } from './platform/platform.module';
       isGlobal: true, // Makes ConfigService available globally
       load: [embeddingConfig],
       cache: true,
+      envFilePath: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
     }),
     EventEmitterModule.forRoot(),
     UserModule,

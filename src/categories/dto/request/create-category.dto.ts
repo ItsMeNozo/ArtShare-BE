@@ -18,7 +18,7 @@ export class CreateCategoryDto {
 
   @IsArray()
   @IsString({ each: true })
-  example_images: string[];
+  exampleImages: string[];
 
   @IsEnum(CategoryType)
   type: CategoryType;

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { IStorageProvider } from './storage.interface';
-import { S3StorageProvider } from './providers/s3-storage.provider';
+import { ConfigService } from '@nestjs/config';
 import { GetPresignedUrlRequestDto } from './dto/request.dto';
 import {
   FileUploadResponse,
   GetPresignedUrlResponseDto,
 } from './dto/response.dto';
-import { ConfigService } from '@nestjs/config';
+import { S3StorageProvider } from './providers/s3-storage.provider';
+import { IStorageProvider } from './storage.interface';
 
 @Injectable()
 export class StorageService {

@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { S3 } from 'aws-sdk';
 import { nanoid } from 'nanoid';
-import { IStorageProvider } from '../storage.interface';
-import { GetPresignedUrlRequestDto } from '../dto/request.dto';
 import { TryCatch } from 'src/common/try-catch.decorator';
+import { GetPresignedUrlRequestDto } from '../dto/request.dto';
 import { GetPresignedUrlResponseDto } from '../dto/response.dto';
-import { ConfigService } from '@nestjs/config';
+import { IStorageProvider } from '../storage.interface';
 
 @Injectable()
 export class S3StorageProvider implements IStorageProvider {
@@ -15,8 +15,10 @@ export class S3StorageProvider implements IStorageProvider {
   private bucketUrl: string;
 
   constructor(private readonly configService: ConfigService) {
-    this.region = this.configService.get<string>('AWS_REGION') || 'ap-southeast-1';
-    this.bucketName = this.configService.get<string>('AWS_S3_BUCKET_NAME') || 'artsharing';
+    this.region =
+      this.configService.get<string>('AWS_REGION') || 'ap-southeast-1';
+    this.bucketName =
+      this.configService.get<string>('AWS_S3_BUCKET_NAME') || 'artsharing';
     this.bucketUrl = `https://${this.bucketName}.s3.${this.region}.amazonaws.com/`;
 
     // Configure the S3 client

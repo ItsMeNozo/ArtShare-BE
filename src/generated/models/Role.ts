@@ -26,56 +26,56 @@ export type AggregateRole = {
 }
 
 export type RoleAvgAggregateOutputType = {
-  role_id: number | null
+  roleId: number | null
 }
 
 export type RoleSumAggregateOutputType = {
-  role_id: number | null
+  roleId: number | null
 }
 
 export type RoleMinAggregateOutputType = {
-  role_id: number | null
-  role_name: string | null
+  roleId: number | null
+  roleName: string | null
   createdAt: Date | null
 }
 
 export type RoleMaxAggregateOutputType = {
-  role_id: number | null
-  role_name: string | null
+  roleId: number | null
+  roleName: string | null
   createdAt: Date | null
 }
 
 export type RoleCountAggregateOutputType = {
-  role_id: number
-  role_name: number
+  roleId: number
+  roleName: number
   createdAt: number
   _all: number
 }
 
 
 export type RoleAvgAggregateInputType = {
-  role_id?: true
+  roleId?: true
 }
 
 export type RoleSumAggregateInputType = {
-  role_id?: true
+  roleId?: true
 }
 
 export type RoleMinAggregateInputType = {
-  role_id?: true
-  role_name?: true
+  roleId?: true
+  roleName?: true
   createdAt?: true
 }
 
 export type RoleMaxAggregateInputType = {
-  role_id?: true
-  role_name?: true
+  roleId?: true
+  roleName?: true
   createdAt?: true
 }
 
 export type RoleCountAggregateInputType = {
-  role_id?: true
-  role_name?: true
+  roleId?: true
+  roleName?: true
   createdAt?: true
   _all?: true
 }
@@ -167,8 +167,8 @@ export type RoleGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 }
 
 export type RoleGroupByOutputType = {
-  role_id: number
-  role_name: string
+  roleId: number
+  roleName: string
   createdAt: Date
   _count: RoleCountAggregateOutputType | null
   _avg: RoleAvgAggregateOutputType | null
@@ -196,32 +196,32 @@ export type RoleWhereInput = {
   AND?: Prisma.RoleWhereInput | Prisma.RoleWhereInput[]
   OR?: Prisma.RoleWhereInput[]
   NOT?: Prisma.RoleWhereInput | Prisma.RoleWhereInput[]
-  role_id?: Prisma.IntFilter<"Role"> | number
-  role_name?: Prisma.StringFilter<"Role"> | string
+  roleId?: Prisma.IntFilter<"Role"> | number
+  roleName?: Prisma.StringFilter<"Role"> | string
   createdAt?: Prisma.DateTimeFilter<"Role"> | Date | string
   users?: Prisma.UserRoleListRelationFilter
 }
 
 export type RoleOrderByWithRelationInput = {
-  role_id?: Prisma.SortOrder
-  role_name?: Prisma.SortOrder
+  roleId?: Prisma.SortOrder
+  roleName?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   users?: Prisma.UserRoleOrderByRelationAggregateInput
 }
 
 export type RoleWhereUniqueInput = Prisma.AtLeast<{
-  role_id?: number
-  role_name?: string
+  roleId?: number
+  roleName?: string
   AND?: Prisma.RoleWhereInput | Prisma.RoleWhereInput[]
   OR?: Prisma.RoleWhereInput[]
   NOT?: Prisma.RoleWhereInput | Prisma.RoleWhereInput[]
   createdAt?: Prisma.DateTimeFilter<"Role"> | Date | string
   users?: Prisma.UserRoleListRelationFilter
-}, "role_id" | "role_name">
+}, "roleId" | "roleName">
 
 export type RoleOrderByWithAggregationInput = {
-  role_id?: Prisma.SortOrder
-  role_name?: Prisma.SortOrder
+  roleId?: Prisma.SortOrder
+  roleName?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.RoleCountOrderByAggregateInput
   _avg?: Prisma.RoleAvgOrderByAggregateInput
@@ -234,78 +234,78 @@ export type RoleScalarWhereWithAggregatesInput = {
   AND?: Prisma.RoleScalarWhereWithAggregatesInput | Prisma.RoleScalarWhereWithAggregatesInput[]
   OR?: Prisma.RoleScalarWhereWithAggregatesInput[]
   NOT?: Prisma.RoleScalarWhereWithAggregatesInput | Prisma.RoleScalarWhereWithAggregatesInput[]
-  role_id?: Prisma.IntWithAggregatesFilter<"Role"> | number
-  role_name?: Prisma.StringWithAggregatesFilter<"Role"> | string
+  roleId?: Prisma.IntWithAggregatesFilter<"Role"> | number
+  roleName?: Prisma.StringWithAggregatesFilter<"Role"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Role"> | Date | string
 }
 
 export type RoleCreateInput = {
-  role_name: string
+  roleName: string
   createdAt?: Date | string
   users?: Prisma.UserRoleCreateNestedManyWithoutRoleInput
 }
 
 export type RoleUncheckedCreateInput = {
-  role_id?: number
-  role_name: string
+  roleId?: number
+  roleName: string
   createdAt?: Date | string
   users?: Prisma.UserRoleUncheckedCreateNestedManyWithoutRoleInput
 }
 
 export type RoleUpdateInput = {
-  role_name?: Prisma.StringFieldUpdateOperationsInput | string
+  roleName?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserRoleUpdateManyWithoutRoleNestedInput
 }
 
 export type RoleUncheckedUpdateInput = {
-  role_id?: Prisma.IntFieldUpdateOperationsInput | number
-  role_name?: Prisma.StringFieldUpdateOperationsInput | string
+  roleId?: Prisma.IntFieldUpdateOperationsInput | number
+  roleName?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserRoleUncheckedUpdateManyWithoutRoleNestedInput
 }
 
 export type RoleCreateManyInput = {
-  role_id?: number
-  role_name: string
+  roleId?: number
+  roleName: string
   createdAt?: Date | string
 }
 
 export type RoleUpdateManyMutationInput = {
-  role_name?: Prisma.StringFieldUpdateOperationsInput | string
+  roleName?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RoleUncheckedUpdateManyInput = {
-  role_id?: Prisma.IntFieldUpdateOperationsInput | number
-  role_name?: Prisma.StringFieldUpdateOperationsInput | string
+  roleId?: Prisma.IntFieldUpdateOperationsInput | number
+  roleName?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RoleCountOrderByAggregateInput = {
-  role_id?: Prisma.SortOrder
-  role_name?: Prisma.SortOrder
+  roleId?: Prisma.SortOrder
+  roleName?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type RoleAvgOrderByAggregateInput = {
-  role_id?: Prisma.SortOrder
+  roleId?: Prisma.SortOrder
 }
 
 export type RoleMaxOrderByAggregateInput = {
-  role_id?: Prisma.SortOrder
-  role_name?: Prisma.SortOrder
+  roleId?: Prisma.SortOrder
+  roleName?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type RoleMinOrderByAggregateInput = {
-  role_id?: Prisma.SortOrder
-  role_name?: Prisma.SortOrder
+  roleId?: Prisma.SortOrder
+  roleName?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type RoleSumOrderByAggregateInput = {
-  role_id?: Prisma.SortOrder
+  roleId?: Prisma.SortOrder
 }
 
 export type RoleScalarRelationFilter = {
@@ -344,13 +344,13 @@ export type RoleUpdateOneRequiredWithoutUsersNestedInput = {
 }
 
 export type RoleCreateWithoutUsersInput = {
-  role_name: string
+  roleName: string
   createdAt?: Date | string
 }
 
 export type RoleUncheckedCreateWithoutUsersInput = {
-  role_id?: number
-  role_name: string
+  roleId?: number
+  roleName: string
   createdAt?: Date | string
 }
 
@@ -371,13 +371,13 @@ export type RoleUpdateToOneWithWhereWithoutUsersInput = {
 }
 
 export type RoleUpdateWithoutUsersInput = {
-  role_name?: Prisma.StringFieldUpdateOperationsInput | string
+  roleName?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RoleUncheckedUpdateWithoutUsersInput = {
-  role_id?: Prisma.IntFieldUpdateOperationsInput | number
-  role_name?: Prisma.StringFieldUpdateOperationsInput | string
+  roleId?: Prisma.IntFieldUpdateOperationsInput | number
+  roleName?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -413,32 +413,32 @@ export type RoleCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Types.Exte
 
 
 export type RoleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  role_id?: boolean
-  role_name?: boolean
+  roleId?: boolean
+  roleName?: boolean
   createdAt?: boolean
   users?: boolean | Prisma.Role$usersArgs<ExtArgs>
   _count?: boolean | Prisma.RoleCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["role"]>
 
 export type RoleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  role_id?: boolean
-  role_name?: boolean
+  roleId?: boolean
+  roleName?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["role"]>
 
 export type RoleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  role_id?: boolean
-  role_name?: boolean
+  roleId?: boolean
+  roleName?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["role"]>
 
 export type RoleSelectScalar = {
-  role_id?: boolean
-  role_name?: boolean
+  roleId?: boolean
+  roleName?: boolean
   createdAt?: boolean
 }
 
-export type RoleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"role_id" | "role_name" | "createdAt", ExtArgs["result"]["role"]>
+export type RoleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"roleId" | "roleName" | "createdAt", ExtArgs["result"]["role"]>
 export type RoleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.Role$usersArgs<ExtArgs>
   _count?: boolean | Prisma.RoleCountOutputTypeDefaultArgs<ExtArgs>
@@ -452,8 +452,8 @@ export type $RolePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     users: Prisma.$UserRolePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    role_id: number
-    role_name: string
+    roleId: number
+    roleName: string
     createdAt: Date
   }, ExtArgs["result"]["role"]>
   composites: {}
@@ -538,8 +538,8 @@ export interface RoleDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
    * // Get first 10 Roles
    * const roles = await prisma.role.findMany({ take: 10 })
    * 
-   * // Only select the `role_id`
-   * const roleWithRole_idOnly = await prisma.role.findMany({ select: { role_id: true } })
+   * // Only select the `roleId`
+   * const roleWithRoleIdOnly = await prisma.role.findMany({ select: { roleId: true } })
    * 
    */
   findMany<T extends RoleFindManyArgs>(args?: Prisma.SelectSubset<T, RoleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -583,9 +583,9 @@ export interface RoleDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
    *   ]
    * })
    * 
-   * // Create many Roles and only return the `role_id`
-   * const roleWithRole_idOnly = await prisma.role.createManyAndReturn({
-   *   select: { role_id: true },
+   * // Create many Roles and only return the `roleId`
+   * const roleWithRoleIdOnly = await prisma.role.createManyAndReturn({
+   *   select: { roleId: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -674,9 +674,9 @@ export interface RoleDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
    *   ]
    * })
    * 
-   * // Update zero or more Roles and only return the `role_id`
-   * const roleWithRole_idOnly = await prisma.role.updateManyAndReturn({
-   *   select: { role_id: true },
+   * // Update zero or more Roles and only return the `roleId`
+   * const roleWithRoleIdOnly = await prisma.role.updateManyAndReturn({
+   *   select: { roleId: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -879,8 +879,8 @@ export interface Prisma__RoleClient<T, Null = never, ExtArgs extends runtime.Typ
  * Fields of the Role model
  */
 export interface RoleFieldRefs {
-  readonly role_id: Prisma.FieldRef<"Role", 'Int'>
-  readonly role_name: Prisma.FieldRef<"Role", 'String'>
+  readonly roleId: Prisma.FieldRef<"Role", 'Int'>
+  readonly roleName: Prisma.FieldRef<"Role", 'String'>
   readonly createdAt: Prisma.FieldRef<"Role", 'DateTime'>
 }
     

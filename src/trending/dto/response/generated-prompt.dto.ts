@@ -1,7 +1,5 @@
-export class GeneratedPrompt {
-    
-}
-  
+export class GeneratedPrompt {}
+
 export class MessageResponseDto {
   id: string;
   conversationId: string;
@@ -10,7 +8,7 @@ export class MessageResponseDto {
   generatedPrompts: string[];
   createdAt: Date;
 }
-  
+
 export class ConversationResponseDto {
   id: string;
   title: string;

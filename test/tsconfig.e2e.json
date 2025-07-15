@@ -1,0 +1,11 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "sourceMap": true,
+    "paths": {
+      "src/*": ["src/*"],
+      "./client.js": ["src/generated/client.ts"]
+    }
+  },
+  "include": ["../src/**/*.ts", "../test/**/*.ts"]
+}

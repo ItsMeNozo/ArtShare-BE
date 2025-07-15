@@ -11,14 +11,14 @@ import { ReportTargetType } from '../enum/report-target-type.enum';
 
 export class CreateReportDto {
   @IsNotEmpty()
-  target_id: number;
+  targetId: number;
 
   @IsOptional()
-  user_id: string;
+  userId: string;
 
   @IsEnum(ReportTargetType)
   @IsNotEmpty()
-  target_type: ReportTargetType;
+  targetType: ReportTargetType;
 
   @IsString()
   @IsNotEmpty()
@@ -27,8 +27,8 @@ export class CreateReportDto {
   reason: string;
 
   @IsString()
-  target_url: string;
+  targetUrl: string;
 
   @IsOptional()
-  target_title: string;
+  targetTitle: string;
 }

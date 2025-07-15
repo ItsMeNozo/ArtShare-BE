@@ -40,7 +40,7 @@ export class PaginationQueryDto {
   })
   @IsOptional()
   @IsString()
-  sortBy?: string = 'created_at';
+  sortBy?: string = 'createdAt';
 
   @ApiPropertyOptional({
     description: 'Sort order ("asc" or "desc")',

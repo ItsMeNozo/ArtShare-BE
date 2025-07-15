@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 
@@ -47,5 +47,10 @@ export class AuthController {
   @Post('verify-token')
   async verifyToken(@Body() body: { token: string }) {
     return this.authService.verifyToken(body.token);
+  }
+
+  @Post('email-exists')
+  async checkEmailExists(@Body() body: { email: string }) {
+    return this.authService.checkEmailExists(body.email);
   }
 }

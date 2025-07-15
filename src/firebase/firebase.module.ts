@@ -1,8 +1,8 @@
-import { Module, Global, Logger, OnModuleInit, Inject } from '@nestjs/common';
+import { Global, Inject, Logger, Module, OnModuleInit } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 
-import { ServiceAccount as FirebaseAdminServiceAccount } from 'firebase-admin';
 import { ConfigService } from '@nestjs/config';
+import { ServiceAccount as FirebaseAdminServiceAccount } from 'firebase-admin';
 import { Auth } from 'firebase-admin/auth';
 
 export const FIREBASE_APP_TOKEN = 'FirebaseApp';

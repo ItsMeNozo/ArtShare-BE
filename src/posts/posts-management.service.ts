@@ -10,6 +10,7 @@ import { ConfigType } from '@nestjs/config';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { plainToInstance } from 'class-transformer';
 import { TryCatch } from 'src/common/try-catch.decorator';
+import { NotificationUtils } from 'src/common/utils/notification.utils';
 import embeddingConfig from 'src/config/embedding.config';
 import { QdrantService } from 'src/embedding/qdrant.service';
 import { MediaType, Post } from 'src/generated';
@@ -18,7 +19,6 @@ import { FileUploadResponse } from 'src/storage/dto/response.dto';
 import { StorageService } from 'src/storage/storage.service';
 import { FollowerDto } from 'src/user/dto/follower.dto';
 import { UserFollowService } from 'src/user/user.follow.service';
-import { NotificationUtils } from '../common/utils/notification.utils';
 import { CreatePostRequestDto } from './dto/request/create-post.dto';
 import { PatchThumbnailDto } from './dto/request/patch-thumbnail.dto';
 import { UpdatePostDto } from './dto/request/update-post.dto';
@@ -51,7 +51,7 @@ export class PostsManagementService {
     images: Express.Multer.File[],
     userId: string,
   ): Promise<PostDetailsResponseDto> {
-    const { cate_ids = [], video_url, prompt_id, ...rest } = request;
+    const { categoryIds = [], videoUrl, promptId, ...rest } = request;
 
     const { parsedCropMeta } =
       await this.postsManagementValidator.validateCreateRequest(
@@ -59,24 +59,24 @@ export class PostsManagementService {
         images,
       );
 
-    if (prompt_id) {
-      await this.validateAiArtExistence(prompt_id);
+    if (promptId) {
+      await this.validateAiArtExistence(promptId);
     }
 
     const mediasToCreate = await this.buildMediasToCreate(
       images,
       userId,
-      video_url,
+      videoUrl,
     );
 
     const createdPost = await this.prisma.post.create({
       data: {
-        user_id: userId,
-        art_generation_id: prompt_id,
+        userId: userId,
+        artGenerationId: promptId,
         ...rest,
         medias: { create: mediasToCreate },
-        categories: { connect: cate_ids.map((id) => ({ id })) },
-        thumbnail_crop_meta: parsedCropMeta,
+        categories: { connect: categoryIds.map((id) => ({ id })) },
+        thumbnailCropMeta: parsedCropMeta,
       },
       include: { medias: true, user: true, categories: true },
     });
@@ -113,15 +113,15 @@ export class PostsManagementService {
   private async buildMediasToCreate(
     images: Express.Multer.File[],
     userId: string,
-    video_url?: string,
+    videoUrl?: string,
   ): Promise<MediaTocreate[]> {
     const mediasToCreate: MediaTocreate[] = [];
 
-    if (video_url) {
+    if (videoUrl) {
       mediasToCreate.push({
-        url: video_url,
-        media_type: MediaType.video,
-        creator_id: userId,
+        url: videoUrl,
+        mediaType: MediaType.video,
+        creatorId: userId,
       });
     }
 
@@ -133,8 +133,8 @@ export class PostsManagementService {
       mediasToCreate.push(
         ...uploadedImages.map(({ url }) => ({
           url,
-          media_type: MediaType.image,
-          creator_id: userId,
+          mediaType: MediaType.image,
+          creatorId: userId,
         })),
       );
     }
@@ -142,9 +142,9 @@ export class PostsManagementService {
     return mediasToCreate;
   }
 
-  private async validateAiArtExistence(prompt_id: number): Promise<void> {
+  private async validateAiArtExistence(promptId: number): Promise<void> {
     const artGeneration = await this.prisma.artGeneration.findUnique({
-      where: { id: prompt_id },
+      where: { id: promptId },
     });
     if (!artGeneration) {
       throw new BadRequestException('AI art generation not found');
@@ -170,19 +170,19 @@ export class PostsManagementService {
     }
 
     const {
-      cate_ids,
-      video_url,
-      existing_image_urls = [],
-      thumbnail_url,
+      categoryIds,
+      videoUrl,
+      existingImageUrls = [],
+      thumbnailUrl,
       ...postUpdateData
     } = updatePostDto;
 
     // images to retain
-    const existingImageUrlsSet = new Set(existing_image_urls);
+    const existingImageUrlsSet = new Set(existingImageUrls);
 
     /** ────────────── HANDLE IMAGE DELETION ────────────── */
     const existingImages = existingPost.medias.filter(
-      (m) => m.media_type === MediaType.image,
+      (m) => m.mediaType === MediaType.image,
     );
 
     const imagesToDelete = existingImages.filter(
@@ -190,8 +190,8 @@ export class PostsManagementService {
     );
 
     // 1️⃣ Delete the old thumbnail if it’s been replaced
-    const oldThumb = existingPost.thumbnail_url;
-    if (thumbnail_url && oldThumb && thumbnail_url !== oldThumb) {
+    const oldThumb = existingPost.thumbnailUrl;
+    if (thumbnailUrl && oldThumb && thumbnailUrl !== oldThumb) {
       this.logger.log(
         `Deleting old thumbnail in s3 for post ${postId} with URL: ${oldThumb}`,
       );
@@ -223,16 +223,18 @@ export class PostsManagementService {
 
     /** ────────────── HANDLE VIDEO UPDATE ────────────── */
     /* 1️⃣ normalise the raw value coming from the DTO */
-    const videoUrl = (video_url ?? '').trim(); // '' when user deletes
+    const normalizedVideoUrl = (videoUrl ?? '').trim(); // '' when user deletes
     const existingVideo = existingPost.medias.find(
-      (m) => m.media_type === MediaType.video,
+      (m) => m.mediaType === MediaType.video,
     );
 
     /* 2️⃣ decide what the user wants to do */
-    const wantsDeletion = existingVideo && videoUrl === '';
+    const wantsDeletion = existingVideo && normalizedVideoUrl === '';
     const wantsReplace =
-      existingVideo && videoUrl && videoUrl !== existingVideo.url;
-    const wantsNewUpload = !existingVideo && videoUrl; // first‑time video
+      existingVideo &&
+      normalizedVideoUrl &&
+      normalizedVideoUrl !== existingVideo.url;
+    const wantsNewUpload = !existingVideo && normalizedVideoUrl; // first‑time video
 
     /* 3️⃣ delete the old video row + file only when needed */
     if (wantsDeletion || wantsReplace) {
@@ -248,11 +250,11 @@ export class PostsManagementService {
     /** ────────────── COMBINE NEW MEDIA ────────────── */
     const mediasData: MediaData[] = [
       ...(wantsReplace || wantsNewUpload
-        ? [{ url: videoUrl, media_type: MediaType.video }]
+        ? [{ url: normalizedVideoUrl, mediaType: MediaType.video }]
         : []),
       ...newImageUploads.map(({ url }) => ({
         url,
-        media_type: MediaType.image,
+        mediaType: MediaType.image,
       })),
     ];
 
@@ -260,17 +262,17 @@ export class PostsManagementService {
       where: { id: postId },
       data: {
         ...postUpdateData,
-        thumbnail_crop_meta: JSON.parse(updatePostDto.thumbnail_crop_meta),
-        thumbnail_url: thumbnail_url,
+        thumbnailCropMeta: JSON.parse(updatePostDto.thumbnailCropMeta),
+        thumbnailUrl: thumbnailUrl,
         categories: {
-          set: (cate_ids || []).map((id) => ({ id })),
+          set: (categoryIds || []).map((id) => ({ id })),
         },
         ...(mediasData.length > 0 && {
           medias: {
-            create: mediasData.map(({ url, media_type }) => ({
-              media_type,
+            create: mediasData.map(({ url, mediaType }) => ({
+              mediaType,
               url,
-              creator_id: userId,
+              creatorId: userId,
             })),
           },
         }),
@@ -279,7 +281,7 @@ export class PostsManagementService {
     });
 
     const currentImageUrls = updatedPost.medias
-      .filter((m) => m.media_type === MediaType.image)
+      .filter((m) => m.mediaType === MediaType.image)
       .map((m) => m.url);
 
     this.postEmbeddingService.updatePostEmbedding(
@@ -336,14 +338,14 @@ export class PostsManagementService {
   ) {
     const post = await this.prisma.post.findUnique({ where: { id: postId } });
 
-    if (!post || post.user_id !== userId) {
+    if (!post || post.userId !== userId) {
       throw new ForbiddenException('Access denied');
     }
 
     return this.prisma.post.update({
       where: { id: postId },
       data: {
-        thumbnail_crop_meta: { ...dto }, // assuming JSON column
+        thumbnailCropMeta: { ...dto }, // assuming JSON column
       },
     });
   }
@@ -351,11 +353,11 @@ export class PostsManagementService {
 
 class MediaTocreate {
   url: string;
-  media_type: MediaType;
-  creator_id: string;
+  mediaType: MediaType;
+  creatorId: string;
 }
 
 export class MediaData {
   url: string;
-  media_type: MediaType;
+  mediaType: MediaType;
 }

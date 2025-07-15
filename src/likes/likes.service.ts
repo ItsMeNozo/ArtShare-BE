@@ -22,36 +22,33 @@ export class LikesService {
     dto: CreateLikeDto,
     userId: string,
   ): Promise<LikeDetailsDto> {
-    await this.verifyTargetExists(dto.target_id, dto.target_type);
+    await this.verifyTargetExists(dto.targetId, dto.targetType);
     return await this.prisma.$transaction(async (tx) => {
       try {
         // 1️⃣ attempt to insert – the unique index stops duplicates
         const like = await tx.like.create({
           data: {
-            user_id: userId,
-            ...(dto.target_type === TargetType.POST
-              ? { post_id: dto.target_id }
-              : { blog_id: dto.target_id }),
+            userId: userId,
+            ...(dto.targetType === TargetType.POST
+              ? { postId: dto.targetId }
+              : { blogId: dto.targetId }),
           },
         });
 
         // 2️⃣ bump counter only on successful insert
-        if (dto.target_type === TargetType.POST) {
+        if (dto.targetType === TargetType.POST) {
           const postUpdated = await tx.post.update({
-            where: { id: dto.target_id },
-            data: { like_count: { increment: 1 } },
+            where: { id: dto.targetId },
+            data: { likeCount: { increment: 1 } },
           });
 
           // Only send notification if the user is not liking their own post
           if (
-            NotificationUtils.shouldSendNotification(
-              userId,
-              postUpdated.user_id,
-            )
+            NotificationUtils.shouldSendNotification(userId, postUpdated.userId)
           ) {
             this.eventEmitter.emit('push-notification', {
               from: userId,
-              to: postUpdated.user_id,
+              to: postUpdated.userId,
               type: 'artwork_liked',
               post: { id: postUpdated.id, title: postUpdated.title },
               postId: postUpdated.id.toString(),
@@ -61,8 +58,8 @@ export class LikesService {
           }
         } else {
           await tx.blog.update({
-            where: { id: dto.target_id },
-            data: { like_count: { increment: 1 } },
+            where: { id: dto.targetId },
+            data: { likeCount: { increment: 1 } },
           });
         }
 
@@ -71,8 +68,8 @@ export class LikesService {
         // P2002 = duplicate-key (already liked)  ➜  no-op
         if (err?.code === 'P2002') {
           const existing = await this.findLike(
-            dto.target_id,
-            dto.target_type,
+            dto.targetId,
+            dto.targetType,
             userId,
           );
           return plainToClass(LikeDetailsDto, existing);
@@ -87,30 +84,30 @@ export class LikesService {
     dto: RemoveLikeDto,
     userId: string,
   ): Promise<{ success: boolean }> {
-    await this.verifyTargetExists(dto.target_id, dto.target_type);
+    await this.verifyTargetExists(dto.targetId, dto.targetType);
 
     return await this.prisma.$transaction(async (tx) => {
       // 1️⃣ delete rows (safe if none exist)
       const { count } = await tx.like.deleteMany({
         where: {
-          user_id: userId,
-          ...(dto.target_type === TargetType.POST
-            ? { post_id: dto.target_id }
-            : { blog_id: dto.target_id }),
+          userId: userId,
+          ...(dto.targetType === TargetType.POST
+            ? { postId: dto.targetId }
+            : { blogId: dto.targetId }),
         },
       });
 
-      // 2️⃣ only decrement if something was actually deleted
+      // 2️⃣ decrement counter only if a row was deleted
       if (count > 0) {
-        if (dto.target_type === TargetType.POST) {
+        if (dto.targetType === TargetType.POST) {
           await tx.post.update({
-            where: { id: dto.target_id },
-            data: { like_count: { decrement: 1 } },
+            where: { id: dto.targetId },
+            data: { likeCount: { decrement: 1 } },
           });
         } else {
           await tx.blog.update({
-            where: { id: dto.target_id },
-            data: { like_count: { decrement: 1 } },
+            where: { id: dto.targetId },
+            data: { likeCount: { decrement: 1 } },
           });
         }
       }
@@ -140,11 +137,11 @@ export class LikesService {
   ) {
     if (targetType === TargetType.POST) {
       return this.prisma.like.findFirst({
-        where: { user_id: userId, post_id: targetId },
+        where: { userId: userId, postId: targetId },
       });
     } else {
       return this.prisma.like.findFirst({
-        where: { user_id: userId, blog_id: targetId },
+        where: { userId: userId, blogId: targetId },
       });
     }
   }
@@ -164,27 +161,27 @@ export class LikesService {
     const total = await this.prisma.like.count({
       where:
         targetType === TargetType.BLOG
-          ? { blog_id: targetId }
-          : { post_id: targetId },
+          ? { blogId: targetId }
+          : { postId: targetId },
     });
 
     // 2) Page of likes + user payload
     const likes = await this.prisma.like.findMany({
       where:
         targetType === TargetType.BLOG
-          ? { blog_id: targetId }
-          : { post_id: targetId },
+          ? { blogId: targetId }
+          : { postId: targetId },
       include: {
         user: {
           select: {
             id: true,
             username: true,
-            full_name: true,
-            profile_picture_url: true,
+            fullName: true,
+            profilePictureUrl: true,
           },
         },
       },
-      orderBy: { created_at: 'desc' },
+      orderBy: { createdAt: 'desc' },
       skip,
       take,
     });
@@ -194,21 +191,21 @@ export class LikesService {
     if (requestingUserId) {
       const rows = await this.prisma.follow.findMany({
         where: {
-          follower_id: requestingUserId,
-          following_id: { in: likes.map((l) => l.user.id) },
+          followerId: requestingUserId,
+          followingId: { in: likes.map((l) => l.user.id) },
         },
-        select: { following_id: true },
+        select: { followingId: true },
       });
-      rows.forEach((r) => (followMap[r.following_id] = true));
+      rows.forEach((r) => (followMap[r.followingId] = true));
     }
 
     // 4) Map into DTO
     const items: LikingUserResponseDto[] = likes.map((l) => ({
       id: l.user.id,
       username: l.user.username,
-      full_name: l.user.full_name ?? l.user.username,
-      profile_picture_url: l.user.profile_picture_url,
-      is_following: !!followMap[l.user.id],
+      fullName: l.user.fullName ?? l.user.username,
+      profilePictureUrl: l.user.profilePictureUrl,
+      isFollowing: !!followMap[l.user.id],
     }));
 
     return { items, total };

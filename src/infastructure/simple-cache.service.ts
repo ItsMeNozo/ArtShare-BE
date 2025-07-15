@@ -1,4 +1,4 @@
-import { Injectable, OnModuleDestroy } from '@nestjs/common';
+import { Injectable, Logger, OnModuleDestroy } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 
 interface CacheEntry<T> {
@@ -10,6 +10,8 @@ interface CacheEntry<T> {
 export class SimpleCacheService implements OnModuleDestroy {
   private cache = new Map<string, CacheEntry<any>>();
   private cleanupInterval: NodeJS.Timeout;
+
+  private readonly logger = new Logger(SimpleCacheService.name);
 
   constructor() {
     // Clean up expired entries every 5 minutes
@@ -78,6 +80,8 @@ export class SimpleCacheService implements OnModuleDestroy {
   @Cron(CronExpression.EVERY_HOUR)
   handleCron() {
     this.cleanup();
-    console.log(`Cache cleanup completed. Current size: ${this.cache.size}`);
+    this.logger.log(
+      `Cache cleanup completed. Current size: ${this.cache.size}`,
+    );
   }
 }
