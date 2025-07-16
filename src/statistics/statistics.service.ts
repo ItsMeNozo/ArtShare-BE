@@ -87,7 +87,7 @@ export class StatisticsService {
     const dateFilter = this.getDateFilter(daysBack);
 
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
-      SELECT *
+      SELECT id, thumbnail_url, title, created_at, like_count
       FROM post
       WHERE "ai_created" = true ${Prisma.raw(dateFilter)}
       ORDER BY "like_count" DESC
@@ -143,7 +143,7 @@ export class StatisticsService {
       FROM report r
       JOIN "user" u on u.id = r.reporter_id
       WHERE r.status = 'PENDING'
-      ORDER BY r."created_at"
+      ORDER BY r.created_at
       LIMIT 3
     `;
 
