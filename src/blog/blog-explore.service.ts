@@ -19,6 +19,7 @@ import {
   blogListItemSelect,
   mapBlogToDetailsDto,
 } from './helpers/blog-mapping.helper';
+import { UserBlogsQueryDto, BlogSortBy, BlogDateRange, BlogSortField } from './dto/request/user-blogs-query.dto';
 
 @Injectable()
 export class BlogExploreService {
@@ -286,8 +287,7 @@ export class BlogExploreService {
 
   async getBlogsByUsername(
     username: string,
-    take: number,
-    skip: number,
+    query: UserBlogsQueryDto,
   ): Promise<BlogListItemResponseDto[]> {
     const user = await this.prisma.user.findUnique({
       where: { username },
@@ -297,12 +297,33 @@ export class BlogExploreService {
       throw new NotFoundException(`User with username ${username} not found.`);
     }
 
+    // Date range filter
+    const dateFilter: any = {};
+    const now = new Date();
+    if (query.dateRange === BlogDateRange.LAST_7_DAYS) {
+      dateFilter[query.sortField || BlogSortField.CREATED_AT] = {
+        gte: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000),
+      };
+    } else if (query.dateRange === BlogDateRange.LAST_30_DAYS) {
+      dateFilter[query.sortField || BlogSortField.CREATED_AT] = {
+        gte: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000),
+      };
+    }
+
+    // Sorting
+    const orderBy: any = {};
+    const sortField = query.sortField || BlogSortField.CREATED_AT;
+    orderBy[sortField] = query.sortBy === BlogSortBy.OLDEST ? 'asc' : 'desc';
+
     const blogs: BlogForListItemPayload[] = await this.prisma.blog.findMany({
-      where: { userId: user.id },
+      where: {
+        userId: user.id,
+        ...dateFilter,
+      },
       select: blogListItemSelect,
-      orderBy: { createdAt: 'desc' },
-      take: take,
-      skip: skip,
+      orderBy,
+      take: query.take,
+      skip: query.skip,
     });
 
     return blogs;

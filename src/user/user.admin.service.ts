@@ -373,75 +373,283 @@ export class UserAdminService {
     return { id: user.id, profilePictureUrl: user.profilePictureUrl };
   }
 
-  async deleteUserById(userId: string): Promise<{
-    message: string;
-    firebaseDeleted: boolean;
-    dbDeleted: boolean;
-  }> {
-    let firebaseUserFoundAndDeleted = false;
-    let dbUserFoundAndDeleted = false;
+async deleteUserById(userId: string): Promise<{
+  message: string;
+  firebaseDeleted: boolean;
+  dbDeleted: boolean;
+}> {
+  let firebaseUserFoundAndDeleted = false;
+  let dbUserFoundAndDeleted = false;
 
-    try {
-      await this.firebaseAuth.deleteUser(userId);
-      firebaseUserFoundAndDeleted = true;
-      this.logger.log(`User ${userId} successfully deleted from Firebase.`);
-    } catch (error: any) {
-      const firebaseError = error as FirebaseError;
-      if (firebaseError.code === 'auth/user-not-found') {
-        this.logger.warn(
-          `User ${userId} not found in Firebase, proceeding with DB deletion.`,
-        );
-      } else {
-        this.logger.error(
-          `Failed to delete user ${userId} from Firebase:`,
-          firebaseError.message,
-        );
-        throw new InternalServerErrorException(
-          `Firebase deletion failed: ${firebaseError.message}`,
-        );
-      }
-    }
-
-    try {
-      await this.prisma.user.delete({ where: { id: userId } });
-      dbUserFoundAndDeleted = true;
-      this.logger.log(`User ${userId} successfully deleted from the database.`);
-    } catch (error: any) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2025'
-      ) {
-        this.logger.warn(
-          `User ${userId} not found in the database, but corresponding Firebase user (if existed) was deleted.`,
-        );
-      } else {
-        this.logger.error(
-          `Database deletion for user ${userId} failed after Firebase deletion.`,
-          error,
-        );
-        throw new InternalServerErrorException(
-          'Database deletion failed after successful Firebase deletion. Manual cleanup may be required.',
-        );
-      }
-    }
-
-    let message = 'User processed.';
-    if (firebaseUserFoundAndDeleted && dbUserFoundAndDeleted) {
-      message = `User ${userId} was successfully deleted from both Firebase and the database.`;
-    } else if (firebaseUserFoundAndDeleted) {
-      message = `User ${userId} was deleted from Firebase, but was not found in the database.`;
-    } else if (dbUserFoundAndDeleted) {
-      message = `User ${userId} was deleted from the database, but was not found in Firebase.`;
+  // 1. Delete from Firebase
+  try {
+    await this.firebaseAuth.deleteUser(userId);
+    firebaseUserFoundAndDeleted = true;
+    this.logger.log(`User ${userId} successfully deleted from Firebase.`);
+  } catch (error: any) {
+    const firebaseError = error as FirebaseError;
+    if (firebaseError.code === 'auth/user-not-found') {
+      this.logger.warn(
+        `User ${userId} not found in Firebase, proceeding with DB deletion.`,
+      );
     } else {
-      message = `User ${userId} was not found in either Firebase or the database.`;
+      this.logger.error(
+        `Failed to delete user ${userId} from Firebase:`,
+        firebaseError.message,
+      );
+      throw new InternalServerErrorException(
+        `Firebase deletion failed: ${firebaseError.message}`,
+      );
     }
-
-    return {
-      message,
-      firebaseDeleted: firebaseUserFoundAndDeleted,
-      dbDeleted: dbUserFoundAndDeleted,
-    };
   }
+
+  // 2. Delete from Database with proper counter updates and error handling
+  try {
+    await this.prisma.$transaction(async (tx) => {
+      // Fetch all relationships that need counter updates
+      const [
+        followers, 
+        followings, 
+        userComments, 
+        userLikes, 
+        userCommentLikes
+      ] = await Promise.all([
+        tx.follow.findMany({ where: { followingId: userId } }),
+        tx.follow.findMany({ where: { followerId: userId } }),
+        tx.comment.findMany({ where: { userId } }),
+        tx.like.findMany({ where: { userId } }),
+        tx.commentLike.findMany({ where: { userId } })
+      ]);
+
+      // Update follower counts
+      const followerIds = followers.map(f => f.followerId);
+      if (followerIds.length > 0) {
+        await tx.user.updateMany({
+          where: { id: { in: followerIds } },
+          data: { followingsCount: { decrement: 1 } },
+        });
+      }
+
+      // Update following counts
+      const followingIds = followings.map(f => f.followingId);
+      if (followingIds.length > 0) {
+        await tx.user.updateMany({
+          where: { id: { in: followingIds } },
+          data: { followersCount: { decrement: 1 } },
+        });
+      }
+
+      // Update comment counts for posts (with error handling for missing posts)
+      const postCommentMap: Record<number, number> = {};
+      userComments.forEach(comment => {
+        if (comment.targetType === 'POST' && comment.targetId) {
+          postCommentMap[comment.targetId] = (postCommentMap[comment.targetId] || 0) + 1;
+        }
+      });
+      
+      const postIds = Object.keys(postCommentMap);
+      let updatedPosts = 0;
+      if (postIds.length > 0) {
+        for (const postId of postIds) {
+          try {
+            await tx.post.update({
+              where: { id: Number(postId) },
+              data: { commentCount: { decrement: postCommentMap[Number(postId)] } },
+            });
+            updatedPosts++;
+          } catch (error: any) {
+            if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+              this.logger.warn(`Post ${postId} not found - skipping comment count update`);
+            } else {
+              throw error;
+            }
+          }
+        }
+        this.logger.log(`Updated comment counts for ${updatedPosts}/${postIds.length} post(s)`);
+      }
+
+      // Update comment counts for blogs (with error handling for missing blogs)
+      const blogCommentMap: Record<number, number> = {};
+      userComments.forEach(comment => {
+        if (comment.targetType === 'BLOG' && comment.targetId) {
+          blogCommentMap[comment.targetId] = (blogCommentMap[comment.targetId] || 0) + 1;
+        }
+      });
+      
+      const blogIds = Object.keys(blogCommentMap);
+      let updatedBlogs = 0;
+      if (blogIds.length > 0) {
+        for (const blogId of blogIds) {
+          try {
+            await tx.blog.update({
+              where: { id: Number(blogId) },
+              data: { commentCount: { decrement: blogCommentMap[Number(blogId)] } },
+            });
+            updatedBlogs++;
+          } catch (error: any) {
+            if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+              this.logger.warn(`Blog ${blogId} not found - skipping comment count update`);
+            } else {
+              throw error;
+            }
+          }
+        }
+        this.logger.log(`Updated comment counts for ${updatedBlogs}/${blogIds.length} blog(s)`);
+      }
+
+      // Update like counts for posts (with error handling)
+      const likedPostIds = userLikes
+        .filter(like => like.postId !== null)
+        .map(like => like.postId!);
+      
+      if (likedPostIds.length > 0) {
+        try {
+          const result = await tx.post.updateMany({
+            where: { id: { in: likedPostIds } },
+            data: { likeCount: { decrement: 1 } },
+          });
+          this.logger.log(`Decremented like counts for ${result.count}/${likedPostIds.length} post(s)`);
+        } catch (error: any) {
+          this.logger.warn(`Error updating post like counts - some posts may have been deleted: ${error.message}`);
+        }
+      }
+
+      // Update like counts for blogs (with error handling)
+      const likedBlogIds = userLikes
+        .filter(like => like.blogId !== null)
+        .map(like => like.blogId!);
+      
+      if (likedBlogIds.length > 0) {
+        try {
+          const result = await tx.blog.updateMany({
+            where: { id: { in: likedBlogIds } },
+            data: { likeCount: { decrement: 1 } },
+          });
+          this.logger.log(`Decremented like counts for ${result.count}/${likedBlogIds.length} blog(s)`);
+        } catch (error: any) {
+          this.logger.warn(`Error updating blog like counts - some blogs may have been deleted: ${error.message}`);
+        }
+      }
+
+      // Update like counts for comments (with error handling)
+      const likedCommentIds = userCommentLikes.map(like => like.commentId);
+      if (likedCommentIds.length > 0) {
+        try {
+          const result = await tx.comment.updateMany({
+            where: { id: { in: likedCommentIds } },
+            data: { likeCount: { decrement: 1 } },
+          });
+          this.logger.log(`Decremented like counts for ${result.count}/${likedCommentIds.length} comment(s)`);
+        } catch (error: any) {
+          this.logger.warn(`Error updating comment like counts - some comments may have been deleted: ${error.message}`);
+        }
+      }
+
+      // Handle non-cascading relationships (with error handling)
+      try {
+        const [updatedReports, deletedConversations] = await Promise.all([
+          // Set moderatorId to null for reports where user was moderator
+          tx.report.updateMany({
+            where: { moderatorId: userId },
+            data: { moderatorId: null }
+          }),
+          
+          // Delete conversations (these don't cascade in your schema)
+          tx.conversation.deleteMany({ where: { userId } })
+        ]);
+
+        if (updatedReports.count > 0) {
+          this.logger.log(`Updated ${updatedReports.count} report(s) - removed moderator assignment`);
+        }
+        
+        if (deletedConversations.count > 0) {
+          this.logger.log(`Deleted ${deletedConversations.count} conversation(s)`);
+        }
+      } catch (error: any) {
+        this.logger.warn(`Error handling non-cascading relationships: ${error.message}`);
+      }
+
+      // Finally, delete the user (this will cascade delete most relationships)
+      await tx.user.delete({ where: { id: userId } });
+    }, {
+      timeout: 30000, // 30 seconds timeout for large datasets
+      maxWait: 35000, // Max wait time
+    });
+    
+    dbUserFoundAndDeleted = true;
+    this.logger.log(`User ${userId} successfully deleted from the database.`);
+  } catch (error: any) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2025'
+    ) {
+      this.logger.warn(
+        `User ${userId} not found in the database, but corresponding Firebase user (if existed) was deleted.`,
+      );
+    } else if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2002'
+    ) {
+      this.logger.error(
+        `Unique constraint violation while deleting user ${userId}:`,
+        error,
+      );
+      throw new InternalServerErrorException(
+        'Database deletion failed due to unique constraint violation. Manual cleanup may be required.',
+      );
+    } else if (error.message.includes('Foreign key constraint failed')) {
+      this.logger.error(
+        `Foreign key constraint failed while deleting user ${userId}:`,
+        error,
+      );
+      throw new InternalServerErrorException(
+        'Database deletion failed due to foreign key constraint. Manual cleanup may be required.',
+      );
+    } else if (error.message.includes('Transaction already closed') || error.message.includes('timeout')) {
+      this.logger.error(
+        `Transaction timeout while deleting user ${userId}:`,
+        error,
+      );
+      throw new InternalServerErrorException(
+        'Database deletion failed due to timeout. User has too much data. Manual cleanup may be required.',
+      );
+    } else if (error.message.includes('Record to update not found')) {
+      this.logger.error(
+        `Some records referenced by user ${userId} no longer exist (data integrity issue):`,
+        error,
+      );
+      throw new InternalServerErrorException(
+        'Database deletion failed due to data integrity issues. Manual cleanup may be required.',
+      );
+    } else {
+      this.logger.error(
+        `Database deletion for user ${userId} failed after Firebase deletion:`,
+        error,
+      );
+      throw new InternalServerErrorException(
+        'Database deletion failed after successful Firebase deletion. Manual cleanup may be required.',
+      );
+    }
+  }
+
+  // Generate appropriate response message
+  let message = 'User processed.';
+  if (firebaseUserFoundAndDeleted && dbUserFoundAndDeleted) {
+    message = `User ${userId} was successfully deleted from both Firebase and the database.`;
+  } else if (firebaseUserFoundAndDeleted) {
+    message = `User ${userId} was deleted from Firebase, but was not found in the database.`;
+  } else if (dbUserFoundAndDeleted) {
+    message = `User ${userId} was deleted from the database, but was not found in Firebase.`;
+  } else {
+    message = `User ${userId} was not found in either Firebase or the database.`;
+  }
+
+  return {
+    message,
+    firebaseDeleted: firebaseUserFoundAndDeleted,
+    dbDeleted: dbUserFoundAndDeleted,
+  };
+}
 
   async deleteUsers(deleteUsersDto: DeleteUsersDTO): Promise<any> {
     const { userIds } = deleteUsersDto;
