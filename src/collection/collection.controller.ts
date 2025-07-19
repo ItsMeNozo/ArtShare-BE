@@ -19,14 +19,24 @@ import { CreateCollectionDto } from './dto/request/create-collection.dto';
 import { UpdateCollectionDto } from './dto/request/update-collection.dto';
 import { CollectionDto } from './dto/response/collection.dto';
 
-@UseGuards(JwtAuthGuard)
 @Controller('collections')
 export class CollectionController {
   constructor(private readonly collectionService: CollectionService) {}
 
   /**
+   * Get all PUBLIC collections for a specific user. This is a public endpoint.
+   */
+  @Get('user/:username')
+  async getPublicUserCollections(
+    @Param('username') username: string,
+  ): Promise<CollectionDto[]> {
+    return this.collectionService.getPublicCollectionsByUsername(username);
+  }
+
+  /**
    * GET /collections - Get all collections for the currently authenticated user
    */
+  @UseGuards(JwtAuthGuard)
   @Get()
   async getUserCollections(
     @CurrentUser() user: CurrentUserType,
@@ -37,6 +47,7 @@ export class CollectionController {
   /**
    * GET /collections/:id - Get details for a specific collection owned by the user
    */
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async getCollectionDetails(
     @Param('id', ParseIntPipe) collectionId: number,
@@ -48,6 +59,7 @@ export class CollectionController {
   /**
    * POST /collections - Create a new collection for the authenticated user
    */
+  @UseGuards(JwtAuthGuard)
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async createCollection(
@@ -62,8 +74,8 @@ export class CollectionController {
 
   /**
    * PATCH /collections/:id - Update a specific collection owned by the user
-   * Allows updating name, description, privacy, thumbnail, and adding a post.
    */
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async updateCollection(
     @Param('id', ParseIntPipe) collectionId: number,
@@ -80,6 +92,7 @@ export class CollectionController {
   /**
    * POST /collections/:collectionId/posts/:postId - Add a post to a collection
    */
+  @UseGuards(JwtAuthGuard)
   @Post(':collectionId/posts/:postId')
   @HttpCode(HttpStatus.NO_CONTENT)
   async addPostToCollection(
@@ -95,8 +108,9 @@ export class CollectionController {
   }
 
   /**
-   * DELETE /collections/:collectionId/posts/:postId - Remove a post from a collection owned by the user
+   * DELETE /collections/:collectionId/posts/:postId - Remove a post from a collection
    */
+  @UseGuards(JwtAuthGuard)
   @Delete(':collectionId/posts/:postId')
   @HttpCode(HttpStatus.NO_CONTENT)
   async removePostFromCollection(
@@ -114,6 +128,7 @@ export class CollectionController {
   /**
    * DELETE /collections/:id - Delete a specific collection owned by the user
    */
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async removeCollection(
