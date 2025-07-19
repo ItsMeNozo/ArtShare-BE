@@ -11,15 +11,20 @@ const prisma = new PrismaClient();
 
 // Get userId from command line arguments
 const userIdToDelete = process.argv[2];
+
+if (!userIdToDelete) {
+  console.error('Usage: npx tsx ./scripts/deleteUser.ts <userId>');
+  process.exit(1);
+}
+
 console.log(`Target user ID: ${userIdToDelete}`);
 
-// Since this is a standalone script, we need to access process.env directly
-// In a NestJS application context, these would use ConfigService instead
+// Firebase service account configuration
 const serviceAccount = {
   type: process.env.FIREBASE_TYPE,
   project_id: process.env.FIREBASE_PROJECT_ID,
   private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
-  private_key: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'), // Replace escaped newlines
+  private_key: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
   client_email: process.env.FIREBASE_CLIENT_EMAIL,
   client_id: process.env.FIREBASE_CLIENT_ID,
   auth_uri: process.env.FIREBASE_AUTH_URI,
@@ -29,260 +34,375 @@ const serviceAccount = {
   universe_domain: process.env.FIREBASE_UNIVERSE_DOMAIN,
 };
 
-// ─── 1. Initialize Firebase Admin SDK ─────────────────────────────────────────
-// We assume you have downloaded a service account JSON and saved it to ../firebase-service-account.json
+// Initialize Firebase Admin SDK
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
-}); // :contentReference[oaicite:5]{index=5}
+});
 
 async function deleteUserAndVerify(userId: string) {
-  console.log(
-    `Attempting to delete user: ${userId} and their associated data...`,
-  );
+  console.log(`\n🗑️  Attempting to delete user: ${userId} and their associated data...`);
 
   try {
-    // ─── 2. Check if user exists in Prisma before proceeding ────────────────────
+    // ─── 1. Check if user exists in database ────────────────────────────────────
     const userExists = await prisma.user.findUnique({ where: { id: userId } });
     if (!userExists) {
-      console.log(
-        `User with ID ${userId} not found in database. Nothing to delete.`,
-      ); // :contentReference[oaicite:6]{index=6}
+      console.log(`❌ User with ID ${userId} not found in database. Nothing to delete.`);
       return;
     }
 
-    // ─── 3. Delete from Firebase Auth first ────────────────────────────────────
-    console.log(`Deleting user ${userId} from Firebase Auth...`);
+    console.log(`✅ User found in database: ${userExists.username} (${userExists.email})`);
+
+    // ─── 2. Delete from Firebase Auth ───────────────────────────────────────────
+    console.log(`🔥 Deleting user ${userId} from Firebase Auth...`);
+    let firebaseDeleted = false;
+    
     try {
-      await admin.auth().deleteUser(userId); // :contentReference[oaicite:7]{index=7}
-      console.log(`Successfully deleted Auth user ${userId}.`);
+      await admin.auth().deleteUser(userId);
+      console.log(`✅ Successfully deleted Firebase Auth user ${userId}`);
+      firebaseDeleted = true;
     } catch (authError: any) {
-      console.error(`Error deleting Auth user ${userId}:`, authError);
-      // If the Auth user does not exist, you can choose to continue to Prisma cleanup:
       if (authError.code === 'auth/user-not-found') {
-        console.warn(
-          `Auth user ${userId} not found. Continuing Prisma cleanup...`,
-        ); // :contentReference[oaicite:8]{index=8}
+        console.warn(`⚠️  Firebase Auth user ${userId} not found. Continuing with database cleanup...`);
       } else {
+        console.error(`❌ Error deleting Firebase Auth user ${userId}:`, authError.message);
         throw authError;
       }
     }
 
-    // ─── 4. Start a Prisma transaction to delete all related records ────────────
+    // ─── 3. Delete from database with proper counter updates ────────────────────
+    console.log(`🗄️  Starting database deletion transaction...`);
+    
+    // Use longer timeout for large datasets and optimize the transaction
     await prisma.$transaction(async (tx) => {
-      console.log('Starting Prisma transaction...');
+      // Fetch all relationships that need counter updates
+      console.log(`📊 Fetching user relationships for counter updates...`);
+      
+      const [
+        followers, 
+        followings, 
+        userComments, 
+        userLikes, 
+        userCommentLikes
+      ] = await Promise.all([
+        tx.follow.findMany({ where: { followingId: userId } }),
+        tx.follow.findMany({ where: { followerId: userId } }),
+        tx.comment.findMany({ where: { userId } }),
+        tx.like.findMany({ where: { userId } }),
+        tx.commentLike.findMany({ where: { userId } })
+      ]);
 
-      // 4.1 Delete conversations and messages for user:
-      console.log(`Deleting conversations for user ${userId}...`);
-      const deletedConversations = await tx.conversation.deleteMany({
-        where: { userId: userId },
+      console.log(`📈 Found relationships:
+        - ${followers.length} followers
+        - ${followings.length} followings
+        - ${userComments.length} comments
+        - ${userLikes.length} likes
+        - ${userCommentLikes.length} comment likes`);
+
+      // Update follower counts
+      const followerIds = followers.map(f => f.followerId);
+      if (followerIds.length > 0) {
+        await tx.user.updateMany({
+          where: { id: { in: followerIds } },
+          data: { followingsCount: { decrement: 1 } },
+        });
+        console.log(`📉 Decremented followingsCount for ${followerIds.length} user(s)`);
+      }
+
+      // Update following counts
+      const followingIds = followings.map(f => f.followingId);
+      if (followingIds.length > 0) {
+        await tx.user.updateMany({
+          where: { id: { in: followingIds } },
+          data: { followersCount: { decrement: 1 } },
+        });
+        console.log(`📉 Decremented followersCount for ${followingIds.length} user(s)`);
+      }
+
+      // Update comment counts for posts (batch by post ID)
+      const postCommentMap: Record<number, number> = {};
+      userComments.forEach(comment => {
+        if (comment.targetType === 'POST' && comment.targetId) {
+          postCommentMap[comment.targetId] = (postCommentMap[comment.targetId] || 0) + 1;
+        }
       });
-      console.log(
-        `Deleted ${deletedConversations.count} conversation(s) with messages.`,
-      );
+      
+      // Process posts with error handling for missing records
+      const postIds = Object.keys(postCommentMap);
+      let updatedPosts = 0;
+      if (postIds.length > 0) {
+        for (const postId of postIds) {
+          try {
+            await tx.post.update({
+              where: { id: Number(postId) },
+              data: { commentCount: { decrement: postCommentMap[Number(postId)] } },
+            });
+            updatedPosts++;
+          } catch (error: any) {
+            if (error.code === 'P2025') {
+              console.warn(`⚠️  Post ${postId} not found - skipping comment count update`);
+            } else {
+              throw error;
+            }
+          }
+        }
+        console.log(`📉 Updated comment counts for ${updatedPosts}/${postIds.length} post(s)`);
+      }
 
-      // 4.2 Delete notifications for user:
-      console.log(`Deleting notifications for user ${userId}...`);
-      const deletedNotifications = await tx.notification.deleteMany({
-        where: { userId: userId },
+      // Update comment counts for blogs (batch by blog ID)
+      const blogCommentMap: Record<number, number> = {};
+      userComments.forEach(comment => {
+        if (comment.targetType === 'BLOG' && comment.targetId) {
+          blogCommentMap[comment.targetId] = (blogCommentMap[comment.targetId] || 0) + 1;
+        }
       });
-      console.log(`Deleted ${deletedNotifications.count} notification(s).`);
+      
+      const blogIds = Object.keys(blogCommentMap);
+      let updatedBlogs = 0;
+      if (blogIds.length > 0) {
+        for (const blogId of blogIds) {
+          try {
+            await tx.blog.update({
+              where: { id: Number(blogId) },
+              data: { commentCount: { decrement: blogCommentMap[Number(blogId)] } },
+            });
+            updatedBlogs++;
+          } catch (error: any) {
+            if (error.code === 'P2025') {
+              console.warn(`⚠️  Blog ${blogId} not found - skipping comment count update`);
+            } else {
+              throw error;
+            }
+          }
+        }
+        console.log(`📉 Updated comment counts for ${updatedBlogs}/${blogIds.length} blog(s)`);
+      }
 
-      // 4.3 Delete auto projects (and their auto posts via cascade):
-      console.log(`Deleting auto projects for user ${userId}...`);
-      const deletedAutoProjects = await tx.autoProject.deleteMany({
-        where: { userId: userId },
-      });
-      console.log(`Deleted ${deletedAutoProjects.count} auto project(s).`);
+      // Update like counts for posts (with error handling)
+      const likedPostIds = userLikes
+        .filter(like => like.postId !== null)
+        .map(like => like.postId!);
+      
+      if (likedPostIds.length > 0) {
+        try {
+          const result = await tx.post.updateMany({
+            where: { id: { in: likedPostIds } },
+            data: { likeCount: { decrement: 1 } },
+          });
+          console.log(`📉 Decremented like counts for ${result.count}/${likedPostIds.length} post(s)`);
+        } catch (error: any) {
+          console.warn(`⚠️  Error updating post like counts - some posts may have been deleted`);
+        }
+      }
 
-      // 4.4 Delete platforms for user:
-      console.log(`Deleting platforms for user ${userId}...`);
-      const deletedPlatforms = await tx.platform.deleteMany({
-        where: { userId: userId },
-      });
-      console.log(`Deleted ${deletedPlatforms.count} platform(s).`);
+      // Update like counts for blogs (with error handling)
+      const likedBlogIds = userLikes
+        .filter(like => like.blogId !== null)
+        .map(like => like.blogId!);
+      
+      if (likedBlogIds.length > 0) {
+        try {
+          const result = await tx.blog.updateMany({
+            where: { id: { in: likedBlogIds } },
+            data: { likeCount: { decrement: 1 } },
+          });
+          console.log(`📉 Decremented like counts for ${result.count}/${likedBlogIds.length} blog(s)`);
+        } catch (error: any) {
+          console.warn(`⚠️  Error updating blog like counts - some blogs may have been deleted`);
+        }
+      }
 
-      // 4.6 Delete any collections explicitly if not cascaded:
-      console.log(`Deleting collections for user ${userId}...`);
-      const deletedCollections = await tx.collection.deleteMany({
-        where: { userId: userId },
-      });
-      console.log(`Deleted ${deletedCollections.count} collection(s).`);
+      // Update like counts for comments (with error handling)
+      const likedCommentIds = userCommentLikes.map(like => like.commentId);
+      if (likedCommentIds.length > 0) {
+        try {
+          const result = await tx.comment.updateMany({
+            where: { id: { in: likedCommentIds } },
+            data: { likeCount: { decrement: 1 } },
+          });
+          console.log(`📉 Decremented like counts for ${result.count}/${likedCommentIds.length} comment(s)`);
+        } catch (error: any) {
+          console.warn(`⚠️  Error updating comment like counts - some comments may have been deleted`);
+        }
+      }
 
-      // 4.7 Delete art generations by user:
-      console.log(`Deleting art generations for user ${userId}...`);
-      const deletedArtGenerations = await tx.artGeneration.deleteMany({
-        where: { userId: userId },
-      });
-      console.log(`Deleted ${deletedArtGenerations.count} art generation(s).`);
+      // Handle non-cascading relationships (with error handling)
+      console.log(`🔧 Handling non-cascading relationships...`);
+      
+      try {
+        const [updatedReports, deletedConversations] = await Promise.all([
+          // Set moderatorId to null for reports where user was moderator
+          tx.report.updateMany({
+            where: { moderatorId: userId },
+            data: { moderatorId: null }
+          }),
+          
+          // Delete conversations (these don't cascade in your schema)
+          tx.conversation.deleteMany({ where: { userId } })
+        ]);
 
-      // 4.8 (Optional) If you must clean up orphan Media by creator_id:
-      // console.log(`Deleting media records with creator_id ${userId} (if exist)...`);
-      // const deletedMediaByCreator = await tx.media.deleteMany({
-      //   where: { creator_id: userId }
-      // });
-      // console.log(`Deleted ${deletedMediaByCreator.count} media record(s) by creator_id.`);
+        if (updatedReports.count > 0) {
+          console.log(`🔧 Updated ${updatedReports.count} report(s) - removed moderator assignment`);
+        }
+        
+        if (deletedConversations.count > 0) {
+          console.log(`🗑️  Deleted ${deletedConversations.count} conversation(s)`);
+        }
+      } catch (error: any) {
+        console.warn(`⚠️  Error handling non-cascading relationships:`, error.message);
+      }
 
-      // 4.9 Delete the User record (cascade should handle other relations):
-      console.log(`Deleting user ${userId} from Prisma...`);
-      await tx.user.delete({ where: { id: userId } }); // :contentReference[oaicite:11]{index=11}
-      console.log(`User ${userId} deleted successfully from Prisma.`);
-      console.log('Prisma transaction committed.');
+      // Finally, delete the user (this will cascade delete most relationships)
+      console.log(`🗑️  Deleting user record - this will cascade delete related data...`);
+      await tx.user.delete({ where: { id: userId } });
+      console.log(`✅ User ${userId} successfully deleted from database`);
+    }, {
+      timeout: 30000, // 30 seconds timeout for large datasets
+      maxWait: 35000, // Max wait time
     });
 
-    // ─── 5. Verification step ─────────────────────────────────────────────────────
-    console.log('\n--- Verification ---');
-    await verifyUserDeletion(userId);
-  } catch (error: any) {
-    console.error('Error during user deletion process:', error);
-    // Prisma-specific error for record not found
-    if (error.code === 'P2025') {
-      // :contentReference[oaicite:12]{index=12}
-      console.warn(
-        `User with ID ${userId} might have already been deleted or never existed in Prisma.`,
-      );
-    } else if (error.message.includes('Foreign key constraint failed')) {
-      console.error(
-        'A foreign key constraint failed. Review schema cascades/manual deletes.',
-      );
-    } else if (error.code && error.code.startsWith('auth/')) {
-      console.error(
-        'A Firebase Auth error occurred. Manual investigation may be needed.',
-      );
+    console.log(`✅ Database transaction completed successfully`);
+
+    // ─── 4. Verification ─────────────────────────────────────────────────────────
+    console.log(`\n🔍 Verifying deletion...`);
+    const isClean = await verifyUserDeletion(userId);
+    
+    if (isClean) {
+      console.log(`\n🎉 SUCCESS: User ${userId} has been completely deleted!`);
+      console.log(`   - Firebase: ${firebaseDeleted ? '✅ Deleted' : '❌ Not found'}`);
+      console.log(`   - Database: ✅ Deleted`);
+    } else {
+      console.log(`\n⚠️  WARNING: Some data may still exist. Check verification results above.`);
     }
-    console.log('\n--- Attempting Verification After Error ---');
+
+  } catch (error: any) {
+    console.error(`\n❌ Error during user deletion:`, error.message);
+    
+    if (error.code === 'P2025') {
+      console.warn(`⚠️  User ${userId} might have already been deleted or never existed in database`);
+    } else if (error.code === 'P2002') {
+      console.error(`🔗 Unique constraint violation - there may be data integrity issues`);
+    } else if (error.message.includes('Foreign key constraint failed')) {
+      console.error(`🔗 Foreign key constraint failed - review schema cascades`);
+    } else if (error.code?.startsWith('auth/')) {
+      console.error(`🔥 Firebase Auth error - manual investigation may be needed`);
+    } else if (error.message.includes('Transaction already closed') || error.message.includes('timeout')) {
+      console.error(`⏱️  Transaction timeout - the user has too much data. Consider manual cleanup.`);
+    } else if (error.message.includes('Record to update not found')) {
+      console.error(`🔍 Some records referenced by user data no longer exist (data integrity issue)`);
+    } else {
+      console.error(`💥 Unexpected error:`, error);
+    }
+    
+    console.log(`\n🔍 Attempting verification after error...`);
     await verifyUserDeletion(userId);
   } finally {
-    await prisma.$disconnect(); // :contentReference[oaicite:13]{index=13}
+    await prisma.$disconnect();
   }
 }
 
-async function verifyUserDeletion(userId: string) {
+async function verifyUserDeletion(userId: string): Promise<boolean> {
+  console.log(`\n📋 Verification Report for User ${userId}:`);
+  console.log(`${'─'.repeat(60)}`);
+  
   let allClear = true;
-  const checks: Array<{ model: string; exists: boolean; count: number }> = [];
 
-  // 1. Check if Prisma user still exists
-  const user = await prisma.user.findUnique({ where: { id: userId } });
-  checks.push({ model: 'User', exists: !!user, count: user ? 1 : 0 }); // :contentReference[oaicite:14]{index=14}
-  if (user) allClear = false;
+  try {
+    // Check if user still exists
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    console.log(`👤 User record: ${user ? '❌ STILL EXISTS' : '✅ Deleted'}`);
+    if (user) allClear = false;
 
-  // 2. Check related Prisma counts in parallel
-  const [
-    countUserRoles,
-    countPosts,
-    countBlogs,
-    countMediaViaPost,
-    countLikes,
-    countCommentLikes,
-    countComments,
-    countShares,
-    countFollows,
-    countBookmarks,
-    countRatings,
-    countCollections,
-    countReportsAsReporter,
-    countUserAccess,
-    countUserUsage,
-    countArtGenerations,
-    countConversations,
-    countNotifications,
-    countAutoProjects,
-    countPlatforms,
-  ] = await prisma.$transaction([
-    prisma.userRole.count({ where: { userId: userId } }),
-    prisma.post.count({ where: { userId: userId } }),
-    prisma.blog.count({ where: { userId: userId } }),
-    prisma.media.count({ where: { post: { userId: userId } } }),
-    prisma.like.count({ where: { userId: userId } }),
-    prisma.commentLike.count({ where: { userId: userId } }),
-    prisma.comment.count({ where: { userId: userId } }),
-    prisma.share.count({ where: { userId: userId } }),
-    prisma.follow.count({
-      where: { OR: [{ followerId: userId }, { followingId: userId }] },
-    }),
-    prisma.bookmark.count({ where: { userId: userId } }),
-    prisma.rating.count({ where: { userId: userId } }),
-    prisma.collection.count({ where: { userId: userId } }),
-    prisma.report.count({ where: { reporterId: userId } }),
-    prisma.userAccess.count({ where: { userId: userId } }),
-    prisma.userUsage.count({ where: { userId: userId } }),
-    prisma.artGeneration.count({ where: { userId: userId } }),
-    prisma.conversation.count({ where: { userId: userId } }),
-    prisma.notification.count({ where: { userId: userId } }),
-    prisma.autoProject.count({ where: { userId: userId } }),
-    prisma.platform.count({ where: { userId: userId } }),
-  ]);
+    // Check related records that should be cascaded
+    const [
+      userRoles,
+      posts,
+      blogs,
+      likes,
+      commentLikes,
+      comments,
+      shares,
+      follows,
+      bookmarks,
+      ratings,
+      collections,
+      reports,
+      userAccess,
+      userUsage,
+      artGenerations,
+      conversations,
+      notifications,
+      autoProjects,
+      platforms,
+    ] = await Promise.all([
+      prisma.userRole.count({ where: { userId } }),
+      prisma.post.count({ where: { userId } }),
+      prisma.blog.count({ where: { userId } }),
+      prisma.like.count({ where: { userId } }),
+      prisma.commentLike.count({ where: { userId } }),
+      prisma.comment.count({ where: { userId } }),
+      prisma.share.count({ where: { userId } }),
+      prisma.follow.count({ where: { OR: [{ followerId: userId }, { followingId: userId }] } }),
+      prisma.bookmark.count({ where: { userId } }),
+      prisma.rating.count({ where: { userId } }),
+      prisma.collection.count({ where: { userId } }),
+      prisma.report.count({ where: { reporterId: userId } }),
+      prisma.userAccess.count({ where: { userId } }),
+      prisma.userUsage.count({ where: { userId } }),
+      prisma.artGeneration.count({ where: { userId } }),
+      prisma.conversation.count({ where: { userId } }),
+      prisma.notification.count({ where: { userId } }),
+      prisma.autoProject.count({ where: { userId } }),
+      prisma.platform.count({ where: { userId } }),
+    ]);
 
-  const modelNames = [
-    'UserRole',
-    'Post',
-    'Blog',
-    'Media (via Post)',
-    'Like (by user)',
-    'CommentLike (by user)',
-    'Comment (by user)',
-    'Share (by user)',
-    'Follow (as follower/following)',
-    'Bookmark (by user)',
-    'Rating (by user)',
-    'Collection (by user)',
-    'Report (as reporter)',
-    'UserAccess',
-    'UserUsage',
-    'ArtGeneration (by user)',
-    'Conversation (by user)',
-    'Notification (by user)',
-    'AutoProject (by user)',
-    'Platform (by user)',
-  ];
+    const checks = [
+      { name: 'User Roles', count: userRoles },
+      { name: 'Posts', count: posts },
+      { name: 'Blogs', count: blogs },
+      { name: 'Likes', count: likes },
+      { name: 'Comment Likes', count: commentLikes },
+      { name: 'Comments', count: comments },
+      { name: 'Shares', count: shares },
+      { name: 'Follows', count: follows },
+      { name: 'Bookmarks', count: bookmarks },
+      { name: 'Ratings', count: ratings },
+      { name: 'Collections', count: collections },
+      { name: 'Reports (as reporter)', count: reports },
+      { name: 'User Access', count: userAccess },
+      { name: 'User Usage', count: userUsage },
+      { name: 'Art Generations', count: artGenerations },
+      { name: 'Conversations', count: conversations },
+      { name: 'Notifications', count: notifications },
+      { name: 'Auto Projects', count: autoProjects },
+      { name: 'Platforms', count: platforms },
+    ];
 
-  const relatedCounts = [
-    countUserRoles,
-    countPosts,
-    countBlogs,
-    countMediaViaPost,
-    countLikes,
-    countCommentLikes,
-    countComments,
-    countShares,
-    countFollows,
-    countBookmarks,
-    countRatings,
-    countCollections,
-    countReportsAsReporter,
-    countUserAccess,
-    countUserUsage,
-    countArtGenerations,
-    countConversations,
-    countNotifications,
-    countAutoProjects,
-    countPlatforms,
-  ];
+    checks.forEach(check => {
+      const status = check.count === 0 ? '✅ Clean' : '❌ Found';
+      console.log(`📊 ${check.name.padEnd(20)}: ${check.count.toString().padStart(3)} records - ${status}`);
+      if (check.count > 0) allClear = false;
+    });
 
-  relatedCounts.forEach((cnt, idx) => {
-    checks.push({ model: modelNames[idx], exists: cnt > 0, count: cnt }); // :contentReference[oaicite:31]{index=31}
-    if (cnt > 0) allClear = false;
-  });
-
-  console.log('\nVerification Results:');
-  checks.forEach((check) => {
-    console.log(
-      `- ${check.model}: ${check.count} record(s) found. ${check.exists ? 'Problem!' : 'OK.'}`,
-    );
-  });
-
-  if (allClear) {
-    console.log(
-      '\nSUCCESS: All data associated with user seems deleted from Prisma.',
-    );
-  } else {
-    console.warn(
-      '\nWARNING: Some data associated with the user still exists. Review logs above.',
-    );
+    console.log(`${'─'.repeat(60)}`);
+    console.log(`🎯 Overall Status: ${allClear ? '✅ ALL CLEAN' : '❌ ISSUES FOUND'}`);
+    
+    return allClear;
+    
+  } catch (error) {
+    console.error(`❌ Error during verification:`, error);
+    return false;
   }
-  return allClear;
 }
 
-// Run the function
-deleteUserAndVerify(userIdToDelete)
-  .then(() => console.log('Process finished.'))
-  .catch((e) => console.error('Unhandled error in main execution:', e)); // :contentReference[oaicite:32]{index=32}
+// Main execution
+async function main() {
+  try {
+    await deleteUserAndVerify(userIdToDelete);
+    console.log(`\n🏁 Process completed.`);
+  } catch (error) {
+    console.error(`\n💥 Unhandled error:`, error);
+    process.exit(1);
+  }
+}
+
+main();
