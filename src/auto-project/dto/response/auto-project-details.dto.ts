@@ -11,17 +11,17 @@ export class PlatformDto {
   @IsEnum(SharePlatform)
   name: SharePlatform;
 
-  external_page_id: string;
-  token_expires_at: Date | null;
+  externalPageId: string;
+  tokenExpiresAt: Date | null;
   status: PlatformStatus;
 }
 
 export class AutoProjectDetailsDto {
   id: number;
   title: string;
-  description: string;
+  description: string | null;
   status: AutoProjectStatus;
-  created_at: Date;
-  updated_at: Date | null;
+  createdAt: Date;
+  updatedAt: Date | null;
   platform: PlatformDto;
 }

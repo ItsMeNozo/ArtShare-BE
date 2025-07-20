@@ -1,8 +1,8 @@
 import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
 import { OnEvent } from '@nestjs/event-emitter';
-import type { NotificationsGateway } from './notification.gateway';
+import { PrismaService } from 'src/prisma.service';
 import { NotificationUtils } from '../common/utils/notification.utils';
+import type { NotificationsGateway } from './notification.gateway';
 
 interface NotificationTemplate {
   template: string;
@@ -79,7 +79,7 @@ export class NotificationService {
     },
     report_created: {
       template:
-        '{{user:from}} have reported {{report.target_type}} {{report.target_title}}',
+        '{{user:from}} have reported {{report.targetType}} {{report.targetTitle}}',
       fallback: 'A new user have filed a report',
     },
   };
@@ -418,9 +418,8 @@ export class NotificationService {
         payload.type, // Use the specific type for template selection
         payload,
       );
-      console.log(newNotification);
       this.logger.log(
-        `Notification (${payload.type}) successfully created & pushed to user ${payload.to}`,
+        `Push notification (${payload.type}) successfully created & pushed to user ${payload.to}, ID: ${newNotification.id}`,
       );
     } catch (error) {
       this.logger.error(

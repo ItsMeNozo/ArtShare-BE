@@ -1,22 +1,21 @@
 // src/auth/jwt-auth.guard.ts (adjust path as necessary)
 
 import {
-  Injectable,
   CanActivate,
   ExecutionContext,
+  Injectable,
+  InternalServerErrorException,
   UnauthorizedException,
-  InternalServerErrorException, // Optional: for config errors
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config'; // <-- Import ConfigService
+import { Reflector } from '@nestjs/core';
+import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { JwtPayload } from './types/jwtPayload.type';
-import { Reflector } from '@nestjs/core';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
   constructor(
-    
     private jwtService: JwtService,
     private reflector: Reflector,
     private configService: ConfigService, // <-- Inject ConfigService

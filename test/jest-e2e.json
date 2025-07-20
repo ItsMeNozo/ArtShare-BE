@@ -1,9 +1,22 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": ".",
+  "rootDir": "..",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
-    "^.+\\.(t|j)s$": "ts-jest"
-  }
+    "^.+\\.(t|j)s$": [
+      "ts-jest",
+      {
+        "tsconfig": "./test/tsconfig.e2e.json"
+      }
+    ]
+  },
+  "moduleNameMapper": {
+    "^src/(.*)$": "<rootDir>/src/$1",
+    "^./client.js$": "<rootDir>/src/generated/client.ts",
+    "^./enums.js$": "<rootDir>/src/generated/enums.ts",
+    "^./internal/class.js$": "<rootDir>/src/generated/internal/class.ts",
+    "^./internal/prismaNamespace.js$": "<rootDir>/src/generated/internal/prismaNamespace.ts"
+  },
+  "testTimeout": 30000
 }

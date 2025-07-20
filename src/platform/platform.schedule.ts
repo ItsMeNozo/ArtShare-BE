@@ -19,7 +19,7 @@ export class PlatformScheduler {
     const result = await this.prisma.platform.updateMany({
       where: {
         status: PlatformStatus.ACTIVE,
-        token_expires_at: {
+        tokenExpiresAt: {
           not: null,
           lt: now,
         },

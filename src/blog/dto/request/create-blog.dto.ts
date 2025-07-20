@@ -1,10 +1,10 @@
 import {
-  IsString,
+  IsArray,
+  IsBoolean,
   IsNotEmpty,
   IsOptional,
+  IsString,
   MaxLength,
-  IsBoolean,
-  IsArray,
 } from 'class-validator';
 
 export class CreateBlogDto {
@@ -19,7 +19,7 @@ export class CreateBlogDto {
 
   @IsOptional()
   @IsBoolean()
-  is_published?: boolean = false;
+  isPublished?: boolean = false;
 
   @IsArray()
   @IsString({ each: true })

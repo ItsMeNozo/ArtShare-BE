@@ -27,116 +27,116 @@ export type AggregateArtGeneration = {
 
 export type ArtGenerationAvgAggregateOutputType = {
   id: number | null
-  number_of_images_generated: number | null
+  numberOfImagesGenerated: number | null
 }
 
 export type ArtGenerationSumAggregateOutputType = {
   id: number | null
-  number_of_images_generated: number | null
+  numberOfImagesGenerated: number | null
 }
 
 export type ArtGenerationMinAggregateOutputType = {
   id: number | null
-  user_id: string | null
-  user_prompt: string | null
-  final_prompt: string | null
-  model_key: string | null
-  number_of_images_generated: number | null
-  aspect_ratio: $Enums.AspectRatio | null
+  userId: string | null
+  userPrompt: string | null
+  finalPrompt: string | null
+  modelKey: string | null
+  numberOfImagesGenerated: number | null
+  aspectRatio: $Enums.AspectRatio | null
   style: string | null
   lighting: string | null
   camera: string | null
-  created_at: Date | null
-  updated_at: Date | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type ArtGenerationMaxAggregateOutputType = {
   id: number | null
-  user_id: string | null
-  user_prompt: string | null
-  final_prompt: string | null
-  model_key: string | null
-  number_of_images_generated: number | null
-  aspect_ratio: $Enums.AspectRatio | null
+  userId: string | null
+  userPrompt: string | null
+  finalPrompt: string | null
+  modelKey: string | null
+  numberOfImagesGenerated: number | null
+  aspectRatio: $Enums.AspectRatio | null
   style: string | null
   lighting: string | null
   camera: string | null
-  created_at: Date | null
-  updated_at: Date | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type ArtGenerationCountAggregateOutputType = {
   id: number
-  user_id: number
-  user_prompt: number
-  final_prompt: number
-  model_key: number
-  number_of_images_generated: number
-  image_urls: number
-  aspect_ratio: number
+  userId: number
+  userPrompt: number
+  finalPrompt: number
+  modelKey: number
+  numberOfImagesGenerated: number
+  imageUrls: number
+  aspectRatio: number
   style: number
   lighting: number
   camera: number
-  created_at: number
-  updated_at: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
 
 export type ArtGenerationAvgAggregateInputType = {
   id?: true
-  number_of_images_generated?: true
+  numberOfImagesGenerated?: true
 }
 
 export type ArtGenerationSumAggregateInputType = {
   id?: true
-  number_of_images_generated?: true
+  numberOfImagesGenerated?: true
 }
 
 export type ArtGenerationMinAggregateInputType = {
   id?: true
-  user_id?: true
-  user_prompt?: true
-  final_prompt?: true
-  model_key?: true
-  number_of_images_generated?: true
-  aspect_ratio?: true
+  userId?: true
+  userPrompt?: true
+  finalPrompt?: true
+  modelKey?: true
+  numberOfImagesGenerated?: true
+  aspectRatio?: true
   style?: true
   lighting?: true
   camera?: true
-  created_at?: true
-  updated_at?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type ArtGenerationMaxAggregateInputType = {
   id?: true
-  user_id?: true
-  user_prompt?: true
-  final_prompt?: true
-  model_key?: true
-  number_of_images_generated?: true
-  aspect_ratio?: true
+  userId?: true
+  userPrompt?: true
+  finalPrompt?: true
+  modelKey?: true
+  numberOfImagesGenerated?: true
+  aspectRatio?: true
   style?: true
   lighting?: true
   camera?: true
-  created_at?: true
-  updated_at?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type ArtGenerationCountAggregateInputType = {
   id?: true
-  user_id?: true
-  user_prompt?: true
-  final_prompt?: true
-  model_key?: true
-  number_of_images_generated?: true
-  image_urls?: true
-  aspect_ratio?: true
+  userId?: true
+  userPrompt?: true
+  finalPrompt?: true
+  modelKey?: true
+  numberOfImagesGenerated?: true
+  imageUrls?: true
+  aspectRatio?: true
   style?: true
   lighting?: true
   camera?: true
-  created_at?: true
-  updated_at?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -228,18 +228,18 @@ export type ArtGenerationGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 
 export type ArtGenerationGroupByOutputType = {
   id: number
-  user_id: string
-  user_prompt: string
-  final_prompt: string
-  model_key: string
-  number_of_images_generated: number
-  image_urls: string[]
-  aspect_ratio: $Enums.AspectRatio
+  userId: string
+  userPrompt: string
+  finalPrompt: string
+  modelKey: string
+  numberOfImagesGenerated: number
+  imageUrls: string[]
+  aspectRatio: $Enums.AspectRatio
   style: string | null
   lighting: string | null
   camera: string | null
-  created_at: Date
-  updated_at: Date | null
+  createdAt: Date
+  updatedAt: Date | null
   _count: ArtGenerationCountAggregateOutputType | null
   _avg: ArtGenerationAvgAggregateOutputType | null
   _sum: ArtGenerationSumAggregateOutputType | null
@@ -267,35 +267,35 @@ export type ArtGenerationWhereInput = {
   OR?: Prisma.ArtGenerationWhereInput[]
   NOT?: Prisma.ArtGenerationWhereInput | Prisma.ArtGenerationWhereInput[]
   id?: Prisma.IntFilter<"ArtGeneration"> | number
-  user_id?: Prisma.StringFilter<"ArtGeneration"> | string
-  user_prompt?: Prisma.StringFilter<"ArtGeneration"> | string
-  final_prompt?: Prisma.StringFilter<"ArtGeneration"> | string
-  model_key?: Prisma.StringFilter<"ArtGeneration"> | string
-  number_of_images_generated?: Prisma.IntFilter<"ArtGeneration"> | number
-  image_urls?: Prisma.StringNullableListFilter<"ArtGeneration">
-  aspect_ratio?: Prisma.EnumAspectRatioFilter<"ArtGeneration"> | $Enums.AspectRatio
+  userId?: Prisma.StringFilter<"ArtGeneration"> | string
+  userPrompt?: Prisma.StringFilter<"ArtGeneration"> | string
+  finalPrompt?: Prisma.StringFilter<"ArtGeneration"> | string
+  modelKey?: Prisma.StringFilter<"ArtGeneration"> | string
+  numberOfImagesGenerated?: Prisma.IntFilter<"ArtGeneration"> | number
+  imageUrls?: Prisma.StringNullableListFilter<"ArtGeneration">
+  aspectRatio?: Prisma.EnumAspectRatioFilter<"ArtGeneration"> | $Enums.AspectRatio
   style?: Prisma.StringNullableFilter<"ArtGeneration"> | string | null
   lighting?: Prisma.StringNullableFilter<"ArtGeneration"> | string | null
   camera?: Prisma.StringNullableFilter<"ArtGeneration"> | string | null
-  created_at?: Prisma.DateTimeFilter<"ArtGeneration"> | Date | string
-  updated_at?: Prisma.DateTimeNullableFilter<"ArtGeneration"> | Date | string | null
+  createdAt?: Prisma.DateTimeFilter<"ArtGeneration"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"ArtGeneration"> | Date | string | null
   Post?: Prisma.PostListRelationFilter
 }
 
 export type ArtGenerationOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  user_prompt?: Prisma.SortOrder
-  final_prompt?: Prisma.SortOrder
-  model_key?: Prisma.SortOrder
-  number_of_images_generated?: Prisma.SortOrder
-  image_urls?: Prisma.SortOrder
-  aspect_ratio?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  userPrompt?: Prisma.SortOrder
+  finalPrompt?: Prisma.SortOrder
+  modelKey?: Prisma.SortOrder
+  numberOfImagesGenerated?: Prisma.SortOrder
+  imageUrls?: Prisma.SortOrder
+  aspectRatio?: Prisma.SortOrder
   style?: Prisma.SortOrderInput | Prisma.SortOrder
   lighting?: Prisma.SortOrderInput | Prisma.SortOrder
   camera?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   Post?: Prisma.PostOrderByRelationAggregateInput
 }
 
@@ -304,35 +304,35 @@ export type ArtGenerationWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ArtGenerationWhereInput | Prisma.ArtGenerationWhereInput[]
   OR?: Prisma.ArtGenerationWhereInput[]
   NOT?: Prisma.ArtGenerationWhereInput | Prisma.ArtGenerationWhereInput[]
-  user_id?: Prisma.StringFilter<"ArtGeneration"> | string
-  user_prompt?: Prisma.StringFilter<"ArtGeneration"> | string
-  final_prompt?: Prisma.StringFilter<"ArtGeneration"> | string
-  model_key?: Prisma.StringFilter<"ArtGeneration"> | string
-  number_of_images_generated?: Prisma.IntFilter<"ArtGeneration"> | number
-  image_urls?: Prisma.StringNullableListFilter<"ArtGeneration">
-  aspect_ratio?: Prisma.EnumAspectRatioFilter<"ArtGeneration"> | $Enums.AspectRatio
+  userId?: Prisma.StringFilter<"ArtGeneration"> | string
+  userPrompt?: Prisma.StringFilter<"ArtGeneration"> | string
+  finalPrompt?: Prisma.StringFilter<"ArtGeneration"> | string
+  modelKey?: Prisma.StringFilter<"ArtGeneration"> | string
+  numberOfImagesGenerated?: Prisma.IntFilter<"ArtGeneration"> | number
+  imageUrls?: Prisma.StringNullableListFilter<"ArtGeneration">
+  aspectRatio?: Prisma.EnumAspectRatioFilter<"ArtGeneration"> | $Enums.AspectRatio
   style?: Prisma.StringNullableFilter<"ArtGeneration"> | string | null
   lighting?: Prisma.StringNullableFilter<"ArtGeneration"> | string | null
   camera?: Prisma.StringNullableFilter<"ArtGeneration"> | string | null
-  created_at?: Prisma.DateTimeFilter<"ArtGeneration"> | Date | string
-  updated_at?: Prisma.DateTimeNullableFilter<"ArtGeneration"> | Date | string | null
+  createdAt?: Prisma.DateTimeFilter<"ArtGeneration"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"ArtGeneration"> | Date | string | null
   Post?: Prisma.PostListRelationFilter
 }, "id">
 
 export type ArtGenerationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  user_prompt?: Prisma.SortOrder
-  final_prompt?: Prisma.SortOrder
-  model_key?: Prisma.SortOrder
-  number_of_images_generated?: Prisma.SortOrder
-  image_urls?: Prisma.SortOrder
-  aspect_ratio?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  userPrompt?: Prisma.SortOrder
+  finalPrompt?: Prisma.SortOrder
+  modelKey?: Prisma.SortOrder
+  numberOfImagesGenerated?: Prisma.SortOrder
+  imageUrls?: Prisma.SortOrder
+  aspectRatio?: Prisma.SortOrder
   style?: Prisma.SortOrderInput | Prisma.SortOrder
   lighting?: Prisma.SortOrderInput | Prisma.SortOrder
   camera?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ArtGenerationCountOrderByAggregateInput
   _avg?: Prisma.ArtGenerationAvgOrderByAggregateInput
   _max?: Prisma.ArtGenerationMaxOrderByAggregateInput
@@ -345,131 +345,131 @@ export type ArtGenerationScalarWhereWithAggregatesInput = {
   OR?: Prisma.ArtGenerationScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ArtGenerationScalarWhereWithAggregatesInput | Prisma.ArtGenerationScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"ArtGeneration"> | number
-  user_id?: Prisma.StringWithAggregatesFilter<"ArtGeneration"> | string
-  user_prompt?: Prisma.StringWithAggregatesFilter<"ArtGeneration"> | string
-  final_prompt?: Prisma.StringWithAggregatesFilter<"ArtGeneration"> | string
-  model_key?: Prisma.StringWithAggregatesFilter<"ArtGeneration"> | string
-  number_of_images_generated?: Prisma.IntWithAggregatesFilter<"ArtGeneration"> | number
-  image_urls?: Prisma.StringNullableListFilter<"ArtGeneration">
-  aspect_ratio?: Prisma.EnumAspectRatioWithAggregatesFilter<"ArtGeneration"> | $Enums.AspectRatio
+  userId?: Prisma.StringWithAggregatesFilter<"ArtGeneration"> | string
+  userPrompt?: Prisma.StringWithAggregatesFilter<"ArtGeneration"> | string
+  finalPrompt?: Prisma.StringWithAggregatesFilter<"ArtGeneration"> | string
+  modelKey?: Prisma.StringWithAggregatesFilter<"ArtGeneration"> | string
+  numberOfImagesGenerated?: Prisma.IntWithAggregatesFilter<"ArtGeneration"> | number
+  imageUrls?: Prisma.StringNullableListFilter<"ArtGeneration">
+  aspectRatio?: Prisma.EnumAspectRatioWithAggregatesFilter<"ArtGeneration"> | $Enums.AspectRatio
   style?: Prisma.StringNullableWithAggregatesFilter<"ArtGeneration"> | string | null
   lighting?: Prisma.StringNullableWithAggregatesFilter<"ArtGeneration"> | string | null
   camera?: Prisma.StringNullableWithAggregatesFilter<"ArtGeneration"> | string | null
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"ArtGeneration"> | Date | string
-  updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"ArtGeneration"> | Date | string | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"ArtGeneration"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ArtGeneration"> | Date | string | null
 }
 
 export type ArtGenerationCreateInput = {
-  user_id: string
-  user_prompt: string
-  final_prompt: string
-  model_key: string
-  number_of_images_generated: number
-  image_urls?: Prisma.ArtGenerationCreateimage_urlsInput | string[]
-  aspect_ratio: $Enums.AspectRatio
+  userId: string
+  userPrompt: string
+  finalPrompt: string
+  modelKey: string
+  numberOfImagesGenerated: number
+  imageUrls?: Prisma.ArtGenerationCreateimageUrlsInput | string[]
+  aspectRatio: $Enums.AspectRatio
   style?: string | null
   lighting?: string | null
   camera?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  Post?: Prisma.PostCreateNestedManyWithoutArt_generationInput
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  Post?: Prisma.PostCreateNestedManyWithoutArtGenerationInput
 }
 
 export type ArtGenerationUncheckedCreateInput = {
   id?: number
-  user_id: string
-  user_prompt: string
-  final_prompt: string
-  model_key: string
-  number_of_images_generated: number
-  image_urls?: Prisma.ArtGenerationCreateimage_urlsInput | string[]
-  aspect_ratio: $Enums.AspectRatio
+  userId: string
+  userPrompt: string
+  finalPrompt: string
+  modelKey: string
+  numberOfImagesGenerated: number
+  imageUrls?: Prisma.ArtGenerationCreateimageUrlsInput | string[]
+  aspectRatio: $Enums.AspectRatio
   style?: string | null
   lighting?: string | null
   camera?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  Post?: Prisma.PostUncheckedCreateNestedManyWithoutArt_generationInput
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  Post?: Prisma.PostUncheckedCreateNestedManyWithoutArtGenerationInput
 }
 
 export type ArtGenerationUpdateInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  final_prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model_key?: Prisma.StringFieldUpdateOperationsInput | string
-  number_of_images_generated?: Prisma.IntFieldUpdateOperationsInput | number
-  image_urls?: Prisma.ArtGenerationUpdateimage_urlsInput | string[]
-  aspect_ratio?: Prisma.EnumAspectRatioFieldUpdateOperationsInput | $Enums.AspectRatio
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  userPrompt?: Prisma.StringFieldUpdateOperationsInput | string
+  finalPrompt?: Prisma.StringFieldUpdateOperationsInput | string
+  modelKey?: Prisma.StringFieldUpdateOperationsInput | string
+  numberOfImagesGenerated?: Prisma.IntFieldUpdateOperationsInput | number
+  imageUrls?: Prisma.ArtGenerationUpdateimageUrlsInput | string[]
+  aspectRatio?: Prisma.EnumAspectRatioFieldUpdateOperationsInput | $Enums.AspectRatio
   style?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lighting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   camera?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  Post?: Prisma.PostUpdateManyWithoutArt_generationNestedInput
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  Post?: Prisma.PostUpdateManyWithoutArtGenerationNestedInput
 }
 
 export type ArtGenerationUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  final_prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model_key?: Prisma.StringFieldUpdateOperationsInput | string
-  number_of_images_generated?: Prisma.IntFieldUpdateOperationsInput | number
-  image_urls?: Prisma.ArtGenerationUpdateimage_urlsInput | string[]
-  aspect_ratio?: Prisma.EnumAspectRatioFieldUpdateOperationsInput | $Enums.AspectRatio
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  userPrompt?: Prisma.StringFieldUpdateOperationsInput | string
+  finalPrompt?: Prisma.StringFieldUpdateOperationsInput | string
+  modelKey?: Prisma.StringFieldUpdateOperationsInput | string
+  numberOfImagesGenerated?: Prisma.IntFieldUpdateOperationsInput | number
+  imageUrls?: Prisma.ArtGenerationUpdateimageUrlsInput | string[]
+  aspectRatio?: Prisma.EnumAspectRatioFieldUpdateOperationsInput | $Enums.AspectRatio
   style?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lighting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   camera?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  Post?: Prisma.PostUncheckedUpdateManyWithoutArt_generationNestedInput
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  Post?: Prisma.PostUncheckedUpdateManyWithoutArtGenerationNestedInput
 }
 
 export type ArtGenerationCreateManyInput = {
   id?: number
-  user_id: string
-  user_prompt: string
-  final_prompt: string
-  model_key: string
-  number_of_images_generated: number
-  image_urls?: Prisma.ArtGenerationCreateimage_urlsInput | string[]
-  aspect_ratio: $Enums.AspectRatio
+  userId: string
+  userPrompt: string
+  finalPrompt: string
+  modelKey: string
+  numberOfImagesGenerated: number
+  imageUrls?: Prisma.ArtGenerationCreateimageUrlsInput | string[]
+  aspectRatio: $Enums.AspectRatio
   style?: string | null
   lighting?: string | null
   camera?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type ArtGenerationUpdateManyMutationInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  final_prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model_key?: Prisma.StringFieldUpdateOperationsInput | string
-  number_of_images_generated?: Prisma.IntFieldUpdateOperationsInput | number
-  image_urls?: Prisma.ArtGenerationUpdateimage_urlsInput | string[]
-  aspect_ratio?: Prisma.EnumAspectRatioFieldUpdateOperationsInput | $Enums.AspectRatio
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  userPrompt?: Prisma.StringFieldUpdateOperationsInput | string
+  finalPrompt?: Prisma.StringFieldUpdateOperationsInput | string
+  modelKey?: Prisma.StringFieldUpdateOperationsInput | string
+  numberOfImagesGenerated?: Prisma.IntFieldUpdateOperationsInput | number
+  imageUrls?: Prisma.ArtGenerationUpdateimageUrlsInput | string[]
+  aspectRatio?: Prisma.EnumAspectRatioFieldUpdateOperationsInput | $Enums.AspectRatio
   style?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lighting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   camera?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ArtGenerationUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  final_prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model_key?: Prisma.StringFieldUpdateOperationsInput | string
-  number_of_images_generated?: Prisma.IntFieldUpdateOperationsInput | number
-  image_urls?: Prisma.ArtGenerationUpdateimage_urlsInput | string[]
-  aspect_ratio?: Prisma.EnumAspectRatioFieldUpdateOperationsInput | $Enums.AspectRatio
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  userPrompt?: Prisma.StringFieldUpdateOperationsInput | string
+  finalPrompt?: Prisma.StringFieldUpdateOperationsInput | string
+  modelKey?: Prisma.StringFieldUpdateOperationsInput | string
+  numberOfImagesGenerated?: Prisma.IntFieldUpdateOperationsInput | number
+  imageUrls?: Prisma.ArtGenerationUpdateimageUrlsInput | string[]
+  aspectRatio?: Prisma.EnumAspectRatioFieldUpdateOperationsInput | $Enums.AspectRatio
   style?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lighting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   camera?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ArtGenerationNullableScalarRelationFilter = {
@@ -479,58 +479,58 @@ export type ArtGenerationNullableScalarRelationFilter = {
 
 export type ArtGenerationCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  user_prompt?: Prisma.SortOrder
-  final_prompt?: Prisma.SortOrder
-  model_key?: Prisma.SortOrder
-  number_of_images_generated?: Prisma.SortOrder
-  image_urls?: Prisma.SortOrder
-  aspect_ratio?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  userPrompt?: Prisma.SortOrder
+  finalPrompt?: Prisma.SortOrder
+  modelKey?: Prisma.SortOrder
+  numberOfImagesGenerated?: Prisma.SortOrder
+  imageUrls?: Prisma.SortOrder
+  aspectRatio?: Prisma.SortOrder
   style?: Prisma.SortOrder
   lighting?: Prisma.SortOrder
   camera?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ArtGenerationAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  number_of_images_generated?: Prisma.SortOrder
+  numberOfImagesGenerated?: Prisma.SortOrder
 }
 
 export type ArtGenerationMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  user_prompt?: Prisma.SortOrder
-  final_prompt?: Prisma.SortOrder
-  model_key?: Prisma.SortOrder
-  number_of_images_generated?: Prisma.SortOrder
-  aspect_ratio?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  userPrompt?: Prisma.SortOrder
+  finalPrompt?: Prisma.SortOrder
+  modelKey?: Prisma.SortOrder
+  numberOfImagesGenerated?: Prisma.SortOrder
+  aspectRatio?: Prisma.SortOrder
   style?: Prisma.SortOrder
   lighting?: Prisma.SortOrder
   camera?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ArtGenerationMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
-  user_prompt?: Prisma.SortOrder
-  final_prompt?: Prisma.SortOrder
-  model_key?: Prisma.SortOrder
-  number_of_images_generated?: Prisma.SortOrder
-  aspect_ratio?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  userPrompt?: Prisma.SortOrder
+  finalPrompt?: Prisma.SortOrder
+  modelKey?: Prisma.SortOrder
+  numberOfImagesGenerated?: Prisma.SortOrder
+  aspectRatio?: Prisma.SortOrder
   style?: Prisma.SortOrder
   lighting?: Prisma.SortOrder
   camera?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ArtGenerationSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  number_of_images_generated?: Prisma.SortOrder
+  numberOfImagesGenerated?: Prisma.SortOrder
 }
 
 export type ArtGenerationCreateNestedOneWithoutPostInput = {
@@ -549,11 +549,11 @@ export type ArtGenerationUpdateOneWithoutPostNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ArtGenerationUpdateToOneWithWhereWithoutPostInput, Prisma.ArtGenerationUpdateWithoutPostInput>, Prisma.ArtGenerationUncheckedUpdateWithoutPostInput>
 }
 
-export type ArtGenerationCreateimage_urlsInput = {
+export type ArtGenerationCreateimageUrlsInput = {
   set: string[]
 }
 
-export type ArtGenerationUpdateimage_urlsInput = {
+export type ArtGenerationUpdateimageUrlsInput = {
   set?: string[]
   push?: string | string[]
 }
@@ -563,34 +563,34 @@ export type EnumAspectRatioFieldUpdateOperationsInput = {
 }
 
 export type ArtGenerationCreateWithoutPostInput = {
-  user_id: string
-  user_prompt: string
-  final_prompt: string
-  model_key: string
-  number_of_images_generated: number
-  image_urls?: Prisma.ArtGenerationCreateimage_urlsInput | string[]
-  aspect_ratio: $Enums.AspectRatio
+  userId: string
+  userPrompt: string
+  finalPrompt: string
+  modelKey: string
+  numberOfImagesGenerated: number
+  imageUrls?: Prisma.ArtGenerationCreateimageUrlsInput | string[]
+  aspectRatio: $Enums.AspectRatio
   style?: string | null
   lighting?: string | null
   camera?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type ArtGenerationUncheckedCreateWithoutPostInput = {
   id?: number
-  user_id: string
-  user_prompt: string
-  final_prompt: string
-  model_key: string
-  number_of_images_generated: number
-  image_urls?: Prisma.ArtGenerationCreateimage_urlsInput | string[]
-  aspect_ratio: $Enums.AspectRatio
+  userId: string
+  userPrompt: string
+  finalPrompt: string
+  modelKey: string
+  numberOfImagesGenerated: number
+  imageUrls?: Prisma.ArtGenerationCreateimageUrlsInput | string[]
+  aspectRatio: $Enums.AspectRatio
   style?: string | null
   lighting?: string | null
   camera?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type ArtGenerationCreateOrConnectWithoutPostInput = {
@@ -610,34 +610,34 @@ export type ArtGenerationUpdateToOneWithWhereWithoutPostInput = {
 }
 
 export type ArtGenerationUpdateWithoutPostInput = {
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  final_prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model_key?: Prisma.StringFieldUpdateOperationsInput | string
-  number_of_images_generated?: Prisma.IntFieldUpdateOperationsInput | number
-  image_urls?: Prisma.ArtGenerationUpdateimage_urlsInput | string[]
-  aspect_ratio?: Prisma.EnumAspectRatioFieldUpdateOperationsInput | $Enums.AspectRatio
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  userPrompt?: Prisma.StringFieldUpdateOperationsInput | string
+  finalPrompt?: Prisma.StringFieldUpdateOperationsInput | string
+  modelKey?: Prisma.StringFieldUpdateOperationsInput | string
+  numberOfImagesGenerated?: Prisma.IntFieldUpdateOperationsInput | number
+  imageUrls?: Prisma.ArtGenerationUpdateimageUrlsInput | string[]
+  aspectRatio?: Prisma.EnumAspectRatioFieldUpdateOperationsInput | $Enums.AspectRatio
   style?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lighting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   camera?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ArtGenerationUncheckedUpdateWithoutPostInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  final_prompt?: Prisma.StringFieldUpdateOperationsInput | string
-  model_key?: Prisma.StringFieldUpdateOperationsInput | string
-  number_of_images_generated?: Prisma.IntFieldUpdateOperationsInput | number
-  image_urls?: Prisma.ArtGenerationUpdateimage_urlsInput | string[]
-  aspect_ratio?: Prisma.EnumAspectRatioFieldUpdateOperationsInput | $Enums.AspectRatio
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  userPrompt?: Prisma.StringFieldUpdateOperationsInput | string
+  finalPrompt?: Prisma.StringFieldUpdateOperationsInput | string
+  modelKey?: Prisma.StringFieldUpdateOperationsInput | string
+  numberOfImagesGenerated?: Prisma.IntFieldUpdateOperationsInput | number
+  imageUrls?: Prisma.ArtGenerationUpdateimageUrlsInput | string[]
+  aspectRatio?: Prisma.EnumAspectRatioFieldUpdateOperationsInput | $Enums.AspectRatio
   style?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lighting?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   camera?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -673,71 +673,71 @@ export type ArtGenerationCountOutputTypeCountPostArgs<ExtArgs extends runtime.Ty
 
 export type ArtGenerationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  user_id?: boolean
-  user_prompt?: boolean
-  final_prompt?: boolean
-  model_key?: boolean
-  number_of_images_generated?: boolean
-  image_urls?: boolean
-  aspect_ratio?: boolean
+  userId?: boolean
+  userPrompt?: boolean
+  finalPrompt?: boolean
+  modelKey?: boolean
+  numberOfImagesGenerated?: boolean
+  imageUrls?: boolean
+  aspectRatio?: boolean
   style?: boolean
   lighting?: boolean
   camera?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   Post?: boolean | Prisma.ArtGeneration$PostArgs<ExtArgs>
   _count?: boolean | Prisma.ArtGenerationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["artGeneration"]>
 
 export type ArtGenerationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  user_id?: boolean
-  user_prompt?: boolean
-  final_prompt?: boolean
-  model_key?: boolean
-  number_of_images_generated?: boolean
-  image_urls?: boolean
-  aspect_ratio?: boolean
+  userId?: boolean
+  userPrompt?: boolean
+  finalPrompt?: boolean
+  modelKey?: boolean
+  numberOfImagesGenerated?: boolean
+  imageUrls?: boolean
+  aspectRatio?: boolean
   style?: boolean
   lighting?: boolean
   camera?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["artGeneration"]>
 
 export type ArtGenerationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  user_id?: boolean
-  user_prompt?: boolean
-  final_prompt?: boolean
-  model_key?: boolean
-  number_of_images_generated?: boolean
-  image_urls?: boolean
-  aspect_ratio?: boolean
+  userId?: boolean
+  userPrompt?: boolean
+  finalPrompt?: boolean
+  modelKey?: boolean
+  numberOfImagesGenerated?: boolean
+  imageUrls?: boolean
+  aspectRatio?: boolean
   style?: boolean
   lighting?: boolean
   camera?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["artGeneration"]>
 
 export type ArtGenerationSelectScalar = {
   id?: boolean
-  user_id?: boolean
-  user_prompt?: boolean
-  final_prompt?: boolean
-  model_key?: boolean
-  number_of_images_generated?: boolean
-  image_urls?: boolean
-  aspect_ratio?: boolean
+  userId?: boolean
+  userPrompt?: boolean
+  finalPrompt?: boolean
+  modelKey?: boolean
+  numberOfImagesGenerated?: boolean
+  imageUrls?: boolean
+  aspectRatio?: boolean
   style?: boolean
   lighting?: boolean
   camera?: boolean
-  created_at?: boolean
-  updated_at?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type ArtGenerationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "user_prompt" | "final_prompt" | "model_key" | "number_of_images_generated" | "image_urls" | "aspect_ratio" | "style" | "lighting" | "camera" | "created_at" | "updated_at", ExtArgs["result"]["artGeneration"]>
+export type ArtGenerationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "userPrompt" | "finalPrompt" | "modelKey" | "numberOfImagesGenerated" | "imageUrls" | "aspectRatio" | "style" | "lighting" | "camera" | "createdAt" | "updatedAt", ExtArgs["result"]["artGeneration"]>
 export type ArtGenerationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   Post?: boolean | Prisma.ArtGeneration$PostArgs<ExtArgs>
   _count?: boolean | Prisma.ArtGenerationCountOutputTypeDefaultArgs<ExtArgs>
@@ -752,18 +752,18 @@ export type $ArtGenerationPayload<ExtArgs extends runtime.Types.Extensions.Inter
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    user_id: string
-    user_prompt: string
-    final_prompt: string
-    model_key: string
-    number_of_images_generated: number
-    image_urls: string[]
-    aspect_ratio: $Enums.AspectRatio
+    userId: string
+    userPrompt: string
+    finalPrompt: string
+    modelKey: string
+    numberOfImagesGenerated: number
+    imageUrls: string[]
+    aspectRatio: $Enums.AspectRatio
     style: string | null
     lighting: string | null
     camera: string | null
-    created_at: Date
-    updated_at: Date | null
+    createdAt: Date
+    updatedAt: Date | null
   }, ExtArgs["result"]["artGeneration"]>
   composites: {}
 }
@@ -1189,18 +1189,18 @@ export interface Prisma__ArtGenerationClient<T, Null = never, ExtArgs extends ru
  */
 export interface ArtGenerationFieldRefs {
   readonly id: Prisma.FieldRef<"ArtGeneration", 'Int'>
-  readonly user_id: Prisma.FieldRef<"ArtGeneration", 'String'>
-  readonly user_prompt: Prisma.FieldRef<"ArtGeneration", 'String'>
-  readonly final_prompt: Prisma.FieldRef<"ArtGeneration", 'String'>
-  readonly model_key: Prisma.FieldRef<"ArtGeneration", 'String'>
-  readonly number_of_images_generated: Prisma.FieldRef<"ArtGeneration", 'Int'>
-  readonly image_urls: Prisma.FieldRef<"ArtGeneration", 'String[]'>
-  readonly aspect_ratio: Prisma.FieldRef<"ArtGeneration", 'AspectRatio'>
+  readonly userId: Prisma.FieldRef<"ArtGeneration", 'String'>
+  readonly userPrompt: Prisma.FieldRef<"ArtGeneration", 'String'>
+  readonly finalPrompt: Prisma.FieldRef<"ArtGeneration", 'String'>
+  readonly modelKey: Prisma.FieldRef<"ArtGeneration", 'String'>
+  readonly numberOfImagesGenerated: Prisma.FieldRef<"ArtGeneration", 'Int'>
+  readonly imageUrls: Prisma.FieldRef<"ArtGeneration", 'String[]'>
+  readonly aspectRatio: Prisma.FieldRef<"ArtGeneration", 'AspectRatio'>
   readonly style: Prisma.FieldRef<"ArtGeneration", 'String'>
   readonly lighting: Prisma.FieldRef<"ArtGeneration", 'String'>
   readonly camera: Prisma.FieldRef<"ArtGeneration", 'String'>
-  readonly created_at: Prisma.FieldRef<"ArtGeneration", 'DateTime'>
-  readonly updated_at: Prisma.FieldRef<"ArtGeneration", 'DateTime'>
+  readonly createdAt: Prisma.FieldRef<"ArtGeneration", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"ArtGeneration", 'DateTime'>
 }
     
 

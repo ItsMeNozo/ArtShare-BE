@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
+import { AuthModule } from 'src/auth/auth.module';
+import { S3StorageProvider } from 'src/storage/providers/s3-storage.provider';
+import { StorageService } from 'src/storage/storage.service';
+import { UsageModule } from 'src/usage/usage.module';
 import { ArtGenerationController } from './art-generation.controller';
 import { ArtGenerationService } from './art-generation.service';
-import { GptImageStrategy } from './image-strategies/gpt-image.strategy';
 import { ImageGeneratorStrategy } from './image-generator.interface';
-import { StorageService } from 'src/storage/storage.service';
-import { S3StorageProvider } from 'src/storage/providers/s3-storage.provider';
+import { GptImageStrategy } from './image-strategies/gpt-image.strategy';
 import { PromptService } from './prompt.service';
-import { AuthModule } from 'src/auth/auth.module';
-import { UsageModule } from 'src/usage/usage.module';
 
 @Module({
   imports: [AuthModule, UsageModule],

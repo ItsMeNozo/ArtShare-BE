@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus } from "@nestjs/common";
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 export function TryCatch(
   errorMessage?: string,
@@ -11,7 +11,10 @@ export function TryCatch(
         return await original.apply(this, args);
       } catch (err) {
         const className = this.constructor.name;
-        console.error(`@@@@@ Error in ${className}####${String(propertyKey)}:`, err);
+        console.error(
+          `@@@@@ Error in ${className}####${String(propertyKey)}:`,
+          err,
+        );
         console.error('@@@@@ Error with arguments:', args);
         if (errorMessage) {
           throw new HttpException(errorMessage, status);

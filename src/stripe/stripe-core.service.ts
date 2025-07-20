@@ -1,7 +1,7 @@
 import {
   Injectable,
-  Logger,
   InternalServerErrorException,
+  Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Stripe from 'stripe';
@@ -16,7 +16,8 @@ export class StripeCoreService {
 
   constructor(private configService: ConfigService) {
     this.frontendUrl =
-      this.configService.get<string>('FRONTEND_URL') || 'http://localhost:5173';
+      (this.configService.get<string>('FRONTEND_URL') ||
+        'http://localhost:5173') + '/app-subscription?stripe_portal_return=true';
     const secretKey = this.configService.get<string>('STRIPE_SECRET_KEY');
     const webhookSecret = this.configService.get<string>(
       'STRIPE_WEBHOOK_SECRET',

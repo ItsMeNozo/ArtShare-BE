@@ -94,7 +94,7 @@ export class GetAutoPostsQueryDto {
 
   @IsOptional()
   @IsString()
-  sortBy?: string = 'scheduled_at';
+  sortBy?: string = 'scheduledAt';
 
   @IsOptional()
   @IsIn(['asc', 'desc'])

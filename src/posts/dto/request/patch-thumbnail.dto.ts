@@ -2,16 +2,16 @@ import { IsNumber, IsOptional } from 'class-validator';
 
 export class PatchThumbnailDto {
   @IsNumber()
-  crop_x: number;
+  cropX: number;
 
   @IsNumber()
-  crop_y: number;
+  cropY: number;
 
   @IsNumber()
-  crop_w: number;
+  cropW: number;
 
   @IsNumber()
-  crop_h: number;
+  cropH: number;
 
   @IsNumber()
   zoom: number;

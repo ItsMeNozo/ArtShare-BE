@@ -204,7 +204,7 @@ export type UserUsageGroupByOutputType = {
   cycleStartedAt: Date
   cycleEndsAt: Date
   createdAt: Date
-  updatedAt: Date
+  updatedAt: Date | null
   _count: UserUsageCountAggregateOutputType | null
   _avg: UserUsageAvgAggregateOutputType | null
   _sum: UserUsageSumAggregateOutputType | null
@@ -238,7 +238,7 @@ export type UserUsageWhereInput = {
   cycleStartedAt?: Prisma.DateTimeFilter<"UserUsage"> | Date | string
   cycleEndsAt?: Prisma.DateTimeFilter<"UserUsage"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"UserUsage"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"UserUsage"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"UserUsage"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -250,7 +250,7 @@ export type UserUsageOrderByWithRelationInput = {
   cycleStartedAt?: Prisma.SortOrder
   cycleEndsAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -266,7 +266,7 @@ export type UserUsageWhereUniqueInput = Prisma.AtLeast<{
   cycleStartedAt?: Prisma.DateTimeFilter<"UserUsage"> | Date | string
   cycleEndsAt?: Prisma.DateTimeFilter<"UserUsage"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"UserUsage"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"UserUsage"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"UserUsage"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "userId_featureKey_cycleStartedAt">
 
@@ -278,7 +278,7 @@ export type UserUsageOrderByWithAggregationInput = {
   cycleStartedAt?: Prisma.SortOrder
   cycleEndsAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserUsageCountOrderByAggregateInput
   _avg?: Prisma.UserUsageAvgOrderByAggregateInput
   _max?: Prisma.UserUsageMaxOrderByAggregateInput
@@ -297,7 +297,7 @@ export type UserUsageScalarWhereWithAggregatesInput = {
   cycleStartedAt?: Prisma.DateTimeWithAggregatesFilter<"UserUsage"> | Date | string
   cycleEndsAt?: Prisma.DateTimeWithAggregatesFilter<"UserUsage"> | Date | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserUsage"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserUsage"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"UserUsage"> | Date | string | null
 }
 
 export type UserUsageCreateInput = {
@@ -307,7 +307,7 @@ export type UserUsageCreateInput = {
   cycleStartedAt: Date | string
   cycleEndsAt: Date | string
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutUserUsageInput
 }
 
@@ -319,7 +319,7 @@ export type UserUsageUncheckedCreateInput = {
   cycleStartedAt: Date | string
   cycleEndsAt: Date | string
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type UserUsageUpdateInput = {
@@ -329,7 +329,7 @@ export type UserUsageUpdateInput = {
   cycleStartedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cycleEndsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutUserUsageNestedInput
 }
 
@@ -341,7 +341,7 @@ export type UserUsageUncheckedUpdateInput = {
   cycleStartedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cycleEndsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUsageCreateManyInput = {
@@ -352,7 +352,7 @@ export type UserUsageCreateManyInput = {
   cycleStartedAt: Date | string
   cycleEndsAt: Date | string
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type UserUsageUpdateManyMutationInput = {
@@ -362,7 +362,7 @@ export type UserUsageUpdateManyMutationInput = {
   cycleStartedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cycleEndsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUsageUncheckedUpdateManyInput = {
@@ -373,7 +373,7 @@ export type UserUsageUncheckedUpdateManyInput = {
   cycleStartedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cycleEndsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUsageListRelationFilter = {
@@ -482,7 +482,7 @@ export type UserUsageCreateWithoutUserInput = {
   cycleStartedAt: Date | string
   cycleEndsAt: Date | string
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type UserUsageUncheckedCreateWithoutUserInput = {
@@ -492,7 +492,7 @@ export type UserUsageUncheckedCreateWithoutUserInput = {
   cycleStartedAt: Date | string
   cycleEndsAt: Date | string
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type UserUsageCreateOrConnectWithoutUserInput = {
@@ -532,7 +532,7 @@ export type UserUsageScalarWhereInput = {
   cycleStartedAt?: Prisma.DateTimeFilter<"UserUsage"> | Date | string
   cycleEndsAt?: Prisma.DateTimeFilter<"UserUsage"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"UserUsage"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"UserUsage"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"UserUsage"> | Date | string | null
 }
 
 export type UserUsageCreateManyUserInput = {
@@ -542,7 +542,7 @@ export type UserUsageCreateManyUserInput = {
   cycleStartedAt: Date | string
   cycleEndsAt: Date | string
   createdAt?: Date | string
-  updatedAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type UserUsageUpdateWithoutUserInput = {
@@ -552,7 +552,7 @@ export type UserUsageUpdateWithoutUserInput = {
   cycleStartedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cycleEndsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUsageUncheckedUpdateWithoutUserInput = {
@@ -562,7 +562,7 @@ export type UserUsageUncheckedUpdateWithoutUserInput = {
   cycleStartedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cycleEndsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUsageUncheckedUpdateManyWithoutUserInput = {
@@ -572,7 +572,7 @@ export type UserUsageUncheckedUpdateManyWithoutUserInput = {
   cycleStartedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cycleEndsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -648,7 +648,7 @@ export type $UserUsagePayload<ExtArgs extends runtime.Types.Extensions.InternalA
     cycleStartedAt: Date
     cycleEndsAt: Date
     createdAt: Date
-    updatedAt: Date
+    updatedAt: Date | null
   }, ExtArgs["result"]["userUsage"]>
   composites: {}
 }

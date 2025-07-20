@@ -27,150 +27,150 @@ export type AggregateBlog = {
 
 export type BlogAvgAggregateOutputType = {
   id: number | null
-  like_count: number | null
-  comment_count: number | null
-  share_count: number | null
-  average_rating: number | null
-  rating_count: number | null
-  view_count: number | null
+  likeCount: number | null
+  commentCount: number | null
+  shareCount: number | null
+  averageRating: number | null
+  ratingCount: number | null
+  viewCount: number | null
 }
 
 export type BlogSumAggregateOutputType = {
   id: number | null
-  like_count: number | null
-  comment_count: number | null
-  share_count: number | null
-  average_rating: number | null
-  rating_count: number | null
-  view_count: number | null
+  likeCount: number | null
+  commentCount: number | null
+  shareCount: number | null
+  averageRating: number | null
+  ratingCount: number | null
+  viewCount: number | null
 }
 
 export type BlogMinAggregateOutputType = {
   id: number | null
-  user_id: string | null
+  userId: string | null
   title: string | null
   content: string | null
-  created_at: Date | null
-  is_published: boolean | null
-  like_count: number | null
-  comment_count: number | null
-  share_count: number | null
-  updated_at: Date | null
-  average_rating: number | null
-  is_protected: boolean | null
-  rating_count: number | null
-  view_count: number | null
+  createdAt: Date | null
+  isPublished: boolean | null
+  likeCount: number | null
+  commentCount: number | null
+  shareCount: number | null
+  updatedAt: Date | null
+  averageRating: number | null
+  isProtected: boolean | null
+  ratingCount: number | null
+  viewCount: number | null
 }
 
 export type BlogMaxAggregateOutputType = {
   id: number | null
-  user_id: string | null
+  userId: string | null
   title: string | null
   content: string | null
-  created_at: Date | null
-  is_published: boolean | null
-  like_count: number | null
-  comment_count: number | null
-  share_count: number | null
-  updated_at: Date | null
-  average_rating: number | null
-  is_protected: boolean | null
-  rating_count: number | null
-  view_count: number | null
+  createdAt: Date | null
+  isPublished: boolean | null
+  likeCount: number | null
+  commentCount: number | null
+  shareCount: number | null
+  updatedAt: Date | null
+  averageRating: number | null
+  isProtected: boolean | null
+  ratingCount: number | null
+  viewCount: number | null
 }
 
 export type BlogCountAggregateOutputType = {
   id: number
-  user_id: number
+  userId: number
   title: number
   content: number
-  created_at: number
-  is_published: number
-  like_count: number
-  comment_count: number
-  share_count: number
-  updated_at: number
-  average_rating: number
-  is_protected: number
-  rating_count: number
+  createdAt: number
+  isPublished: number
+  likeCount: number
+  commentCount: number
+  shareCount: number
+  updatedAt: number
+  averageRating: number
+  isProtected: number
+  ratingCount: number
   pictures: number
-  embedded_videos: number
-  view_count: number
+  embeddedVideos: number
+  viewCount: number
   _all: number
 }
 
 
 export type BlogAvgAggregateInputType = {
   id?: true
-  like_count?: true
-  comment_count?: true
-  share_count?: true
-  average_rating?: true
-  rating_count?: true
-  view_count?: true
+  likeCount?: true
+  commentCount?: true
+  shareCount?: true
+  averageRating?: true
+  ratingCount?: true
+  viewCount?: true
 }
 
 export type BlogSumAggregateInputType = {
   id?: true
-  like_count?: true
-  comment_count?: true
-  share_count?: true
-  average_rating?: true
-  rating_count?: true
-  view_count?: true
+  likeCount?: true
+  commentCount?: true
+  shareCount?: true
+  averageRating?: true
+  ratingCount?: true
+  viewCount?: true
 }
 
 export type BlogMinAggregateInputType = {
   id?: true
-  user_id?: true
+  userId?: true
   title?: true
   content?: true
-  created_at?: true
-  is_published?: true
-  like_count?: true
-  comment_count?: true
-  share_count?: true
-  updated_at?: true
-  average_rating?: true
-  is_protected?: true
-  rating_count?: true
-  view_count?: true
+  createdAt?: true
+  isPublished?: true
+  likeCount?: true
+  commentCount?: true
+  shareCount?: true
+  updatedAt?: true
+  averageRating?: true
+  isProtected?: true
+  ratingCount?: true
+  viewCount?: true
 }
 
 export type BlogMaxAggregateInputType = {
   id?: true
-  user_id?: true
+  userId?: true
   title?: true
   content?: true
-  created_at?: true
-  is_published?: true
-  like_count?: true
-  comment_count?: true
-  share_count?: true
-  updated_at?: true
-  average_rating?: true
-  is_protected?: true
-  rating_count?: true
-  view_count?: true
+  createdAt?: true
+  isPublished?: true
+  likeCount?: true
+  commentCount?: true
+  shareCount?: true
+  updatedAt?: true
+  averageRating?: true
+  isProtected?: true
+  ratingCount?: true
+  viewCount?: true
 }
 
 export type BlogCountAggregateInputType = {
   id?: true
-  user_id?: true
+  userId?: true
   title?: true
   content?: true
-  created_at?: true
-  is_published?: true
-  like_count?: true
-  comment_count?: true
-  share_count?: true
-  updated_at?: true
-  average_rating?: true
-  is_protected?: true
-  rating_count?: true
+  createdAt?: true
+  isPublished?: true
+  likeCount?: true
+  commentCount?: true
+  shareCount?: true
+  updatedAt?: true
+  averageRating?: true
+  isProtected?: true
+  ratingCount?: true
   pictures?: true
-  embedded_videos?: true
-  view_count?: true
+  embeddedVideos?: true
+  viewCount?: true
   _all?: true
 }
 
@@ -262,21 +262,21 @@ export type BlogGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type BlogGroupByOutputType = {
   id: number
-  user_id: string
+  userId: string
   title: string
   content: string
-  created_at: Date
-  is_published: boolean
-  like_count: number
-  comment_count: number
-  share_count: number
-  updated_at: Date | null
-  average_rating: number
-  is_protected: boolean
-  rating_count: number
+  createdAt: Date
+  isPublished: boolean
+  likeCount: number
+  commentCount: number
+  shareCount: number
+  updatedAt: Date | null
+  averageRating: number
+  isProtected: boolean
+  ratingCount: number
   pictures: string[]
-  embedded_videos: string[]
-  view_count: number
+  embeddedVideos: string[]
+  viewCount: number
   _count: BlogCountAggregateOutputType | null
   _avg: BlogAvgAggregateOutputType | null
   _sum: BlogSumAggregateOutputType | null
@@ -304,21 +304,21 @@ export type BlogWhereInput = {
   OR?: Prisma.BlogWhereInput[]
   NOT?: Prisma.BlogWhereInput | Prisma.BlogWhereInput[]
   id?: Prisma.IntFilter<"Blog"> | number
-  user_id?: Prisma.StringFilter<"Blog"> | string
+  userId?: Prisma.StringFilter<"Blog"> | string
   title?: Prisma.StringFilter<"Blog"> | string
   content?: Prisma.StringFilter<"Blog"> | string
-  created_at?: Prisma.DateTimeFilter<"Blog"> | Date | string
-  is_published?: Prisma.BoolFilter<"Blog"> | boolean
-  like_count?: Prisma.IntFilter<"Blog"> | number
-  comment_count?: Prisma.IntFilter<"Blog"> | number
-  share_count?: Prisma.IntFilter<"Blog"> | number
-  updated_at?: Prisma.DateTimeNullableFilter<"Blog"> | Date | string | null
-  average_rating?: Prisma.FloatFilter<"Blog"> | number
-  is_protected?: Prisma.BoolFilter<"Blog"> | boolean
-  rating_count?: Prisma.IntFilter<"Blog"> | number
+  createdAt?: Prisma.DateTimeFilter<"Blog"> | Date | string
+  isPublished?: Prisma.BoolFilter<"Blog"> | boolean
+  likeCount?: Prisma.IntFilter<"Blog"> | number
+  commentCount?: Prisma.IntFilter<"Blog"> | number
+  shareCount?: Prisma.IntFilter<"Blog"> | number
+  updatedAt?: Prisma.DateTimeNullableFilter<"Blog"> | Date | string | null
+  averageRating?: Prisma.FloatFilter<"Blog"> | number
+  isProtected?: Prisma.BoolFilter<"Blog"> | boolean
+  ratingCount?: Prisma.IntFilter<"Blog"> | number
   pictures?: Prisma.StringNullableListFilter<"Blog">
-  embedded_videos?: Prisma.StringNullableListFilter<"Blog">
-  view_count?: Prisma.IntFilter<"Blog"> | number
+  embeddedVideos?: Prisma.StringNullableListFilter<"Blog">
+  viewCount?: Prisma.IntFilter<"Blog"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   bookmarks?: Prisma.BookmarkListRelationFilter
   likes?: Prisma.LikeListRelationFilter
@@ -329,21 +329,21 @@ export type BlogWhereInput = {
 
 export type BlogOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  is_published?: Prisma.SortOrder
-  like_count?: Prisma.SortOrder
-  comment_count?: Prisma.SortOrder
-  share_count?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  average_rating?: Prisma.SortOrder
-  is_protected?: Prisma.SortOrder
-  rating_count?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  isPublished?: Prisma.SortOrder
+  likeCount?: Prisma.SortOrder
+  commentCount?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  isProtected?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
   pictures?: Prisma.SortOrder
-  embedded_videos?: Prisma.SortOrder
-  view_count?: Prisma.SortOrder
+  embeddedVideos?: Prisma.SortOrder
+  viewCount?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   bookmarks?: Prisma.BookmarkOrderByRelationAggregateInput
   likes?: Prisma.LikeOrderByRelationAggregateInput
@@ -357,21 +357,21 @@ export type BlogWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.BlogWhereInput | Prisma.BlogWhereInput[]
   OR?: Prisma.BlogWhereInput[]
   NOT?: Prisma.BlogWhereInput | Prisma.BlogWhereInput[]
-  user_id?: Prisma.StringFilter<"Blog"> | string
+  userId?: Prisma.StringFilter<"Blog"> | string
   title?: Prisma.StringFilter<"Blog"> | string
   content?: Prisma.StringFilter<"Blog"> | string
-  created_at?: Prisma.DateTimeFilter<"Blog"> | Date | string
-  is_published?: Prisma.BoolFilter<"Blog"> | boolean
-  like_count?: Prisma.IntFilter<"Blog"> | number
-  comment_count?: Prisma.IntFilter<"Blog"> | number
-  share_count?: Prisma.IntFilter<"Blog"> | number
-  updated_at?: Prisma.DateTimeNullableFilter<"Blog"> | Date | string | null
-  average_rating?: Prisma.FloatFilter<"Blog"> | number
-  is_protected?: Prisma.BoolFilter<"Blog"> | boolean
-  rating_count?: Prisma.IntFilter<"Blog"> | number
+  createdAt?: Prisma.DateTimeFilter<"Blog"> | Date | string
+  isPublished?: Prisma.BoolFilter<"Blog"> | boolean
+  likeCount?: Prisma.IntFilter<"Blog"> | number
+  commentCount?: Prisma.IntFilter<"Blog"> | number
+  shareCount?: Prisma.IntFilter<"Blog"> | number
+  updatedAt?: Prisma.DateTimeNullableFilter<"Blog"> | Date | string | null
+  averageRating?: Prisma.FloatFilter<"Blog"> | number
+  isProtected?: Prisma.BoolFilter<"Blog"> | boolean
+  ratingCount?: Prisma.IntFilter<"Blog"> | number
   pictures?: Prisma.StringNullableListFilter<"Blog">
-  embedded_videos?: Prisma.StringNullableListFilter<"Blog">
-  view_count?: Prisma.IntFilter<"Blog"> | number
+  embeddedVideos?: Prisma.StringNullableListFilter<"Blog">
+  viewCount?: Prisma.IntFilter<"Blog"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   bookmarks?: Prisma.BookmarkListRelationFilter
   likes?: Prisma.LikeListRelationFilter
@@ -382,21 +382,21 @@ export type BlogWhereUniqueInput = Prisma.AtLeast<{
 
 export type BlogOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  is_published?: Prisma.SortOrder
-  like_count?: Prisma.SortOrder
-  comment_count?: Prisma.SortOrder
-  share_count?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  average_rating?: Prisma.SortOrder
-  is_protected?: Prisma.SortOrder
-  rating_count?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  isPublished?: Prisma.SortOrder
+  likeCount?: Prisma.SortOrder
+  commentCount?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  isProtected?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
   pictures?: Prisma.SortOrder
-  embedded_videos?: Prisma.SortOrder
-  view_count?: Prisma.SortOrder
+  embeddedVideos?: Prisma.SortOrder
+  viewCount?: Prisma.SortOrder
   _count?: Prisma.BlogCountOrderByAggregateInput
   _avg?: Prisma.BlogAvgOrderByAggregateInput
   _max?: Prisma.BlogMaxOrderByAggregateInput
@@ -409,38 +409,38 @@ export type BlogScalarWhereWithAggregatesInput = {
   OR?: Prisma.BlogScalarWhereWithAggregatesInput[]
   NOT?: Prisma.BlogScalarWhereWithAggregatesInput | Prisma.BlogScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Blog"> | number
-  user_id?: Prisma.StringWithAggregatesFilter<"Blog"> | string
+  userId?: Prisma.StringWithAggregatesFilter<"Blog"> | string
   title?: Prisma.StringWithAggregatesFilter<"Blog"> | string
   content?: Prisma.StringWithAggregatesFilter<"Blog"> | string
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"Blog"> | Date | string
-  is_published?: Prisma.BoolWithAggregatesFilter<"Blog"> | boolean
-  like_count?: Prisma.IntWithAggregatesFilter<"Blog"> | number
-  comment_count?: Prisma.IntWithAggregatesFilter<"Blog"> | number
-  share_count?: Prisma.IntWithAggregatesFilter<"Blog"> | number
-  updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"Blog"> | Date | string | null
-  average_rating?: Prisma.FloatWithAggregatesFilter<"Blog"> | number
-  is_protected?: Prisma.BoolWithAggregatesFilter<"Blog"> | boolean
-  rating_count?: Prisma.IntWithAggregatesFilter<"Blog"> | number
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Blog"> | Date | string
+  isPublished?: Prisma.BoolWithAggregatesFilter<"Blog"> | boolean
+  likeCount?: Prisma.IntWithAggregatesFilter<"Blog"> | number
+  commentCount?: Prisma.IntWithAggregatesFilter<"Blog"> | number
+  shareCount?: Prisma.IntWithAggregatesFilter<"Blog"> | number
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Blog"> | Date | string | null
+  averageRating?: Prisma.FloatWithAggregatesFilter<"Blog"> | number
+  isProtected?: Prisma.BoolWithAggregatesFilter<"Blog"> | boolean
+  ratingCount?: Prisma.IntWithAggregatesFilter<"Blog"> | number
   pictures?: Prisma.StringNullableListFilter<"Blog">
-  embedded_videos?: Prisma.StringNullableListFilter<"Blog">
-  view_count?: Prisma.IntWithAggregatesFilter<"Blog"> | number
+  embeddedVideos?: Prisma.StringNullableListFilter<"Blog">
+  viewCount?: Prisma.IntWithAggregatesFilter<"Blog"> | number
 }
 
 export type BlogCreateInput = {
   title: string
   content: string
-  created_at?: Date | string
-  is_published?: boolean
-  like_count?: number
-  comment_count?: number
-  share_count?: number
-  updated_at?: Date | string | null
-  average_rating?: number
-  is_protected?: boolean
-  rating_count?: number
+  createdAt?: Date | string
+  isPublished?: boolean
+  likeCount?: number
+  commentCount?: number
+  shareCount?: number
+  updatedAt?: Date | string | null
+  averageRating?: number
+  isProtected?: boolean
+  ratingCount?: number
   pictures?: Prisma.BlogCreatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogCreateembedded_videosInput | string[]
-  view_count?: number
+  embeddedVideos?: Prisma.BlogCreateembeddedVideosInput | string[]
+  viewCount?: number
   user: Prisma.UserCreateNestedOneWithoutBlogsInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutBlogInput
   likes?: Prisma.LikeCreateNestedManyWithoutBlogInput
@@ -451,21 +451,21 @@ export type BlogCreateInput = {
 
 export type BlogUncheckedCreateInput = {
   id?: number
-  user_id: string
+  userId: string
   title: string
   content: string
-  created_at?: Date | string
-  is_published?: boolean
-  like_count?: number
-  comment_count?: number
-  share_count?: number
-  updated_at?: Date | string | null
-  average_rating?: number
-  is_protected?: boolean
-  rating_count?: number
+  createdAt?: Date | string
+  isPublished?: boolean
+  likeCount?: number
+  commentCount?: number
+  shareCount?: number
+  updatedAt?: Date | string | null
+  averageRating?: number
+  isProtected?: boolean
+  ratingCount?: number
   pictures?: Prisma.BlogCreatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogCreateembedded_videosInput | string[]
-  view_count?: number
+  embeddedVideos?: Prisma.BlogCreateembeddedVideosInput | string[]
+  viewCount?: number
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutBlogInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutBlogInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutBlogInput
@@ -476,18 +476,18 @@ export type BlogUncheckedCreateInput = {
 export type BlogUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutBlogsNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutBlogNestedInput
   likes?: Prisma.LikeUpdateManyWithoutBlogNestedInput
@@ -498,21 +498,21 @@ export type BlogUpdateInput = {
 
 export type BlogUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutBlogNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutBlogNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutBlogNestedInput
@@ -522,57 +522,57 @@ export type BlogUncheckedUpdateInput = {
 
 export type BlogCreateManyInput = {
   id?: number
-  user_id: string
+  userId: string
   title: string
   content: string
-  created_at?: Date | string
-  is_published?: boolean
-  like_count?: number
-  comment_count?: number
-  share_count?: number
-  updated_at?: Date | string | null
-  average_rating?: number
-  is_protected?: boolean
-  rating_count?: number
+  createdAt?: Date | string
+  isPublished?: boolean
+  likeCount?: number
+  commentCount?: number
+  shareCount?: number
+  updatedAt?: Date | string | null
+  averageRating?: number
+  isProtected?: boolean
+  ratingCount?: number
   pictures?: Prisma.BlogCreatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogCreateembedded_videosInput | string[]
-  view_count?: number
+  embeddedVideos?: Prisma.BlogCreateembeddedVideosInput | string[]
+  viewCount?: number
 }
 
 export type BlogUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type BlogUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type BlogListRelationFilter = {
@@ -595,75 +595,75 @@ export type StringNullableListFilter<$PrismaModel = never> = {
 
 export type BlogCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  is_published?: Prisma.SortOrder
-  like_count?: Prisma.SortOrder
-  comment_count?: Prisma.SortOrder
-  share_count?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  average_rating?: Prisma.SortOrder
-  is_protected?: Prisma.SortOrder
-  rating_count?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  isPublished?: Prisma.SortOrder
+  likeCount?: Prisma.SortOrder
+  commentCount?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  isProtected?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
   pictures?: Prisma.SortOrder
-  embedded_videos?: Prisma.SortOrder
-  view_count?: Prisma.SortOrder
+  embeddedVideos?: Prisma.SortOrder
+  viewCount?: Prisma.SortOrder
 }
 
 export type BlogAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  like_count?: Prisma.SortOrder
-  comment_count?: Prisma.SortOrder
-  share_count?: Prisma.SortOrder
-  average_rating?: Prisma.SortOrder
-  rating_count?: Prisma.SortOrder
-  view_count?: Prisma.SortOrder
+  likeCount?: Prisma.SortOrder
+  commentCount?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
+  viewCount?: Prisma.SortOrder
 }
 
 export type BlogMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  is_published?: Prisma.SortOrder
-  like_count?: Prisma.SortOrder
-  comment_count?: Prisma.SortOrder
-  share_count?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  average_rating?: Prisma.SortOrder
-  is_protected?: Prisma.SortOrder
-  rating_count?: Prisma.SortOrder
-  view_count?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  isPublished?: Prisma.SortOrder
+  likeCount?: Prisma.SortOrder
+  commentCount?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  isProtected?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
+  viewCount?: Prisma.SortOrder
 }
 
 export type BlogMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  user_id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  is_published?: Prisma.SortOrder
-  like_count?: Prisma.SortOrder
-  comment_count?: Prisma.SortOrder
-  share_count?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  average_rating?: Prisma.SortOrder
-  is_protected?: Prisma.SortOrder
-  rating_count?: Prisma.SortOrder
-  view_count?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  isPublished?: Prisma.SortOrder
+  likeCount?: Prisma.SortOrder
+  commentCount?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  isProtected?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
+  viewCount?: Prisma.SortOrder
 }
 
 export type BlogSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  like_count?: Prisma.SortOrder
-  comment_count?: Prisma.SortOrder
-  share_count?: Prisma.SortOrder
-  average_rating?: Prisma.SortOrder
-  rating_count?: Prisma.SortOrder
-  view_count?: Prisma.SortOrder
+  likeCount?: Prisma.SortOrder
+  commentCount?: Prisma.SortOrder
+  shareCount?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
+  viewCount?: Prisma.SortOrder
 }
 
 export type BlogNullableScalarRelationFilter = {
@@ -722,7 +722,7 @@ export type BlogCreatepicturesInput = {
   set: string[]
 }
 
-export type BlogCreateembedded_videosInput = {
+export type BlogCreateembeddedVideosInput = {
   set: string[]
 }
 
@@ -739,7 +739,7 @@ export type BlogUpdatepicturesInput = {
   push?: string | string[]
 }
 
-export type BlogUpdateembedded_videosInput = {
+export type BlogUpdateembeddedVideosInput = {
   set?: string[]
   push?: string | string[]
 }
@@ -845,18 +845,18 @@ export type BlogUpdateOneRequiredWithoutRatingsNestedInput = {
 export type BlogCreateWithoutUserInput = {
   title: string
   content: string
-  created_at?: Date | string
-  is_published?: boolean
-  like_count?: number
-  comment_count?: number
-  share_count?: number
-  updated_at?: Date | string | null
-  average_rating?: number
-  is_protected?: boolean
-  rating_count?: number
+  createdAt?: Date | string
+  isPublished?: boolean
+  likeCount?: number
+  commentCount?: number
+  shareCount?: number
+  updatedAt?: Date | string | null
+  averageRating?: number
+  isProtected?: boolean
+  ratingCount?: number
   pictures?: Prisma.BlogCreatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogCreateembedded_videosInput | string[]
-  view_count?: number
+  embeddedVideos?: Prisma.BlogCreateembeddedVideosInput | string[]
+  viewCount?: number
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutBlogInput
   likes?: Prisma.LikeCreateNestedManyWithoutBlogInput
   ratings?: Prisma.RatingCreateNestedManyWithoutBlogInput
@@ -868,18 +868,18 @@ export type BlogUncheckedCreateWithoutUserInput = {
   id?: number
   title: string
   content: string
-  created_at?: Date | string
-  is_published?: boolean
-  like_count?: number
-  comment_count?: number
-  share_count?: number
-  updated_at?: Date | string | null
-  average_rating?: number
-  is_protected?: boolean
-  rating_count?: number
+  createdAt?: Date | string
+  isPublished?: boolean
+  likeCount?: number
+  commentCount?: number
+  shareCount?: number
+  updatedAt?: Date | string | null
+  averageRating?: number
+  isProtected?: boolean
+  ratingCount?: number
   pictures?: Prisma.BlogCreatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogCreateembedded_videosInput | string[]
-  view_count?: number
+  embeddedVideos?: Prisma.BlogCreateembeddedVideosInput | string[]
+  viewCount?: number
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutBlogInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutBlogInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutBlogInput
@@ -918,38 +918,38 @@ export type BlogScalarWhereInput = {
   OR?: Prisma.BlogScalarWhereInput[]
   NOT?: Prisma.BlogScalarWhereInput | Prisma.BlogScalarWhereInput[]
   id?: Prisma.IntFilter<"Blog"> | number
-  user_id?: Prisma.StringFilter<"Blog"> | string
+  userId?: Prisma.StringFilter<"Blog"> | string
   title?: Prisma.StringFilter<"Blog"> | string
   content?: Prisma.StringFilter<"Blog"> | string
-  created_at?: Prisma.DateTimeFilter<"Blog"> | Date | string
-  is_published?: Prisma.BoolFilter<"Blog"> | boolean
-  like_count?: Prisma.IntFilter<"Blog"> | number
-  comment_count?: Prisma.IntFilter<"Blog"> | number
-  share_count?: Prisma.IntFilter<"Blog"> | number
-  updated_at?: Prisma.DateTimeNullableFilter<"Blog"> | Date | string | null
-  average_rating?: Prisma.FloatFilter<"Blog"> | number
-  is_protected?: Prisma.BoolFilter<"Blog"> | boolean
-  rating_count?: Prisma.IntFilter<"Blog"> | number
+  createdAt?: Prisma.DateTimeFilter<"Blog"> | Date | string
+  isPublished?: Prisma.BoolFilter<"Blog"> | boolean
+  likeCount?: Prisma.IntFilter<"Blog"> | number
+  commentCount?: Prisma.IntFilter<"Blog"> | number
+  shareCount?: Prisma.IntFilter<"Blog"> | number
+  updatedAt?: Prisma.DateTimeNullableFilter<"Blog"> | Date | string | null
+  averageRating?: Prisma.FloatFilter<"Blog"> | number
+  isProtected?: Prisma.BoolFilter<"Blog"> | boolean
+  ratingCount?: Prisma.IntFilter<"Blog"> | number
   pictures?: Prisma.StringNullableListFilter<"Blog">
-  embedded_videos?: Prisma.StringNullableListFilter<"Blog">
-  view_count?: Prisma.IntFilter<"Blog"> | number
+  embeddedVideos?: Prisma.StringNullableListFilter<"Blog">
+  viewCount?: Prisma.IntFilter<"Blog"> | number
 }
 
 export type BlogCreateWithoutCategoriesInput = {
   title: string
   content: string
-  created_at?: Date | string
-  is_published?: boolean
-  like_count?: number
-  comment_count?: number
-  share_count?: number
-  updated_at?: Date | string | null
-  average_rating?: number
-  is_protected?: boolean
-  rating_count?: number
+  createdAt?: Date | string
+  isPublished?: boolean
+  likeCount?: number
+  commentCount?: number
+  shareCount?: number
+  updatedAt?: Date | string | null
+  averageRating?: number
+  isProtected?: boolean
+  ratingCount?: number
   pictures?: Prisma.BlogCreatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogCreateembedded_videosInput | string[]
-  view_count?: number
+  embeddedVideos?: Prisma.BlogCreateembeddedVideosInput | string[]
+  viewCount?: number
   user: Prisma.UserCreateNestedOneWithoutBlogsInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutBlogInput
   likes?: Prisma.LikeCreateNestedManyWithoutBlogInput
@@ -959,21 +959,21 @@ export type BlogCreateWithoutCategoriesInput = {
 
 export type BlogUncheckedCreateWithoutCategoriesInput = {
   id?: number
-  user_id: string
+  userId: string
   title: string
   content: string
-  created_at?: Date | string
-  is_published?: boolean
-  like_count?: number
-  comment_count?: number
-  share_count?: number
-  updated_at?: Date | string | null
-  average_rating?: number
-  is_protected?: boolean
-  rating_count?: number
+  createdAt?: Date | string
+  isPublished?: boolean
+  likeCount?: number
+  commentCount?: number
+  shareCount?: number
+  updatedAt?: Date | string | null
+  averageRating?: number
+  isProtected?: boolean
+  ratingCount?: number
   pictures?: Prisma.BlogCreatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogCreateembedded_videosInput | string[]
-  view_count?: number
+  embeddedVideos?: Prisma.BlogCreateembeddedVideosInput | string[]
+  viewCount?: number
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutBlogInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutBlogInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutBlogInput
@@ -1004,18 +1004,18 @@ export type BlogUpdateManyWithWhereWithoutCategoriesInput = {
 export type BlogCreateWithoutLikesInput = {
   title: string
   content: string
-  created_at?: Date | string
-  is_published?: boolean
-  like_count?: number
-  comment_count?: number
-  share_count?: number
-  updated_at?: Date | string | null
-  average_rating?: number
-  is_protected?: boolean
-  rating_count?: number
+  createdAt?: Date | string
+  isPublished?: boolean
+  likeCount?: number
+  commentCount?: number
+  shareCount?: number
+  updatedAt?: Date | string | null
+  averageRating?: number
+  isProtected?: boolean
+  ratingCount?: number
   pictures?: Prisma.BlogCreatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogCreateembedded_videosInput | string[]
-  view_count?: number
+  embeddedVideos?: Prisma.BlogCreateembeddedVideosInput | string[]
+  viewCount?: number
   user: Prisma.UserCreateNestedOneWithoutBlogsInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutBlogInput
   ratings?: Prisma.RatingCreateNestedManyWithoutBlogInput
@@ -1025,21 +1025,21 @@ export type BlogCreateWithoutLikesInput = {
 
 export type BlogUncheckedCreateWithoutLikesInput = {
   id?: number
-  user_id: string
+  userId: string
   title: string
   content: string
-  created_at?: Date | string
-  is_published?: boolean
-  like_count?: number
-  comment_count?: number
-  share_count?: number
-  updated_at?: Date | string | null
-  average_rating?: number
-  is_protected?: boolean
-  rating_count?: number
+  createdAt?: Date | string
+  isPublished?: boolean
+  likeCount?: number
+  commentCount?: number
+  shareCount?: number
+  updatedAt?: Date | string | null
+  averageRating?: number
+  isProtected?: boolean
+  ratingCount?: number
   pictures?: Prisma.BlogCreatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogCreateembedded_videosInput | string[]
-  view_count?: number
+  embeddedVideos?: Prisma.BlogCreateembeddedVideosInput | string[]
+  viewCount?: number
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutBlogInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutBlogInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutBlogInput
@@ -1065,18 +1065,18 @@ export type BlogUpdateToOneWithWhereWithoutLikesInput = {
 export type BlogUpdateWithoutLikesInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutBlogsNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutBlogNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutBlogNestedInput
@@ -1086,21 +1086,21 @@ export type BlogUpdateWithoutLikesInput = {
 
 export type BlogUncheckedUpdateWithoutLikesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutBlogNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutBlogNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutBlogNestedInput
@@ -1110,18 +1110,18 @@ export type BlogUncheckedUpdateWithoutLikesInput = {
 export type BlogCreateWithoutSharesInput = {
   title: string
   content: string
-  created_at?: Date | string
-  is_published?: boolean
-  like_count?: number
-  comment_count?: number
-  share_count?: number
-  updated_at?: Date | string | null
-  average_rating?: number
-  is_protected?: boolean
-  rating_count?: number
+  createdAt?: Date | string
+  isPublished?: boolean
+  likeCount?: number
+  commentCount?: number
+  shareCount?: number
+  updatedAt?: Date | string | null
+  averageRating?: number
+  isProtected?: boolean
+  ratingCount?: number
   pictures?: Prisma.BlogCreatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogCreateembedded_videosInput | string[]
-  view_count?: number
+  embeddedVideos?: Prisma.BlogCreateembeddedVideosInput | string[]
+  viewCount?: number
   user: Prisma.UserCreateNestedOneWithoutBlogsInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutBlogInput
   likes?: Prisma.LikeCreateNestedManyWithoutBlogInput
@@ -1131,21 +1131,21 @@ export type BlogCreateWithoutSharesInput = {
 
 export type BlogUncheckedCreateWithoutSharesInput = {
   id?: number
-  user_id: string
+  userId: string
   title: string
   content: string
-  created_at?: Date | string
-  is_published?: boolean
-  like_count?: number
-  comment_count?: number
-  share_count?: number
-  updated_at?: Date | string | null
-  average_rating?: number
-  is_protected?: boolean
-  rating_count?: number
+  createdAt?: Date | string
+  isPublished?: boolean
+  likeCount?: number
+  commentCount?: number
+  shareCount?: number
+  updatedAt?: Date | string | null
+  averageRating?: number
+  isProtected?: boolean
+  ratingCount?: number
   pictures?: Prisma.BlogCreatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogCreateembedded_videosInput | string[]
-  view_count?: number
+  embeddedVideos?: Prisma.BlogCreateembeddedVideosInput | string[]
+  viewCount?: number
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutBlogInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutBlogInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutBlogInput
@@ -1171,18 +1171,18 @@ export type BlogUpdateToOneWithWhereWithoutSharesInput = {
 export type BlogUpdateWithoutSharesInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutBlogsNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutBlogNestedInput
   likes?: Prisma.LikeUpdateManyWithoutBlogNestedInput
@@ -1192,21 +1192,21 @@ export type BlogUpdateWithoutSharesInput = {
 
 export type BlogUncheckedUpdateWithoutSharesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutBlogNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutBlogNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutBlogNestedInput
@@ -1216,18 +1216,18 @@ export type BlogUncheckedUpdateWithoutSharesInput = {
 export type BlogCreateWithoutBookmarksInput = {
   title: string
   content: string
-  created_at?: Date | string
-  is_published?: boolean
-  like_count?: number
-  comment_count?: number
-  share_count?: number
-  updated_at?: Date | string | null
-  average_rating?: number
-  is_protected?: boolean
-  rating_count?: number
+  createdAt?: Date | string
+  isPublished?: boolean
+  likeCount?: number
+  commentCount?: number
+  shareCount?: number
+  updatedAt?: Date | string | null
+  averageRating?: number
+  isProtected?: boolean
+  ratingCount?: number
   pictures?: Prisma.BlogCreatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogCreateembedded_videosInput | string[]
-  view_count?: number
+  embeddedVideos?: Prisma.BlogCreateembeddedVideosInput | string[]
+  viewCount?: number
   user: Prisma.UserCreateNestedOneWithoutBlogsInput
   likes?: Prisma.LikeCreateNestedManyWithoutBlogInput
   ratings?: Prisma.RatingCreateNestedManyWithoutBlogInput
@@ -1237,21 +1237,21 @@ export type BlogCreateWithoutBookmarksInput = {
 
 export type BlogUncheckedCreateWithoutBookmarksInput = {
   id?: number
-  user_id: string
+  userId: string
   title: string
   content: string
-  created_at?: Date | string
-  is_published?: boolean
-  like_count?: number
-  comment_count?: number
-  share_count?: number
-  updated_at?: Date | string | null
-  average_rating?: number
-  is_protected?: boolean
-  rating_count?: number
+  createdAt?: Date | string
+  isPublished?: boolean
+  likeCount?: number
+  commentCount?: number
+  shareCount?: number
+  updatedAt?: Date | string | null
+  averageRating?: number
+  isProtected?: boolean
+  ratingCount?: number
   pictures?: Prisma.BlogCreatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogCreateembedded_videosInput | string[]
-  view_count?: number
+  embeddedVideos?: Prisma.BlogCreateembeddedVideosInput | string[]
+  viewCount?: number
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutBlogInput
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutBlogInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutBlogInput
@@ -1277,18 +1277,18 @@ export type BlogUpdateToOneWithWhereWithoutBookmarksInput = {
 export type BlogUpdateWithoutBookmarksInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutBlogsNestedInput
   likes?: Prisma.LikeUpdateManyWithoutBlogNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutBlogNestedInput
@@ -1298,21 +1298,21 @@ export type BlogUpdateWithoutBookmarksInput = {
 
 export type BlogUncheckedUpdateWithoutBookmarksInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   likes?: Prisma.LikeUncheckedUpdateManyWithoutBlogNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutBlogNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutBlogNestedInput
@@ -1322,18 +1322,18 @@ export type BlogUncheckedUpdateWithoutBookmarksInput = {
 export type BlogCreateWithoutRatingsInput = {
   title: string
   content: string
-  created_at?: Date | string
-  is_published?: boolean
-  like_count?: number
-  comment_count?: number
-  share_count?: number
-  updated_at?: Date | string | null
-  average_rating?: number
-  is_protected?: boolean
-  rating_count?: number
+  createdAt?: Date | string
+  isPublished?: boolean
+  likeCount?: number
+  commentCount?: number
+  shareCount?: number
+  updatedAt?: Date | string | null
+  averageRating?: number
+  isProtected?: boolean
+  ratingCount?: number
   pictures?: Prisma.BlogCreatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogCreateembedded_videosInput | string[]
-  view_count?: number
+  embeddedVideos?: Prisma.BlogCreateembeddedVideosInput | string[]
+  viewCount?: number
   user: Prisma.UserCreateNestedOneWithoutBlogsInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutBlogInput
   likes?: Prisma.LikeCreateNestedManyWithoutBlogInput
@@ -1343,21 +1343,21 @@ export type BlogCreateWithoutRatingsInput = {
 
 export type BlogUncheckedCreateWithoutRatingsInput = {
   id?: number
-  user_id: string
+  userId: string
   title: string
   content: string
-  created_at?: Date | string
-  is_published?: boolean
-  like_count?: number
-  comment_count?: number
-  share_count?: number
-  updated_at?: Date | string | null
-  average_rating?: number
-  is_protected?: boolean
-  rating_count?: number
+  createdAt?: Date | string
+  isPublished?: boolean
+  likeCount?: number
+  commentCount?: number
+  shareCount?: number
+  updatedAt?: Date | string | null
+  averageRating?: number
+  isProtected?: boolean
+  ratingCount?: number
   pictures?: Prisma.BlogCreatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogCreateembedded_videosInput | string[]
-  view_count?: number
+  embeddedVideos?: Prisma.BlogCreateembeddedVideosInput | string[]
+  viewCount?: number
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutBlogInput
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutBlogInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutBlogInput
@@ -1383,18 +1383,18 @@ export type BlogUpdateToOneWithWhereWithoutRatingsInput = {
 export type BlogUpdateWithoutRatingsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutBlogsNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutBlogNestedInput
   likes?: Prisma.LikeUpdateManyWithoutBlogNestedInput
@@ -1404,21 +1404,21 @@ export type BlogUpdateWithoutRatingsInput = {
 
 export type BlogUncheckedUpdateWithoutRatingsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutBlogNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutBlogNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutBlogNestedInput
@@ -1429,35 +1429,35 @@ export type BlogCreateManyUserInput = {
   id?: number
   title: string
   content: string
-  created_at?: Date | string
-  is_published?: boolean
-  like_count?: number
-  comment_count?: number
-  share_count?: number
-  updated_at?: Date | string | null
-  average_rating?: number
-  is_protected?: boolean
-  rating_count?: number
+  createdAt?: Date | string
+  isPublished?: boolean
+  likeCount?: number
+  commentCount?: number
+  shareCount?: number
+  updatedAt?: Date | string | null
+  averageRating?: number
+  isProtected?: boolean
+  ratingCount?: number
   pictures?: Prisma.BlogCreatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogCreateembedded_videosInput | string[]
-  view_count?: number
+  embeddedVideos?: Prisma.BlogCreateembeddedVideosInput | string[]
+  viewCount?: number
 }
 
 export type BlogUpdateWithoutUserInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   bookmarks?: Prisma.BookmarkUpdateManyWithoutBlogNestedInput
   likes?: Prisma.LikeUpdateManyWithoutBlogNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutBlogNestedInput
@@ -1469,18 +1469,18 @@ export type BlogUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutBlogNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutBlogNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutBlogNestedInput
@@ -1492,35 +1492,35 @@ export type BlogUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type BlogUpdateWithoutCategoriesInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutBlogsNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutBlogNestedInput
   likes?: Prisma.LikeUpdateManyWithoutBlogNestedInput
@@ -1530,21 +1530,21 @@ export type BlogUpdateWithoutCategoriesInput = {
 
 export type BlogUncheckedUpdateWithoutCategoriesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutBlogNestedInput
   likes?: Prisma.LikeUncheckedUpdateManyWithoutBlogNestedInput
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutBlogNestedInput
@@ -1553,21 +1553,21 @@ export type BlogUncheckedUpdateWithoutCategoriesInput = {
 
 export type BlogUncheckedUpdateManyWithoutCategoriesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  is_published?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  like_count?: Prisma.IntFieldUpdateOperationsInput | number
-  comment_count?: Prisma.IntFieldUpdateOperationsInput | number
-  share_count?: Prisma.IntFieldUpdateOperationsInput | number
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  average_rating?: Prisma.FloatFieldUpdateOperationsInput | number
-  is_protected?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating_count?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  likeCount?: Prisma.IntFieldUpdateOperationsInput | number
+  commentCount?: Prisma.IntFieldUpdateOperationsInput | number
+  shareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
+  isProtected?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   pictures?: Prisma.BlogUpdatepicturesInput | string[]
-  embedded_videos?: Prisma.BlogUpdateembedded_videosInput | string[]
-  view_count?: Prisma.IntFieldUpdateOperationsInput | number
+  embeddedVideos?: Prisma.BlogUpdateembeddedVideosInput | string[]
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -1639,21 +1639,21 @@ export type BlogCountOutputTypeCountCategoriesArgs<ExtArgs extends runtime.Types
 
 export type BlogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  user_id?: boolean
+  userId?: boolean
   title?: boolean
   content?: boolean
-  created_at?: boolean
-  is_published?: boolean
-  like_count?: boolean
-  comment_count?: boolean
-  share_count?: boolean
-  updated_at?: boolean
-  average_rating?: boolean
-  is_protected?: boolean
-  rating_count?: boolean
+  createdAt?: boolean
+  isPublished?: boolean
+  likeCount?: boolean
+  commentCount?: boolean
+  shareCount?: boolean
+  updatedAt?: boolean
+  averageRating?: boolean
+  isProtected?: boolean
+  ratingCount?: boolean
   pictures?: boolean
-  embedded_videos?: boolean
-  view_count?: boolean
+  embeddedVideos?: boolean
+  viewCount?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   bookmarks?: boolean | Prisma.Blog$bookmarksArgs<ExtArgs>
   likes?: boolean | Prisma.Blog$likesArgs<ExtArgs>
@@ -1665,64 +1665,64 @@ export type BlogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 
 export type BlogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  user_id?: boolean
+  userId?: boolean
   title?: boolean
   content?: boolean
-  created_at?: boolean
-  is_published?: boolean
-  like_count?: boolean
-  comment_count?: boolean
-  share_count?: boolean
-  updated_at?: boolean
-  average_rating?: boolean
-  is_protected?: boolean
-  rating_count?: boolean
+  createdAt?: boolean
+  isPublished?: boolean
+  likeCount?: boolean
+  commentCount?: boolean
+  shareCount?: boolean
+  updatedAt?: boolean
+  averageRating?: boolean
+  isProtected?: boolean
+  ratingCount?: boolean
   pictures?: boolean
-  embedded_videos?: boolean
-  view_count?: boolean
+  embeddedVideos?: boolean
+  viewCount?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["blog"]>
 
 export type BlogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  user_id?: boolean
+  userId?: boolean
   title?: boolean
   content?: boolean
-  created_at?: boolean
-  is_published?: boolean
-  like_count?: boolean
-  comment_count?: boolean
-  share_count?: boolean
-  updated_at?: boolean
-  average_rating?: boolean
-  is_protected?: boolean
-  rating_count?: boolean
+  createdAt?: boolean
+  isPublished?: boolean
+  likeCount?: boolean
+  commentCount?: boolean
+  shareCount?: boolean
+  updatedAt?: boolean
+  averageRating?: boolean
+  isProtected?: boolean
+  ratingCount?: boolean
   pictures?: boolean
-  embedded_videos?: boolean
-  view_count?: boolean
+  embeddedVideos?: boolean
+  viewCount?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["blog"]>
 
 export type BlogSelectScalar = {
   id?: boolean
-  user_id?: boolean
+  userId?: boolean
   title?: boolean
   content?: boolean
-  created_at?: boolean
-  is_published?: boolean
-  like_count?: boolean
-  comment_count?: boolean
-  share_count?: boolean
-  updated_at?: boolean
-  average_rating?: boolean
-  is_protected?: boolean
-  rating_count?: boolean
+  createdAt?: boolean
+  isPublished?: boolean
+  likeCount?: boolean
+  commentCount?: boolean
+  shareCount?: boolean
+  updatedAt?: boolean
+  averageRating?: boolean
+  isProtected?: boolean
+  ratingCount?: boolean
   pictures?: boolean
-  embedded_videos?: boolean
-  view_count?: boolean
+  embeddedVideos?: boolean
+  viewCount?: boolean
 }
 
-export type BlogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "title" | "content" | "created_at" | "is_published" | "like_count" | "comment_count" | "share_count" | "updated_at" | "average_rating" | "is_protected" | "rating_count" | "pictures" | "embedded_videos" | "view_count", ExtArgs["result"]["blog"]>
+export type BlogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "content" | "createdAt" | "isPublished" | "likeCount" | "commentCount" | "shareCount" | "updatedAt" | "averageRating" | "isProtected" | "ratingCount" | "pictures" | "embeddedVideos" | "viewCount", ExtArgs["result"]["blog"]>
 export type BlogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   bookmarks?: boolean | Prisma.Blog$bookmarksArgs<ExtArgs>
@@ -1751,21 +1751,21 @@ export type $BlogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    user_id: string
+    userId: string
     title: string
     content: string
-    created_at: Date
-    is_published: boolean
-    like_count: number
-    comment_count: number
-    share_count: number
-    updated_at: Date | null
-    average_rating: number
-    is_protected: boolean
-    rating_count: number
+    createdAt: Date
+    isPublished: boolean
+    likeCount: number
+    commentCount: number
+    shareCount: number
+    updatedAt: Date | null
+    averageRating: number
+    isProtected: boolean
+    ratingCount: number
     pictures: string[]
-    embedded_videos: string[]
-    view_count: number
+    embeddedVideos: string[]
+    viewCount: number
   }, ExtArgs["result"]["blog"]>
   composites: {}
 }
@@ -2196,21 +2196,21 @@ export interface Prisma__BlogClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface BlogFieldRefs {
   readonly id: Prisma.FieldRef<"Blog", 'Int'>
-  readonly user_id: Prisma.FieldRef<"Blog", 'String'>
+  readonly userId: Prisma.FieldRef<"Blog", 'String'>
   readonly title: Prisma.FieldRef<"Blog", 'String'>
   readonly content: Prisma.FieldRef<"Blog", 'String'>
-  readonly created_at: Prisma.FieldRef<"Blog", 'DateTime'>
-  readonly is_published: Prisma.FieldRef<"Blog", 'Boolean'>
-  readonly like_count: Prisma.FieldRef<"Blog", 'Int'>
-  readonly comment_count: Prisma.FieldRef<"Blog", 'Int'>
-  readonly share_count: Prisma.FieldRef<"Blog", 'Int'>
-  readonly updated_at: Prisma.FieldRef<"Blog", 'DateTime'>
-  readonly average_rating: Prisma.FieldRef<"Blog", 'Float'>
-  readonly is_protected: Prisma.FieldRef<"Blog", 'Boolean'>
-  readonly rating_count: Prisma.FieldRef<"Blog", 'Int'>
+  readonly createdAt: Prisma.FieldRef<"Blog", 'DateTime'>
+  readonly isPublished: Prisma.FieldRef<"Blog", 'Boolean'>
+  readonly likeCount: Prisma.FieldRef<"Blog", 'Int'>
+  readonly commentCount: Prisma.FieldRef<"Blog", 'Int'>
+  readonly shareCount: Prisma.FieldRef<"Blog", 'Int'>
+  readonly updatedAt: Prisma.FieldRef<"Blog", 'DateTime'>
+  readonly averageRating: Prisma.FieldRef<"Blog", 'Float'>
+  readonly isProtected: Prisma.FieldRef<"Blog", 'Boolean'>
+  readonly ratingCount: Prisma.FieldRef<"Blog", 'Int'>
   readonly pictures: Prisma.FieldRef<"Blog", 'String[]'>
-  readonly embedded_videos: Prisma.FieldRef<"Blog", 'String[]'>
-  readonly view_count: Prisma.FieldRef<"Blog", 'Int'>
+  readonly embeddedVideos: Prisma.FieldRef<"Blog", 'String[]'>
+  readonly viewCount: Prisma.FieldRef<"Blog", 'Int'>
 }
     
 

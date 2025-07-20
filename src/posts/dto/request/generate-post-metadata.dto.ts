@@ -1,4 +1,4 @@
-import { IsDefined, IsInt } from "class-validator";
+import { IsDefined, IsInt } from 'class-validator';
 
 export class GeneratePostMetadataRequestDto {
   @IsInt()

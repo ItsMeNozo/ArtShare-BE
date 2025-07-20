@@ -4,7 +4,7 @@ export interface PublicFacebookPageData {
   id: string;
   name: string;
   category: string;
-  platform_db_id: number;
+  platformDbId: number;
   status: PlatformStatus;
 }
 interface FacebookPagePictureData {

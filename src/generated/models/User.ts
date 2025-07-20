@@ -26,30 +26,30 @@ export type AggregateUser = {
 }
 
 export type UserAvgAggregateOutputType = {
-  followers_count: number | null
-  followings_count: number | null
+  followersCount: number | null
+  followingsCount: number | null
 }
 
 export type UserSumAggregateOutputType = {
-  followers_count: number | null
-  followings_count: number | null
+  followersCount: number | null
+  followingsCount: number | null
 }
 
 export type UserMinAggregateOutputType = {
   id: string | null
   username: string | null
   email: string | null
-  full_name: string | null
-  profile_picture_url: string | null
+  fullName: string | null
+  profilePictureUrl: string | null
   bio: string | null
-  created_at: Date | null
-  updated_at: Date | null
-  refresh_token: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
+  refreshToken: string | null
   birthday: Date | null
-  followers_count: number | null
-  followings_count: number | null
-  stripe_customer_id: string | null
-  is_onboard: boolean | null
+  followersCount: number | null
+  followingsCount: number | null
+  stripeCustomerId: string | null
+  isOnboard: boolean | null
   status: $Enums.UserStatus | null
 }
 
@@ -57,17 +57,17 @@ export type UserMaxAggregateOutputType = {
   id: string | null
   username: string | null
   email: string | null
-  full_name: string | null
-  profile_picture_url: string | null
+  fullName: string | null
+  profilePictureUrl: string | null
   bio: string | null
-  created_at: Date | null
-  updated_at: Date | null
-  refresh_token: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
+  refreshToken: string | null
   birthday: Date | null
-  followers_count: number | null
-  followings_count: number | null
-  stripe_customer_id: string | null
-  is_onboard: boolean | null
+  followersCount: number | null
+  followingsCount: number | null
+  stripeCustomerId: string | null
+  isOnboard: boolean | null
   status: $Enums.UserStatus | null
 }
 
@@ -75,47 +75,47 @@ export type UserCountAggregateOutputType = {
   id: number
   username: number
   email: number
-  full_name: number
-  profile_picture_url: number
+  fullName: number
+  profilePictureUrl: number
   bio: number
-  created_at: number
-  updated_at: number
-  refresh_token: number
+  createdAt: number
+  updatedAt: number
+  refreshToken: number
   birthday: number
-  followers_count: number
-  followings_count: number
-  stripe_customer_id: number
-  is_onboard: number
+  followersCount: number
+  followingsCount: number
+  stripeCustomerId: number
+  isOnboard: number
   status: number
   _all: number
 }
 
 
 export type UserAvgAggregateInputType = {
-  followers_count?: true
-  followings_count?: true
+  followersCount?: true
+  followingsCount?: true
 }
 
 export type UserSumAggregateInputType = {
-  followers_count?: true
-  followings_count?: true
+  followersCount?: true
+  followingsCount?: true
 }
 
 export type UserMinAggregateInputType = {
   id?: true
   username?: true
   email?: true
-  full_name?: true
-  profile_picture_url?: true
+  fullName?: true
+  profilePictureUrl?: true
   bio?: true
-  created_at?: true
-  updated_at?: true
-  refresh_token?: true
+  createdAt?: true
+  updatedAt?: true
+  refreshToken?: true
   birthday?: true
-  followers_count?: true
-  followings_count?: true
-  stripe_customer_id?: true
-  is_onboard?: true
+  followersCount?: true
+  followingsCount?: true
+  stripeCustomerId?: true
+  isOnboard?: true
   status?: true
 }
 
@@ -123,17 +123,17 @@ export type UserMaxAggregateInputType = {
   id?: true
   username?: true
   email?: true
-  full_name?: true
-  profile_picture_url?: true
+  fullName?: true
+  profilePictureUrl?: true
   bio?: true
-  created_at?: true
-  updated_at?: true
-  refresh_token?: true
+  createdAt?: true
+  updatedAt?: true
+  refreshToken?: true
   birthday?: true
-  followers_count?: true
-  followings_count?: true
-  stripe_customer_id?: true
-  is_onboard?: true
+  followersCount?: true
+  followingsCount?: true
+  stripeCustomerId?: true
+  isOnboard?: true
   status?: true
 }
 
@@ -141,17 +141,17 @@ export type UserCountAggregateInputType = {
   id?: true
   username?: true
   email?: true
-  full_name?: true
-  profile_picture_url?: true
+  fullName?: true
+  profilePictureUrl?: true
   bio?: true
-  created_at?: true
-  updated_at?: true
-  refresh_token?: true
+  createdAt?: true
+  updatedAt?: true
+  refreshToken?: true
   birthday?: true
-  followers_count?: true
-  followings_count?: true
-  stripe_customer_id?: true
-  is_onboard?: true
+  followersCount?: true
+  followingsCount?: true
+  stripeCustomerId?: true
+  isOnboard?: true
   status?: true
   _all?: true
 }
@@ -246,17 +246,17 @@ export type UserGroupByOutputType = {
   id: string
   username: string
   email: string
-  full_name: string | null
-  profile_picture_url: string | null
+  fullName: string | null
+  profilePictureUrl: string | null
   bio: string | null
-  created_at: Date
-  updated_at: Date | null
-  refresh_token: string | null
+  createdAt: Date
+  updatedAt: Date | null
+  refreshToken: string | null
   birthday: Date | null
-  followers_count: number
-  followings_count: number
-  stripe_customer_id: string | null
-  is_onboard: boolean
+  followersCount: number
+  followingsCount: number
+  stripeCustomerId: string | null
+  isOnboard: boolean
   status: $Enums.UserStatus
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
@@ -287,17 +287,17 @@ export type UserWhereInput = {
   id?: Prisma.StringFilter<"User"> | string
   username?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
-  full_name?: Prisma.StringNullableFilter<"User"> | string | null
-  profile_picture_url?: Prisma.StringNullableFilter<"User"> | string | null
+  fullName?: Prisma.StringNullableFilter<"User"> | string | null
+  profilePictureUrl?: Prisma.StringNullableFilter<"User"> | string | null
   bio?: Prisma.StringNullableFilter<"User"> | string | null
-  created_at?: Prisma.DateTimeFilter<"User"> | Date | string
-  updated_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  refresh_token?: Prisma.StringNullableFilter<"User"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  refreshToken?: Prisma.StringNullableFilter<"User"> | string | null
   birthday?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  followers_count?: Prisma.IntFilter<"User"> | number
-  followings_count?: Prisma.IntFilter<"User"> | number
-  stripe_customer_id?: Prisma.StringNullableFilter<"User"> | string | null
-  is_onboard?: Prisma.BoolFilter<"User"> | boolean
+  followersCount?: Prisma.IntFilter<"User"> | number
+  followingsCount?: Prisma.IntFilter<"User"> | number
+  stripeCustomerId?: Prisma.StringNullableFilter<"User"> | string | null
+  isOnboard?: Prisma.BoolFilter<"User"> | boolean
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   collections?: Prisma.CollectionListRelationFilter
   blogs?: Prisma.BlogListRelationFilter
@@ -324,17 +324,17 @@ export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   username?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  full_name?: Prisma.SortOrderInput | Prisma.SortOrder
-  profile_picture_url?: Prisma.SortOrderInput | Prisma.SortOrder
+  fullName?: Prisma.SortOrderInput | Prisma.SortOrder
+  profilePictureUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  refresh_token?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  refreshToken?: Prisma.SortOrderInput | Prisma.SortOrder
   birthday?: Prisma.SortOrderInput | Prisma.SortOrder
-  followers_count?: Prisma.SortOrder
-  followings_count?: Prisma.SortOrder
-  stripe_customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  is_onboard?: Prisma.SortOrder
+  followersCount?: Prisma.SortOrder
+  followingsCount?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isOnboard?: Prisma.SortOrder
   status?: Prisma.SortOrder
   collections?: Prisma.CollectionOrderByRelationAggregateInput
   blogs?: Prisma.BlogOrderByRelationAggregateInput
@@ -361,20 +361,20 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   username?: string
   email?: string
-  stripe_customer_id?: string
+  stripeCustomerId?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
-  full_name?: Prisma.StringNullableFilter<"User"> | string | null
-  profile_picture_url?: Prisma.StringNullableFilter<"User"> | string | null
+  fullName?: Prisma.StringNullableFilter<"User"> | string | null
+  profilePictureUrl?: Prisma.StringNullableFilter<"User"> | string | null
   bio?: Prisma.StringNullableFilter<"User"> | string | null
-  created_at?: Prisma.DateTimeFilter<"User"> | Date | string
-  updated_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  refresh_token?: Prisma.StringNullableFilter<"User"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  refreshToken?: Prisma.StringNullableFilter<"User"> | string | null
   birthday?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  followers_count?: Prisma.IntFilter<"User"> | number
-  followings_count?: Prisma.IntFilter<"User"> | number
-  is_onboard?: Prisma.BoolFilter<"User"> | boolean
+  followersCount?: Prisma.IntFilter<"User"> | number
+  followingsCount?: Prisma.IntFilter<"User"> | number
+  isOnboard?: Prisma.BoolFilter<"User"> | boolean
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   collections?: Prisma.CollectionListRelationFilter
   blogs?: Prisma.BlogListRelationFilter
@@ -395,23 +395,23 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   AutoProject?: Prisma.AutoProjectListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   Conversation?: Prisma.ConversationListRelationFilter
-}, "id" | "username" | "email" | "stripe_customer_id">
+}, "id" | "username" | "email" | "stripeCustomerId">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   username?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  full_name?: Prisma.SortOrderInput | Prisma.SortOrder
-  profile_picture_url?: Prisma.SortOrderInput | Prisma.SortOrder
+  fullName?: Prisma.SortOrderInput | Prisma.SortOrder
+  profilePictureUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  refresh_token?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  refreshToken?: Prisma.SortOrderInput | Prisma.SortOrder
   birthday?: Prisma.SortOrderInput | Prisma.SortOrder
-  followers_count?: Prisma.SortOrder
-  followings_count?: Prisma.SortOrder
-  stripe_customer_id?: Prisma.SortOrderInput | Prisma.SortOrder
-  is_onboard?: Prisma.SortOrder
+  followersCount?: Prisma.SortOrder
+  followingsCount?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isOnboard?: Prisma.SortOrder
   status?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
@@ -427,17 +427,17 @@ export type UserScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"User"> | string
   username?: Prisma.StringWithAggregatesFilter<"User"> | string
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
-  full_name?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  profile_picture_url?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  fullName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  profilePictureUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   bio?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
-  updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-  refresh_token?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  refreshToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   birthday?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-  followers_count?: Prisma.IntWithAggregatesFilter<"User"> | number
-  followings_count?: Prisma.IntWithAggregatesFilter<"User"> | number
-  stripe_customer_id?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  is_onboard?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  followersCount?: Prisma.IntWithAggregatesFilter<"User"> | number
+  followingsCount?: Prisma.IntWithAggregatesFilter<"User"> | number
+  stripeCustomerId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  isOnboard?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
 }
 
@@ -445,17 +445,17 @@ export type UserCreateInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -482,17 +482,17 @@ export type UserUncheckedCreateInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -519,17 +519,17 @@ export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -556,17 +556,17 @@ export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -593,17 +593,17 @@ export type UserCreateManyInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
 }
 
@@ -611,17 +611,17 @@ export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
 }
 
@@ -629,17 +629,17 @@ export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
 }
 
@@ -652,40 +652,40 @@ export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   username?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  full_name?: Prisma.SortOrder
-  profile_picture_url?: Prisma.SortOrder
+  fullName?: Prisma.SortOrder
+  profilePictureUrl?: Prisma.SortOrder
   bio?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  refresh_token?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  refreshToken?: Prisma.SortOrder
   birthday?: Prisma.SortOrder
-  followers_count?: Prisma.SortOrder
-  followings_count?: Prisma.SortOrder
-  stripe_customer_id?: Prisma.SortOrder
-  is_onboard?: Prisma.SortOrder
+  followersCount?: Prisma.SortOrder
+  followingsCount?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrder
+  isOnboard?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
-  followers_count?: Prisma.SortOrder
-  followings_count?: Prisma.SortOrder
+  followersCount?: Prisma.SortOrder
+  followingsCount?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   username?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  full_name?: Prisma.SortOrder
-  profile_picture_url?: Prisma.SortOrder
+  fullName?: Prisma.SortOrder
+  profilePictureUrl?: Prisma.SortOrder
   bio?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  refresh_token?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  refreshToken?: Prisma.SortOrder
   birthday?: Prisma.SortOrder
-  followers_count?: Prisma.SortOrder
-  followings_count?: Prisma.SortOrder
-  stripe_customer_id?: Prisma.SortOrder
-  is_onboard?: Prisma.SortOrder
+  followersCount?: Prisma.SortOrder
+  followingsCount?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrder
+  isOnboard?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
@@ -693,23 +693,23 @@ export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   username?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  full_name?: Prisma.SortOrder
-  profile_picture_url?: Prisma.SortOrder
+  fullName?: Prisma.SortOrder
+  profilePictureUrl?: Prisma.SortOrder
   bio?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  refresh_token?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  refreshToken?: Prisma.SortOrder
   birthday?: Prisma.SortOrder
-  followers_count?: Prisma.SortOrder
-  followings_count?: Prisma.SortOrder
-  stripe_customer_id?: Prisma.SortOrder
-  is_onboard?: Prisma.SortOrder
+  followersCount?: Prisma.SortOrder
+  followingsCount?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrder
+  isOnboard?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
-  followers_count?: Prisma.SortOrder
-  followings_count?: Prisma.SortOrder
+  followersCount?: Prisma.SortOrder
+  followingsCount?: Prisma.SortOrder
 }
 
 export type UserNullableScalarRelationFilter = {
@@ -1005,17 +1005,17 @@ export type UserCreateWithoutRolesInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -1041,17 +1041,17 @@ export type UserUncheckedCreateWithoutRolesInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -1093,17 +1093,17 @@ export type UserUpdateWithoutRolesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -1129,17 +1129,17 @@ export type UserUncheckedUpdateWithoutRolesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -1165,17 +1165,17 @@ export type UserCreateWithoutPostsInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -1201,17 +1201,17 @@ export type UserUncheckedCreateWithoutPostsInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -1253,17 +1253,17 @@ export type UserUpdateWithoutPostsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -1289,17 +1289,17 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -1325,17 +1325,17 @@ export type UserCreateWithoutBlogsInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
@@ -1361,17 +1361,17 @@ export type UserUncheckedCreateWithoutBlogsInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
@@ -1413,17 +1413,17 @@ export type UserUpdateWithoutBlogsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
@@ -1449,17 +1449,17 @@ export type UserUncheckedUpdateWithoutBlogsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
@@ -1485,17 +1485,17 @@ export type UserCreateWithoutLikesInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -1521,17 +1521,17 @@ export type UserUncheckedCreateWithoutLikesInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -1573,17 +1573,17 @@ export type UserUpdateWithoutLikesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -1609,17 +1609,17 @@ export type UserUncheckedUpdateWithoutLikesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -1645,17 +1645,17 @@ export type UserCreateWithoutCommentLikeInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -1681,17 +1681,17 @@ export type UserUncheckedCreateWithoutCommentLikeInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -1733,17 +1733,17 @@ export type UserUpdateWithoutCommentLikeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -1769,17 +1769,17 @@ export type UserUncheckedUpdateWithoutCommentLikeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -1805,17 +1805,17 @@ export type UserCreateWithoutCommentsInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -1841,17 +1841,17 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -1893,17 +1893,17 @@ export type UserUpdateWithoutCommentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -1929,17 +1929,17 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -1965,17 +1965,17 @@ export type UserCreateWithoutSharesInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -2001,17 +2001,17 @@ export type UserUncheckedCreateWithoutSharesInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -2053,17 +2053,17 @@ export type UserUpdateWithoutSharesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -2089,17 +2089,17 @@ export type UserUncheckedUpdateWithoutSharesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -2125,17 +2125,17 @@ export type UserCreateWithoutFollowingsInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -2161,17 +2161,17 @@ export type UserUncheckedCreateWithoutFollowingsInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -2202,17 +2202,17 @@ export type UserCreateWithoutFollowersInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -2238,17 +2238,17 @@ export type UserUncheckedCreateWithoutFollowersInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -2290,17 +2290,17 @@ export type UserUpdateWithoutFollowingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -2326,17 +2326,17 @@ export type UserUncheckedUpdateWithoutFollowingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -2373,17 +2373,17 @@ export type UserUpdateWithoutFollowersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -2409,17 +2409,17 @@ export type UserUncheckedUpdateWithoutFollowersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -2445,17 +2445,17 @@ export type UserCreateWithoutBookmarksInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -2481,17 +2481,17 @@ export type UserUncheckedCreateWithoutBookmarksInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -2533,17 +2533,17 @@ export type UserUpdateWithoutBookmarksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -2569,17 +2569,17 @@ export type UserUncheckedUpdateWithoutBookmarksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -2605,17 +2605,17 @@ export type UserCreateWithoutRatingsInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -2641,17 +2641,17 @@ export type UserUncheckedCreateWithoutRatingsInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -2693,17 +2693,17 @@ export type UserUpdateWithoutRatingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -2729,17 +2729,17 @@ export type UserUncheckedUpdateWithoutRatingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -2765,17 +2765,17 @@ export type UserCreateWithoutCollectionsInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
@@ -2801,17 +2801,17 @@ export type UserUncheckedCreateWithoutCollectionsInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
@@ -2853,17 +2853,17 @@ export type UserUpdateWithoutCollectionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
@@ -2889,17 +2889,17 @@ export type UserUncheckedUpdateWithoutCollectionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
@@ -2925,17 +2925,17 @@ export type UserCreateWithoutReportInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -2961,17 +2961,17 @@ export type UserUncheckedCreateWithoutReportInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -3002,17 +3002,17 @@ export type UserCreateWithoutReportsResolvedInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -3038,17 +3038,17 @@ export type UserUncheckedCreateWithoutReportsResolvedInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -3090,17 +3090,17 @@ export type UserUpdateWithoutReportInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -3126,17 +3126,17 @@ export type UserUncheckedUpdateWithoutReportInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -3173,17 +3173,17 @@ export type UserUpdateWithoutReportsResolvedInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -3209,17 +3209,17 @@ export type UserUncheckedUpdateWithoutReportsResolvedInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -3245,17 +3245,17 @@ export type UserCreateWithoutUserAccessInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -3281,17 +3281,17 @@ export type UserUncheckedCreateWithoutUserAccessInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -3333,17 +3333,17 @@ export type UserUpdateWithoutUserAccessInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -3369,17 +3369,17 @@ export type UserUncheckedUpdateWithoutUserAccessInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -3405,17 +3405,17 @@ export type UserCreateWithoutUserUsageInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -3441,17 +3441,17 @@ export type UserUncheckedCreateWithoutUserUsageInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -3493,17 +3493,17 @@ export type UserUpdateWithoutUserUsageInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -3529,17 +3529,17 @@ export type UserUncheckedUpdateWithoutUserUsageInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -3565,17 +3565,17 @@ export type UserCreateWithoutNotificationsInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -3601,17 +3601,17 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -3653,17 +3653,17 @@ export type UserUpdateWithoutNotificationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -3689,17 +3689,17 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -3725,17 +3725,17 @@ export type UserCreateWithoutAutoProjectInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -3761,17 +3761,17 @@ export type UserUncheckedCreateWithoutAutoProjectInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -3813,17 +3813,17 @@ export type UserUpdateWithoutAutoProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -3849,17 +3849,17 @@ export type UserUncheckedUpdateWithoutAutoProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -3885,17 +3885,17 @@ export type UserCreateWithoutConversationInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
@@ -3921,17 +3921,17 @@ export type UserUncheckedCreateWithoutConversationInput = {
   id: string
   username: string
   email: string
-  full_name?: string | null
-  profile_picture_url?: string | null
+  fullName?: string | null
+  profilePictureUrl?: string | null
   bio?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  refresh_token?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
   birthday?: Date | string | null
-  followers_count?: number
-  followings_count?: number
-  stripe_customer_id?: string | null
-  is_onboard?: boolean
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
   status?: $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
   blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
@@ -3973,17 +3973,17 @@ export type UserUpdateWithoutConversationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
@@ -4009,17 +4009,17 @@ export type UserUncheckedUpdateWithoutConversationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  full_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profile_picture_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  refresh_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  followers_count?: Prisma.IntFieldUpdateOperationsInput | number
-  followings_count?: Prisma.IntFieldUpdateOperationsInput | number
-  stripe_customer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_onboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
   blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
@@ -4229,17 +4229,17 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   username?: boolean
   email?: boolean
-  full_name?: boolean
-  profile_picture_url?: boolean
+  fullName?: boolean
+  profilePictureUrl?: boolean
   bio?: boolean
-  created_at?: boolean
-  updated_at?: boolean
-  refresh_token?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  refreshToken?: boolean
   birthday?: boolean
-  followers_count?: boolean
-  followings_count?: boolean
-  stripe_customer_id?: boolean
-  is_onboard?: boolean
+  followersCount?: boolean
+  followingsCount?: boolean
+  stripeCustomerId?: boolean
+  isOnboard?: boolean
   status?: boolean
   collections?: boolean | Prisma.User$collectionsArgs<ExtArgs>
   blogs?: boolean | Prisma.User$blogsArgs<ExtArgs>
@@ -4267,17 +4267,17 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   username?: boolean
   email?: boolean
-  full_name?: boolean
-  profile_picture_url?: boolean
+  fullName?: boolean
+  profilePictureUrl?: boolean
   bio?: boolean
-  created_at?: boolean
-  updated_at?: boolean
-  refresh_token?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  refreshToken?: boolean
   birthday?: boolean
-  followers_count?: boolean
-  followings_count?: boolean
-  stripe_customer_id?: boolean
-  is_onboard?: boolean
+  followersCount?: boolean
+  followingsCount?: boolean
+  stripeCustomerId?: boolean
+  isOnboard?: boolean
   status?: boolean
 }, ExtArgs["result"]["user"]>
 
@@ -4285,17 +4285,17 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   username?: boolean
   email?: boolean
-  full_name?: boolean
-  profile_picture_url?: boolean
+  fullName?: boolean
+  profilePictureUrl?: boolean
   bio?: boolean
-  created_at?: boolean
-  updated_at?: boolean
-  refresh_token?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  refreshToken?: boolean
   birthday?: boolean
-  followers_count?: boolean
-  followings_count?: boolean
-  stripe_customer_id?: boolean
-  is_onboard?: boolean
+  followersCount?: boolean
+  followingsCount?: boolean
+  stripeCustomerId?: boolean
+  isOnboard?: boolean
   status?: boolean
 }, ExtArgs["result"]["user"]>
 
@@ -4303,21 +4303,21 @@ export type UserSelectScalar = {
   id?: boolean
   username?: boolean
   email?: boolean
-  full_name?: boolean
-  profile_picture_url?: boolean
+  fullName?: boolean
+  profilePictureUrl?: boolean
   bio?: boolean
-  created_at?: boolean
-  updated_at?: boolean
-  refresh_token?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  refreshToken?: boolean
   birthday?: boolean
-  followers_count?: boolean
-  followings_count?: boolean
-  stripe_customer_id?: boolean
-  is_onboard?: boolean
+  followersCount?: boolean
+  followingsCount?: boolean
+  stripeCustomerId?: boolean
+  isOnboard?: boolean
   status?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "full_name" | "profile_picture_url" | "bio" | "created_at" | "updated_at" | "refresh_token" | "birthday" | "followers_count" | "followings_count" | "stripe_customer_id" | "is_onboard" | "status", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "fullName" | "profilePictureUrl" | "bio" | "createdAt" | "updatedAt" | "refreshToken" | "birthday" | "followersCount" | "followingsCount" | "stripeCustomerId" | "isOnboard" | "status", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   collections?: boolean | Prisma.User$collectionsArgs<ExtArgs>
   blogs?: boolean | Prisma.User$blogsArgs<ExtArgs>
@@ -4370,17 +4370,17 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     id: string
     username: string
     email: string
-    full_name: string | null
-    profile_picture_url: string | null
+    fullName: string | null
+    profilePictureUrl: string | null
     bio: string | null
-    created_at: Date
-    updated_at: Date | null
-    refresh_token: string | null
+    createdAt: Date
+    updatedAt: Date | null
+    refreshToken: string | null
     birthday: Date | null
-    followers_count: number
-    followings_count: number
-    stripe_customer_id: string | null
-    is_onboard: boolean
+    followersCount: number
+    followingsCount: number
+    stripeCustomerId: string | null
+    isOnboard: boolean
     status: $Enums.UserStatus
   }, ExtArgs["result"]["user"]>
   composites: {}
@@ -4827,17 +4827,17 @@ export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'String'>
   readonly username: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
-  readonly full_name: Prisma.FieldRef<"User", 'String'>
-  readonly profile_picture_url: Prisma.FieldRef<"User", 'String'>
+  readonly fullName: Prisma.FieldRef<"User", 'String'>
+  readonly profilePictureUrl: Prisma.FieldRef<"User", 'String'>
   readonly bio: Prisma.FieldRef<"User", 'String'>
-  readonly created_at: Prisma.FieldRef<"User", 'DateTime'>
-  readonly updated_at: Prisma.FieldRef<"User", 'DateTime'>
-  readonly refresh_token: Prisma.FieldRef<"User", 'String'>
+  readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly refreshToken: Prisma.FieldRef<"User", 'String'>
   readonly birthday: Prisma.FieldRef<"User", 'DateTime'>
-  readonly followers_count: Prisma.FieldRef<"User", 'Int'>
-  readonly followings_count: Prisma.FieldRef<"User", 'Int'>
-  readonly stripe_customer_id: Prisma.FieldRef<"User", 'String'>
-  readonly is_onboard: Prisma.FieldRef<"User", 'Boolean'>
+  readonly followersCount: Prisma.FieldRef<"User", 'Int'>
+  readonly followingsCount: Prisma.FieldRef<"User", 'Int'>
+  readonly stripeCustomerId: Prisma.FieldRef<"User", 'String'>
+  readonly isOnboard: Prisma.FieldRef<"User", 'Boolean'>
   readonly status: Prisma.FieldRef<"User", 'UserStatus'>
 }
     

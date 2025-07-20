@@ -1,36 +1,35 @@
 import { Prisma } from 'src/generated';
 import { BlogDetailsResponseDto } from '../dto/response/blog-details.dto';
-import { BlogListItemResponseDto } from '../dto/response/blog-list-item.dto';
 
 type UserSelect = {
   id: true;
   username: true;
-  profile_picture_url: true;
-  full_name: true;
-  followers_count: true;
+  profilePictureUrl: true;
+  fullName: true;
+  followersCount: true;
 };
 
 export const blogListItemSelect = {
   id: true,
   title: true,
   content: true,
-  created_at: true,
-  like_count: true,
-  comment_count: true,
-  share_count: true,
-  view_count: true,
-  is_published: true,
+  createdAt: true,
+  likeCount: true,
+  commentCount: true,
+  shareCount: true,
+  viewCount: true,
+  isPublished: true,
   pictures: true,
   user: {
     select: {
       id: true,
       username: true,
-      profile_picture_url: true,
-      full_name: true,
-      followers_count: true,
+      profilePictureUrl: true,
+      fullName: true,
+      followersCount: true,
     },
   },
-  updated_at: true,
+  updatedAt: true,
 };
 
 export type BlogForListItemPayload = Prisma.BlogGetPayload<{
@@ -51,9 +50,9 @@ export type BlogWithRelations = Prisma.BlogGetPayload<{
       select: {
         id: true;
         username: true;
-        full_name: true;
-        profile_picture_url: true;
-        followers_count: true;
+        fullName: true;
+        profilePictureUrl: true;
+        followersCount: true;
       };
     };
     likes: { select: { id: true } };
@@ -77,60 +76,23 @@ export const mapBlogToDetailsDto = (
     id: blog.id,
     title: blog.title,
     content: blog.content,
-    created_at: blog.created_at,
-    updated_at: blog.updated_at,
-    is_published: blog.is_published,
-    like_count: blog.like_count,
-    comment_count: blog.comment_count,
-    share_count: blog.share_count,
-    view_count: blog.view_count,
+    createdAt: blog.createdAt,
+    updatedAt: blog.updatedAt,
+    isPublished: blog.isPublished,
+    likeCount: blog.likeCount,
+    commentCount: blog.commentCount,
+    shareCount: blog.shareCount,
+    viewCount: blog.viewCount,
     pictures: blog.pictures,
-    embeddedVideos: blog.embedded_videos,
+    embeddedVideos: blog.embeddedVideos,
     user: {
       id: blog.user.id,
       username: blog.user.username,
-      profile_picture_url: blog.user.profile_picture_url,
-      full_name: blog.user.full_name,
-      followers_count: blog.user.followers_count,
-      is_following: isFollowedByCurrentUser,
+      profilePictureUrl: blog.user.profilePictureUrl,
+      fullName: blog.user.fullName,
+      followersCount: blog.user.followersCount,
+      isFollowing: isFollowedByCurrentUser,
     },
     isLikedByCurrentUser: likeArray.length > 0,
-  };
-};
-
-export const mapBlogToListItemDto = (
-  blog: BlogForListItemPayload | null,
-): BlogListItemResponseDto | null => {
-  if (!blog) {
-    return null;
-  }
-
-  if (!blog.user) {
-    console.warn(
-      `Blog with ID ${blog.id} is missing expected user relation for DTO mapping (unexpected for selected payload).`,
-    );
-    return null;
-  }
-
-  return {
-    id: blog.id,
-    title: blog.title,
-    content: blog.content,
-    created_at: blog.created_at,
-    updated_at: blog.updated_at,
-    like_count: blog.like_count,
-    comment_count: blog.comment_count,
-    share_count: blog.share_count,
-    view_count: blog.view_count,
-    is_published: blog.is_published,
-    pictures: blog.pictures,
-    user: {
-      id: blog.user.id,
-      username: blog.user.username,
-      profile_picture_url: blog.user.profile_picture_url,
-      full_name: blog.user.full_name,
-      followers_count: blog.user.followers_count,
-      is_following: (blog.user as any).is_following ?? false,
-    },
   };
 };

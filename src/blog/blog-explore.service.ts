@@ -18,8 +18,8 @@ import {
   BlogForListItemPayload,
   blogListItemSelect,
   mapBlogToDetailsDto,
-  mapBlogToListItemDto,
 } from './helpers/blog-mapping.helper';
+import { UserBlogsQueryDto, BlogSortBy, BlogDateRange, BlogSortField } from './dto/request/user-blogs-query.dto';
 
 @Injectable()
 export class BlogExploreService {
@@ -63,8 +63,8 @@ export class BlogExploreService {
     const { page = 1, limit = 10, search } = queryDto;
 
     const whereClause: Prisma.BlogWhereInput = {
-      is_published: true,
-      is_protected: false,
+      isPublished: true,
+      isProtected: false,
     };
 
     if (search) {
@@ -75,7 +75,7 @@ export class BlogExploreService {
       this.prisma.blog.findMany({
         where: whereClause,
         select: blogListItemSelect,
-        orderBy: [{ created_at: 'desc' }],
+        orderBy: [{ createdAt: 'desc' }],
         skip: (page - 1) * limit,
         take: limit,
       }),
@@ -84,11 +84,7 @@ export class BlogExploreService {
       }),
     ]);
 
-    const mappedBlogs = blogs
-      .map(mapBlogToListItemDto)
-      .filter((b): b is BlogListItemResponseDto => b !== null);
-
-    return generatePaginatedResponse(mappedBlogs, totalBlogs, {
+    return generatePaginatedResponse(blogs, totalBlogs, {
       page,
       limit,
     });
@@ -96,13 +92,11 @@ export class BlogExploreService {
 
   async findMyBlogs(userId: string): Promise<BlogListItemResponseDto[]> {
     const blogs: BlogForListItemPayload[] = await this.prisma.blog.findMany({
-      where: { user_id: userId },
+      where: { userId: userId },
       select: blogListItemSelect,
-      orderBy: { created_at: 'desc' },
+      orderBy: { createdAt: 'desc' },
     });
-    return blogs
-      .map(mapBlogToListItemDto)
-      .filter((b): b is BlogListItemResponseDto => b !== null);
+    return blogs;
   }
 
   async findBlogById(
@@ -117,13 +111,13 @@ export class BlogExploreService {
           select: {
             id: true,
             username: true,
-            profile_picture_url: true,
-            full_name: true,
-            followers_count: true,
+            profilePictureUrl: true,
+            fullName: true,
+            followersCount: true,
           },
         },
         likes: {
-          where: { user_id: requestingUserId ?? '' },
+          where: { userId: requestingUserId ?? '' },
           select: { id: true },
           take: 1,
         },
@@ -134,21 +128,21 @@ export class BlogExploreService {
       return null; // Blog doesn't exist
     }
 
-    const isOwner = blog.user_id === requestingUserId;
+    const isOwner = blog.userId === requestingUserId;
 
     // Apply access control rules using the same blog object
-    if (!blog.is_published && !isOwner) {
+    if (!blog.isPublished && !isOwner) {
       return null; // Unpublished blog, not accessible to non-owners
     }
 
-    if (blog.is_protected && !isOwner) {
+    if (blog.isProtected && !isOwner) {
       return null; // Protected blog, not accessible to non-owners
     }
 
     // Increment view count for accessible blogs
     await this.prisma.blog.update({
       where: { id },
-      data: { view_count: { increment: 1 } },
+      data: { viewCount: { increment: 1 } },
     });
 
     return mapBlogToDetailsDto(blog);
@@ -167,9 +161,9 @@ export class BlogExploreService {
       where: { id },
       select: {
         id: true,
-        is_published: true,
-        is_protected: true,
-        user_id: true,
+        isPublished: true,
+        isProtected: true,
+        userId: true,
       },
     });
 
@@ -177,9 +171,9 @@ export class BlogExploreService {
       return { exists: false, accessible: false, reason: 'not_found' };
     }
 
-    const isOwner = blog.user_id === requestingUserId;
+    const isOwner = blog.userId === requestingUserId;
 
-    if (!blog.is_published && !isOwner) {
+    if (!blog.isPublished && !isOwner) {
       return {
         exists: true,
         accessible: false,
@@ -188,7 +182,7 @@ export class BlogExploreService {
       };
     }
 
-    if (blog.is_protected && !isOwner) {
+    if (blog.isProtected && !isOwner) {
       return {
         exists: true,
         accessible: false,
@@ -206,8 +200,8 @@ export class BlogExploreService {
   ): Promise<PaginatedResponse<BlogListItemResponseDto>> {
     const { page = 1, limit = 10, categories } = queryDto;
     const baseWhere: Prisma.BlogWhereInput = {
-      is_published: true,
-      is_protected: false,
+      isPublished: true,
+      isProtected: false,
     };
 
     const finalWhere = await this.applyCommonBlogFilters(
@@ -221,9 +215,9 @@ export class BlogExploreService {
         where: finalWhere,
         select: blogListItemSelect,
         orderBy: [
-          { like_count: 'desc' },
-          { comment_count: 'desc' },
-          { created_at: 'desc' },
+          { likeCount: 'desc' },
+          { commentCount: 'desc' },
+          { createdAt: 'desc' },
         ],
         skip: (page - 1) * limit,
         take: limit,
@@ -233,11 +227,7 @@ export class BlogExploreService {
       }),
     ]);
 
-    const mappedBlogs = blogs
-      .map(mapBlogToListItemDto)
-      .filter((b): b is BlogListItemResponseDto => b !== null);
-
-    return generatePaginatedResponse(mappedBlogs, totalBlogs, {
+    return generatePaginatedResponse(blogs, totalBlogs, {
       page,
       limit,
     });
@@ -249,10 +239,10 @@ export class BlogExploreService {
   ): Promise<PaginatedResponse<BlogListItemResponseDto>> {
     const { page = 1, limit = 10, categories } = queryDto;
     const followedUsers = await this.prisma.follow.findMany({
-      where: { follower_id: userId },
-      select: { following_id: true },
+      where: { followerId: userId },
+      select: { followingId: true },
     });
-    const followedUserIds = followedUsers.map((f) => f.following_id);
+    const followedUserIds = followedUsers.map((f) => f.followingId);
 
     if (followedUserIds.length === 0)
       return {
@@ -265,9 +255,9 @@ export class BlogExploreService {
       };
 
     const baseWhere: Prisma.BlogWhereInput = {
-      user_id: { in: followedUserIds },
-      is_published: true,
-      is_protected: false,
+      userId: { in: followedUserIds },
+      isPublished: true,
+      isProtected: false,
     };
 
     const finalWhere = await this.applyCommonBlogFilters(
@@ -280,7 +270,7 @@ export class BlogExploreService {
       this.prisma.blog.findMany({
         where: finalWhere,
         select: blogListItemSelect,
-        orderBy: { created_at: 'desc' },
+        orderBy: { createdAt: 'desc' },
         skip: (page - 1) * limit,
         take: limit,
       }),
@@ -288,11 +278,8 @@ export class BlogExploreService {
         where: finalWhere,
       }),
     ]);
-    const mappedBlogs = blogs
-      .map(mapBlogToListItemDto)
-      .filter((b): b is BlogListItemResponseDto => b !== null);
 
-    return generatePaginatedResponse(mappedBlogs, totalBlogs, {
+    return generatePaginatedResponse(blogs, totalBlogs, {
       page,
       limit,
     });
@@ -300,8 +287,7 @@ export class BlogExploreService {
 
   async getBlogsByUsername(
     username: string,
-    take: number,
-    skip: number,
+    query: UserBlogsQueryDto,
   ): Promise<BlogListItemResponseDto[]> {
     const user = await this.prisma.user.findUnique({
       where: { username },
@@ -311,17 +297,36 @@ export class BlogExploreService {
       throw new NotFoundException(`User with username ${username} not found.`);
     }
 
+    // Date range filter
+    const dateFilter: any = {};
+    const now = new Date();
+    if (query.dateRange === BlogDateRange.LAST_7_DAYS) {
+      dateFilter[query.sortField || BlogSortField.CREATED_AT] = {
+        gte: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000),
+      };
+    } else if (query.dateRange === BlogDateRange.LAST_30_DAYS) {
+      dateFilter[query.sortField || BlogSortField.CREATED_AT] = {
+        gte: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000),
+      };
+    }
+
+    // Sorting
+    const orderBy: any = {};
+    const sortField = query.sortField || BlogSortField.CREATED_AT;
+    orderBy[sortField] = query.sortBy === BlogSortBy.OLDEST ? 'asc' : 'desc';
+
     const blogs: BlogForListItemPayload[] = await this.prisma.blog.findMany({
-      where: { user_id: user.id },
+      where: {
+        userId: user.id,
+        ...dateFilter,
+      },
       select: blogListItemSelect,
-      orderBy: { created_at: 'desc' },
-      take: take,
-      skip: skip,
+      orderBy,
+      take: query.take,
+      skip: query.skip,
     });
 
-    return blogs
-      .map(mapBlogToListItemDto)
-      .filter((b): b is BlogListItemResponseDto => b !== null);
+    return blogs;
   }
 
   @TryCatch()
@@ -397,11 +402,7 @@ export class BlogExploreService {
       .map((id) => blogs.find((blog) => blog.id === id))
       .filter((blog) => blog !== undefined);
 
-    const mappedBlogs = sortedBlogs
-      .map(mapBlogToListItemDto)
-      .filter((b): b is BlogListItemResponseDto => b !== null);
-
-    return generatePaginatedResponseWithUnknownTotal(mappedBlogs, {
+    return generatePaginatedResponseWithUnknownTotal(sortedBlogs, {
       page,
       limit,
     });

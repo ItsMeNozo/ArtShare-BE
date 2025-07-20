@@ -35,4 +35,19 @@ export class AppController {
       timestamp: new Date().toISOString(),
     };
   }
+
+  @Get('health')
+  getHealth() {
+    return {
+      status: 'ok',
+      environment: this.configService.get<string>('NODE_ENV'),
+      database: this.configService.get<string>('DATABASE_URL')
+        ? 'configured'
+        : 'not configured',
+      timestamp: new Date().toISOString(),
+      version: process.env.npm_package_version || 'unknown',
+      uptime: process.uptime(),
+      memory: process.memoryUsage(),
+    };
+  }
 }

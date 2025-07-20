@@ -16,7 +16,7 @@ export class UpdateCategoryDto {
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
-  example_images?: string[];
+  exampleImages?: string[];
 
   @IsEnum(CategoryType)
   @IsOptional()

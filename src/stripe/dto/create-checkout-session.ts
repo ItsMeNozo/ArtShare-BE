@@ -1,9 +1,4 @@
-import {
-  IsOptional,
-  IsString,
-  IsEmail,
-  IsNotEmpty,
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateCheckoutSessionDto {
   @IsString()

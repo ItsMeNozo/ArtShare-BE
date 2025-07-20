@@ -2,8 +2,8 @@ import { IsDate, IsInt } from 'class-validator';
 
 export class AutoPostMeta {
   @IsDate()
-  scheduled_at: Date;
+  scheduledAt: Date;
 
   @IsInt()
-  images_count: number;
+  imagesCount: number;
 }

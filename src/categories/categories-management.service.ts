@@ -1,7 +1,6 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { plainToInstance } from 'class-transformer';
-import { TryCatch } from 'src/common/try-catch.decorator';
 import embeddingConfig from 'src/config/embedding.config';
 import { QdrantService } from 'src/embedding/qdrant.service';
 import { PrismaService } from 'src/prisma.service';
@@ -28,7 +27,6 @@ export class CategoriesManagementService {
     this.categoriesCollectionName = this.embeddingConf.categoriesCollectionName;
   }
 
-  @TryCatch()
   async create(
     createCategoryDto: CreateCategoryDto,
   ): Promise<CategoryResponseDto> {
@@ -49,7 +47,6 @@ export class CategoriesManagementService {
     return plainToInstance(CategoryResponseDto, createdCategory);
   }
 
-  @TryCatch()
   async update(
     id: number,
     updateCategoryDto: UpdateCategoryDto,
@@ -99,7 +96,6 @@ export class CategoriesManagementService {
     return description == null || description.trim() === '';
   }
 
-  @TryCatch()
   async remove(id: number): Promise<CategoryResponseDto> {
     await this.checkCategoryExists(id);
 

@@ -1,11 +1,13 @@
+import { ImageAnnotatorClient, protos } from '@google-cloud/vision';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ImageAnnotatorClient, protos } from '@google-cloud/vision';
-import { ISafeSearchAnnotation, Likelihood } from './types/safe-search-annotation.type';
 import { plainToInstance } from 'class-transformer';
 import { TryCatch } from 'src/common/try-catch.decorator';
 import { AdultDetectionResponseDto } from './dto/response/adult-detection.dto';
-
+import {
+  ISafeSearchAnnotation,
+  Likelihood,
+} from './types/safe-search-annotation.type';
 
 @Injectable()
 export class SafeSearchService {
@@ -23,7 +25,12 @@ export class SafeSearchService {
   ): Promise<ISafeSearchAnnotation[]> {
     const requests = imageFiles.map(({ buffer }) => ({
       image: { content: buffer },
-      features: [{ type: protos.google.cloud.vision.v1.Feature.Type.SAFE_SEARCH_DETECTION }],
+      features: [
+        {
+          type: protos.google.cloud.vision.v1.Feature.Type
+            .SAFE_SEARCH_DETECTION,
+        },
+      ],
     }));
 
     const [batchResponse] = await this.client.batchAnnotateImages({
@@ -31,9 +38,13 @@ export class SafeSearchService {
     });
 
     return (batchResponse.responses ?? [])
-      .map(r => r.safeSearchAnnotation)
-      .filter((annotation): annotation is protos.google.cloud.vision.v1.ISafeSearchAnnotation => annotation != null);
-
+      .map((r) => r.safeSearchAnnotation)
+      .filter(
+        (
+          annotation,
+        ): annotation is protos.google.cloud.vision.v1.ISafeSearchAnnotation =>
+          annotation != null,
+      );
   }
 
   @TryCatch()
@@ -42,7 +53,7 @@ export class SafeSearchService {
   ): Promise<AdultDetectionResponseDto[]> {
     const safeSearchAnnotations = await this.detectSafeSearchBatch(imageFiles);
 
-    const response = safeSearchAnnotations.map(annotation => {
+    const response = safeSearchAnnotations.map((annotation) => {
       const annotationAdult = Likelihood[annotation.adult!];
       const isAdult =
         annotationAdult == Likelihood.VERY_LIKELY ||
@@ -55,6 +66,6 @@ export class SafeSearchService {
       } as AdultDetectionResponseDto;
     });
 
-    return plainToInstance(AdultDetectionResponseDto, response)
+    return plainToInstance(AdultDetectionResponseDto, response);
   }
 }

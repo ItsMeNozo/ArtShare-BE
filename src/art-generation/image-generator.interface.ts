@@ -1,4 +1,4 @@
-import { AspectRatio } from "./enum/aspect-ratio";
+import { AspectRatio } from './enum/aspect-ratio';
 
 export interface ImageGeneratorStrategy {
   readonly modelKey: ModelKey;
@@ -18,4 +18,3 @@ export type ImageGenerationOptions = {
   n: number;
   aspectRatio: AspectRatio;
 };
-

@@ -43,10 +43,13 @@ export class WorkflowAssistService {
 
   @TryCatch()
   async generatePostMetadata(
-    imageFiles: Express.Multer.File[],
+    files: Express.Multer.File[],
     userId: string,
   ): Promise<GeneratePostMetadataResponseDto> {
-    if (!imageFiles || imageFiles.length === 0) {
+    const imageFiles = files.filter((file) =>
+      file.mimetype.startsWith('image/'),
+    );
+    if (imageFiles.length === 0) {
       throw new BadRequestException('No images provided');
     }
 
@@ -85,7 +88,9 @@ export class WorkflowAssistService {
     // 1. Map each file to an "input_image" object with a data URI
     const imageInputs = imageFiles.map((file) => ({
       type: 'input_image' as const,
-      image_url: `data:${file.mimetype};base64,${file.buffer.toString('base64')}`,
+      image_url: `data:${file.mimetype};base64,${file.buffer.toString(
+        'base64',
+      )}`,
       detail: 'low' as const,
     }));
 
