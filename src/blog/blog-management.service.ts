@@ -154,23 +154,10 @@ export class BlogManagementService {
     return mappedBlog;
   }
 
-  async deleteBlog(id: number, userId: string) {
-    const existingBlog = await this.prisma.blog.findUnique({
-      where: { id },
-      select: { userId: true },
-    });
-    if (!existingBlog) {
-      throw new NotFoundException(`Blog with ID ${id} not found.`);
-    }
-    if (existingBlog.userId !== userId) {
-      throw new ForbiddenException(
-        'You do not have permission to delete this blog.',
-      );
-    }
-
+  async deleteBlog(id: number) {
     const result = await this.prisma.blog.delete({ where: { id } });
 
-    void this.qdrantService.deletePoints(this.blogsCollectionName, [id]);
+    // void this.qdrantService.deletePoints(this.blogsCollectionName, [id]);
 
     return result;
   }

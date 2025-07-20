@@ -166,9 +166,8 @@ export class BlogController {
   @HttpCode(HttpStatus.OK)
   async deleteBlog(
     @Param('id', ParseIntPipe) id: number,
-    @CurrentUser() user: CurrentUserType,
   ): Promise<{ message: string }> {
-    await this.blogManagementService.deleteBlog(id, user.id);
+    await this.blogManagementService.deleteBlog(id);
     return { message: `Blog with ID ${id} successfully deleted.` };
   }
 
