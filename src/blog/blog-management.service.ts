@@ -175,6 +175,18 @@ export class BlogManagementService {
     return result;
   }
 
+  async deleteManyBlogs(blogIds: number[]) {
+    const deleted_blogs = await this.prisma.blog.deleteMany({
+      where: {
+        id: { in: blogIds },
+      },
+    });
+    console.log(`deleted_blogs: ${deleted_blogs.count}`)
+    // void this.qdrantService.deletePoints(this.blogsCollectionName, blogIds);
+
+    return deleted_blogs;
+  }
+
   async toggleBookmark(
     blogId: number,
     userId: string,
