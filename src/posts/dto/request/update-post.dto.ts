@@ -17,6 +17,7 @@ export class UpdatePostDto {
   description?: string;
 
   @IsBoolean()
+  @IsOptional()
   @Transform(({ obj, key }) => {
     const value = obj[key];
     if (typeof value === 'string') {
@@ -25,9 +26,10 @@ export class UpdatePostDto {
     }
     return value;
   })
-  isMature: boolean = false;
+  isMature?: boolean;
 
   @IsBoolean()
+  @IsOptional()
   @Transform(({ obj, key }) => {
     const value = obj[key];
     if (typeof value === 'string') {
@@ -36,7 +38,7 @@ export class UpdatePostDto {
     }
     return value;
   })
-  aiCreated: boolean = false;
+  aiCreated?: boolean;
 
   @IsOptional()
   @IsString()
