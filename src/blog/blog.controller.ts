@@ -39,6 +39,7 @@ import { LikesService } from 'src/likes/likes.service';
 import { BlogEmbeddingService } from './blog-embedding.service';
 import { BlogExploreService } from './blog-explore.service';
 import { BlogManagementService } from './blog-management.service';
+import { BulkDeleteBlogsDto } from './dto/request/bulk-delete-blogs.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('blogs')
@@ -165,10 +166,18 @@ export class BlogController {
   @HttpCode(HttpStatus.OK)
   async deleteBlog(
     @Param('id', ParseIntPipe) id: number,
-    @CurrentUser() user: CurrentUserType,
   ): Promise<{ message: string }> {
-    await this.blogManagementService.deleteBlog(id, user.id);
+    await this.blogManagementService.deleteBlog(id);
     return { message: `Blog with ID ${id} successfully deleted.` };
+  }
+
+  @Delete('/admin/bulk-delete')
+  @HttpCode(HttpStatus.OK)
+  async deleteManyBlogs(
+    @Body() dto: BulkDeleteBlogsDto,
+  ): Promise<{ message: string }> {
+    await this.blogManagementService.deleteManyBlogs(dto.ids);
+    return { message: `You have succesfully deleted many posts.` };
   }
 
   /**

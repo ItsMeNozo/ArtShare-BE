@@ -11,6 +11,9 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
+import { FacebookApiService } from 'src/facebook-api/facebook-api.service';
+import { SharePlatform } from 'src/generated';
+import { PlatformService } from 'src/platform/platform.service';
 import { CurrentUser } from '../decorators/users.decorator';
 import { JwtAuthGuard } from '../jwt-auth.guard';
 import { CurrentUserType } from '../types/current-user.type';
@@ -19,17 +22,19 @@ import { FacebookAuthService } from './facebook.service';
 @Controller('facebook-integration')
 export class FacebookController {
   private readonly logger = new Logger(FacebookController.name);
-  private readonly defaultFrontendSuccessRedirectUrl: string;
-  private readonly defaultFrontendErrorRedirectUrl: string;
+  private readonly defaultSuccessRedirectUrl: string;
+  private readonly defaultErrorRedirectUrl: string;
 
   constructor(
     private readonly facebookAuthService: FacebookAuthService,
+    private readonly facebookApiService: FacebookApiService,
     private readonly configService: ConfigService,
+    private readonly platformService: PlatformService,
   ) {
-    this.defaultFrontendSuccessRedirectUrl =
+    this.defaultSuccessRedirectUrl =
       this.configService.get<string>('FRONTEND_URL_FB_SETUP_SUCCESS') ||
       'http://localhost:5173/settings?status=success';
-    this.defaultFrontendErrorRedirectUrl =
+    this.defaultErrorRedirectUrl =
       this.configService.get<string>('FRONTEND_URL_FB_SETUP_ERROR') ||
       'http://localhost:5173/settings?status=error';
   }
@@ -56,9 +61,8 @@ export class FacebookController {
     }
 
     try {
-      const finalSuccessUrl =
-        successUrl || this.defaultFrontendSuccessRedirectUrl;
-      const finalErrorUrl = errorUrl || this.defaultFrontendErrorRedirectUrl;
+      const finalSuccessUrl = successUrl || this.defaultSuccessRedirectUrl;
+      const finalErrorUrl = errorUrl || this.defaultErrorRedirectUrl;
 
       this.logger.log(`Using success redirect URL: ${finalSuccessUrl}`);
       this.logger.log(`Using error redirect URL: ${finalErrorUrl}`);
@@ -94,38 +98,50 @@ export class FacebookController {
     @Query('error_description') errorDescription: string,
     @Res() res: Response,
   ) {
-    this.logger.log(`Received State JWT: ${stateJwt}`);
-
-    const {
-      successRedirectUrl = this.defaultFrontendSuccessRedirectUrl,
-      errorRedirectUrl = this.defaultFrontendErrorRedirectUrl,
-    } = await this.facebookAuthService.getRedirectUrlsFromState(stateJwt);
-
     if (fbError) {
       this.logger.error(
         `Facebook callback error: ${fbError} - ${errorDescription}`,
       );
-      return res.redirect(errorRedirectUrl);
+
+      return res.redirect(this.defaultErrorRedirectUrl);
     }
 
     if (!code || !stateJwt) {
-      this.logger.warn(`Facebook callback missing code or state JWT.`);
-
-      return res.redirect(errorRedirectUrl);
+      this.logger.warn("Facebook callback missing 'code' or 'state'.");
+      return res.redirect(this.defaultErrorRedirectUrl);
     }
 
-    try {
-      await this.facebookAuthService.handleFacebookCallback(code, stateJwt);
+    let errorRedirectUrl = this.defaultErrorRedirectUrl;
 
-      this.logger.log(
-        `Facebook OAuth callback processed. Redirecting to success URL: ${successRedirectUrl}`,
+    try {
+      const callbackData = await this.facebookAuthService.processOauthCallback(
+        code,
+        stateJwt,
       );
 
-      res.redirect(successRedirectUrl);
+      errorRedirectUrl =
+        callbackData.errorRedirectUrl || this.defaultErrorRedirectUrl;
+
+      this.logger.log(
+        `Auth successful for user ${callbackData.userId}. Syncing platforms.`,
+      );
+
+      await this.platformService.synchronizePlatforms({
+        userId: callbackData.userId,
+        platformName: SharePlatform.FACEBOOK,
+        pagesFromApi: callbackData.pagesFromApi,
+        facebookAccountId: callbackData.facebookAccountId,
+      });
+
+      this.logger.log(`Sync complete. Redirecting to success URL.`);
+
+      res.redirect(
+        callbackData.successRedirectUrl || this.defaultSuccessRedirectUrl,
+      );
     } catch (error) {
       this.logger.error(
-        `Error processing Facebook callback:`,
-        (error as any).message,
+        'Critical error during Facebook callback process:',
+        (error as Error).message,
       );
 
       res.redirect(errorRedirectUrl);
@@ -148,7 +164,7 @@ export class FacebookController {
 
     try {
       const accountsInfo =
-        await this.facebookAuthService.getFacebookAccountInfo(userId);
+        await this.facebookApiService.getFacebookAccountInfo(userId);
 
       if (!accountsInfo || accountsInfo.length === 0) {
         throw new NotFoundException(

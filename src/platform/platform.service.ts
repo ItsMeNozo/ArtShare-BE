@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { EncryptionService } from 'src/encryption/encryption.service';
+import { FacebookApiService } from 'src/facebook-api/facebook-api.service';
 import { Platform, PlatformStatus, Prisma, SharePlatform } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { CreatePlatformDto } from './dtos/create-platform.dto';
@@ -20,6 +21,7 @@ export class PlatformService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly encryptionService: EncryptionService,
+    private readonly facebookApiService: FacebookApiService,
   ) {}
 
   /**
@@ -132,7 +134,7 @@ export class PlatformService {
     userId: string,
     platformName: SharePlatform,
   ): Promise<Platform[]> {
-    return this.prisma.platform.findMany({
+    const platforms = await this.prisma.platform.findMany({
       where: {
         userId: userId,
         name: platformName,
@@ -147,6 +149,39 @@ export class PlatformService {
       },
       orderBy: { createdAt: 'desc' },
     });
+
+    if (platformName !== SharePlatform.FACEBOOK) {
+      return platforms;
+    }
+
+    const platformsWithFreshUrls = await Promise.all(
+      platforms.map(async (platform) => {
+        try {
+          const config = platform.config as any;
+          if (config?.encryptedAccessToken) {
+            const accessToken = this.encryptionService.decrypt(
+              config.encryptedAccessToken,
+            );
+
+            const pictureUrl =
+              await this.facebookApiService.getFreshFacebookPagePictureUrl(
+                platform.externalPageId,
+                accessToken,
+              );
+
+            return { ...platform, pictureUrl };
+          }
+        } catch (error) {
+          this.logger.error(
+            `Failed to process picture for platform ${platform.id}: ${(error as Error).message}`,
+          );
+        }
+
+        return platform;
+      }),
+    );
+
+    return platformsWithFreshUrls;
   }
 
   /**
