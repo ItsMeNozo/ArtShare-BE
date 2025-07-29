@@ -38,7 +38,6 @@ export type FacebookAccountMinAggregateOutputType = {
   userId: string | null
   facebookUserId: string | null
   name: string | null
-  pictureUrl: string | null
   longLivedUserAccessToken: string | null
   tokenExpiresAt: Date | null
   createdAt: Date | null
@@ -50,7 +49,6 @@ export type FacebookAccountMaxAggregateOutputType = {
   userId: string | null
   facebookUserId: string | null
   name: string | null
-  pictureUrl: string | null
   longLivedUserAccessToken: string | null
   tokenExpiresAt: Date | null
   createdAt: Date | null
@@ -62,7 +60,6 @@ export type FacebookAccountCountAggregateOutputType = {
   userId: number
   facebookUserId: number
   name: number
-  pictureUrl: number
   longLivedUserAccessToken: number
   tokenExpiresAt: number
   createdAt: number
@@ -84,7 +81,6 @@ export type FacebookAccountMinAggregateInputType = {
   userId?: true
   facebookUserId?: true
   name?: true
-  pictureUrl?: true
   longLivedUserAccessToken?: true
   tokenExpiresAt?: true
   createdAt?: true
@@ -96,7 +92,6 @@ export type FacebookAccountMaxAggregateInputType = {
   userId?: true
   facebookUserId?: true
   name?: true
-  pictureUrl?: true
   longLivedUserAccessToken?: true
   tokenExpiresAt?: true
   createdAt?: true
@@ -108,7 +103,6 @@ export type FacebookAccountCountAggregateInputType = {
   userId?: true
   facebookUserId?: true
   name?: true
-  pictureUrl?: true
   longLivedUserAccessToken?: true
   tokenExpiresAt?: true
   createdAt?: true
@@ -207,7 +201,6 @@ export type FacebookAccountGroupByOutputType = {
   userId: string
   facebookUserId: string
   name: string
-  pictureUrl: string | null
   longLivedUserAccessToken: string
   tokenExpiresAt: Date | null
   createdAt: Date
@@ -242,7 +235,6 @@ export type FacebookAccountWhereInput = {
   userId?: Prisma.StringFilter<"FacebookAccount"> | string
   facebookUserId?: Prisma.StringFilter<"FacebookAccount"> | string
   name?: Prisma.StringFilter<"FacebookAccount"> | string
-  pictureUrl?: Prisma.StringNullableFilter<"FacebookAccount"> | string | null
   longLivedUserAccessToken?: Prisma.StringFilter<"FacebookAccount"> | string
   tokenExpiresAt?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"FacebookAccount"> | Date | string
@@ -255,7 +247,6 @@ export type FacebookAccountOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   facebookUserId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  pictureUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   longLivedUserAccessToken?: Prisma.SortOrder
   tokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -271,7 +262,6 @@ export type FacebookAccountWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.FacebookAccountWhereInput | Prisma.FacebookAccountWhereInput[]
   userId?: Prisma.StringFilter<"FacebookAccount"> | string
   name?: Prisma.StringFilter<"FacebookAccount"> | string
-  pictureUrl?: Prisma.StringNullableFilter<"FacebookAccount"> | string | null
   longLivedUserAccessToken?: Prisma.StringFilter<"FacebookAccount"> | string
   tokenExpiresAt?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"FacebookAccount"> | Date | string
@@ -284,7 +274,6 @@ export type FacebookAccountOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   facebookUserId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  pictureUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   longLivedUserAccessToken?: Prisma.SortOrder
   tokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -304,7 +293,6 @@ export type FacebookAccountScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"FacebookAccount"> | string
   facebookUserId?: Prisma.StringWithAggregatesFilter<"FacebookAccount"> | string
   name?: Prisma.StringWithAggregatesFilter<"FacebookAccount"> | string
-  pictureUrl?: Prisma.StringNullableWithAggregatesFilter<"FacebookAccount"> | string | null
   longLivedUserAccessToken?: Prisma.StringWithAggregatesFilter<"FacebookAccount"> | string
   tokenExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"FacebookAccount"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"FacebookAccount"> | Date | string
@@ -315,7 +303,6 @@ export type FacebookAccountCreateInput = {
   userId: string
   facebookUserId: string
   name: string
-  pictureUrl?: string | null
   longLivedUserAccessToken: string
   tokenExpiresAt?: Date | string | null
   createdAt?: Date | string
@@ -328,7 +315,6 @@ export type FacebookAccountUncheckedCreateInput = {
   userId: string
   facebookUserId: string
   name: string
-  pictureUrl?: string | null
   longLivedUserAccessToken: string
   tokenExpiresAt?: Date | string | null
   createdAt?: Date | string
@@ -340,7 +326,6 @@ export type FacebookAccountUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
   tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -353,7 +338,6 @@ export type FacebookAccountUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
   tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -366,7 +350,6 @@ export type FacebookAccountCreateManyInput = {
   userId: string
   facebookUserId: string
   name: string
-  pictureUrl?: string | null
   longLivedUserAccessToken: string
   tokenExpiresAt?: Date | string | null
   createdAt?: Date | string
@@ -377,7 +360,6 @@ export type FacebookAccountUpdateManyMutationInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
   tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -389,7 +371,6 @@ export type FacebookAccountUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
   tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -406,7 +387,6 @@ export type FacebookAccountCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   facebookUserId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  pictureUrl?: Prisma.SortOrder
   longLivedUserAccessToken?: Prisma.SortOrder
   tokenExpiresAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -422,7 +402,6 @@ export type FacebookAccountMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   facebookUserId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  pictureUrl?: Prisma.SortOrder
   longLivedUserAccessToken?: Prisma.SortOrder
   tokenExpiresAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -434,7 +413,6 @@ export type FacebookAccountMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   facebookUserId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  pictureUrl?: Prisma.SortOrder
   longLivedUserAccessToken?: Prisma.SortOrder
   tokenExpiresAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -465,7 +443,6 @@ export type FacebookAccountCreateWithoutPlatformsInput = {
   userId: string
   facebookUserId: string
   name: string
-  pictureUrl?: string | null
   longLivedUserAccessToken: string
   tokenExpiresAt?: Date | string | null
   createdAt?: Date | string
@@ -477,7 +454,6 @@ export type FacebookAccountUncheckedCreateWithoutPlatformsInput = {
   userId: string
   facebookUserId: string
   name: string
-  pictureUrl?: string | null
   longLivedUserAccessToken: string
   tokenExpiresAt?: Date | string | null
   createdAt?: Date | string
@@ -504,7 +480,6 @@ export type FacebookAccountUpdateWithoutPlatformsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
   tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -516,7 +491,6 @@ export type FacebookAccountUncheckedUpdateWithoutPlatformsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  pictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
   tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -559,7 +533,6 @@ export type FacebookAccountSelect<ExtArgs extends runtime.Types.Extensions.Inter
   userId?: boolean
   facebookUserId?: boolean
   name?: boolean
-  pictureUrl?: boolean
   longLivedUserAccessToken?: boolean
   tokenExpiresAt?: boolean
   createdAt?: boolean
@@ -573,7 +546,6 @@ export type FacebookAccountSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   userId?: boolean
   facebookUserId?: boolean
   name?: boolean
-  pictureUrl?: boolean
   longLivedUserAccessToken?: boolean
   tokenExpiresAt?: boolean
   createdAt?: boolean
@@ -585,7 +557,6 @@ export type FacebookAccountSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   userId?: boolean
   facebookUserId?: boolean
   name?: boolean
-  pictureUrl?: boolean
   longLivedUserAccessToken?: boolean
   tokenExpiresAt?: boolean
   createdAt?: boolean
@@ -597,14 +568,13 @@ export type FacebookAccountSelectScalar = {
   userId?: boolean
   facebookUserId?: boolean
   name?: boolean
-  pictureUrl?: boolean
   longLivedUserAccessToken?: boolean
   tokenExpiresAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type FacebookAccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "facebookUserId" | "name" | "pictureUrl" | "longLivedUserAccessToken" | "tokenExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["facebookAccount"]>
+export type FacebookAccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "facebookUserId" | "name" | "longLivedUserAccessToken" | "tokenExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["facebookAccount"]>
 export type FacebookAccountInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   platforms?: boolean | Prisma.FacebookAccount$platformsArgs<ExtArgs>
   _count?: boolean | Prisma.FacebookAccountCountOutputTypeDefaultArgs<ExtArgs>
@@ -622,7 +592,6 @@ export type $FacebookAccountPayload<ExtArgs extends runtime.Types.Extensions.Int
     userId: string
     facebookUserId: string
     name: string
-    pictureUrl: string | null
     longLivedUserAccessToken: string
     tokenExpiresAt: Date | null
     createdAt: Date
@@ -1055,7 +1024,6 @@ export interface FacebookAccountFieldRefs {
   readonly userId: Prisma.FieldRef<"FacebookAccount", 'String'>
   readonly facebookUserId: Prisma.FieldRef<"FacebookAccount", 'String'>
   readonly name: Prisma.FieldRef<"FacebookAccount", 'String'>
-  readonly pictureUrl: Prisma.FieldRef<"FacebookAccount", 'String'>
   readonly longLivedUserAccessToken: Prisma.FieldRef<"FacebookAccount", 'String'>
   readonly tokenExpiresAt: Prisma.FieldRef<"FacebookAccount", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"FacebookAccount", 'DateTime'>
