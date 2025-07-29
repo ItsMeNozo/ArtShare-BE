@@ -7,7 +7,7 @@ import { HttpModule } from '@nestjs/axios';
 import { CacheModule } from '@nestjs/cache-manager';
 import { JwtModule } from '@nestjs/jwt';
 import { EncryptionService } from 'src/encryption/encryption.service';
-import { FacebookApiModule } from 'src/facebook-api/facebook-api/facebook-api.module';
+import { FacebookApiModule } from 'src/facebook-api/facebook-api.module';
 import { PlatformModule } from 'src/platform/platform.module';
 import { FacebookController } from './facebook/facebook.controller';
 import { FacebookAuthService } from './facebook/facebook.service';
