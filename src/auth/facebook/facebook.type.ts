@@ -1,4 +1,5 @@
 import { PlatformStatus } from 'src/generated';
+import { ApiPageData } from 'src/platform/dtos/sync-platform-input.dto';
 
 export interface PublicFacebookPageData {
   id: string;
@@ -44,4 +45,12 @@ export interface FacebookStatePayload {
   purpose: 'facebook_page_connection_state';
   successRedirectUrl: string;
   errorRedirectUrl: string;
+}
+
+export interface ProcessedFacebookCallbackData {
+  userId: string;
+  facebookAccountId: number;
+  pagesFromApi: ApiPageData[];
+  successRedirectUrl: string | null;
+  errorRedirectUrl: string | null;
 }

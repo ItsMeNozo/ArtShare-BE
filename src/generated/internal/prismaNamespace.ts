@@ -3020,7 +3020,6 @@ export const FacebookAccountScalarFieldEnum = {
   userId: 'userId',
   facebookUserId: 'facebookUserId',
   name: 'name',
-  pictureUrl: 'pictureUrl',
   longLivedUserAccessToken: 'longLivedUserAccessToken',
   tokenExpiresAt: 'tokenExpiresAt',
   createdAt: 'createdAt',
