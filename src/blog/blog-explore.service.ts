@@ -114,6 +114,13 @@ export class BlogExploreService {
             profilePictureUrl: true,
             fullName: true,
             followersCount: true,
+            followers: requestingUserId
+              ? {
+                  where: { followerId: requestingUserId },
+                  select: { followerId: true },
+                  take: 1,
+                }
+              : undefined,
           },
         },
         likes: {

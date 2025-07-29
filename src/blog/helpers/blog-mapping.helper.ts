@@ -68,9 +68,10 @@ export const mapBlogToDetailsDto = (
     ? (blog as BlogWithRelations).likes
     : [];
 
-  const isFollowedByCurrentUser = (blog.user as any).followers
-    ? (blog.user as any).followers.length > 0
-    : false;
+  let isFollowedByCurrentUser = false;
+  if (Array.isArray((blog.user as any).followers)) {
+    isFollowedByCurrentUser = (blog.user as any).followers.length > 0;
+  }
 
   return {
     id: blog.id,
