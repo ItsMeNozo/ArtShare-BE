@@ -12,6 +12,12 @@ import { EmbeddingService } from 'src/embedding/embedding.service';
 import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { GetBlogsQueryDto } from './dto/request/get-blogs-query.dto';
+import {
+  BlogDateRange,
+  BlogSortBy,
+  BlogSortField,
+  UserBlogsQueryDto,
+} from './dto/request/user-blogs-query.dto';
 import { BlogDetailsResponseDto } from './dto/response/blog-details.dto';
 import { BlogListItemResponseDto } from './dto/response/blog-list-item.dto';
 import {
@@ -19,7 +25,6 @@ import {
   blogListItemSelect,
   mapBlogToDetailsDto,
 } from './helpers/blog-mapping.helper';
-import { UserBlogsQueryDto, BlogSortBy, BlogDateRange, BlogSortField } from './dto/request/user-blogs-query.dto';
 
 @Injectable()
 export class BlogExploreService {
@@ -114,6 +119,7 @@ export class BlogExploreService {
             profilePictureUrl: true,
             fullName: true,
             followersCount: true,
+            followers: true,
           },
         },
         likes: {
@@ -145,7 +151,7 @@ export class BlogExploreService {
       data: { viewCount: { increment: 1 } },
     });
 
-    return mapBlogToDetailsDto(blog);
+    return mapBlogToDetailsDto(blog, requestingUserId);
   }
   async checkBlogAccess(
     id: number,
