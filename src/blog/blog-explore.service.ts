@@ -29,6 +29,10 @@ import {
 @Injectable()
 export class BlogExploreService {
   private readonly blogsCollectionName: string;
+  private readonly BLOG_VISIBILITY_FILTER = {
+    isPublished: true,
+    isProtected: false,
+  };
 
   constructor(
     private readonly prisma: PrismaService,
@@ -68,8 +72,7 @@ export class BlogExploreService {
     const { page = 1, limit = 10, search } = queryDto;
 
     const whereClause: Prisma.BlogWhereInput = {
-      isPublished: true,
-      isProtected: false,
+      ...this.BLOG_VISIBILITY_FILTER,
     };
 
     if (search) {
@@ -205,8 +208,7 @@ export class BlogExploreService {
   ): Promise<PaginatedResponse<BlogListItemResponseDto>> {
     const { page = 1, limit = 10, categories } = queryDto;
     const baseWhere: Prisma.BlogWhereInput = {
-      isPublished: true,
-      isProtected: false,
+      ...this.BLOG_VISIBILITY_FILTER,
     };
 
     const finalWhere = await this.applyCommonBlogFilters(
@@ -261,8 +263,7 @@ export class BlogExploreService {
 
     const baseWhere: Prisma.BlogWhereInput = {
       userId: { in: followedUserIds },
-      isPublished: true,
-      isProtected: false,
+      ...this.BLOG_VISIBILITY_FILTER,
     };
 
     const finalWhere = await this.applyCommonBlogFilters(
@@ -399,7 +400,7 @@ export class BlogExploreService {
     );
 
     const blogs: BlogForListItemPayload[] = await this.prisma.blog.findMany({
-      where: { id: { in: pointIds }, isPublished: true, isProtected: false },
+      where: { id: { in: pointIds }, ...this.BLOG_VISIBILITY_FILTER },
       select: blogListItemSelect,
     });
 
