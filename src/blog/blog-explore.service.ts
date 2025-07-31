@@ -122,6 +122,7 @@ export class BlogExploreService {
             profilePictureUrl: true,
             fullName: true,
             followersCount: true,
+            followers: true,
           },
         },
         likes: {
@@ -153,7 +154,7 @@ export class BlogExploreService {
       data: { viewCount: { increment: 1 } },
     });
 
-    return mapBlogToDetailsDto(blog);
+    return mapBlogToDetailsDto(blog, requestingUserId);
   }
   async checkBlogAccess(
     id: number,
