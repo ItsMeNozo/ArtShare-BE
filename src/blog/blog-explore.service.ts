@@ -12,6 +12,12 @@ import { EmbeddingService } from 'src/embedding/embedding.service';
 import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { GetBlogsQueryDto } from './dto/request/get-blogs-query.dto';
+import {
+  BlogDateRange,
+  BlogSortBy,
+  BlogSortField,
+  UserBlogsQueryDto,
+} from './dto/request/user-blogs-query.dto';
 import { BlogDetailsResponseDto } from './dto/response/blog-details.dto';
 import { BlogListItemResponseDto } from './dto/response/blog-list-item.dto';
 import {
@@ -19,11 +25,14 @@ import {
   blogListItemSelect,
   mapBlogToDetailsDto,
 } from './helpers/blog-mapping.helper';
-import { UserBlogsQueryDto, BlogSortBy, BlogDateRange, BlogSortField } from './dto/request/user-blogs-query.dto';
 
 @Injectable()
 export class BlogExploreService {
   private readonly blogsCollectionName: string;
+  private readonly BLOG_VISIBILITY_FILTER = {
+    isPublished: true,
+    isProtected: false,
+  };
 
   constructor(
     private readonly prisma: PrismaService,
@@ -63,8 +72,7 @@ export class BlogExploreService {
     const { page = 1, limit = 10, search } = queryDto;
 
     const whereClause: Prisma.BlogWhereInput = {
-      isPublished: true,
-      isProtected: false,
+      ...this.BLOG_VISIBILITY_FILTER,
     };
 
     if (search) {
@@ -114,6 +122,7 @@ export class BlogExploreService {
             profilePictureUrl: true,
             fullName: true,
             followersCount: true,
+            followers: true,
           },
         },
         likes: {
@@ -145,7 +154,7 @@ export class BlogExploreService {
       data: { viewCount: { increment: 1 } },
     });
 
-    return mapBlogToDetailsDto(blog);
+    return mapBlogToDetailsDto(blog, requestingUserId);
   }
   async checkBlogAccess(
     id: number,
@@ -200,8 +209,7 @@ export class BlogExploreService {
   ): Promise<PaginatedResponse<BlogListItemResponseDto>> {
     const { page = 1, limit = 10, categories } = queryDto;
     const baseWhere: Prisma.BlogWhereInput = {
-      isPublished: true,
-      isProtected: false,
+      ...this.BLOG_VISIBILITY_FILTER,
     };
 
     const finalWhere = await this.applyCommonBlogFilters(
@@ -256,8 +264,7 @@ export class BlogExploreService {
 
     const baseWhere: Prisma.BlogWhereInput = {
       userId: { in: followedUserIds },
-      isPublished: true,
-      isProtected: false,
+      ...this.BLOG_VISIBILITY_FILTER,
     };
 
     const finalWhere = await this.applyCommonBlogFilters(
@@ -394,7 +401,7 @@ export class BlogExploreService {
     );
 
     const blogs: BlogForListItemPayload[] = await this.prisma.blog.findMany({
-      where: { id: { in: pointIds } },
+      where: { id: { in: pointIds }, ...this.BLOG_VISIBILITY_FILTER },
       select: blogListItemSelect,
     });
 
