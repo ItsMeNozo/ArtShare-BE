@@ -22,10 +22,6 @@ import {
 export class CollectionService {
   constructor(private prisma: PrismaService) {}
 
-  /**
-   * Fetches all collections belonging to a specific user, including their posts.
-   * Collections and their posts are sorted by creation date (desc).
-   */
   async getUserCollections(userId: string): Promise<CollectionDto[]> {
     try {
       const collections = await this.prisma.collection.findMany({
@@ -43,9 +39,47 @@ export class CollectionService {
     }
   }
 
-  /**
-   * Creates a new collection for a specific user.
-   */
+  async getPublicCollectionsByUsername(
+    username: string,
+  ): Promise<CollectionDto[]> {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: { username: username },
+        select: { id: true },
+      });
+
+      if (!user) {
+        throw new NotFoundException(
+          `User with username '${username}' not found.`,
+        );
+      }
+
+      const collections = await this.prisma.collection.findMany({
+        where: {
+          userId: user.id,
+          isPrivate: false,
+        },
+        select: collectionWithPostsSelect,
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+
+      return collections.map(mapCollectionToDto);
+    } catch (error) {
+      console.error(
+        `Error fetching public collections for ${username}:`,
+        error,
+      );
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        'Failed to fetch public collections.',
+      );
+    }
+  }
+
   async createCollection(
     dto: CreateCollectionDto,
     userId: string,
@@ -78,10 +112,6 @@ export class CollectionService {
     }
   }
 
-  /**
-   * Updates general properties (name, description, privacy, thumbnail)
-   * of a specific collection if the user owns it.
-   */
   async updateCollection(
     collectionId: number,
     dto: UpdateCollectionDto,
@@ -134,9 +164,6 @@ export class CollectionService {
     }
   }
 
-  /**
-   * Adds a specific post to a specific collection if the user owns the collection.
-   */
   async addPostToCollection(
     collectionId: number,
     postId: number,
@@ -181,9 +208,6 @@ export class CollectionService {
     }
   }
 
-  /**
-   * REFACTORED: Removes a post from a collection by deleting a record from the join table.
-   */
   async removePostFromCollection(
     collectionId: number,
     postId: number,
@@ -217,10 +241,6 @@ export class CollectionService {
     }
   }
 
-  /**
-   * Finds a collection by ID and verifies ownership. Throws if not found or not owned.
-   * Optionally includes posts in the returned object.
-   */
   private async findCollectionOwnedByUser(
     collectionId: number,
     userId: string,
@@ -258,9 +278,6 @@ export class CollectionService {
     return plainToInstance(CollectionDto, collection);
   }
 
-  /**
-   * Deletes a specific collection if the user owns it.
-   */
   async removeCollection(collectionId: number, userId: string): Promise<void> {
     await this.findCollectionOwnedByUser(collectionId, userId);
 

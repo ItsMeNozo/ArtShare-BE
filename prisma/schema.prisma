@@ -504,7 +504,6 @@ model FacebookAccount {
   userId                   String    @map("user_id")
   facebookUserId           String    @unique @map("facebook_user_id")
   name                     String
-  pictureUrl               String?   @map("picture_url")
   longLivedUserAccessToken String    @map("long_lived_user_access_token")
   tokenExpiresAt           DateTime? @map("token_expires_at")
   createdAt                DateTime  @default(now()) @map("created_at")
