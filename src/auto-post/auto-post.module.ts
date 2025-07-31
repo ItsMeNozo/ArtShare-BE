@@ -27,5 +27,10 @@ import { AutoPostService } from './auto-post.service';
     AutoPostGenerateServiceV2,
     AutoPostScheduler,
   ],
+  exports: [
+    AutoPostService,
+    AutoPostGenerateService,
+    AutoPostGenerateServiceV2,
+  ],
 })
 export class AutoPostModule {}
