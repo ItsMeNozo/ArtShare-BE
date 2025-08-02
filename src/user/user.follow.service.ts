@@ -35,51 +35,30 @@ export class UserFollowService {
       throw new BadRequestException('Cannot follow yourself.');
     }
 
-    const [followerExists, followingExists] = await Promise.all([
-      this.prisma.user.count({ where: { id: followerId } }),
-      this.prisma.user.count({ where: { id: followingId } }),
-    ]);
+    // const existingFollow = await this.prisma.follow.findUnique({
+    //   where: {
+    //     followerId_followingId: {
+    //       followerId: followerId,
+    //       followingId: followingId,
+    //     },
+    //   },
+    // });
 
-    if (followerExists === 0) {
-      throw new NotFoundException(
-        `User (follower) with ID ${followerId} not found.`,
-      );
-    }
-    if (followingExists === 0) {
-      throw new NotFoundException(
-        `User (to follow) with ID ${followingId} not found.`,
-      );
-    }
-
-    const existingFollow = await this.prisma.follow.findUnique({
-      where: {
-        followerId_followingId: {
-          followerId: followerId,
-          followingId: followingId,
-        },
-      },
-    });
-
-    if (existingFollow) {
-      throw new ConflictException('Already following this user.');
-    }
+    // if (existingFollow) {
+    //   throw new ConflictException('Already following this user.');
+    // }
 
     try {
-      await this.prisma.$transaction([
-        this.prisma.follow.create({
-          data: { followerId: followerId, followingId: followingId },
-        }),
-        this.prisma.user.update({
-          where: { id: followerId },
-          data: { followingsCount: { increment: 1 } },
-        }),
-        this.prisma.user.update({
-          where: { id: followingId },
-          data: { followersCount: { increment: 1 } },
-        }),
-      ]);
+      await this.prisma.follow.create({
+        data: { followerId: followerId, followingId: followingId },
+      });
 
-      this.eventEmitter.emit('push-notification', {
+      this.eventEmitter.emitAsync('user.followed.update-counts', {
+        followerId,
+        followingId,
+      });
+
+      this.eventEmitter.emitAsync('push-notification', {
         from: followerId,
         to: followingId,
         type: 'user_followed',
@@ -100,11 +79,9 @@ export class UserFollowService {
       );
       if (
         error instanceof PrismaClientKnownRequestError &&
-        error.code === 'P2002'
+        error.code === 'P2010'
       ) {
-        throw new ConflictException(
-          'Already following this user (race condition).',
-        );
+        throw new ConflictException('Already following this user.');
       }
       throw new InternalServerErrorException('Could not follow user.');
     }
@@ -114,38 +91,21 @@ export class UserFollowService {
     followerId: string,
     followingId: string,
   ): Promise<CustomApiResponse<FollowUnfollowDataDto>> {
-    const existingFollow = await this.prisma.follow.findUnique({
-      where: {
-        followerId_followingId: {
-          followerId: followerId,
-          followingId: followingId,
-        },
-      },
-    });
-
-    if (!existingFollow) {
-      throw new NotFoundException('You are not following this user.');
-    }
-
     try {
-      await this.prisma.$transaction([
-        this.prisma.follow.delete({
-          where: {
-            followerId_followingId: {
-              followerId: followerId,
-              followingId: followingId,
-            },
+      await this.prisma.follow.delete({
+        where: {
+          followerId_followingId: {
+            followerId: followerId,
+            followingId: followingId,
           },
-        }),
-        this.prisma.user.update({
-          where: { id: followerId },
-          data: { followingsCount: { decrement: 1 } },
-        }),
-        this.prisma.user.update({
-          where: { id: followingId },
-          data: { followersCount: { decrement: 1 } },
-        }),
-      ]);
+        },
+      });
+
+      this.eventEmitter.emitAsync('user.unfollowed.update-counts', {
+        followerId,
+        followingId,
+      });
+
       const responseData: FollowUnfollowDataDto = { followerId, followingId };
       return new UnfollowUserResponseDto(
         true,
@@ -162,9 +122,7 @@ export class UserFollowService {
         error instanceof PrismaClientKnownRequestError &&
         error.code === 'P2025'
       ) {
-        throw new NotFoundException(
-          'Follow relationship not found to delete (race condition or invalid state).',
-        );
+        throw new NotFoundException('Follow relationship not found to delete.');
       }
 
       this.logger.error(`Unfollow failed for ${followerId}:`, error);
