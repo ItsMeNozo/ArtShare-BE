@@ -157,7 +157,7 @@ export class BlogManagementService {
   async deleteBlog(id: number) {
     const result = await this.prisma.blog.delete({ where: { id } });
 
-    // void this.qdrantService.deletePoints(this.blogsCollectionName, [id]);
+    void this.qdrantService.deletePoints(this.blogsCollectionName, [id]);
 
     return result;
   }
@@ -168,8 +168,7 @@ export class BlogManagementService {
         id: { in: blogIds },
       },
     });
-    console.log(`deleted_blogs: ${deleted_blogs.count}`)
-    // void this.qdrantService.deletePoints(this.blogsCollectionName, blogIds);
+    void this.qdrantService.deletePoints(this.blogsCollectionName, blogIds);
 
     return deleted_blogs;
   }
