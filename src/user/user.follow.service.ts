@@ -49,18 +49,16 @@ export class UserFollowService {
     // }
 
     try {
-      await this.prisma.$transaction([
-        this.prisma.$executeRaw`
-          INSERT INTO "follow" ("follower_id", "following_id") 
-          VALUES (${followerId}, ${followingId})
-        `,
-        this.prisma
-          .$executeRaw`UPDATE "user" SET "followings_count" = "followings_count" + 1 WHERE "id" = ${followerId}`,
-        this.prisma
-          .$executeRaw`UPDATE "user" SET "followers_count" = "followers_count" + 1 WHERE "id" = ${followingId}`,
-      ]);
+      await this.prisma.follow.create({
+        data: { followerId: followerId, followingId: followingId },
+      });
 
-      this.eventEmitter.emit('push-notification', {
+      this.eventEmitter.emitAsync('user.followed.update-counts', {
+        followerId,
+        followingId,
+      });
+
+      this.eventEmitter.emitAsync('push-notification', {
         from: followerId,
         to: followingId,
         type: 'user_followed',
@@ -94,24 +92,20 @@ export class UserFollowService {
     followingId: string,
   ): Promise<CustomApiResponse<FollowUnfollowDataDto>> {
     try {
-      await this.prisma.$transaction([
-        this.prisma.follow.delete({
-          where: {
-            followerId_followingId: {
-              followerId: followerId,
-              followingId: followingId,
-            },
+      await this.prisma.follow.delete({
+        where: {
+          followerId_followingId: {
+            followerId: followerId,
+            followingId: followingId,
           },
-        }),
-        this.prisma.user.update({
-          where: { id: followerId },
-          data: { followingsCount: { decrement: 1 } },
-        }),
-        this.prisma.user.update({
-          where: { id: followingId },
-          data: { followersCount: { decrement: 1 } },
-        }),
-      ]);
+        },
+      });
+
+      this.eventEmitter.emitAsync('user.unfollowed.update-counts', {
+        followerId,
+        followingId,
+      });
+
       const responseData: FollowUnfollowDataDto = { followerId, followingId };
       return new UnfollowUserResponseDto(
         true,
