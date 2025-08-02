@@ -157,7 +157,11 @@ export class BlogManagementService {
   async deleteBlog(id: number) {
     const result = await this.prisma.blog.delete({ where: { id } });
 
-    void this.qdrantService.deletePoints(this.blogsCollectionName, [id]);
+    this.qdrantService
+      .deletePoints(this.blogsCollectionName, [id])
+      .catch((err) => {
+        console.error(`Failed to delete Qdrant points for blog ID ${id}:`, err);
+      });
 
     return result;
   }
@@ -168,7 +172,14 @@ export class BlogManagementService {
         id: { in: blogIds },
       },
     });
-    void this.qdrantService.deletePoints(this.blogsCollectionName, blogIds);
+    this.qdrantService
+      .deletePoints(this.blogsCollectionName, blogIds)
+      .catch((err) => {
+        console.error(
+          `Failed to delete Qdrant points for blog IDs ${blogIds}:`,
+          err,
+        );
+      });
 
     return deleted_blogs;
   }
