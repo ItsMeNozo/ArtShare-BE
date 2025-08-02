@@ -35,22 +35,6 @@ export class UserFollowService {
       throw new BadRequestException('Cannot follow yourself.');
     }
 
-    const [followerExists, followingExists] = await Promise.all([
-      this.prisma.user.count({ where: { id: followerId } }),
-      this.prisma.user.count({ where: { id: followingId } }),
-    ]);
-
-    if (followerExists === 0) {
-      throw new NotFoundException(
-        `User (follower) with ID ${followerId} not found.`,
-      );
-    }
-    if (followingExists === 0) {
-      throw new NotFoundException(
-        `User (to follow) with ID ${followingId} not found.`,
-      );
-    }
-
     const existingFollow = await this.prisma.follow.findUnique({
       where: {
         followerId_followingId: {
