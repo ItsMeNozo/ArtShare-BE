@@ -50,7 +50,7 @@ export class AutoPostGenerateServiceV2 {
 
       **Constraints and Style Guide:**
       - **Tone of Voice:** The posts must have a ${toneOfVoice} tone.
-      - **Length:** Each post should be approximately ${wordCount} words long.
+      - **Length:** Each post should have exactly ${wordCount} words.
       - **Emojis:** ${
         includeEmojis
           ? 'Use relevant emojis to make the posts engaging.'
