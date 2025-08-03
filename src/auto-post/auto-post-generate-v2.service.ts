@@ -28,15 +28,7 @@ export class AutoPostGenerateServiceV2 {
     payload: GenAutoPostsPayload,
     userId: string,
   ): Promise<AutoPost[]> {
-    const {
-      autoProjectId,
-      contentPrompt,
-      postCount = 1,
-      wordCount = 100,
-      toneOfVoice = 'informative',
-      generateHashtag = true,
-      includeEmojis = true,
-    } = payload;
+    const { autoProjectId, postCount = 1 } = payload;
 
     await this.usageService.handleCreditUsage(
       userId,
@@ -44,13 +36,37 @@ export class AutoPostGenerateServiceV2 {
       this.textCost,
     );
 
-    // The detailed instructions for the AI on how to format the output.
+    const postContentList = await Promise.all(
+      Array.from({ length: postCount }, () =>
+        this.generateOneAutoPost(payload),
+      ),
+    );
+
+    // save the generated posts to the database
+    const posts = postContentList.map((content) => ({
+      content,
+      autoProjectId: autoProjectId,
+    }));
+
+    return await this.prisma.autoPost.createManyAndReturn({
+      data: posts,
+    });
+  }
+
+  async generateOneAutoPost(payload: GenAutoPostsPayload): Promise<string> {
+    const {
+      contentPrompt,
+      wordCount = 100,
+      toneOfVoice = 'informative',
+      generateHashtag = true,
+      includeEmojis = true,
+    } = payload;
     const instructions = `
-      You are an expert social media content creator. Your task is to generate ${postCount} distinct social media posts based on the provided input topic.
+      You are an expert social media content creator. Your task is to generate a social media post based on the provided input topic.
 
       **Constraints and Style Guide:**
-      - **Tone of Voice:** The posts must have a ${toneOfVoice} tone.
-      - **Length:** Each post should have exactly ${wordCount} words.
+      - **Tone of Voice:** The post must have a ${toneOfVoice} tone.
+      - **Length:** The post must have exactly ${wordCount} words.
       - **Emojis:** ${
         includeEmojis
           ? 'Use relevant emojis to make the posts engaging.'
@@ -61,9 +77,6 @@ export class AutoPostGenerateServiceV2 {
           ? 'Include a few relevant and popular hashtags at the end of each post.'
           : 'Do not include any hashtags.'
       }
-
-      Generate a valid JSON object that strictly adheres to the provided schema.
-      The output should be a single JSON object with a key "posts" which is an array of post objects.
     `;
 
     const response = await this.openai.responses.parse({
@@ -71,7 +84,7 @@ export class AutoPostGenerateServiceV2 {
       instructions: instructions,
       input: contentPrompt,
       text: {
-        format: zodTextFormat(AutoPostsResponseSchema, 'generatedPosts'),
+        format: zodTextFormat(AutoPostResponseSchema, 'generatedPosts'),
       },
     });
 
@@ -81,24 +94,12 @@ export class AutoPostGenerateServiceV2 {
       );
     }
 
-    // save the generated posts to the database
-    const posts = response.output_parsed.posts.map((post) => ({
-      content: post.content,
-      autoProjectId: autoProjectId,
-    }));
-
-    return await this.prisma.autoPost.createManyAndReturn({
-      data: posts,
-    });
+    return response.output_parsed.content;
   }
 }
 
-const AutoPostsResponseSchema = z.object({
-  posts: z.array(
-    z.object({
-      content: z
-        .string()
-        .describe('The full text content of the social media post.'),
-    }),
-  ),
+const AutoPostResponseSchema = z.object({
+  content: z
+    .string()
+    .describe('The full text content of the social media post.'),
 });
