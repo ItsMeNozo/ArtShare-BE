@@ -75,6 +75,14 @@ export class AutoProjectController {
     return this.autoProjectWriteService.remove(id, user.id);
   }
 
+  @Patch(':id/start')
+  async start(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() user: CurrentUserType,
+  ): Promise<AutoProjectDetailsDto> {
+    return this.autoProjectWriteService.activateProject(id, user.id);
+  }
+
   @Patch(':id/pause')
   async pause(
     @Param('id', ParseIntPipe) id: number,
@@ -92,10 +100,6 @@ export class AutoProjectController {
     @Param('id', ParseIntPipe) id: number,
     @CurrentUser() user: CurrentUserType,
   ): Promise<AutoProjectDetailsDto> {
-    return this.autoProjectWriteService.updateStatus(
-      id,
-      AutoProjectStatus.ACTIVE,
-      user.id,
-    );
+    return this.autoProjectWriteService.activateProject(id, user.id);
   }
 }
