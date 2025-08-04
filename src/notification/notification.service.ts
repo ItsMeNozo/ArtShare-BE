@@ -4,6 +4,11 @@ import { PrismaService } from 'src/prisma.service';
 import { NotificationUtils } from '../common/utils/notification.utils';
 import type { NotificationsGateway } from './notification.gateway';
 
+interface UserFollowPayload {
+  followerId: string;
+  followingId: string;
+}
+
 interface NotificationTemplate {
   template: string;
   fallback?: string;
@@ -424,6 +429,57 @@ export class NotificationService {
     } catch (error) {
       this.logger.error(
         `Failed to create/push notification for user ${payload.to}:`,
+        (error as Error).stack,
+      );
+    }
+  }
+
+  @OnEvent('user.followed.update-counts')
+  async handleUpdateFollowCounts(payload: UserFollowPayload) {
+    this.logger.log(
+      `BACKGROUND JOB: Caught 'user.followed.update-counts' for ${payload.followerId} -> ${payload.followingId}`,
+    );
+
+    try {
+      await this.prisma.$transaction([
+        this.prisma.user.update({
+          where: { id: payload.followerId },
+          data: { followingsCount: { increment: 1 } },
+        }),
+        this.prisma.user.update({
+          where: { id: payload.followingId },
+          data: { followersCount: { increment: 1 } },
+        }),
+      ]);
+    } catch (error) {
+      // In a production system, you might add this to a retry queue (e.g., BullMQ)
+      this.logger.error(
+        `Failed to update follow counts for payload: ${JSON.stringify(payload)}`,
+        (error as Error).stack,
+      );
+    }
+  }
+
+  @OnEvent('user.unfollowed.update-counts')
+  async handleUpdateUnfollowCounts(payload: UserFollowPayload) {
+    this.logger.log(
+      `BACKGROUND JOB: Caught 'user.unfollowed.update-counts' for ${payload.followerId} -> ${payload.followingId}`,
+    );
+
+    try {
+      await this.prisma.$transaction([
+        this.prisma.user.update({
+          where: { id: payload.followerId },
+          data: { followingsCount: { decrement: 1 } },
+        }),
+        this.prisma.user.update({
+          where: { id: payload.followingId },
+          data: { followersCount: { decrement: 1 } },
+        }),
+      ]);
+    } catch (error) {
+      this.logger.error(
+        `Failed to update unfollow counts for payload: ${JSON.stringify(payload)}`,
         (error as Error).stack,
       );
     }
