@@ -118,6 +118,7 @@ export type AspectRatio = (typeof AspectRatio)[keyof typeof AspectRatio]
 export const AutoProjectStatus = {
   ACTIVE: 'ACTIVE',
   COMPLETED: 'COMPLETED',
+  COMPLETED_WITH_ERRORS: 'COMPLETED_WITH_ERRORS',
   CANCELLED: 'CANCELLED',
   FAILED: 'FAILED',
   DRAFT: 'DRAFT',

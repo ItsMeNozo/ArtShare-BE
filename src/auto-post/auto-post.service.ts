@@ -1,6 +1,6 @@
-import { HttpService } from '@nestjs/axios';
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -10,8 +10,12 @@ import { ConfigService } from '@nestjs/config';
 
 import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
 import { generatePaginatedResponse } from 'src/common/helpers/pagination.helper';
-import { EncryptionService } from 'src/encryption/encryption.service';
-import { AutoPost, AutoPostStatus, Prisma } from 'src/generated';
+import {
+  AutoPost,
+  AutoPostStatus,
+  AutoProjectStatus,
+  Prisma,
+} from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { StorageService } from 'src/storage/storage.service';
 import {
@@ -33,9 +37,7 @@ export class AutoPostService {
 
   constructor(
     private readonly prisma: PrismaService,
-    private readonly httpService: HttpService,
     private readonly configService: ConfigService,
-    private readonly encryptionService: EncryptionService,
     private readonly storageService: StorageService,
   ) {
     this.n8nExecutePostWebhookUrl = this.configService.get<string>(
@@ -49,6 +51,7 @@ export class AutoPostService {
   private async findAutoPostOrThrow(id: number): Promise<AutoPost> {
     const post = await this.prisma.autoPost.findUnique({
       where: { id },
+      include: { autoProject: true },
     });
     if (!post) {
       throw new NotFoundException(`AutoPost with ID ${id} not found.`);
@@ -56,10 +59,24 @@ export class AutoPostService {
     return post;
   }
 
+  private async checkProjectIsEditable(autoProjectId: number): Promise<void> {
+    const project = await this.prisma.autoProject.findUnique({
+      where: { id: autoProjectId },
+    });
+    if (project && ['ACTIVE', 'COMPLETED'].includes(project.status)) {
+      throw new ForbiddenException(
+        `Cannot modify posts of a project that is ${project.status}.`,
+      );
+    }
+  }
+
   async createAutoPost(dto: ScheduleAutoPostDto): Promise<AutoPost> {
     this.logger.log(
       `Creating AutoPost for AutoProject ID ${dto.autoProjectId} at ${dto.scheduledAt}`,
     );
+
+    await this.checkProjectIsEditable(dto.autoProjectId);
+
     try {
       const autoProject = await this.prisma.autoProject.findUnique({
         where: { id: dto.autoProjectId },
@@ -143,6 +160,8 @@ export class AutoPostService {
     this.logger.log(`Updating AutoPost with ID: ${id}`);
     const existingPost = await this.findAutoPostOrThrow(id);
 
+    await this.checkProjectIsEditable(existingPost.autoProjectId);
+
     if (
       existingPost.status !== AutoPostStatus.PENDING &&
       existingPost.status !== AutoPostStatus.FAILED
@@ -193,6 +212,8 @@ export class AutoPostService {
     this.logger.log(`Deleting AutoPost with ID: ${id}`);
     const post = await this.findAutoPostOrThrow(id);
 
+    await this.checkProjectIsEditable(post.autoProjectId);
+
     if (post.status === AutoPostStatus.POSTED) {
       throw new BadRequestException(
         `Cannot delete a post that is ${post.status}. Consider cancelling it instead if it's not yet posted or has failed.`,
@@ -210,7 +231,7 @@ export class AutoPostService {
       `Updating status for AutoPost ID ${dto.autoPostId} to ${dto.status}`,
     );
 
-    await this.findAutoPostOrThrow(dto.autoPostId);
+    const postToUpdate = await this.findAutoPostOrThrow(dto.autoPostId);
 
     const dataToUpdate: Prisma.AutoPostUpdateInput = {
       status: dto.status,
@@ -219,11 +240,44 @@ export class AutoPostService {
       platformPostId: dto.platformPostId,
     };
 
-    if (dto.status === AutoPostStatus.POSTED) {
-      dataToUpdate.postedAt = new Date();
-      dataToUpdate.errorMessage = null;
-    } else if (dto.status !== AutoPostStatus.FAILED) {
-      dataToUpdate.errorMessage = null;
+    const updatedPost = await this.prisma.autoPost.update({
+      where: { id: dto.autoPostId },
+      data: dataToUpdate,
+    });
+
+    if (
+      updatedPost.status === AutoPostStatus.POSTED ||
+      updatedPost.status === AutoPostStatus.FAILED
+    ) {
+      const projectPosts = await this.prisma.autoPost.findMany({
+        where: { autoProjectId: postToUpdate.autoProjectId },
+      });
+
+      const isProjectFinished = projectPosts.every(
+        (p) =>
+          p.status === AutoPostStatus.POSTED ||
+          p.status === AutoPostStatus.FAILED ||
+          p.status === AutoPostStatus.CANCELLED,
+      );
+
+      if (isProjectFinished) {
+        const hasFailures = projectPosts.some(
+          (p) => p.status === AutoPostStatus.FAILED,
+        );
+
+        const finalProjectStatus = hasFailures
+          ? AutoProjectStatus.COMPLETED_WITH_ERRORS
+          : AutoProjectStatus.COMPLETED;
+
+        this.logger.log(
+          `Project ${postToUpdate.autoProjectId} is finished. Final status: ${finalProjectStatus}.`,
+        );
+
+        await this.prisma.autoProject.update({
+          where: { id: postToUpdate.autoProjectId },
+          data: { status: finalProjectStatus },
+        });
+      }
     }
 
     return await this.prisma.autoPost.update({
@@ -235,6 +289,8 @@ export class AutoPostService {
   async cancelAutoPost(autoPostId: number): Promise<AutoPost> {
     this.logger.log(`Cancelling AutoPost ID: ${autoPostId}`);
     const post = await this.findAutoPostOrThrow(autoPostId);
+
+    await this.checkProjectIsEditable(post.autoProjectId);
 
     if (post.status === AutoPostStatus.POSTED) {
       throw new BadRequestException(
