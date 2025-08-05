@@ -46,6 +46,7 @@ export class AutoPostGenerateServiceV2 {
     const posts = postContentList.map((content) => ({
       content,
       autoProjectId: autoProjectId,
+      scheduledAt: new Date(),
     }));
 
     return await this.prisma.autoPost.createManyAndReturn({
