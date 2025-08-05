@@ -194,6 +194,9 @@ export class ReportService {
               select: { username: true },
             },
           },
+          where: {
+            isPublished: true,
+          },
         }),
         this.prisma.blog.count(),
       ]);
