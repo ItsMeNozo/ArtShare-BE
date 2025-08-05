@@ -111,7 +111,7 @@ export class StatisticsService {
       WHERE "ai_created" = true 
       ${Prisma.raw(dateFilter)}
       ORDER BY "like_count" DESC
-      LIMIT 3
+      LIMIT 5
     `;
     return rows;
   }
@@ -190,6 +190,7 @@ export class StatisticsService {
       totalBlogs,
       recent3Reports,
       totalPosts,
+      storedPrompts,
     ] = await Promise.all([
       this.getAspectRatioStats(daysBack),
       this.getStyles(daysBack),
@@ -200,11 +201,8 @@ export class StatisticsService {
       this.getTotalBlogs(daysBack),
       this.getTop3RecentReports(),
       this.getTotalPosts(daysBack),
+      this.getStoredTrendingPrompts('trending_prompts_v1'),
     ]);
-
-    const storedPrompts = await this.getStoredTrendingPrompts(
-      'trending_prompts_v1',
-    );
 
     const to = new Date();
     const from = daysBack
