@@ -1,8 +1,9 @@
-import { Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { PlatformStatus } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 
+@Injectable()
 export class PlatformScheduler {
   private readonly logger = new Logger(PlatformScheduler.name);
 
