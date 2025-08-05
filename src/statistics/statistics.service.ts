@@ -50,15 +50,33 @@ export class StatisticsService {
 
   // Update each method to accept daysBack parameter
   async getAspectRatioStats(daysBack?: number): Promise<StatCount[]> {
-    return this.rawStats('aspect_ratio', 'art_generation', 'key', daysBack, 'created_at');
+    return this.rawStats(
+      'aspect_ratio',
+      'art_generation',
+      'key',
+      daysBack,
+      'created_at',
+    );
   }
 
   async getLightingStats(daysBack?: number): Promise<StatCount[]> {
-    return this.rawStats('lighting', 'art_generation', 'key', daysBack, 'created_at');
+    return this.rawStats(
+      'lighting',
+      'art_generation',
+      'key',
+      daysBack,
+      'created_at',
+    );
   }
 
   async getStyles(daysBack?: number): Promise<StatCount[]> {
-    return this.rawStats('style', 'art_generation', 'key', daysBack, 'created_at');
+    return this.rawStats(
+      'style',
+      'art_generation',
+      'key',
+      daysBack,
+      'created_at',
+    );
   }
 
   async getPostsByAI(daysBack?: number): Promise<StatCount[]> {
@@ -172,6 +190,7 @@ export class StatisticsService {
       totalBlogs,
       recent3Reports,
       totalPosts,
+      storedPrompts,
     ] = await Promise.all([
       this.getAspectRatioStats(daysBack),
       this.getStyles(daysBack),
@@ -182,11 +201,8 @@ export class StatisticsService {
       this.getTotalBlogs(daysBack),
       this.getTop3RecentReports(),
       this.getTotalPosts(daysBack),
+      this.getStoredTrendingPrompts('trending_prompts_v1'),
     ]);
-
-    const storedPrompts = await this.getStoredTrendingPrompts(
-      daysBack ? `trending_prompts_${daysBack}d` : 'trending_prompts_v1',
-    );
 
     const to = new Date();
     const from = daysBack
