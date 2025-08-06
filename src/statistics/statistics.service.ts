@@ -16,11 +16,7 @@ export class StatisticsService {
 
   // Add this helper method to build date filter
   private getDateFilter(daysBack?: number, columnName = ''): string {
-  private getDateFilter(daysBack?: number, columnName = ''): string {
     if (!daysBack) return ''; // No filter = all time
-    if (columnName === '')
-      return `AND "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`;
-    return `AND "created_at" >= CURRENT_DATE - INTERVAL '${daysBack} days'`;
     if (columnName === '')
       return `AND "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`;
     return `AND "created_at" >= CURRENT_DATE - INTERVAL '${daysBack} days'`;
@@ -33,9 +29,7 @@ export class StatisticsService {
     alias = 'key',
     daysBack?: number,
     createdColumnName = '',
-    createdColumnName = '',
   ): Promise<StatCount[]> {
-    const dateFilter = this.getDateFilter(daysBack, createdColumnName);
     const dateFilter = this.getDateFilter(daysBack, createdColumnName);
     type Row = { [key: string]: string | bigint };
     const rows = await this.prisma.$queryRaw<Row[]>`
@@ -56,19 +50,36 @@ export class StatisticsService {
 
   // Update each method to accept daysBack parameter
   async getAspectRatioStats(daysBack?: number): Promise<StatCount[]> {
-    return this.rawStats('aspect_ratio', 'art_generation', 'key', daysBack, 'created_at');
+    return this.rawStats(
+      'aspect_ratio',
+      'art_generation',
+      'key',
+      daysBack,
+      'created_at',
+    );
   }
 
   async getLightingStats(daysBack?: number): Promise<StatCount[]> {
-    return this.rawStats('lighting', 'art_generation', 'key', daysBack, 'created_at');
+    return this.rawStats(
+      'lighting',
+      'art_generation',
+      'key',
+      daysBack,
+      'created_at',
+    );
   }
 
   async getStyles(daysBack?: number): Promise<StatCount[]> {
-    return this.rawStats('style', 'art_generation', 'key', daysBack, 'created_at');
+    return this.rawStats(
+      'style',
+      'art_generation',
+      'key',
+      daysBack,
+      'created_at',
+    );
   }
 
   async getPostsByAI(daysBack?: number): Promise<StatCount[]> {
-    const dateFilter = this.getDateFilter(daysBack, 'created_at');
     const dateFilter = this.getDateFilter(daysBack, 'created_at');
 
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
@@ -80,7 +91,6 @@ export class StatisticsService {
   }
 
   async getTotalAiImages(daysBack?: number): Promise<StatCount[]> {
-    const dateFilter = this.getDateFilter(daysBack, 'created_at');
     const dateFilter = this.getDateFilter(daysBack, 'created_at');
 
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
@@ -124,7 +134,7 @@ export class StatisticsService {
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
       SELECT COUNT(id) as count
       FROM blog
-      WHERE 1 = 1 AND "is_published" = true
+      WHERE 1 = 1
       ${Prisma.raw(dateFilter)}
     `;
     return [{ key: 'total_blogs', count: Number(rows[0]?.count ?? 0) }];
