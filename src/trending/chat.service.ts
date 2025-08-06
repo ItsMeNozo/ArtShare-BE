@@ -29,49 +29,44 @@ export class ChatService {
     dto: CreateMessageDto,
   ): Promise<MessageResponseDto> {
     let conversationId = dto.conversationId;
+    let conversation = [];
 
     if (!conversationId) {
-      const conversation = await this.chatRepository.createConversation(
-        userId,
-        this.generateConversationTitle(dto.content),
-      );
-      conversationId = conversation.id;
+      conversationId = `${Math.floor(Math.random() * 100) + 1}`;
+      await this.cacheService.set(conversationId, []);
     } else {
-      const conversation = await this.chatRepository.getConversationById(
-        conversationId,
-        userId,
-      );
+      // array of chats
+      conversation = (await this.cacheService.get<any[]>(conversationId)) ?? [];
       if (!conversation) {
         throw new NotFoundException('Conversation not found');
       }
     }
+    conversation.push(dto.content);
+    this.cacheService.set(conversationId, conversation);
 
-    await this.chatRepository.createMessage({
-      conversationId,
-      role: MessageRole.USER,
-      content: dto.content,
-    });
-
-    // Get conversation context
-    const conversationContext =
-      await this.getConversationContext(conversationId);
-
-    const promptHistory = await this.getCachedUserPromptHistory(userId);
+    // this.logger.debug(`Current prompt: ${conversation}`);
 
     const generatedPrompts = await this.generateChatResponse(
-      dto.content,
-      conversationContext,
-      promptHistory,
+      [''],
+      conversation,
     );
 
-    const assistantMessage = await this.chatRepository.createMessage({
-      conversationId,
-      role: MessageRole.ASSISTANT,
-      content: '',
-      metadata: { generatedPrompts },
-    });
+    // const assistantMessage = await this.chatRepository.createMessage({
+    //   conversationId,
+    //   role: MessageRole.ASSISTANT,
+    //   content: '',
+    //   metadata: { generatedPrompts },
+    // });
 
-    return this.mapToMessageResponse(assistantMessage, generatedPrompts);
+    return this.mapToMessageResponse(
+      {
+        conversationId,
+        role: MessageRole.ASSISTANT,
+        content: '',
+        metadata: {},
+      },
+      generatedPrompts,
+    );
   }
 
   async getConversation(
@@ -100,20 +95,19 @@ export class ChatService {
   }
 
   private async generateChatResponse(
-    userMessage: string,
     conversationContext: string[],
     promptHistory: string[],
   ): Promise<GeneratedPrompt[]> {
-    const model = this.geminiService.getModel({ model: 'gemini-1.5-flash' });
-
-    const systemPrompt = `
+    const model = this.geminiService.getModel({
+      model: 'gemini-2.5-flash-lite',
+      systemInstruction: `
       You are an AI art generation assistant helping users refine and discover creative prompts.
       You have access to the user's recent prompt history and current conversation context.
       
       Your task is to:
       1. Understand the user's creative intent from their message
       2. Consider their past preferences from prompt history
-      3. Generate 3 unique, inspiring prompts that either:
+      3. Generate 3 prompts that either:
          - Refine their current idea
          - Explore variations of their concept
          - Suggest new creative directions based on their interests
@@ -126,25 +120,10 @@ export class ChatService {
       
       Output format: json array of 3 string prompts.
       Example: [prompt1, prompt2, ...]
-    `;
+    `,
+    });
 
-    const conversationContextStr =
-      conversationContext.length > 0
-        ? `Recent conversation:\n${conversationContext.join('\n')}\n\n`
-        : '';
-
-    const promptHistoryStr =
-      promptHistory.length > 0
-        ? `User's recent art preferences (last 7 days):\n${promptHistory.slice(0, 20).join('\n')}\n\n`
-        : '';
-
-    const prompt = `
-      ${systemPrompt}
-      This is prompt history of system: ${promptHistoryStr}
-      
-      ${conversationContextStr}      
-      User's current message: "${userMessage}"      
-    `;
+    const prompt = promptHistory.join('\n');
 
     try {
       const result = await model.generateContent(prompt);
@@ -181,7 +160,7 @@ export class ChatService {
 
     const cached = await this.cacheService.get<string[]>(cacheKey);
     if (cached) {
-      this.logger.log(`Found cache userPromptHistory ${cached}`);
+      // this.logger.log(`Found cache userPromptHistory ${cached}`);
       return cached;
     }
 
