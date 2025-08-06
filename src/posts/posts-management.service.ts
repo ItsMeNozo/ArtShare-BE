@@ -84,7 +84,7 @@ export class PostsManagementService {
       const response = await axios.get(thumbnailUrl, {
         responseType: 'arraybuffer',
       });
-      const imageBuffer = Buffer.from(response.data, 'binary');
+      const imageBuffer = Buffer.from(response.data);
 
       const metadata = await sharp(imageBuffer).metadata();
       thumbnailWidth = metadata.width;
@@ -230,7 +230,7 @@ export class PostsManagementService {
         const response = await axios.get(thumbnailUrl, {
           responseType: 'arraybuffer',
         });
-        const imageBuffer = Buffer.from(response.data, 'binary');
+        const imageBuffer = Buffer.from(response.data);
 
         const metadata = await sharp(imageBuffer).metadata();
         thumbnailWidth = metadata.width;
