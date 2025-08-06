@@ -61,6 +61,7 @@ export type BlogWithRelations = Prisma.BlogGetPayload<{
 
 export const mapBlogToDetailsDto = (
   blog: BlogWithUser | BlogWithRelations | null,
+  requestingUserId?: string | null,
 ): BlogDetailsResponseDto | null => {
   if (!blog || !blog.user) return null;
 
@@ -69,7 +70,10 @@ export const mapBlogToDetailsDto = (
     : [];
 
   const isFollowedByCurrentUser = (blog.user as any).followers
-    ? (blog.user as any).followers.length > 0
+    ? (blog.user as any).followers.some(
+        (follower: { followerId: string }) =>
+          follower.followerId === requestingUserId,
+      )
     : false;
 
   return {

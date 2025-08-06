@@ -90,6 +90,8 @@ model Post {
   aiCreated         Boolean   @default(false) @map("ai_created")
   artGenerationId   Int?      @map("art_generation_id")
   thumbnailCropMeta Json?     @map("thumbnail_crop_meta")
+  thumbnailWidth    Int?      @map("thumbnail_width")
+  thumbnailHeight   Int?      @map("thumbnail_height")
 
   likes         Like[]
   medias        Media[]
@@ -601,6 +603,7 @@ enum AspectRatio {
 enum AutoProjectStatus {
   ACTIVE
   COMPLETED
+  COMPLETED_WITH_ERRORS
   CANCELLED
   FAILED
   DRAFT
