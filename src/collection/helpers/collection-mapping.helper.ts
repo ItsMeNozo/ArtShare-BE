@@ -31,6 +31,11 @@ export const collectionWithPostsSelect = {
           likeCount: true,
           commentCount: true,
           viewCount: true,
+          user: {
+            select: {
+              username: true,
+            },
+          },
         },
       },
     },
@@ -57,6 +62,7 @@ const mapSelectedPostToSummaryDto = (
   likeCount: postOnCollection.post.likeCount ?? 0,
   commentCount: postOnCollection.post.commentCount ?? 0,
   viewCount: postOnCollection.post.viewCount ?? 0,
+  user: postOnCollection.post.user,
 });
 
 export const mapCollectionToDto = (

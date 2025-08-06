@@ -6,4 +6,5 @@ export class PostSummaryDto {
   likeCount: number;
   commentCount: number;
   viewCount: number;
+  user: { username: string };
 }
