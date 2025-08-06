@@ -8,7 +8,9 @@ import {
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import axios from 'axios';
 import { plainToInstance } from 'class-transformer';
+import sharp from 'sharp';
 import { TryCatch } from 'src/common/try-catch.decorator';
 import { NotificationUtils } from 'src/common/utils/notification.utils';
 import embeddingConfig from 'src/config/embedding.config';
@@ -51,7 +53,13 @@ export class PostsManagementService {
     images: Express.Multer.File[],
     userId: string,
   ): Promise<PostDetailsResponseDto> {
-    const { categoryIds = [], videoUrl, promptId, ...rest } = request;
+    const {
+      categoryIds = [],
+      videoUrl,
+      promptId,
+      thumbnailUrl,
+      ...rest
+    } = request;
 
     const { parsedCropMeta } =
       await this.postsManagementValidator.validateCreateRequest(
@@ -69,10 +77,34 @@ export class PostsManagementService {
       videoUrl,
     );
 
+    let thumbnailWidth: number | undefined | null = undefined;
+    let thumbnailHeight: number | undefined | null = undefined;
+
+    try {
+      const response = await axios.get(thumbnailUrl, {
+        responseType: 'arraybuffer',
+      });
+      const imageBuffer = Buffer.from(response.data, 'binary');
+
+      const metadata = await sharp(imageBuffer).metadata();
+      thumbnailWidth = metadata.width;
+      thumbnailHeight = metadata.height;
+    } catch (error) {
+      console.error(
+        `Failed to download or process thumbnail from URL: ${thumbnailUrl}`,
+        error,
+      );
+      thumbnailWidth = null;
+      thumbnailHeight = null;
+    }
+
     const createdPost = await this.prisma.post.create({
       data: {
-        userId: userId,
+        userId,
         artGenerationId: promptId,
+        thumbnailUrl,
+        thumbnailWidth,
+        thumbnailHeight,
         ...rest,
         medias: { create: mediasToCreate },
         categories: { connect: categoryIds.map((id) => ({ id })) },
@@ -91,7 +123,6 @@ export class PostsManagementService {
     const followers: FollowerDto[] =
       await this.followService.getFollowersListByUserId(userId);
 
-    // Filter out the post author from followers and send notifications
     const notificationRecipients =
       NotificationUtils.filterNotificationRecipients(followers, userId);
 
@@ -158,8 +189,6 @@ export class PostsManagementService {
     images: Express.Multer.File[],
     userId: string,
   ): Promise<PostDetailsResponseDto> {
-    // return an error for testing purposes
-    // throw new BadRequestException('Testing error handling in deletePost');
     const existingPost = await this.prisma.post.findUnique({
       where: { id: postId },
       include: { medias: true },
@@ -177,7 +206,6 @@ export class PostsManagementService {
       ...postUpdateData
     } = updatePostDto;
 
-    // images to retain
     const existingImageUrlsSet = new Set(existingImageUrls);
 
     /** ────────────── HANDLE IMAGE DELETION ────────────── */
@@ -189,7 +217,6 @@ export class PostsManagementService {
       (m) => !existingImageUrlsSet.has(m.url),
     );
 
-    // 1️⃣ Delete the old thumbnail if it’s been replaced
     const oldThumb = existingPost.thumbnailUrl;
     if (thumbnailUrl && oldThumb && thumbnailUrl !== oldThumb) {
       this.logger.log(
@@ -223,7 +250,7 @@ export class PostsManagementService {
 
     /** ────────────── HANDLE VIDEO UPDATE ────────────── */
     /* 1️⃣ normalise the raw value coming from the DTO */
-    const normalizedVideoUrl = (videoUrl ?? '').trim(); // '' when user deletes
+    const normalizedVideoUrl = (videoUrl ?? '').trim();
     const existingVideo = existingPost.medias.find(
       (m) => m.mediaType === MediaType.video,
     );
@@ -234,7 +261,7 @@ export class PostsManagementService {
       existingVideo &&
       normalizedVideoUrl &&
       normalizedVideoUrl !== existingVideo.url;
-    const wantsNewUpload = !existingVideo && normalizedVideoUrl; // first‑time video
+    const wantsNewUpload = !existingVideo && normalizedVideoUrl;
 
     /* 3️⃣ delete the old video row + file only when needed */
     if (wantsDeletion || wantsReplace) {
@@ -345,7 +372,7 @@ export class PostsManagementService {
     return this.prisma.post.update({
       where: { id: postId },
       data: {
-        thumbnailCropMeta: { ...dto }, // assuming JSON column
+        thumbnailCropMeta: { ...dto },
       },
     });
   }

@@ -15,6 +15,8 @@ export class PostListItemResponse {
   shareCount: number;
   commentCount: number;
   createdAt: Date;
+  thumbnailWidth?: number;
+  thumbnailHeight?: number;
 
   medias: MediaResponseDto[];
 
