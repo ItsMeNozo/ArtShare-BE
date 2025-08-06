@@ -134,7 +134,7 @@ export class StatisticsService {
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
       SELECT COUNT(id) as count
       FROM blog
-      WHERE 1 = 1
+      WHERE 1 = 1 AND "is_published" = true
       ${Prisma.raw(dateFilter)}
     `;
     return [{ key: 'total_blogs', count: Number(rows[0]?.count ?? 0) }];
