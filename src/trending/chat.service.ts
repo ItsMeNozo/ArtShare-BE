@@ -104,7 +104,9 @@ export class ChatService {
     conversationContext: string[],
     promptHistory: string[],
   ): Promise<GeneratedPrompt[]> {
-    const model = this.geminiService.getModel({ model: 'gemini-1.5-flash' });
+    const model = this.geminiService.getModel({
+      model: 'gemini-2.5-flash-lite',
+    });
 
     const systemPrompt = `
       You are an AI art generation assistant helping users refine and discover creative prompts.
@@ -113,7 +115,7 @@ export class ChatService {
       Your task is to:
       1. Understand the user's creative intent from their message
       2. Consider their past preferences from prompt history
-      3. Generate 3 unique, inspiring prompts that either:
+      3. Generate 3 prompts that either:
          - Refine their current idea
          - Explore variations of their concept
          - Suggest new creative directions based on their interests
@@ -181,7 +183,7 @@ export class ChatService {
 
     const cached = await this.cacheService.get<string[]>(cacheKey);
     if (cached) {
-      this.logger.log(`Found cache userPromptHistory ${cached}`);
+      // this.logger.log(`Found cache userPromptHistory ${cached}`);
       return cached;
     }
 
