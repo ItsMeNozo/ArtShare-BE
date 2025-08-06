@@ -1,6 +1,6 @@
 // src/modules/chat/services/chat.service.ts
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { MessageRole } from '@prisma/client';
+import { MessageRole } from 'src/generated';
 import { SimpleCacheService } from 'src/infastructure/simple-cache.service';
 import { CreateMessageDto } from './dto/request/create-message.dto';
 import {
