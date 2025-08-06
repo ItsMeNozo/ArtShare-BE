@@ -218,11 +218,31 @@ export class PostsManagementService {
     );
 
     const oldThumb = existingPost.thumbnailUrl;
+    let thumbnailWidth: number | undefined | null = undefined;
+    let thumbnailHeight: number | undefined | null = undefined;
     if (thumbnailUrl && oldThumb && thumbnailUrl !== oldThumb) {
       this.logger.log(
         `Deleting old thumbnail in s3 for post ${postId} with URL: ${oldThumb}`,
       );
       await this.storageService.deleteFiles([oldThumb]);
+
+      try {
+        const response = await axios.get(thumbnailUrl, {
+          responseType: 'arraybuffer',
+        });
+        const imageBuffer = Buffer.from(response.data, 'binary');
+
+        const metadata = await sharp(imageBuffer).metadata();
+        thumbnailWidth = metadata.width;
+        thumbnailHeight = metadata.height;
+      } catch (error) {
+        console.error(
+          `Failed to download or process thumbnail from URL: ${thumbnailUrl}`,
+          error,
+        );
+        thumbnailWidth = null;
+        thumbnailHeight = null;
+      }
     }
 
     if (imagesToDelete.length > 0) {
@@ -290,7 +310,9 @@ export class PostsManagementService {
       data: {
         ...postUpdateData,
         thumbnailCropMeta: JSON.parse(updatePostDto.thumbnailCropMeta),
-        thumbnailUrl: thumbnailUrl,
+        thumbnailUrl,
+        thumbnailWidth,
+        thumbnailHeight,
         categories: {
           set: (categoryIds || []).map((id) => ({ id })),
         },
