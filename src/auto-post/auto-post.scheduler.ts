@@ -40,6 +40,7 @@ export class AutoPostScheduler {
 
   @Cron(CronExpression.EVERY_MINUTE)
   async handleScheduledPostsTrigger() {
+    this.logger.log('Checking for due posts to trigger...');
     if (!this.n8nExecutePostWebhookUrl) {
       this.logger.warn(
         'N8N_EXECUTE_POST_WEBHOOK_URL is not set in environment variables. Skipping post trigger.',

@@ -39,6 +39,7 @@ export class AutoProjectWriteService {
         description,
         userId: userId,
         platformId: validatedPlatformRecord.id,
+        status: AutoProjectStatus.DRAFT,
       },
       include: {
         platform: true,
@@ -75,6 +76,51 @@ export class AutoProjectWriteService {
   }
 
   @TryCatch()
+  async activateProject(
+    id: number,
+    userId: string,
+  ): Promise<AutoProjectDetailsDto> {
+    const project = await this.prisma.autoProject.findFirst({
+      where: { id, userId },
+      include: { autoPosts: true },
+    });
+
+    if (!project) {
+      throw new NotFoundException(`Auto project with ID ${id} not found.`);
+    }
+
+    if (
+      project.status !== AutoProjectStatus.DRAFT &&
+      project.status !== AutoProjectStatus.PAUSED
+    ) {
+      throw new BadRequestException(
+        `Project cannot be activated from its current status: ${project.status}`,
+      );
+    }
+
+    if (project.autoPosts.length === 0) {
+      throw new BadRequestException('Cannot start a project with no posts.');
+    }
+
+    const now = new Date();
+    for (const post of project.autoPosts) {
+      if (!post.scheduledAt || new Date(post.scheduledAt) <= now) {
+        throw new BadRequestException(
+          `All posts must have a scheduled time in the future. Post ID ${post.id} has an invalid schedule.`,
+        );
+      }
+    }
+
+    const updatedProject = await this.prisma.autoProject.update({
+      where: { id },
+      data: { status: AutoProjectStatus.ACTIVE },
+      include: { autoPosts: true, platform: true },
+    });
+
+    return plainToInstance(AutoProjectDetailsDto, updatedProject);
+  }
+
+  @TryCatch()
   async update(
     id: number,
     updateDto: UpdateAutoProjectDto,
@@ -87,6 +133,12 @@ export class AutoProjectWriteService {
     if (!existingProject) {
       throw new BadRequestException(
         `Auto project with ID ${id} not found or does not belong to user ${userId}.`,
+      );
+    }
+
+    if (['ACTIVE', 'COMPLETED'].includes(existingProject.status)) {
+      throw new ForbiddenException(
+        `Cannot edit a project with status '${existingProject.status}'.`,
       );
     }
 

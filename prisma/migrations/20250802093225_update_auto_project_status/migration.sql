@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "AutoProjectStatus" ADD VALUE 'COMPLETED_WITH_ERRORS';

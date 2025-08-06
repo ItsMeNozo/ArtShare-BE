@@ -16,7 +16,11 @@ export class StatisticsService {
 
   // Add this helper method to build date filter
   private getDateFilter(daysBack?: number, columnName = ''): string {
+  private getDateFilter(daysBack?: number, columnName = ''): string {
     if (!daysBack) return ''; // No filter = all time
+    if (columnName === '')
+      return `AND "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`;
+    return `AND "created_at" >= CURRENT_DATE - INTERVAL '${daysBack} days'`;
     if (columnName === '')
       return `AND "createdAt" >= CURRENT_DATE - INTERVAL '${daysBack} days'`;
     return `AND "created_at" >= CURRENT_DATE - INTERVAL '${daysBack} days'`;
@@ -29,7 +33,9 @@ export class StatisticsService {
     alias = 'key',
     daysBack?: number,
     createdColumnName = '',
+    createdColumnName = '',
   ): Promise<StatCount[]> {
+    const dateFilter = this.getDateFilter(daysBack, createdColumnName);
     const dateFilter = this.getDateFilter(daysBack, createdColumnName);
     type Row = { [key: string]: string | bigint };
     const rows = await this.prisma.$queryRaw<Row[]>`
@@ -63,6 +69,7 @@ export class StatisticsService {
 
   async getPostsByAI(daysBack?: number): Promise<StatCount[]> {
     const dateFilter = this.getDateFilter(daysBack, 'created_at');
+    const dateFilter = this.getDateFilter(daysBack, 'created_at');
 
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
       SELECT COUNT(id) as count
@@ -73,6 +80,7 @@ export class StatisticsService {
   }
 
   async getTotalAiImages(daysBack?: number): Promise<StatCount[]> {
+    const dateFilter = this.getDateFilter(daysBack, 'created_at');
     const dateFilter = this.getDateFilter(daysBack, 'created_at');
 
     const rows: Array<{ count: bigint }> = await this.prisma.$queryRaw`
@@ -172,6 +180,7 @@ export class StatisticsService {
       totalBlogs,
       recent3Reports,
       totalPosts,
+      storedPrompts,
     ] = await Promise.all([
       this.getAspectRatioStats(daysBack),
       this.getStyles(daysBack),
@@ -182,11 +191,8 @@ export class StatisticsService {
       this.getTotalBlogs(daysBack),
       this.getTop3RecentReports(),
       this.getTotalPosts(daysBack),
+      this.getStoredTrendingPrompts('trending_prompts_v1'),
     ]);
-
-    const storedPrompts = await this.getStoredTrendingPrompts(
-      daysBack ? `trending_prompts_${daysBack}d` : 'trending_prompts_v1',
-    );
 
     const to = new Date();
     const from = daysBack
