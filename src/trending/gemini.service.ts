@@ -14,7 +14,10 @@ export class GeminiService {
     this.genAI = new GoogleGenerativeAI(apiKey);
   }
 
-  getModel(config: { model: string }): GenerativeModel {
+  getModel(config: {
+    model: string;
+    systemInstruction?: string;
+  }): GenerativeModel {
     return this.genAI.getGenerativeModel(config);
   }
 
