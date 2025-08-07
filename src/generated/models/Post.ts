@@ -33,6 +33,8 @@ export type PostAvgAggregateOutputType = {
   viewCount: number | null
   likeCount: number | null
   artGenerationId: number | null
+  thumbnailWidth: number | null
+  thumbnailHeight: number | null
 }
 
 export type PostSumAggregateOutputType = {
@@ -43,6 +45,8 @@ export type PostSumAggregateOutputType = {
   viewCount: number | null
   likeCount: number | null
   artGenerationId: number | null
+  thumbnailWidth: number | null
+  thumbnailHeight: number | null
 }
 
 export type PostMinAggregateOutputType = {
@@ -63,6 +67,8 @@ export type PostMinAggregateOutputType = {
   isMature: boolean | null
   aiCreated: boolean | null
   artGenerationId: number | null
+  thumbnailWidth: number | null
+  thumbnailHeight: number | null
 }
 
 export type PostMaxAggregateOutputType = {
@@ -83,6 +89,8 @@ export type PostMaxAggregateOutputType = {
   isMature: boolean | null
   aiCreated: boolean | null
   artGenerationId: number | null
+  thumbnailWidth: number | null
+  thumbnailHeight: number | null
 }
 
 export type PostCountAggregateOutputType = {
@@ -104,6 +112,8 @@ export type PostCountAggregateOutputType = {
   aiCreated: number
   artGenerationId: number
   thumbnailCropMeta: number
+  thumbnailWidth: number
+  thumbnailHeight: number
   _all: number
 }
 
@@ -116,6 +126,8 @@ export type PostAvgAggregateInputType = {
   viewCount?: true
   likeCount?: true
   artGenerationId?: true
+  thumbnailWidth?: true
+  thumbnailHeight?: true
 }
 
 export type PostSumAggregateInputType = {
@@ -126,6 +138,8 @@ export type PostSumAggregateInputType = {
   viewCount?: true
   likeCount?: true
   artGenerationId?: true
+  thumbnailWidth?: true
+  thumbnailHeight?: true
 }
 
 export type PostMinAggregateInputType = {
@@ -146,6 +160,8 @@ export type PostMinAggregateInputType = {
   isMature?: true
   aiCreated?: true
   artGenerationId?: true
+  thumbnailWidth?: true
+  thumbnailHeight?: true
 }
 
 export type PostMaxAggregateInputType = {
@@ -166,6 +182,8 @@ export type PostMaxAggregateInputType = {
   isMature?: true
   aiCreated?: true
   artGenerationId?: true
+  thumbnailWidth?: true
+  thumbnailHeight?: true
 }
 
 export type PostCountAggregateInputType = {
@@ -187,6 +205,8 @@ export type PostCountAggregateInputType = {
   aiCreated?: true
   artGenerationId?: true
   thumbnailCropMeta?: true
+  thumbnailWidth?: true
+  thumbnailHeight?: true
   _all?: true
 }
 
@@ -295,6 +315,8 @@ export type PostGroupByOutputType = {
   aiCreated: boolean
   artGenerationId: number | null
   thumbnailCropMeta: runtime.JsonValue | null
+  thumbnailWidth: number | null
+  thumbnailHeight: number | null
   _count: PostCountAggregateOutputType | null
   _avg: PostAvgAggregateOutputType | null
   _sum: PostSumAggregateOutputType | null
@@ -339,6 +361,8 @@ export type PostWhereInput = {
   aiCreated?: Prisma.BoolFilter<"Post"> | boolean
   artGenerationId?: Prisma.IntNullableFilter<"Post"> | number | null
   thumbnailCropMeta?: Prisma.JsonNullableFilter<"Post">
+  thumbnailWidth?: Prisma.IntNullableFilter<"Post"> | number | null
+  thumbnailHeight?: Prisma.IntNullableFilter<"Post"> | number | null
   likes?: Prisma.LikeListRelationFilter
   medias?: Prisma.MediaListRelationFilter
   shares?: Prisma.ShareListRelationFilter
@@ -367,6 +391,8 @@ export type PostOrderByWithRelationInput = {
   aiCreated?: Prisma.SortOrder
   artGenerationId?: Prisma.SortOrderInput | Prisma.SortOrder
   thumbnailCropMeta?: Prisma.SortOrderInput | Prisma.SortOrder
+  thumbnailWidth?: Prisma.SortOrderInput | Prisma.SortOrder
+  thumbnailHeight?: Prisma.SortOrderInput | Prisma.SortOrder
   likes?: Prisma.LikeOrderByRelationAggregateInput
   medias?: Prisma.MediaOrderByRelationAggregateInput
   shares?: Prisma.ShareOrderByRelationAggregateInput
@@ -398,6 +424,8 @@ export type PostWhereUniqueInput = Prisma.AtLeast<{
   aiCreated?: Prisma.BoolFilter<"Post"> | boolean
   artGenerationId?: Prisma.IntNullableFilter<"Post"> | number | null
   thumbnailCropMeta?: Prisma.JsonNullableFilter<"Post">
+  thumbnailWidth?: Prisma.IntNullableFilter<"Post"> | number | null
+  thumbnailHeight?: Prisma.IntNullableFilter<"Post"> | number | null
   likes?: Prisma.LikeListRelationFilter
   medias?: Prisma.MediaListRelationFilter
   shares?: Prisma.ShareListRelationFilter
@@ -426,6 +454,8 @@ export type PostOrderByWithAggregationInput = {
   aiCreated?: Prisma.SortOrder
   artGenerationId?: Prisma.SortOrderInput | Prisma.SortOrder
   thumbnailCropMeta?: Prisma.SortOrderInput | Prisma.SortOrder
+  thumbnailWidth?: Prisma.SortOrderInput | Prisma.SortOrder
+  thumbnailHeight?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.PostCountOrderByAggregateInput
   _avg?: Prisma.PostAvgOrderByAggregateInput
   _max?: Prisma.PostMaxOrderByAggregateInput
@@ -455,6 +485,8 @@ export type PostScalarWhereWithAggregatesInput = {
   aiCreated?: Prisma.BoolWithAggregatesFilter<"Post"> | boolean
   artGenerationId?: Prisma.IntNullableWithAggregatesFilter<"Post"> | number | null
   thumbnailCropMeta?: Prisma.JsonNullableWithAggregatesFilter<"Post">
+  thumbnailWidth?: Prisma.IntNullableWithAggregatesFilter<"Post"> | number | null
+  thumbnailHeight?: Prisma.IntNullableWithAggregatesFilter<"Post"> | number | null
 }
 
 export type PostCreateInput = {
@@ -473,6 +505,8 @@ export type PostCreateInput = {
   isMature?: boolean
   aiCreated?: boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareCreateNestedManyWithoutPostInput
@@ -501,6 +535,8 @@ export type PostUncheckedCreateInput = {
   aiCreated?: boolean
   artGenerationId?: number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaUncheckedCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutPostInput
@@ -524,6 +560,8 @@ export type PostUpdateInput = {
   isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUpdateManyWithoutPostNestedInput
@@ -552,6 +590,8 @@ export type PostUncheckedUpdateInput = {
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUncheckedUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutPostNestedInput
@@ -578,6 +618,8 @@ export type PostCreateManyInput = {
   aiCreated?: boolean
   artGenerationId?: number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
 }
 
 export type PostUpdateManyMutationInput = {
@@ -596,6 +638,8 @@ export type PostUpdateManyMutationInput = {
   isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type PostUncheckedUpdateManyInput = {
@@ -617,6 +661,8 @@ export type PostUncheckedUpdateManyInput = {
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type PostListRelationFilter = {
@@ -648,6 +694,8 @@ export type PostCountOrderByAggregateInput = {
   aiCreated?: Prisma.SortOrder
   artGenerationId?: Prisma.SortOrder
   thumbnailCropMeta?: Prisma.SortOrder
+  thumbnailWidth?: Prisma.SortOrder
+  thumbnailHeight?: Prisma.SortOrder
 }
 
 export type PostAvgOrderByAggregateInput = {
@@ -658,6 +706,8 @@ export type PostAvgOrderByAggregateInput = {
   viewCount?: Prisma.SortOrder
   likeCount?: Prisma.SortOrder
   artGenerationId?: Prisma.SortOrder
+  thumbnailWidth?: Prisma.SortOrder
+  thumbnailHeight?: Prisma.SortOrder
 }
 
 export type PostMaxOrderByAggregateInput = {
@@ -678,6 +728,8 @@ export type PostMaxOrderByAggregateInput = {
   isMature?: Prisma.SortOrder
   aiCreated?: Prisma.SortOrder
   artGenerationId?: Prisma.SortOrder
+  thumbnailWidth?: Prisma.SortOrder
+  thumbnailHeight?: Prisma.SortOrder
 }
 
 export type PostMinOrderByAggregateInput = {
@@ -698,6 +750,8 @@ export type PostMinOrderByAggregateInput = {
   isMature?: Prisma.SortOrder
   aiCreated?: Prisma.SortOrder
   artGenerationId?: Prisma.SortOrder
+  thumbnailWidth?: Prisma.SortOrder
+  thumbnailHeight?: Prisma.SortOrder
 }
 
 export type PostSumOrderByAggregateInput = {
@@ -708,6 +762,8 @@ export type PostSumOrderByAggregateInput = {
   viewCount?: Prisma.SortOrder
   likeCount?: Prisma.SortOrder
   artGenerationId?: Prisma.SortOrder
+  thumbnailWidth?: Prisma.SortOrder
+  thumbnailHeight?: Prisma.SortOrder
 }
 
 export type PostScalarRelationFilter = {
@@ -926,6 +982,8 @@ export type PostCreateWithoutUserInput = {
   isMature?: boolean
   aiCreated?: boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareCreateNestedManyWithoutPostInput
@@ -952,6 +1010,8 @@ export type PostUncheckedCreateWithoutUserInput = {
   aiCreated?: boolean
   artGenerationId?: number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaUncheckedCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutPostInput
@@ -1007,6 +1067,8 @@ export type PostScalarWhereInput = {
   aiCreated?: Prisma.BoolFilter<"Post"> | boolean
   artGenerationId?: Prisma.IntNullableFilter<"Post"> | number | null
   thumbnailCropMeta?: Prisma.JsonNullableFilter<"Post">
+  thumbnailWidth?: Prisma.IntNullableFilter<"Post"> | number | null
+  thumbnailHeight?: Prisma.IntNullableFilter<"Post"> | number | null
 }
 
 export type PostCreateWithoutMediasInput = {
@@ -1025,6 +1087,8 @@ export type PostCreateWithoutMediasInput = {
   isMature?: boolean
   aiCreated?: boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareCreateNestedManyWithoutPostInput
   collections?: Prisma.PostsOnCollectionsCreateNestedManyWithoutPostInput
@@ -1052,6 +1116,8 @@ export type PostUncheckedCreateWithoutMediasInput = {
   aiCreated?: boolean
   artGenerationId?: number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutPostInput
   collections?: Prisma.PostsOnCollectionsUncheckedCreateNestedManyWithoutPostInput
@@ -1090,6 +1156,8 @@ export type PostUpdateWithoutMediasInput = {
   isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUpdateManyWithoutPostNestedInput
   collections?: Prisma.PostsOnCollectionsUpdateManyWithoutPostNestedInput
@@ -1117,6 +1185,8 @@ export type PostUncheckedUpdateWithoutMediasInput = {
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutPostNestedInput
   collections?: Prisma.PostsOnCollectionsUncheckedUpdateManyWithoutPostNestedInput
@@ -1139,6 +1209,8 @@ export type PostCreateWithoutCategoriesInput = {
   isMature?: boolean
   aiCreated?: boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareCreateNestedManyWithoutPostInput
@@ -1166,6 +1238,8 @@ export type PostUncheckedCreateWithoutCategoriesInput = {
   aiCreated?: boolean
   artGenerationId?: number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaUncheckedCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutPostInput
@@ -1209,6 +1283,8 @@ export type PostCreateWithoutLikesInput = {
   isMature?: boolean
   aiCreated?: boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
   medias?: Prisma.MediaCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareCreateNestedManyWithoutPostInput
   collections?: Prisma.PostsOnCollectionsCreateNestedManyWithoutPostInput
@@ -1236,6 +1312,8 @@ export type PostUncheckedCreateWithoutLikesInput = {
   aiCreated?: boolean
   artGenerationId?: number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
   medias?: Prisma.MediaUncheckedCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutPostInput
   collections?: Prisma.PostsOnCollectionsUncheckedCreateNestedManyWithoutPostInput
@@ -1274,6 +1352,8 @@ export type PostUpdateWithoutLikesInput = {
   isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   medias?: Prisma.MediaUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUpdateManyWithoutPostNestedInput
   collections?: Prisma.PostsOnCollectionsUpdateManyWithoutPostNestedInput
@@ -1301,6 +1381,8 @@ export type PostUncheckedUpdateWithoutLikesInput = {
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   medias?: Prisma.MediaUncheckedUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutPostNestedInput
   collections?: Prisma.PostsOnCollectionsUncheckedUpdateManyWithoutPostNestedInput
@@ -1323,6 +1405,8 @@ export type PostCreateWithoutSharesInput = {
   isMature?: boolean
   aiCreated?: boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaCreateNestedManyWithoutPostInput
   collections?: Prisma.PostsOnCollectionsCreateNestedManyWithoutPostInput
@@ -1350,6 +1434,8 @@ export type PostUncheckedCreateWithoutSharesInput = {
   aiCreated?: boolean
   artGenerationId?: number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaUncheckedCreateNestedManyWithoutPostInput
   collections?: Prisma.PostsOnCollectionsUncheckedCreateNestedManyWithoutPostInput
@@ -1388,6 +1474,8 @@ export type PostUpdateWithoutSharesInput = {
   isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUpdateManyWithoutPostNestedInput
   collections?: Prisma.PostsOnCollectionsUpdateManyWithoutPostNestedInput
@@ -1415,6 +1503,8 @@ export type PostUncheckedUpdateWithoutSharesInput = {
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUncheckedUpdateManyWithoutPostNestedInput
   collections?: Prisma.PostsOnCollectionsUncheckedUpdateManyWithoutPostNestedInput
@@ -1437,6 +1527,8 @@ export type PostCreateWithoutArtGenerationInput = {
   isMature?: boolean
   aiCreated?: boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareCreateNestedManyWithoutPostInput
@@ -1463,6 +1555,8 @@ export type PostUncheckedCreateWithoutArtGenerationInput = {
   isMature?: boolean
   aiCreated?: boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaUncheckedCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutPostInput
@@ -1512,6 +1606,8 @@ export type PostCreateWithoutCollectionsInput = {
   isMature?: boolean
   aiCreated?: boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareCreateNestedManyWithoutPostInput
@@ -1539,6 +1635,8 @@ export type PostUncheckedCreateWithoutCollectionsInput = {
   aiCreated?: boolean
   artGenerationId?: number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   medias?: Prisma.MediaUncheckedCreateNestedManyWithoutPostInput
   shares?: Prisma.ShareUncheckedCreateNestedManyWithoutPostInput
@@ -1577,6 +1675,8 @@ export type PostUpdateWithoutCollectionsInput = {
   isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUpdateManyWithoutPostNestedInput
@@ -1604,6 +1704,8 @@ export type PostUncheckedUpdateWithoutCollectionsInput = {
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUncheckedUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutPostNestedInput
@@ -1628,6 +1730,8 @@ export type PostCreateManyUserInput = {
   aiCreated?: boolean
   artGenerationId?: number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
 }
 
 export type PostUpdateWithoutUserInput = {
@@ -1646,6 +1750,8 @@ export type PostUpdateWithoutUserInput = {
   isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUpdateManyWithoutPostNestedInput
@@ -1672,6 +1778,8 @@ export type PostUncheckedUpdateWithoutUserInput = {
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUncheckedUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutPostNestedInput
@@ -1697,6 +1805,8 @@ export type PostUncheckedUpdateManyWithoutUserInput = {
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type PostUpdateWithoutCategoriesInput = {
@@ -1715,6 +1825,8 @@ export type PostUpdateWithoutCategoriesInput = {
   isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUpdateManyWithoutPostNestedInput
@@ -1742,6 +1854,8 @@ export type PostUncheckedUpdateWithoutCategoriesInput = {
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUncheckedUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutPostNestedInput
@@ -1767,6 +1881,8 @@ export type PostUncheckedUpdateManyWithoutCategoriesInput = {
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   artGenerationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type PostCreateManyArtGenerationInput = {
@@ -1787,6 +1903,8 @@ export type PostCreateManyArtGenerationInput = {
   isMature?: boolean
   aiCreated?: boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: number | null
+  thumbnailHeight?: number | null
 }
 
 export type PostUpdateWithoutArtGenerationInput = {
@@ -1805,6 +1923,8 @@ export type PostUpdateWithoutArtGenerationInput = {
   isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   likes?: Prisma.LikeUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUpdateManyWithoutPostNestedInput
@@ -1831,6 +1951,8 @@ export type PostUncheckedUpdateWithoutArtGenerationInput = {
   isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   likes?: Prisma.LikeUncheckedUpdateManyWithoutPostNestedInput
   medias?: Prisma.MediaUncheckedUpdateManyWithoutPostNestedInput
   shares?: Prisma.ShareUncheckedUpdateManyWithoutPostNestedInput
@@ -1856,6 +1978,8 @@ export type PostUncheckedUpdateManyWithoutArtGenerationInput = {
   isMature?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiCreated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   thumbnailCropMeta?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  thumbnailWidth?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  thumbnailHeight?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 
@@ -1944,6 +2068,8 @@ export type PostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   aiCreated?: boolean
   artGenerationId?: boolean
   thumbnailCropMeta?: boolean
+  thumbnailWidth?: boolean
+  thumbnailHeight?: boolean
   likes?: boolean | Prisma.Post$likesArgs<ExtArgs>
   medias?: boolean | Prisma.Post$mediasArgs<ExtArgs>
   shares?: boolean | Prisma.Post$sharesArgs<ExtArgs>
@@ -1973,6 +2099,8 @@ export type PostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   aiCreated?: boolean
   artGenerationId?: boolean
   thumbnailCropMeta?: boolean
+  thumbnailWidth?: boolean
+  thumbnailHeight?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   artGeneration?: boolean | Prisma.Post$artGenerationArgs<ExtArgs>
 }, ExtArgs["result"]["post"]>
@@ -1996,6 +2124,8 @@ export type PostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   aiCreated?: boolean
   artGenerationId?: boolean
   thumbnailCropMeta?: boolean
+  thumbnailWidth?: boolean
+  thumbnailHeight?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   artGeneration?: boolean | Prisma.Post$artGenerationArgs<ExtArgs>
 }, ExtArgs["result"]["post"]>
@@ -2019,9 +2149,11 @@ export type PostSelectScalar = {
   aiCreated?: boolean
   artGenerationId?: boolean
   thumbnailCropMeta?: boolean
+  thumbnailWidth?: boolean
+  thumbnailHeight?: boolean
 }
 
-export type PostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "createdAt" | "isPublished" | "isPrivate" | "groupId" | "shareCount" | "commentCount" | "viewCount" | "likeCount" | "thumbnailUrl" | "updatedAt" | "isMature" | "aiCreated" | "artGenerationId" | "thumbnailCropMeta", ExtArgs["result"]["post"]>
+export type PostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "createdAt" | "isPublished" | "isPrivate" | "groupId" | "shareCount" | "commentCount" | "viewCount" | "likeCount" | "thumbnailUrl" | "updatedAt" | "isMature" | "aiCreated" | "artGenerationId" | "thumbnailCropMeta" | "thumbnailWidth" | "thumbnailHeight", ExtArgs["result"]["post"]>
 export type PostInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   likes?: boolean | Prisma.Post$likesArgs<ExtArgs>
   medias?: boolean | Prisma.Post$mediasArgs<ExtArgs>
@@ -2071,6 +2203,8 @@ export type $PostPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     aiCreated: boolean
     artGenerationId: number | null
     thumbnailCropMeta: runtime.JsonValue | null
+    thumbnailWidth: number | null
+    thumbnailHeight: number | null
   }, ExtArgs["result"]["post"]>
   composites: {}
 }
@@ -2519,6 +2653,8 @@ export interface PostFieldRefs {
   readonly aiCreated: Prisma.FieldRef<"Post", 'Boolean'>
   readonly artGenerationId: Prisma.FieldRef<"Post", 'Int'>
   readonly thumbnailCropMeta: Prisma.FieldRef<"Post", 'Json'>
+  readonly thumbnailWidth: Prisma.FieldRef<"Post", 'Int'>
+  readonly thumbnailHeight: Prisma.FieldRef<"Post", 'Int'>
 }
     
 

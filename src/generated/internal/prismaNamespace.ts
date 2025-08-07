@@ -2684,7 +2684,9 @@ export const PostScalarFieldEnum = {
   isMature: 'isMature',
   aiCreated: 'aiCreated',
   artGenerationId: 'artGenerationId',
-  thumbnailCropMeta: 'thumbnailCropMeta'
+  thumbnailCropMeta: 'thumbnailCropMeta',
+  thumbnailWidth: 'thumbnailWidth',
+  thumbnailHeight: 'thumbnailHeight'
 } as const
 
 export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
