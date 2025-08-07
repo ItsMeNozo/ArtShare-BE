@@ -30,20 +30,28 @@ export class AnalyticsService {
   constructor(private prisma: PrismaService) {}
 
   async getOverallUserStats(): Promise<OverallUserStatsDto> {
-    const totalUsers = await this.prisma.user.count();
     const thirtyDaysAgo = subDays(new Date(), 30);
 
-    const newUsersLast30Days = await this.prisma.user.count({
-      where: {
-        createdAt: {
-          gte: thirtyDaysAgo,
-        },
-      },
-    });
+    // Use a single raw SQL query to get all user counts
+    // We use COUNT(CASE WHEN ...) for conditional aggregation.
+    // ::int casts the BigInt result of COUNT to an integer for JS compatibility.
+    const [stats] = await this.prisma.$queryRaw<
+      {
+        totalUsers: number;
+        newUsersLast30Days: number;
+        onboardedUsers: number;
+      }[]
+    >`
+      SELECT
+          COUNT(id)::int AS "totalUsers",
+          COUNT(CASE WHEN "created_at" >= ${thirtyDaysAgo} THEN 1 END)::int AS "newUsersLast30Days",
+          COUNT(CASE WHEN "is_onboard" = true THEN 1 END)::int AS "onboardedUsers"
+      FROM "public"."user";
+    `;
 
-    const onboardedUsers = await this.prisma.user.count({
-      where: { isOnboard: true },
-    });
+    const totalUsers = stats.totalUsers;
+    const newUsersLast30Days = stats.newUsersLast30Days;
+    const onboardedUsers = stats.onboardedUsers;
 
     const onboardingCompletionRate =
       totalUsers > 0 ? (onboardedUsers / totalUsers) * 100 : 0;
@@ -57,44 +65,40 @@ export class AnalyticsService {
   }
 
   async getOverallPostStats(): Promise<OverallPostStatsDto> {
-    const totalPosts = await this.prisma.post.count();
     const thirtyDaysAgo = subDays(new Date(), 30);
 
-    const newPostsLast30Days = await this.prisma.post.count({
-      where: {
-        createdAt: {
-          gte: thirtyDaysAgo,
-        },
-      },
-    });
+    const [stats] = await this.prisma.$queryRaw<
+      {
+        totalPosts: number;
+        newPostsLast30Days: number;
+        publishedPosts: number;
+        privatePosts: number;
+        aiCreatedPosts: number;
+        matureContentPosts: number;
+      }[]
+    >`
+      SELECT
+          COUNT(id)::int AS "totalPosts",
+          COUNT(CASE WHEN "created_at" >= ${thirtyDaysAgo} THEN 1 END)::int AS "newPostsLast30Days",
+          COUNT(CASE WHEN "is_published" = true THEN 1 END)::int AS "publishedPosts",
+          COUNT(CASE WHEN "is_private" = true THEN 1 END)::int AS "privatePosts",
+          COUNT(CASE WHEN "ai_created" = true THEN 1 END)::int AS "aiCreatedPosts",
+          COUNT(CASE WHEN "is_mature" = true THEN 1 END)::int AS "matureContentPosts"
+      FROM "public"."post";
+    `;
 
-    const publishedPosts = await this.prisma.post.count({
-      where: { isPublished: true },
-    });
-    const draftPosts = totalPosts - publishedPosts;
-
-    const privatePosts = await this.prisma.post.count({
-      where: { isPrivate: true },
-    });
-    const publicPosts = totalPosts - privatePosts;
-
-    const aiCreatedPosts = await this.prisma.post.count({
-      where: { aiCreated: true },
-    });
-
-    const matureContentPosts = await this.prisma.post.count({
-      where: { isMature: true },
-    });
+    const draftPosts = stats.totalPosts - stats.publishedPosts;
+    const publicPosts = stats.totalPosts - stats.privatePosts;
 
     return {
-      totalPosts,
-      newPostsLast30Days,
-      publishedPosts,
+      totalPosts: stats.totalPosts,
+      newPostsLast30Days: stats.newPostsLast30Days,
+      publishedPosts: stats.publishedPosts,
       draftPosts,
-      privatePosts,
+      privatePosts: stats.privatePosts,
       publicPosts,
-      aiCreatedPosts,
-      matureContentPosts,
+      aiCreatedPosts: stats.aiCreatedPosts,
+      matureContentPosts: stats.matureContentPosts,
     };
   }
 
@@ -175,12 +179,19 @@ export class AnalyticsService {
   }
 
   async getPlatformWideStats(): Promise<PlatformWideStatsDto> {
-    const contentFunnel = await this.getContentFunnelStats();
-    const followerEngagementInsights =
-      await this.getFollowerEngagementInsights();
-    const planContentInsights = await this.getPlanContentInsights();
-    const aiContentEngagement = await this.getAiContentEngagement();
-    const timeToAction = await this.getTimeToActionStats();
+    const [
+      contentFunnel,
+      followerEngagementInsights,
+      planContentInsights,
+      aiContentEngagement,
+      timeToAction,
+    ] = await Promise.all([
+      this.getContentFunnelStats(),
+      this.getFollowerEngagementInsights(),
+      this.getPlanContentInsights(),
+      this.getAiContentEngagement(),
+      this.getTimeToActionStats(),
+    ]);
 
     return {
       contentFunnel,
@@ -197,147 +208,219 @@ export class AnalyticsService {
   }
 
   private async getContentFunnelStats(): Promise<ContentFunnelDto> {
-    const usersWhoPostedCount = await this.prisma.user.count({
-      where: { posts: { some: {} } },
-    });
-
-    const postsWithViewsCount = await this.prisma.post.count({
-      where: { viewCount: { gt: 0 } },
-    });
-
-    const postsWithEngagementCount = await this.prisma.post.count({
-      where: {
-        OR: [{ likeCount: { gt: 0 } }, { commentCount: { gt: 0 } }],
-      },
-    });
+    const [stats] = await this.prisma.$queryRaw<
+      {
+        usersWhoPostedCount: number;
+        postsWithViewsCount: number;
+        postsWithEngagementCount: number;
+      }[]
+    >`
+      SELECT
+          -- Count of unique users who have posted at least one post
+          (SELECT COUNT(DISTINCT "user_id") FROM "public"."post")::int AS "usersWhoPostedCount",
+          -- Count of posts with at least one view
+          COUNT(CASE WHEN "view_count" > 0 THEN 1 END)::int AS "postsWithViewsCount",
+          -- Count of posts with at least one like or comment
+          COUNT(CASE WHEN ("like_count" > 0 OR "comment_count" > 0) THEN 1 END)::int AS "postsWithEngagementCount"
+      FROM "public"."post";
+    `;
 
     return {
-      usersWhoPostedCount,
-      postsWithViewsCount,
-      postsWithEngagementCount,
+      usersWhoPostedCount: stats.usersWhoPostedCount || 0,
+      postsWithViewsCount: stats.postsWithViewsCount || 0,
+      postsWithEngagementCount: stats.postsWithEngagementCount || 0,
     };
   }
 
   private async getFollowerEngagementInsights(): Promise<
     FollowerEngagementTierDto[]
   > {
-    const tiers = [
-      { description: '0-100 followers', min: 0, max: 100 },
-      { description: '101-1000 followers', min: 101, max: 1000 },
-      { description: '>1000 followers', min: 1001, max: Infinity },
+    const insights = await this.prisma.$queryRaw<
+      {
+        tierDescription: string;
+        tierSortOrder: number;
+        averageLikesPerPost: number;
+        averageCommentsPerPost: number;
+        postsAnalyzed: number;
+      }[]
+    >`
+      SELECT
+          CASE
+              WHEN u."followers_count" >= 0 AND u."followers_count" <= 100 THEN '0-100 followers'
+              WHEN u."followers_count" >= 101 AND u."followers_count" <= 1000 THEN '101-1000 followers'
+              WHEN u."followers_count" >= 1001 THEN '>1000 followers'
+              ELSE 'Other/Undefined'
+          END AS "tierDescription",
+          CASE -- NEW: Add a numeric sort key to SELECT
+              WHEN u."followers_count" >= 0 AND u."followers_count" <= 100 THEN 1
+              WHEN u."followers_count" >= 101 AND u."followers_count" <= 1000 THEN 2
+              WHEN u."followers_count" >= 1001 THEN 3
+              ELSE 4
+          END AS "tierSortOrder", -- Alias the new sort key
+          COALESCE(AVG(p."like_count"), 0.0)::float AS "averageLikesPerPost",
+          COALESCE(AVG(p."comment_count"), 0.0)::float AS "averageCommentsPerPost",
+          COUNT(p.id)::int AS "postsAnalyzed"
+      FROM "public"."post" p
+      JOIN "public"."user" u ON p."user_id" = u.id
+      GROUP BY
+          CASE -- Repeat the CASE for tierDescription for GROUP BY
+              WHEN u."followers_count" >= 0 AND u."followers_count" <= 100 THEN '0-100 followers'
+              WHEN u."followers_count" >= 101 AND u."followers_count" <= 1000 THEN '101-1000 followers'
+              WHEN u."followers_count" >= 1001 THEN '>1000 followers'
+              ELSE 'Other/Undefined'
+          END,
+          CASE -- NEW: Repeat the CASE for tierSortOrder for GROUP BY
+              WHEN u."followers_count" >= 0 AND u."followers_count" <= 100 THEN 1
+              WHEN u."followers_count" >= 101 AND u."followers_count" <= 1000 THEN 2
+              WHEN u."followers_count" >= 1001 THEN 3
+              ELSE 4
+          END
+      ORDER BY "tierSortOrder"; -- Now you can safely order by the alias
+    `;
+
+    // Ensure all tiers are present even if no data, and format numbers
+    // This post-processing logic remains the same.
+    const finalInsights: FollowerEngagementTierDto[] = [
+      {
+        tierDescription: '0-100 followers',
+        averageLikesPerPost: 0,
+        averageCommentsPerPost: 0,
+        postsAnalyzed: 0,
+      },
+      {
+        tierDescription: '101-1000 followers',
+        averageLikesPerPost: 0,
+        averageCommentsPerPost: 0,
+        postsAnalyzed: 0,
+      },
+      {
+        tierDescription: '>1000 followers',
+        averageLikesPerPost: 0,
+        averageCommentsPerPost: 0,
+        postsAnalyzed: 0,
+      },
     ];
 
-    const insights: FollowerEngagementTierDto[] = [];
+    insights.forEach((item) => {
+      const existing = finalInsights.find(
+        (f) => f.tierDescription === item.tierDescription,
+      );
+      if (existing) {
+        existing.averageLikesPerPost = parseFloat(
+          item.averageLikesPerPost.toFixed(2),
+        );
+        existing.averageCommentsPerPost = parseFloat(
+          item.averageCommentsPerPost.toFixed(2),
+        );
+        existing.postsAnalyzed = item.postsAnalyzed;
+      }
+    });
 
-    for (const tier of tiers) {
-      const stats = await this.prisma.post.aggregate({
-        where: {
-          user: {
-            followersCount: {
-              gte: tier.min,
-              lte: tier.max === Infinity ? undefined : tier.max,
-            },
-          },
-        },
-        _avg: {
-          likeCount: true,
-          commentCount: true,
-        },
-        _count: { id: true },
-      });
-
-      insights.push({
-        tierDescription: tier.description,
-        averageLikesPerPost: parseFloat(
-          (stats._avg?.likeCount || 0).toFixed(2),
-        ),
-        averageCommentsPerPost: parseFloat(
-          (stats._avg?.commentCount || 0).toFixed(2),
-        ),
-        postsAnalyzed: stats._count?.id || 0,
-      });
-    }
-    return insights;
+    return finalInsights;
   }
 
   private async getPlanContentInsights(): Promise<PlanContentInsightDto[]> {
-    const plans = await this.prisma.plan.findMany({
-      select: { id: true, name: true },
-    });
-    const insights: PlanContentInsightDto[] = [];
+    const insights = await this.prisma.$queryRaw<
+      {
+        planName: string;
+        usersAnalyzedForPostCount: number;
+        totalPostsByUsersOnPlan: number;
+        averageLikesPerPostByUsersOnPlan: number;
+        averageCommentsPerPostByUsersOnPlan: number;
+        postsAnalyzedForEngagement: number;
+      }[]
+    >`
+      WITH PlanUsers AS (
+          SELECT
+              p.id AS plan_id,
+              p.name AS plan_name,
+              ua."userId"
+          FROM "public"."plans" p
+          JOIN "public"."user_access" ua ON p.id = ua."planId"
+      ),
+      PlanUserPostCounts AS (
+          SELECT
+              pu.plan_id,
+              pu.plan_name,
+              COUNT(DISTINCT pu."userId") AS users_on_plan,
+              COUNT(DISTINCT po.id) FILTER (WHERE po.id IS NOT NULL) AS posts_count_by_plan_users,
+              COALESCE(AVG(po."like_count"), 0.0) AS avg_likes,
+              COALESCE(AVG(po."comment_count"), 0.0) AS avg_comments,
+              COUNT(po.id) FILTER (WHERE po.id IS NOT NULL) AS posts_analyzed_for_engagement
+          FROM PlanUsers pu
+          LEFT JOIN "public"."post" po ON pu."userId" = po."user_id"
+          GROUP BY pu.plan_id, pu.plan_name
+      )
+      SELECT
+          pu.plan_name AS "planName",
+          pu.users_on_plan::int AS "usersAnalyzedForPostCount",
+          pu.posts_count_by_plan_users::int AS "totalPostsByUsersOnPlan", -- New field for calculation in JS
+          pu.avg_likes::float AS "averageLikesPerPostByUsersOnPlan",
+          pu.avg_comments::float AS "averageCommentsPerPostByUsersOnPlan",
+          pu.posts_analyzed_for_engagement::int AS "postsAnalyzedForEngagement"
+      FROM PlanUserPostCounts pu
+      ORDER BY pu.plan_name;
+    `;
 
-    for (const plan of plans) {
-      const usersOnPlanCount = await this.prisma.user.count({
-        where: { userAccess: { planId: plan.id } },
-      });
-
-      let averagePostsPerUserOnPlan = 0;
-      if (usersOnPlanCount > 0) {
-        const postsByUsersOnPlanCount = await this.prisma.post.count({
-          where: { user: { userAccess: { planId: plan.id } } },
-        });
-        averagePostsPerUserOnPlan = this.calculateAverage(
-          postsByUsersOnPlanCount,
-          usersOnPlanCount,
-        );
-      }
-
-      const engagementStats = await this.prisma.post.aggregate({
-        where: { user: { userAccess: { planId: plan.id } } },
-        _avg: { likeCount: true, commentCount: true },
-        _count: { id: true },
-      });
-
-      insights.push({
-        planName: plan.name,
-        averagePostsPerUserOnPlan,
-        averageLikesPerPostByUsersOnPlan: parseFloat(
-          (engagementStats._avg?.likeCount || 0).toFixed(2),
-        ),
-        averageCommentsPerPostByUsersOnPlan: parseFloat(
-          (engagementStats._avg?.commentCount || 0).toFixed(2),
-        ),
-        postsAnalyzedForEngagement: engagementStats._count?.id || 0,
-        usersAnalyzedForPostCount: usersOnPlanCount,
-      });
-    }
-    return insights;
+    return insights.map((insight) => ({
+      planName: insight.planName,
+      averagePostsPerUserOnPlan: this.calculateAverage(
+        insight.totalPostsByUsersOnPlan,
+        insight.usersAnalyzedForPostCount,
+      ),
+      averageLikesPerPostByUsersOnPlan: parseFloat(
+        insight.averageLikesPerPostByUsersOnPlan.toFixed(2),
+      ),
+      averageCommentsPerPostByUsersOnPlan: parseFloat(
+        insight.averageCommentsPerPostByUsersOnPlan.toFixed(2),
+      ),
+      postsAnalyzedForEngagement: insight.postsAnalyzedForEngagement,
+      usersAnalyzedForPostCount: insight.usersAnalyzedForPostCount,
+    }));
   }
 
   private async getAiContentEngagement(): Promise<AiContentEngagementDto> {
-    const aiStats = await this.prisma.post.aggregate({
-      where: { aiCreated: true },
-      _avg: { likeCount: true, commentCount: true, viewCount: true },
-      _count: { id: true },
-    });
-
-    const nonAiStats = await this.prisma.post.aggregate({
-      where: { aiCreated: false },
-      _avg: { likeCount: true, commentCount: true, viewCount: true },
-      _count: { id: true },
-    });
+    const [stats] = await this.prisma.$queryRaw<
+      {
+        averageLikesAiPosts: number;
+        averageCommentsAiPosts: number;
+        averageViewsAiPosts: number;
+        aiPostsAnalyzed: number;
+        averageLikesNonAiPosts: number;
+        averageCommentsNonAiPosts: number;
+        averageViewsNonAiPosts: number;
+        nonAiPostsAnalyzed: number;
+      }[]
+    >`
+      SELECT
+          COALESCE(AVG(CASE WHEN "ai_created" = true THEN "like_count" END), 0.0)::float AS "averageLikesAiPosts",
+          COALESCE(AVG(CASE WHEN "ai_created" = true THEN "comment_count" END), 0.0)::float AS "averageCommentsAiPosts",
+          COALESCE(AVG(CASE WHEN "ai_created" = true THEN "view_count" END), 0.0)::float AS "averageViewsAiPosts",
+          COUNT(CASE WHEN "ai_created" = true THEN 1 END)::int AS "aiPostsAnalyzed",
+          COALESCE(AVG(CASE WHEN "ai_created" = false THEN "like_count" END), 0.0)::float AS "averageLikesNonAiPosts",
+          COALESCE(AVG(CASE WHEN "ai_created" = false THEN "comment_count" END), 0.0)::float AS "averageCommentsNonAiPosts",
+          COALESCE(AVG(CASE WHEN "ai_created" = false THEN "view_count" END), 0.0)::float AS "averageViewsNonAiPosts",
+          COUNT(CASE WHEN "ai_created" = false THEN 1 END)::int AS "nonAiPostsAnalyzed"
+      FROM "public"."post";
+    `;
 
     return {
-      averageLikesAiPosts: parseFloat(
-        (aiStats._avg?.likeCount || 0).toFixed(2),
-      ),
+      averageLikesAiPosts: parseFloat(stats.averageLikesAiPosts.toFixed(2)),
       averageCommentsAiPosts: parseFloat(
-        (aiStats._avg?.commentCount || 0).toFixed(2),
+        stats.averageCommentsAiPosts.toFixed(2),
       ),
-      averageViewsAiPosts: parseFloat(
-        (aiStats._avg?.viewCount || 0).toFixed(2),
-      ),
-      aiPostsAnalyzed: aiStats._count?.id || 0,
+      averageViewsAiPosts: parseFloat(stats.averageViewsAiPosts.toFixed(2)),
+      aiPostsAnalyzed: stats.aiPostsAnalyzed,
       averageLikesNonAiPosts: parseFloat(
-        (nonAiStats._avg?.likeCount || 0).toFixed(2),
+        stats.averageLikesNonAiPosts.toFixed(2),
       ),
       averageCommentsNonAiPosts: parseFloat(
-        (nonAiStats._avg?.commentCount || 0).toFixed(2),
+        stats.averageCommentsNonAiPosts.toFixed(2),
       ),
       averageViewsNonAiPosts: parseFloat(
-        (nonAiStats._avg?.viewCount || 0).toFixed(2),
+        stats.averageViewsNonAiPosts.toFixed(2),
       ),
-      nonAiPostsAnalyzed: nonAiStats._count?.id || 0,
+      nonAiPostsAnalyzed: stats.nonAiPostsAnalyzed,
     };
   }
 
