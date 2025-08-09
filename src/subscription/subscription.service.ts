@@ -2,23 +2,24 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
+  NotFoundException,
 } from '@nestjs/common';
-import { startOfDay } from 'date-fns';
 import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
 import { PaidAccessLevel } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
-import { UsageScheduler } from './../usage/usage.scheduler';
+import { UsageService } from 'src/usage/usage.service';
 import { SubscriptionInfoResponseDto } from './dto/response/subscription-info.dto';
 import { subscriptionInfoResponseMapper } from './mapper/subscription.mapper';
 
 @Injectable()
 export class SubscriptionService {
+  private readonly logger = new Logger(SubscriptionService.name);
+
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly usageScheduler: UsageScheduler,
-  ) {}
 
-  private logger = new Logger(SubscriptionService.name);
+    private readonly usageService: UsageService,
+  ) {}
 
   async getSubscriptionInfo(
     userId: string,
@@ -40,61 +41,40 @@ export class SubscriptionService {
       },
     });
 
-    if (!user) {
-      this.logger.error(`User ${userId} not found.`);
-      throw new InternalServerErrorException(
-        'user not found, please check the debug logs',
+    if (!user || !user.userAccess || !user.userAccess.plan) {
+      this.logger.warn(`User ${userId} or their access/plan record not found.`);
+      throw new NotFoundException(
+        'Subscription information not found for user.',
       );
     }
 
+    let mostRecentUsage = user.UserUsage[0] || null;
+    const { userAccess } = user;
+    const now = new Date();
+
     if (
-      !user.userAccess ||
-      user.UserUsage.length === 0 ||
-      !user.userAccess.plan
+      userAccess.plan.id !== PaidAccessLevel.FREE &&
+      (!mostRecentUsage || now > mostRecentUsage.cycleEndsAt)
     ) {
-      this.logger.warn(`User ${userId} does not have an active subscription.`);
-      throw new InternalServerErrorException(
-        'user or user access or plan or usage not found, please check the debug logs',
-      );
-    }
+      if (now < userAccess.expiresAt) {
+        this.logger.log(
+          `User ${userId}'s usage record is stale. Triggering just-in-time reset. Last cycle ended: ${mostRecentUsage?.cycleEndsAt.toISOString()}`,
+        );
 
-    const mostRecentUsage = user.UserUsage[0];
-    const planId = user.userAccess.plan.id;
-    if (
-      planId !== PaidAccessLevel.FREE &&
-      (!mostRecentUsage ||
-        startOfDay(mostRecentUsage.cycleStartedAt) < startOfDay(new Date()))
-    ) {
-      this.logger.log(
-        `User ${userId} has a stale/missing usage record. Triggering just-in-time reset.`,
-      );
+        const cycleStart = mostRecentUsage ? mostRecentUsage.cycleEndsAt : now;
+        const cycleEnd = userAccess.expiresAt;
 
-      await this.usageScheduler.resetDailyFeatureUsage(
-        userId,
-        FeatureKey.AI_CREDITS,
-        user.userAccess.expiresAt,
-      );
-
-      const freshUsage = await this.prismaService.userUsage.findFirst({
-        where: {
+        mostRecentUsage = await this.usageService.resetUsageForNewCycle(
           userId,
-          featureKey: FeatureKey.AI_CREDITS,
-        },
-        orderBy: { cycleStartedAt: 'desc' },
-        take: 1,
-      });
-
-      if (!freshUsage) {
-        throw new InternalServerErrorException(
-          'Failed to retrieve usage record after just-in-time reset.',
+          FeatureKey.AI_CREDITS,
+          cycleStart,
+          cycleEnd,
+        );
+      } else {
+        this.logger.warn(
+          `User ${userId} has a stale usage record, but their subscription has also expired at ${userAccess.expiresAt.toISOString()}. No JIT reset performed.`,
         );
       }
-
-      return subscriptionInfoResponseMapper(
-        user.userAccess,
-        user.userAccess.plan,
-        freshUsage,
-      );
     }
 
     if (!mostRecentUsage) {
@@ -104,8 +84,8 @@ export class SubscriptionService {
     }
 
     return subscriptionInfoResponseMapper(
-      user.userAccess,
-      user.userAccess.plan,
+      userAccess,
+      userAccess.plan,
       mostRecentUsage,
     );
   }

@@ -2859,7 +2859,8 @@ export const UserAccessScalarFieldEnum = {
   stripeCustomerId: 'stripeCustomerId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  cancelAtPeriodEnd: 'cancelAtPeriodEnd'
+  cancelAtPeriodEnd: 'cancelAtPeriodEnd',
+  monthlyResetDay: 'monthlyResetDay'
 } as const
 
 export type UserAccessScalarFieldEnum = (typeof UserAccessScalarFieldEnum)[keyof typeof UserAccessScalarFieldEnum]

@@ -325,6 +325,7 @@ model UserAccess {
   createdAt            DateTime        @default(now()) @map("created_at")
   updatedAt            DateTime?       @updatedAt @map("updated_at")
   cancelAtPeriodEnd    Boolean         @default(false) @map("cancel_at_period_end")
+  monthlyResetDay      Int?            @map("monthly_reset_day")
   plan                 Plan            @relation(fields: [planId], references: [id])
   user                 User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 
