@@ -1,10 +1,12 @@
 // src/posts/utils/posts-query-builder.ts
 import { Injectable } from '@nestjs/common';
 import { Prisma } from 'src/generated';
+import { ModelName } from 'src/generated/internal/prismaNamespace';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class PostsQueryBuilder {
+  private static readonly POST_TABLE_NAME = ModelName.Post.toLowerCase();
   private static readonly VALID_SORT_FIELDS = new Set([
     'createdAt', 'title', 'viewCount', 'likeCount', 'commentCount', 'updatedAt'
   ]);
@@ -89,7 +91,7 @@ export class PostsQueryBuilder {
         const result = await this.prisma.$queryRaw<{ count: bigint }[]>`
           SELECT reltuples::BIGINT as count 
           FROM pg_class 
-          WHERE relname IN ('Post', 'post', '"Post"')
+          WHERE relname = ${PostsQueryBuilder.POST_TABLE_NAME}
           LIMIT 1
         `;
         if (result[0]?.count && Number(result[0].count) > 0) {
