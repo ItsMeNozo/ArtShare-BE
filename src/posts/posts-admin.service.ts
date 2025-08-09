@@ -8,6 +8,7 @@ import { PostCategoryResponseDto } from './dto/response/category.dto';
 import { MediaResponseDto } from './dto/response/media.dto';
 import { PostDetailsResponseDto } from './dto/response/post-details.dto';
 import { UserResponseDto } from './dto/response/user.dto';
+import { PostsQueryBuilder } from './utils/posts-query-builder';
 
 export class AdminPostListItemUserDto {
   id: string;
@@ -50,7 +51,10 @@ type PrismaPostForList = Prisma.PostGetPayload<{
 export class PostsAdminService {
   private readonly logger = new Logger(PostsAdminService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+  private prisma: PrismaService,
+  private queryBuilder: PostsQueryBuilder
+) {}
 
   private mapPrismaPostToPostDetailsDto(
     post: PrismaPostForDetails,
@@ -123,79 +127,28 @@ export class PostsAdminService {
     };
   }
 
-  async getAllPostsForAdmin(
-    params: PaginationQueryDto,
-  ): Promise<PaginatedResponse<AdminPostListItemDto>> {
-    const {
-      page = 1,
-      limit = 10,
-      search,
-      sortBy = 'createdAt',
-      sortOrder = 'desc',
-      filter,
-    } = params;
+  async getAllPostsForAdmin(params: PaginationQueryDto): Promise<PaginatedResponse<AdminPostListItemDto>> {
+  const { page = 1, limit = 10, search, sortBy = 'createdAt', sortOrder = 'desc', filter } = params;
+  const skip = (page - 1) * limit;
+  
+  const where = this.queryBuilder.buildWhereClause({ search, ...filter });
+  const orderBy = this.queryBuilder.buildOrderBy(sortBy, sortOrder);
+  
+  const [posts, total] = await Promise.all([
+    this.prisma.post.findMany({
+      where,
+      skip,
+      take: limit,
+      orderBy,
+      select: this.queryBuilder.getPostSelectFields()
+    }),
+    this.queryBuilder.getOptimizedCount(where)
+  ]);
 
-    const { userId, isPublished, isPrivate, categoryId, aiCreated } =
-      filter || {};
-
-    const skip = (page - 1) * limit;
-    const where: Prisma.PostWhereInput = {};
-
-    if (search) {
-      where.OR = [
-        { title: { contains: search, mode: 'insensitive' } },
-        { description: { contains: search, mode: 'insensitive' } },
-        { user: { username: { contains: search, mode: 'insensitive' } } },
-      ];
-    }
-    if (userId) where.userId = userId;
-    if (isPublished !== undefined) where.isPublished = isPublished;
-    if (isPrivate !== undefined) where.isPrivate = isPrivate;
-    if (categoryId) {
-      where.categories = { some: { id: categoryId } };
-    }
-    if (aiCreated !== undefined) {
-      where.aiCreated = aiCreated;
-    }
-
-    const validSortByFields = [
-      'createdAt',
-      'title',
-      'viewCount',
-      'likeCount',
-      'commentCount',
-      'updatedAt',
-    ];
-    const orderByField = validSortByFields.includes(sortBy)
-      ? sortBy
-      : 'createdAt';
-
-    const [prismaPosts, total] = await this.prisma.$transaction([
-      this.prisma.post.findMany({
-        where,
-        skip,
-        take: limit,
-        orderBy: { [orderByField]: sortOrder },
-        include: { user: true, categories: true },
-      }),
-      this.prisma.post.count({ where }),
-    ]);
-
-    const responsePosts: AdminPostListItemDto[] = prismaPosts.map((p) =>
-      this.mapPrismaPostToAdminPostListItemDto(p as PrismaPostForList),
-    );
-
-    const totalPages = Math.ceil(total / limit);
-
-    return {
-      data: responsePosts,
-      total,
-      page,
-      limit,
-      totalPages,
-      hasNextPage: page < totalPages,
-    };
-  }
+  const responsePosts = posts.map(p => this.mapPrismaPostToAdminPostListItemDto(p as any));
+  
+  return this.queryBuilder.formatPaginatedResponse(responsePosts, total, page, limit);
+}
 
   async updatePostByAdmin(
     postId: number,
