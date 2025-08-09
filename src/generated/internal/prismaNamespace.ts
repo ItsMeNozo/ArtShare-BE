@@ -2873,7 +2873,6 @@ export const PlanScalarFieldEnum = {
   stripeProductId: 'stripeProductId',
   imageQualityAllowed: 'imageQualityAllowed',
   monthlyQuotaCredits: 'monthlyQuotaCredits',
-  dailyQuotaCredits: 'dailyQuotaCredits',
   storageQuotaMB: 'storageQuotaMB',
   maxTeamSeats: 'maxTeamSeats',
   allowHighResolution: 'allowHighResolution',

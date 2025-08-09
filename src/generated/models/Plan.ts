@@ -27,7 +27,6 @@ export type AggregatePlan = {
 
 export type PlanAvgAggregateOutputType = {
   monthlyQuotaCredits: number | null
-  dailyQuotaCredits: number | null
   storageQuotaMB: number | null
   maxTeamSeats: number | null
   maxResolutionWidth: number | null
@@ -36,7 +35,6 @@ export type PlanAvgAggregateOutputType = {
 
 export type PlanSumAggregateOutputType = {
   monthlyQuotaCredits: number | null
-  dailyQuotaCredits: number | null
   storageQuotaMB: number | null
   maxTeamSeats: number | null
   maxResolutionWidth: number | null
@@ -50,7 +48,6 @@ export type PlanMinAggregateOutputType = {
   stripeProductId: string | null
   imageQualityAllowed: $Enums.ImageQuality | null
   monthlyQuotaCredits: number | null
-  dailyQuotaCredits: number | null
   storageQuotaMB: number | null
   maxTeamSeats: number | null
   allowHighResolution: boolean | null
@@ -69,7 +66,6 @@ export type PlanMaxAggregateOutputType = {
   stripeProductId: string | null
   imageQualityAllowed: $Enums.ImageQuality | null
   monthlyQuotaCredits: number | null
-  dailyQuotaCredits: number | null
   storageQuotaMB: number | null
   maxTeamSeats: number | null
   allowHighResolution: boolean | null
@@ -88,7 +84,6 @@ export type PlanCountAggregateOutputType = {
   stripeProductId: number
   imageQualityAllowed: number
   monthlyQuotaCredits: number
-  dailyQuotaCredits: number
   storageQuotaMB: number
   maxTeamSeats: number
   allowHighResolution: number
@@ -104,7 +99,6 @@ export type PlanCountAggregateOutputType = {
 
 export type PlanAvgAggregateInputType = {
   monthlyQuotaCredits?: true
-  dailyQuotaCredits?: true
   storageQuotaMB?: true
   maxTeamSeats?: true
   maxResolutionWidth?: true
@@ -113,7 +107,6 @@ export type PlanAvgAggregateInputType = {
 
 export type PlanSumAggregateInputType = {
   monthlyQuotaCredits?: true
-  dailyQuotaCredits?: true
   storageQuotaMB?: true
   maxTeamSeats?: true
   maxResolutionWidth?: true
@@ -127,7 +120,6 @@ export type PlanMinAggregateInputType = {
   stripeProductId?: true
   imageQualityAllowed?: true
   monthlyQuotaCredits?: true
-  dailyQuotaCredits?: true
   storageQuotaMB?: true
   maxTeamSeats?: true
   allowHighResolution?: true
@@ -146,7 +138,6 @@ export type PlanMaxAggregateInputType = {
   stripeProductId?: true
   imageQualityAllowed?: true
   monthlyQuotaCredits?: true
-  dailyQuotaCredits?: true
   storageQuotaMB?: true
   maxTeamSeats?: true
   allowHighResolution?: true
@@ -165,7 +156,6 @@ export type PlanCountAggregateInputType = {
   stripeProductId?: true
   imageQualityAllowed?: true
   monthlyQuotaCredits?: true
-  dailyQuotaCredits?: true
   storageQuotaMB?: true
   maxTeamSeats?: true
   allowHighResolution?: true
@@ -270,8 +260,7 @@ export type PlanGroupByOutputType = {
   description: string | null
   stripeProductId: string | null
   imageQualityAllowed: $Enums.ImageQuality
-  monthlyQuotaCredits: number | null
-  dailyQuotaCredits: number
+  monthlyQuotaCredits: number
   storageQuotaMB: number | null
   maxTeamSeats: number
   allowHighResolution: boolean
@@ -312,8 +301,7 @@ export type PlanWhereInput = {
   description?: Prisma.StringNullableFilter<"Plan"> | string | null
   stripeProductId?: Prisma.StringNullableFilter<"Plan"> | string | null
   imageQualityAllowed?: Prisma.EnumImageQualityFilter<"Plan"> | $Enums.ImageQuality
-  monthlyQuotaCredits?: Prisma.IntNullableFilter<"Plan"> | number | null
-  dailyQuotaCredits?: Prisma.IntFilter<"Plan"> | number
+  monthlyQuotaCredits?: Prisma.IntFilter<"Plan"> | number
   storageQuotaMB?: Prisma.IntNullableFilter<"Plan"> | number | null
   maxTeamSeats?: Prisma.IntFilter<"Plan"> | number
   allowHighResolution?: Prisma.BoolFilter<"Plan"> | boolean
@@ -332,8 +320,7 @@ export type PlanOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   stripeProductId?: Prisma.SortOrderInput | Prisma.SortOrder
   imageQualityAllowed?: Prisma.SortOrder
-  monthlyQuotaCredits?: Prisma.SortOrderInput | Prisma.SortOrder
-  dailyQuotaCredits?: Prisma.SortOrder
+  monthlyQuotaCredits?: Prisma.SortOrder
   storageQuotaMB?: Prisma.SortOrderInput | Prisma.SortOrder
   maxTeamSeats?: Prisma.SortOrder
   allowHighResolution?: Prisma.SortOrder
@@ -355,8 +342,7 @@ export type PlanWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Plan"> | string
   description?: Prisma.StringNullableFilter<"Plan"> | string | null
   imageQualityAllowed?: Prisma.EnumImageQualityFilter<"Plan"> | $Enums.ImageQuality
-  monthlyQuotaCredits?: Prisma.IntNullableFilter<"Plan"> | number | null
-  dailyQuotaCredits?: Prisma.IntFilter<"Plan"> | number
+  monthlyQuotaCredits?: Prisma.IntFilter<"Plan"> | number
   storageQuotaMB?: Prisma.IntNullableFilter<"Plan"> | number | null
   maxTeamSeats?: Prisma.IntFilter<"Plan"> | number
   allowHighResolution?: Prisma.BoolFilter<"Plan"> | boolean
@@ -375,8 +361,7 @@ export type PlanOrderByWithAggregationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   stripeProductId?: Prisma.SortOrderInput | Prisma.SortOrder
   imageQualityAllowed?: Prisma.SortOrder
-  monthlyQuotaCredits?: Prisma.SortOrderInput | Prisma.SortOrder
-  dailyQuotaCredits?: Prisma.SortOrder
+  monthlyQuotaCredits?: Prisma.SortOrder
   storageQuotaMB?: Prisma.SortOrderInput | Prisma.SortOrder
   maxTeamSeats?: Prisma.SortOrder
   allowHighResolution?: Prisma.SortOrder
@@ -402,8 +387,7 @@ export type PlanScalarWhereWithAggregatesInput = {
   description?: Prisma.StringNullableWithAggregatesFilter<"Plan"> | string | null
   stripeProductId?: Prisma.StringNullableWithAggregatesFilter<"Plan"> | string | null
   imageQualityAllowed?: Prisma.EnumImageQualityWithAggregatesFilter<"Plan"> | $Enums.ImageQuality
-  monthlyQuotaCredits?: Prisma.IntNullableWithAggregatesFilter<"Plan"> | number | null
-  dailyQuotaCredits?: Prisma.IntWithAggregatesFilter<"Plan"> | number
+  monthlyQuotaCredits?: Prisma.IntWithAggregatesFilter<"Plan"> | number
   storageQuotaMB?: Prisma.IntNullableWithAggregatesFilter<"Plan"> | number | null
   maxTeamSeats?: Prisma.IntWithAggregatesFilter<"Plan"> | number
   allowHighResolution?: Prisma.BoolWithAggregatesFilter<"Plan"> | boolean
@@ -421,8 +405,7 @@ export type PlanCreateInput = {
   description?: string | null
   stripeProductId?: string | null
   imageQualityAllowed?: $Enums.ImageQuality
-  monthlyQuotaCredits?: number | null
-  dailyQuotaCredits: number
+  monthlyQuotaCredits: number
   storageQuotaMB?: number | null
   maxTeamSeats?: number
   allowHighResolution?: boolean
@@ -441,8 +424,7 @@ export type PlanUncheckedCreateInput = {
   description?: string | null
   stripeProductId?: string | null
   imageQualityAllowed?: $Enums.ImageQuality
-  monthlyQuotaCredits?: number | null
-  dailyQuotaCredits: number
+  monthlyQuotaCredits: number
   storageQuotaMB?: number | null
   maxTeamSeats?: number
   allowHighResolution?: boolean
@@ -461,8 +443,7 @@ export type PlanUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageQualityAllowed?: Prisma.EnumImageQualityFieldUpdateOperationsInput | $Enums.ImageQuality
-  monthlyQuotaCredits?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dailyQuotaCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  monthlyQuotaCredits?: Prisma.IntFieldUpdateOperationsInput | number
   storageQuotaMB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxTeamSeats?: Prisma.IntFieldUpdateOperationsInput | number
   allowHighResolution?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -481,8 +462,7 @@ export type PlanUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageQualityAllowed?: Prisma.EnumImageQualityFieldUpdateOperationsInput | $Enums.ImageQuality
-  monthlyQuotaCredits?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dailyQuotaCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  monthlyQuotaCredits?: Prisma.IntFieldUpdateOperationsInput | number
   storageQuotaMB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxTeamSeats?: Prisma.IntFieldUpdateOperationsInput | number
   allowHighResolution?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -501,8 +481,7 @@ export type PlanCreateManyInput = {
   description?: string | null
   stripeProductId?: string | null
   imageQualityAllowed?: $Enums.ImageQuality
-  monthlyQuotaCredits?: number | null
-  dailyQuotaCredits: number
+  monthlyQuotaCredits: number
   storageQuotaMB?: number | null
   maxTeamSeats?: number
   allowHighResolution?: boolean
@@ -520,8 +499,7 @@ export type PlanUpdateManyMutationInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageQualityAllowed?: Prisma.EnumImageQualityFieldUpdateOperationsInput | $Enums.ImageQuality
-  monthlyQuotaCredits?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dailyQuotaCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  monthlyQuotaCredits?: Prisma.IntFieldUpdateOperationsInput | number
   storageQuotaMB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxTeamSeats?: Prisma.IntFieldUpdateOperationsInput | number
   allowHighResolution?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -539,8 +517,7 @@ export type PlanUncheckedUpdateManyInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageQualityAllowed?: Prisma.EnumImageQualityFieldUpdateOperationsInput | $Enums.ImageQuality
-  monthlyQuotaCredits?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dailyQuotaCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  monthlyQuotaCredits?: Prisma.IntFieldUpdateOperationsInput | number
   storageQuotaMB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxTeamSeats?: Prisma.IntFieldUpdateOperationsInput | number
   allowHighResolution?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -564,7 +541,6 @@ export type PlanCountOrderByAggregateInput = {
   stripeProductId?: Prisma.SortOrder
   imageQualityAllowed?: Prisma.SortOrder
   monthlyQuotaCredits?: Prisma.SortOrder
-  dailyQuotaCredits?: Prisma.SortOrder
   storageQuotaMB?: Prisma.SortOrder
   maxTeamSeats?: Prisma.SortOrder
   allowHighResolution?: Prisma.SortOrder
@@ -578,7 +554,6 @@ export type PlanCountOrderByAggregateInput = {
 
 export type PlanAvgOrderByAggregateInput = {
   monthlyQuotaCredits?: Prisma.SortOrder
-  dailyQuotaCredits?: Prisma.SortOrder
   storageQuotaMB?: Prisma.SortOrder
   maxTeamSeats?: Prisma.SortOrder
   maxResolutionWidth?: Prisma.SortOrder
@@ -592,7 +567,6 @@ export type PlanMaxOrderByAggregateInput = {
   stripeProductId?: Prisma.SortOrder
   imageQualityAllowed?: Prisma.SortOrder
   monthlyQuotaCredits?: Prisma.SortOrder
-  dailyQuotaCredits?: Prisma.SortOrder
   storageQuotaMB?: Prisma.SortOrder
   maxTeamSeats?: Prisma.SortOrder
   allowHighResolution?: Prisma.SortOrder
@@ -611,7 +585,6 @@ export type PlanMinOrderByAggregateInput = {
   stripeProductId?: Prisma.SortOrder
   imageQualityAllowed?: Prisma.SortOrder
   monthlyQuotaCredits?: Prisma.SortOrder
-  dailyQuotaCredits?: Prisma.SortOrder
   storageQuotaMB?: Prisma.SortOrder
   maxTeamSeats?: Prisma.SortOrder
   allowHighResolution?: Prisma.SortOrder
@@ -625,7 +598,6 @@ export type PlanMinOrderByAggregateInput = {
 
 export type PlanSumOrderByAggregateInput = {
   monthlyQuotaCredits?: Prisma.SortOrder
-  dailyQuotaCredits?: Prisma.SortOrder
   storageQuotaMB?: Prisma.SortOrder
   maxTeamSeats?: Prisma.SortOrder
   maxResolutionWidth?: Prisma.SortOrder
@@ -656,8 +628,7 @@ export type PlanCreateWithoutUserAccessInput = {
   description?: string | null
   stripeProductId?: string | null
   imageQualityAllowed?: $Enums.ImageQuality
-  monthlyQuotaCredits?: number | null
-  dailyQuotaCredits: number
+  monthlyQuotaCredits: number
   storageQuotaMB?: number | null
   maxTeamSeats?: number
   allowHighResolution?: boolean
@@ -675,8 +646,7 @@ export type PlanUncheckedCreateWithoutUserAccessInput = {
   description?: string | null
   stripeProductId?: string | null
   imageQualityAllowed?: $Enums.ImageQuality
-  monthlyQuotaCredits?: number | null
-  dailyQuotaCredits: number
+  monthlyQuotaCredits: number
   storageQuotaMB?: number | null
   maxTeamSeats?: number
   allowHighResolution?: boolean
@@ -710,8 +680,7 @@ export type PlanUpdateWithoutUserAccessInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageQualityAllowed?: Prisma.EnumImageQualityFieldUpdateOperationsInput | $Enums.ImageQuality
-  monthlyQuotaCredits?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dailyQuotaCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  monthlyQuotaCredits?: Prisma.IntFieldUpdateOperationsInput | number
   storageQuotaMB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxTeamSeats?: Prisma.IntFieldUpdateOperationsInput | number
   allowHighResolution?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -729,8 +698,7 @@ export type PlanUncheckedUpdateWithoutUserAccessInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageQualityAllowed?: Prisma.EnumImageQualityFieldUpdateOperationsInput | $Enums.ImageQuality
-  monthlyQuotaCredits?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  dailyQuotaCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  monthlyQuotaCredits?: Prisma.IntFieldUpdateOperationsInput | number
   storageQuotaMB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxTeamSeats?: Prisma.IntFieldUpdateOperationsInput | number
   allowHighResolution?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -780,7 +748,6 @@ export type PlanSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   stripeProductId?: boolean
   imageQualityAllowed?: boolean
   monthlyQuotaCredits?: boolean
-  dailyQuotaCredits?: boolean
   storageQuotaMB?: boolean
   maxTeamSeats?: boolean
   allowHighResolution?: boolean
@@ -801,7 +768,6 @@ export type PlanSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   stripeProductId?: boolean
   imageQualityAllowed?: boolean
   monthlyQuotaCredits?: boolean
-  dailyQuotaCredits?: boolean
   storageQuotaMB?: boolean
   maxTeamSeats?: boolean
   allowHighResolution?: boolean
@@ -820,7 +786,6 @@ export type PlanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   stripeProductId?: boolean
   imageQualityAllowed?: boolean
   monthlyQuotaCredits?: boolean
-  dailyQuotaCredits?: boolean
   storageQuotaMB?: boolean
   maxTeamSeats?: boolean
   allowHighResolution?: boolean
@@ -839,7 +804,6 @@ export type PlanSelectScalar = {
   stripeProductId?: boolean
   imageQualityAllowed?: boolean
   monthlyQuotaCredits?: boolean
-  dailyQuotaCredits?: boolean
   storageQuotaMB?: boolean
   maxTeamSeats?: boolean
   allowHighResolution?: boolean
@@ -851,7 +815,7 @@ export type PlanSelectScalar = {
   updatedAt?: boolean
 }
 
-export type PlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "stripeProductId" | "imageQualityAllowed" | "monthlyQuotaCredits" | "dailyQuotaCredits" | "storageQuotaMB" | "maxTeamSeats" | "allowHighResolution" | "maxResolutionWidth" | "maxResolutionHeight" | "removeWatermark" | "smartSuggestionsEnabled" | "createdAt" | "updatedAt", ExtArgs["result"]["plan"]>
+export type PlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "stripeProductId" | "imageQualityAllowed" | "monthlyQuotaCredits" | "storageQuotaMB" | "maxTeamSeats" | "allowHighResolution" | "maxResolutionWidth" | "maxResolutionHeight" | "removeWatermark" | "smartSuggestionsEnabled" | "createdAt" | "updatedAt", ExtArgs["result"]["plan"]>
 export type PlanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   userAccess?: boolean | Prisma.Plan$userAccessArgs<ExtArgs>
   _count?: boolean | Prisma.PlanCountOutputTypeDefaultArgs<ExtArgs>
@@ -870,8 +834,7 @@ export type $PlanPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     description: string | null
     stripeProductId: string | null
     imageQualityAllowed: $Enums.ImageQuality
-    monthlyQuotaCredits: number | null
-    dailyQuotaCredits: number
+    monthlyQuotaCredits: number
     storageQuotaMB: number | null
     maxTeamSeats: number
     allowHighResolution: boolean
@@ -1311,7 +1274,6 @@ export interface PlanFieldRefs {
   readonly stripeProductId: Prisma.FieldRef<"Plan", 'String'>
   readonly imageQualityAllowed: Prisma.FieldRef<"Plan", 'ImageQuality'>
   readonly monthlyQuotaCredits: Prisma.FieldRef<"Plan", 'Int'>
-  readonly dailyQuotaCredits: Prisma.FieldRef<"Plan", 'Int'>
   readonly storageQuotaMB: Prisma.FieldRef<"Plan", 'Int'>
   readonly maxTeamSeats: Prisma.FieldRef<"Plan", 'Int'>
   readonly allowHighResolution: Prisma.FieldRef<"Plan", 'Boolean'>
