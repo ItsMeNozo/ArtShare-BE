@@ -47,18 +47,13 @@ export class PostsQueryBuilder {
       commentCount: true,
       createdAt: true,
       updatedAt: true,
-      user: { select: { id: true, username: true } }, 
+      user: { select: { id: true, username: true, profilePictureUrl: true } }, 
       categories: { select: { id: true, name: true } }
     };
   }
 
   async getOptimizedCount(where: Prisma.PostWhereInput): Promise<number> {
-    if (Object.keys(where).length === 0) {
-      const result = await this.prisma.$queryRaw<[{ estimate: bigint }]>`
-        SELECT reltuples::bigint as estimate FROM pg_class WHERE relname = 'Post'
-      `;
-      return Number(result[0]?.estimate || 0);
-    }
+    // Always use accurate count for admin pagination to prevent pagination issues
     return this.prisma.post.count({ where });
   }
 
