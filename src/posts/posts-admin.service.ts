@@ -1,4 +1,5 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Prisma } from 'src/generated';
@@ -67,7 +68,7 @@ export class PostsAdminService {
   ) {}
 
   private static mapToPostDetails(post: any): PostDetailsResponseDto {
-    return {
+    return plainToInstance(PostDetailsResponseDto, {
       id: post.id,
       userId: post.userId,
       title: post.title,
@@ -87,23 +88,13 @@ export class PostsAdminService {
         downloads: media.downloads,
         createdAt: media.createdAt,
       })) || [],
-      user: {
-        id: post.user.id,
-        username: post.user.username,
-        fullName: post.user.fullName ?? '',
-        profilePictureUrl: post.user.profilePictureUrl ?? '',
-        email: '', // Not fetched for security
-        bio: '', // Not fetched for security
-        createdAt: new Date(), // Default value
-        updatedAt: new Date(), // Default value  
-        refreshToken: '', // Not fetched for security
-      },
+      user: post.user, // Include all user data, let class-transformer handle exclusions
       categories: post.categories?.map((category: any) => ({
         id: category.id,
         name: category.name,
         type: category.type,
       })) || [],
-    };
+    });
   }
 
   private static mapToAdminListItem(post: any): AdminPostListItemDto {
@@ -343,8 +334,10 @@ export class PostsAdminService {
             }
           });
           updatedCount++;
-        } catch {
-          // Continue with other posts if one fails
+         } catch (error) {
+          this.logger.error(
+            `Failed to update categories for post ${postId}: ${error instanceof Error ? error.message : error}`,
+          );
         }
       }
     });
