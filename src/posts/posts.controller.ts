@@ -42,6 +42,7 @@ import { PostsEmbeddingService } from './posts-embedding.service';
 import { PostsExploreService } from './posts-explore.service';
 import { PostsManagementService } from './posts-management.service';
 import { WorkflowAssistService } from './workflow-assist.service';
+import { PostDetailForViewDto } from './dto/response/post-details-view.dto';
 
 @Controller('posts')
 @UseGuards(JwtAuthGuard)
@@ -139,6 +140,15 @@ export class PostsController {
     @CurrentUser() user?: CurrentUserType,
   ): Promise<PostDetailsResponseDto> {
     return this.postsExploreService.getPostDetails(postId, user?.id ?? '');
+  }
+
+  @Public()
+  @Get(':post_id/view')
+  async getPostDetailsForView(
+    @Param('post_id', ParseIntPipe) postId: number,
+    @CurrentUser() user?: CurrentUserType,
+  ): Promise<PostDetailForViewDto> {
+    return this.postsExploreService.getPostDetailsForView(postId, user?.id ?? '');
   }
 
   @Public()
