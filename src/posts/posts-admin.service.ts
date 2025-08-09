@@ -3,6 +3,7 @@ import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
+import { StorageService } from 'src/storage/storage.service';
 import { UpdatePostDto } from './dto/request/update-post.dto';
 import { PostCategoryResponseDto } from './dto/response/category.dto';
 import { PostDetailsResponseDto } from './dto/response/post-details.dto';
@@ -61,7 +62,8 @@ export class PostsAdminService {
 
   constructor(
     private prisma: PrismaService,
-    private queryBuilder: PostsQueryBuilder
+    private queryBuilder: PostsQueryBuilder,
+    private storageService: StorageService,
   ) {}
 
   private static mapToPostDetails(post: any): PostDetailsResponseDto {
@@ -172,23 +174,64 @@ export class PostsAdminService {
   async updatePostByAdmin(
     postId: number,
     updatePostDto: UpdatePostDto,
+    images: Express.Multer.File[] = [],
     adminUserId: string,
   ): Promise<PostDetailsResponseDto> {
+    // If files are uploaded but no thumbnailUrl is provided, handle file upload
+    if (images && images.length > 0 && !updatePostDto.thumbnailUrl) {
+      return this.handleFileUploadUpdate(postId, updatePostDto, images, adminUserId);
+    }
+    
     const dataToUpdate = this.buildUpdateData(updatePostDto, postId);
-
+    
     try {
       const updatedPost = await this.prisma.post.update({
         where: { id: postId },
         data: dataToUpdate,
         select: PostsAdminService.POST_DETAILS_SELECT
       });
-
-      this.logger.log(`Admin ${adminUserId} updated post ${postId}`);
+      
       return PostsAdminService.mapToPostDetails(updatedPost);
     } catch (error: any) {
       if (error.code === 'P2025') {
         throw new NotFoundException(`Post with ID ${postId} not found.`);
       }
+      throw error;
+    }
+  }
+
+  private async handleFileUploadUpdate(
+    postId: number, 
+    updatePostDto: UpdatePostDto, 
+    images: Express.Multer.File[], 
+    _adminUserId: string
+  ): Promise<PostDetailsResponseDto> {
+    try {
+      // Upload files to storage
+      const uploadResults = await this.storageService.uploadFiles(images, 'posts');
+      
+      // Use the first uploaded image as thumbnail
+      const newThumbnailUrl = uploadResults[0]?.url;
+      
+      if (newThumbnailUrl) {
+        // Update the DTO with the new thumbnail URL
+        const updatedDto = { ...updatePostDto, thumbnailUrl: newThumbnailUrl };
+        
+        // Build and apply the update
+        const dataToUpdate = this.buildUpdateData(updatedDto, postId);
+        
+        const updatedPost = await this.prisma.post.update({
+          where: { id: postId },
+          data: dataToUpdate,
+          select: PostsAdminService.POST_DETAILS_SELECT
+        });
+        
+        return PostsAdminService.mapToPostDetails(updatedPost);
+      } else {
+        throw new Error('Failed to upload thumbnail file');
+      }
+    } catch (error) {
+      this.logger.error(`Failed to handle file upload for post ${postId}:`, error);
       throw error;
     }
   }
@@ -213,9 +256,13 @@ export class PostsAdminService {
     }
 
     if (updatePostDto.categoryIds !== undefined) {
-      dataToUpdate.categories = {
-        set: updatePostDto.categoryIds.map((id) => ({ id })),
-      };
+      if (updatePostDto.categoryIds.length === 0) {
+        dataToUpdate.categories = { set: [] };
+      } else {
+        dataToUpdate.categories = {
+          set: updatePostDto.categoryIds.map((id) => ({ id })),
+        };
+      }
     }
 
     if (updatePostDto.videoUrl) {

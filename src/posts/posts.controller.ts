@@ -248,15 +248,17 @@ export class PostsController {
 
   @Patch('admin/:post_id')
   @Roles(Role.ADMIN)
+  @UseInterceptors(FilesInterceptor('images'))
   async adminUpdatePost(
     @Param('post_id', ParseIntPipe) postId: number,
     @Body(ValidationPipe) updatePostDto: UpdatePostDto,
-
+    @UploadedFiles() images: Express.Multer.File[],
     @CurrentUser() adminUser: CurrentUserType,
   ): Promise<PostDetailsResponseDto> {
     return this.postsAdminService.updatePostByAdmin(
       postId,
       updatePostDto,
+      images,
       adminUser.id,
     );
   }
