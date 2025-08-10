@@ -74,7 +74,7 @@ export class AutoPostGenerateService {
   ): Promise<string> {
     // 3. Call the OpenAI SDK
     const response = await this.openai.responses.parse({
-      model: 'gpt-4.1-nano-2025-04-14',
+      model: 'gpt-5-nano',
       instructions:
         'Generate a well formatted, concise and engaging social media and post based on the following title and description. Make sure the content quite long, a few hundreds words is enough, and is formatted in HTML and CSS',
       input: `Title: ${title}\nDescription: ${description}`,

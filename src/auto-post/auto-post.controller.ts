@@ -29,6 +29,7 @@ import {
   UpdateAutoPostDto,
   UpdateAutoPostStatusDto,
 } from './dto/auto-post.dto';
+import { EditAutoPostContent } from './dto/request/edit-auto-post-content';
 import { GenAutoPostsPayload } from './dto/request/gen-auto-posts-payload';
 
 @Controller('auto-post')
@@ -38,6 +39,12 @@ export class AutoPostController {
     private readonly autoPostService: AutoPostService,
     private readonly genService: AutoPostGenerateServiceV2,
   ) {}
+
+  @Post('edit-content')
+  @UseGuards(JwtAuthGuard)
+  async editAutoPostContent(@Body() body: EditAutoPostContent) {
+    return this.genService.editAutoPostContent(body);
+  }
 
   @Post('generate')
   @UseGuards(JwtAuthGuard)

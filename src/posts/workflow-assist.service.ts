@@ -112,7 +112,7 @@ export class WorkflowAssistService {
 
     // 3. Call the OpenAI SDK
     const response = await this.openai.responses.parse({
-      model: 'gpt-4.1-nano-2025-04-14',
+      model: 'gpt-5-nano',
       input: inputSequence,
       text: {
         format: zodTextFormat(PostMetadata, 'post_metadata'),

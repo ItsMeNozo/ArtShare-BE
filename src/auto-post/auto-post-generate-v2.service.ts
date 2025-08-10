@@ -7,12 +7,14 @@ import { AutoPost } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { UsageService } from 'src/usage/usage.service';
 import { z } from 'zod';
+import { EditAutoPostContent } from './dto/request/edit-auto-post-content';
 import { GenAutoPostsPayload } from './dto/request/gen-auto-posts-payload';
 
 @Injectable()
 export class AutoPostGenerateServiceV2 {
   private readonly openai: OpenAI;
   textCost = 2;
+  private readonly MODEL: string = 'gpt-5-nano';
 
   constructor(
     private readonly configService: ConfigService,
@@ -22,6 +24,33 @@ export class AutoPostGenerateServiceV2 {
     this.openai = new OpenAI({
       apiKey: this.configService.get<string>('OPEN_AI_SECRET_KEY'),
     });
+  }
+
+  async editAutoPostContent(payload: EditAutoPostContent): Promise<string> {
+    const { seedPrompt } = payload;
+
+    const instructions = `
+      You are an expert social media content creator.
+      Your task is to edit an existing social media post based on a prompt.
+      The prompt could contain a short prompt or the existing content with or without additional context.
+    `;
+
+    const response = await this.openai.responses.parse({
+      model: this.MODEL,
+      instructions: instructions,
+      input: seedPrompt,
+      text: {
+        format: zodTextFormat(AutoPostResponseSchema, 'editedPosts'),
+      },
+    });
+
+    if (!response.output_parsed) {
+      throw new InternalServerErrorException(
+        'Failed to parse AI response. The response may be malformed.',
+      );
+    }
+
+    return response.output_parsed.content;
   }
 
   async generateAutoPosts(
@@ -81,7 +110,7 @@ export class AutoPostGenerateServiceV2 {
     `;
 
     const response = await this.openai.responses.parse({
-      model: 'gpt-4.1-nano-2025-04-14',
+      model: this.MODEL,
       instructions: instructions,
       input: contentPrompt,
       text: {
