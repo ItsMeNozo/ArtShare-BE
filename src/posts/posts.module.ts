@@ -14,11 +14,13 @@ import { PostsManagementService } from './posts-management.service';
 import { PostsController } from './posts.controller';
 import { PostsManagementValidator } from './validator/posts-management.validator';
 import { WorkflowAssistService } from './workflow-assist.service';
+import { PostsQueryBuilder } from './utils/posts-query-builder';
 
 @Module({
   imports: [AuthModule, EmbeddingModule, LikesModule, UsageModule, UserModule],
   providers: [
     PostsExploreService,
+    PostsQueryBuilder,
     PostsManagementService,
     StorageService,
     S3StorageProvider,
