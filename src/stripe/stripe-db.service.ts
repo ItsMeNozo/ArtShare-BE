@@ -91,6 +91,7 @@ export class StripeDbService {
     stripePriceId: string | null;
     stripeCustomerId: string | null;
     cancelAtPeriodEnd: boolean;
+    monthlyResetDay?: number | null;
   }): Promise<UserAccess> {
     this.logger.log(
       `Upserting UserAccess for ${data.userId}. Plan: ${data.planId}, Expires: ${data.expiresAt?.toISOString()}, CancelAtEnd: ${data.cancelAtPeriodEnd}`,
@@ -104,6 +105,7 @@ export class StripeDbService {
         stripePriceId: data.stripePriceId,
         stripeCustomerId: data.stripeCustomerId,
         cancelAtPeriodEnd: data.cancelAtPeriodEnd,
+        monthlyResetDay: data.monthlyResetDay ?? null,
       },
       create: {
         userId: data.userId,
@@ -113,6 +115,7 @@ export class StripeDbService {
         stripePriceId: data.stripePriceId,
         stripeCustomerId: data.stripeCustomerId,
         cancelAtPeriodEnd: data.cancelAtPeriodEnd,
+        monthlyResetDay: data.monthlyResetDay ?? null,
       },
     });
   }

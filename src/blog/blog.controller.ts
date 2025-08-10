@@ -38,6 +38,7 @@ import { BlogListItemResponseDto } from './dto/response/blog-list-item.dto';
 import { BookmarkResponseDto } from './dto/response/bookmark-response.dto';
 import { ProtectResponseDto } from './dto/response/protect-response.dto';
 import { RatingResponseDto } from './dto/response/rating-response.dto';
+import { BlogListItem2ResponseDto } from './dto/response/blog-list-item-2.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('blogs')
@@ -57,7 +58,7 @@ export class BlogController {
   async getTrendingBlogs(
     @Query() query: GetBlogsQueryDto,
     @CurrentUser() user?: CurrentUserType,
-  ): Promise<PaginatedResponse<BlogListItemResponseDto>> {
+  ): Promise<PaginatedResponse<BlogListItem2ResponseDto>> {
     return this.blogExploreService.getTrendingBlogs(query, user?.id);
   }
 
