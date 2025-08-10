@@ -42,6 +42,8 @@ import { PostsEmbeddingService } from './posts-embedding.service';
 import { PostsExploreService } from './posts-explore.service';
 import { PostsManagementService } from './posts-management.service';
 import { WorkflowAssistService } from './workflow-assist.service';
+import { PostDetailForViewDto } from './dto/response/post-details-view.dto';
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 
 @Controller('posts')
 @UseGuards(JwtAuthGuard)
@@ -107,6 +109,9 @@ export class PostsController {
 
   @Public()
   @Get('trending')
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey('posts-trending')
+  @CacheTTL(60 * 1000) // 1 minutes
   async getTrendingPosts(
     @Query() query: GetPostsDto,
     @CurrentUser() user?: CurrentUserType,
@@ -139,6 +144,15 @@ export class PostsController {
     @CurrentUser() user?: CurrentUserType,
   ): Promise<PostDetailsResponseDto> {
     return this.postsExploreService.getPostDetails(postId, user?.id ?? '');
+  }
+
+  @Public()
+  @Get(':post_id/view')
+  async getPostDetailsForView(
+    @Param('post_id', ParseIntPipe) postId: number,
+    @CurrentUser() user?: CurrentUserType,
+  ): Promise<PostDetailForViewDto> {
+    return this.postsExploreService.getPostDetailsForView(postId, user?.id ?? '');
   }
 
   @Public()
@@ -238,15 +252,17 @@ export class PostsController {
 
   @Patch('admin/:post_id')
   @Roles(Role.ADMIN)
+  @UseInterceptors(FilesInterceptor('images'))
   async adminUpdatePost(
     @Param('post_id', ParseIntPipe) postId: number,
     @Body(ValidationPipe) updatePostDto: UpdatePostDto,
-
+    @UploadedFiles() images: Express.Multer.File[],
     @CurrentUser() adminUser: CurrentUserType,
   ): Promise<PostDetailsResponseDto> {
     return this.postsAdminService.updatePostByAdmin(
       postId,
       updatePostDto,
+      images,
       adminUser.id,
     );
   }

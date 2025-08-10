@@ -36,6 +36,8 @@ import { AutoProjectModule } from './auto-project/auto-project.module';
 import embeddingConfig from './config/embedding.config';
 import { CacheModule } from './infastructure/simple-cache.module';
 import { PlatformModule } from './platform/platform.module';
+import { CacheModule as CacheManagerModule } from '@nestjs/cache-manager';
+
 
 @Module({
   imports: [
@@ -44,6 +46,10 @@ import { PlatformModule } from './platform/platform.module';
       load: [embeddingConfig],
       cache: true,
       envFilePath: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
+    }),
+    CacheManagerModule.register({
+      ttl: 5 * 60 * 1000, 
+      max: 100,
     }),
     EventEmitterModule.forRoot(),
     UserModule,

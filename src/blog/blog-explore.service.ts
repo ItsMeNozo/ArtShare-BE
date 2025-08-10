@@ -22,9 +22,12 @@ import { BlogDetailsResponseDto } from './dto/response/blog-details.dto';
 import { BlogListItemResponseDto } from './dto/response/blog-list-item.dto';
 import {
   BlogForListItemPayload,
+  blogListItemNecessaryField,
   blogListItemSelect,
   mapBlogToDetailsDto,
 } from './helpers/blog-mapping.helper';
+import { BlogListItem2ResponseDto } from './dto/response/blog-list-item-2.dto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class BlogExploreService {
@@ -40,6 +43,7 @@ export class BlogExploreService {
     private readonly qdrantClient: QdrantClient,
     @Inject(embeddingConfig.KEY)
     private embeddingConf: ConfigType<typeof embeddingConfig>,
+    private readonly eventEmitter: EventEmitter2,
   ) {
     this.blogsCollectionName = this.embeddingConf.blogsCollectionName;
   }
@@ -149,9 +153,8 @@ export class BlogExploreService {
     }
 
     // Increment view count for accessible blogs
-    await this.prisma.blog.update({
-      where: { id },
-      data: { viewCount: { increment: 1 } },
+    this.eventEmitter.emitAsync('blog.viewed', {
+      blogId: id,
     });
 
     return mapBlogToDetailsDto(blog, requestingUserId);
@@ -206,7 +209,7 @@ export class BlogExploreService {
   async getTrendingBlogs(
     queryDto: GetBlogsQueryDto,
     requestingUserId?: string | null,
-  ): Promise<PaginatedResponse<BlogListItemResponseDto>> {
+  ): Promise<PaginatedResponse<BlogListItem2ResponseDto>> {
     const { page = 1, limit = 10, categories } = queryDto;
     const baseWhere: Prisma.BlogWhereInput = {
       ...this.BLOG_VISIBILITY_FILTER,
@@ -218,10 +221,10 @@ export class BlogExploreService {
       categories,
     );
 
-    const [blogs, totalBlogs] = await this.prisma.$transaction([
+    const [blogs, totalBlogs] = await Promise.all([
       this.prisma.blog.findMany({
         where: finalWhere,
-        select: blogListItemSelect,
+        select: blogListItemNecessaryField,
         orderBy: [
           { likeCount: 'desc' },
           { commentCount: 'desc' },

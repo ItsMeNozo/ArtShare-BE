@@ -17,9 +17,13 @@ import { PostDetailsResponseDto } from './dto/response/post-details.dto';
 import { PostListItemResponse } from './dto/response/post-list-item.dto';
 import {
   mapPostListToDto,
+  mapPostToDetailViewDto,
   mapPostToDto,
+  postItemSelect,
   PostWithRelations,
 } from './mapper/posts-explore.mapper';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { PostDetailForViewDto } from './dto/response/post-details-view.dto';
 
 @Injectable()
 export class PostsExploreService {
@@ -31,6 +35,7 @@ export class PostsExploreService {
     private readonly qdrantClient: QdrantClient,
     @Inject(embeddingConfig.KEY)
     private embeddingConf: ConfigType<typeof embeddingConfig>,
+    private readonly eventEmitter: EventEmitter2,
   ) {
     this.postsCollectionName = this.embeddingConf.postsCollectionName;
   }
@@ -168,12 +173,29 @@ export class PostsExploreService {
       throw new NotFoundException('Post not found');
     }
 
-    // update the view count
-    await this.prisma.post.update({
-      where: { id: postId },
-      data: { viewCount: { increment: 1 } },
-    });
     return mapPostToDto(post);
+  }
+
+  @TryCatch()
+  async getPostDetailsForView(
+    postId: number,
+    userId: string,
+  ): Promise<PostDetailForViewDto> {
+    const post = await this.prisma.post.findUnique({
+      where: { id: postId },
+      select: this.buildPostIncludesForViewDetails(userId),
+    });
+
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+
+    // update the view count
+    this.eventEmitter.emitAsync('post.viewed', {
+      postId: postId,
+    });
+
+    return mapPostToDetailViewDto(post);
   }
 
   @TryCatch()
@@ -378,6 +400,32 @@ export class PostsExploreService {
       medias: true,
       user: true,
       categories: true,
+      likes: {
+        where: { userId: userId },
+        take: 1,
+        select: { id: true }, // only need existence
+      },
+    };
+  };
+
+  private buildPostIncludesForViewDetails = (
+    userId: string,
+  ): Prisma.PostInclude => {
+    return {
+      ...postItemSelect,
+      medias: {
+        select: {
+          url: true,
+          mediaType: true,
+        },
+      },
+      user: {
+        select: {
+          username: true,
+          fullName: true,
+          profilePictureUrl: true,
+        },
+      },
       likes: {
         where: { userId: userId },
         take: 1,

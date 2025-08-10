@@ -1,19 +1,21 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
+import { StorageService } from 'src/storage/storage.service';
 import { UpdatePostDto } from './dto/request/update-post.dto';
 import { PostCategoryResponseDto } from './dto/response/category.dto';
-import { MediaResponseDto } from './dto/response/media.dto';
 import { PostDetailsResponseDto } from './dto/response/post-details.dto';
-import { UserResponseDto } from './dto/response/user.dto';
+import { PostsQueryBuilder } from './utils/posts-query-builder';
 
 export class AdminPostListItemUserDto {
   id: string;
   username: string;
   profilePictureUrl?: string | null;
 }
+
 export class AdminPostListItemDto {
   id: number;
   userId: string;
@@ -22,6 +24,7 @@ export class AdminPostListItemDto {
   thumbnailUrl: string;
   isPublished: boolean;
   isPrivate: boolean;
+  aiCreated: boolean;
   likeCount: number;
   shareCount: number;
   commentCount: number;
@@ -31,37 +34,41 @@ export class AdminPostListItemDto {
   categories: PostCategoryResponseDto[];
 }
 
-type PrismaPostForDetails = Prisma.PostGetPayload<{
-  include: {
-    user: true;
-    medias: true;
-    categories: true;
-  };
-}>;
-
-type PrismaPostForList = Prisma.PostGetPayload<{
-  include: {
-    user: true;
-    categories: true;
-  };
-}>;
-
 @Injectable()
 export class PostsAdminService {
   private readonly logger = new Logger(PostsAdminService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  private static readonly POST_DETAILS_SELECT = {
+    id: true,
+    userId: true,
+    title: true,
+    description: true,
+    thumbnailUrl: true,
+    isPublished: true,
+    isPrivate: true,
+    likeCount: true,
+    shareCount: true,
+    commentCount: true,
+    createdAt: true,
+    user: {
+      select: { id: true, username: true, fullName: true, profilePictureUrl: true }
+    },
+    medias: {
+      select: { mediaType: true, description: true, url: true, creatorId: true, downloads: true, createdAt: true }
+    },
+    categories: {
+      select: { id: true, name: true, type: true }
+    }
+  };
 
-  private mapPrismaPostToPostDetailsDto(
-    post: PrismaPostForDetails,
-  ): PostDetailsResponseDto {
-    const userDto = new UserResponseDto();
-    userDto.id = post.user.id;
-    userDto.username = post.user.username;
-    userDto.fullName = post.user.fullName ?? '';
-    userDto.profilePictureUrl = post.user.profilePictureUrl ?? '';
+  constructor(
+    private prisma: PrismaService,
+    private queryBuilder: PostsQueryBuilder,
+    private storageService: StorageService,
+  ) {}
 
-    return {
+  private static mapToPostDetails(post: any): PostDetailsResponseDto {
+    return plainToInstance(PostDetailsResponseDto, {
       id: post.id,
       userId: post.userId,
       title: post.title,
@@ -73,30 +80,24 @@ export class PostsAdminService {
       shareCount: post.shareCount,
       commentCount: post.commentCount,
       createdAt: post.createdAt,
-      medias: post.medias.map((media): MediaResponseDto => {
-        const mediaDto = new MediaResponseDto();
-        mediaDto.mediaType = media.mediaType;
-        mediaDto.description = media.description ?? undefined;
-        mediaDto.url = media.url;
-        mediaDto.creatorId = media.creatorId;
-        mediaDto.downloads = media.downloads;
-        mediaDto.createdAt = media.createdAt;
-        return mediaDto;
-      }),
-      user: userDto,
-      categories: post.categories.map((category): PostCategoryResponseDto => {
-        const categoryDto = new PostCategoryResponseDto();
-        categoryDto.id = category.id;
-        categoryDto.name = category.name;
-        categoryDto.type = category.type;
-        return categoryDto;
-      }),
-    };
+      medias: post.medias?.map((media: any) => ({
+        mediaType: media.mediaType,
+        description: media.description ?? undefined,
+        url: media.url,
+        creatorId: media.creatorId,
+        downloads: media.downloads,
+        createdAt: media.createdAt,
+      })) || [],
+      user: post.user, // Include all user data, let class-transformer handle exclusions
+      categories: post.categories?.map((category: any) => ({
+        id: category.id,
+        name: category.name,
+        type: category.type,
+      })) || [],
+    });
   }
 
-  private mapPrismaPostToAdminPostListItemDto(
-    post: PrismaPostForList,
-  ): AdminPostListItemDto {
+  private static mapToAdminListItem(post: any): AdminPostListItemDto {
     return {
       id: post.id,
       userId: post.userId,
@@ -105,6 +106,7 @@ export class PostsAdminService {
       thumbnailUrl: post.thumbnailUrl,
       isPublished: post.isPublished,
       isPrivate: post.isPrivate,
+      aiCreated: post.aiCreated,
       likeCount: post.likeCount,
       shareCount: post.shareCount,
       commentCount: post.commentCount,
@@ -115,169 +117,166 @@ export class PostsAdminService {
         username: post.user.username,
         profilePictureUrl: post.user.profilePictureUrl,
       },
-      categories: post.categories.map((category) => ({
+      categories: post.categories?.map((category: any) => ({
         id: category.id,
         name: category.name,
         type: category.type,
-      })),
+      })) || [],
     };
   }
 
-  async getAllPostsForAdmin(
-    params: PaginationQueryDto,
-  ): Promise<PaginatedResponse<AdminPostListItemDto>> {
-    const {
-      page = 1,
-      limit = 10,
-      search,
-      sortBy = 'createdAt',
-      sortOrder = 'desc',
-      filter,
-    } = params;
-
-    const { userId, isPublished, isPrivate, categoryId, aiCreated } =
-      filter || {};
-
-    const skip = (page - 1) * limit;
-    const where: Prisma.PostWhereInput = {};
-
-    if (search) {
-      where.OR = [
-        { title: { contains: search, mode: 'insensitive' } },
-        { description: { contains: search, mode: 'insensitive' } },
-        { user: { username: { contains: search, mode: 'insensitive' } } },
-      ];
-    }
-    if (userId) where.userId = userId;
-    if (isPublished !== undefined) where.isPublished = isPublished;
-    if (isPrivate !== undefined) where.isPrivate = isPrivate;
-    if (categoryId) {
-      where.categories = { some: { id: categoryId } };
-    }
-    if (aiCreated !== undefined) {
-      where.aiCreated = aiCreated;
-    }
-
-    const validSortByFields = [
-      'createdAt',
-      'title',
-      'viewCount',
-      'likeCount',
-      'commentCount',
-      'updatedAt',
-    ];
-    const orderByField = validSortByFields.includes(sortBy)
-      ? sortBy
-      : 'createdAt';
-
-    const [prismaPosts, total] = await this.prisma.$transaction([
+  async getAllPostsForAdmin(params: PaginationQueryDto): Promise<PaginatedResponse<AdminPostListItemDto>> {
+    const { page = 1, limit = 10, search, sortBy = 'createdAt', sortOrder = 'desc', filter } = params;
+    
+    const where = this.queryBuilder.buildSearchOptimizedWhere({ search, ...filter });
+    const orderBy = this.queryBuilder.buildOrderBy(sortBy, sortOrder);
+    
+    const useApproximate = !search && page === 1;
+    
+    const [posts, total] = await Promise.all([
       this.prisma.post.findMany({
         where,
-        skip,
+        skip: (page - 1) * limit,
         take: limit,
-        orderBy: { [orderByField]: sortOrder },
-        include: { user: true, categories: true },
+        orderBy,
+        select: this.queryBuilder.getAdminPostSelectFields()
       }),
-      this.prisma.post.count({ where }),
+      this.queryBuilder.getOptimizedCount(where, useApproximate)
     ]);
 
-    const responsePosts: AdminPostListItemDto[] = prismaPosts.map((p) =>
-      this.mapPrismaPostToAdminPostListItemDto(p as PrismaPostForList),
-    );
+    const responsePosts = posts.map(PostsAdminService.mapToAdminListItem);
+    
+    return this.queryBuilder.formatPaginatedResponse(responsePosts, total, page, limit);
+  }
 
-    const totalPages = Math.ceil(total / limit);
+  async getPostByIdForAdmin(postId: number): Promise<PostDetailsResponseDto> {
+    const post = await this.prisma.post.findUnique({
+      where: { id: postId },
+      select: PostsAdminService.POST_DETAILS_SELECT
+    });
 
-    return {
-      data: responsePosts,
-      total,
-      page,
-      limit,
-      totalPages,
-      hasNextPage: page < totalPages,
-    };
+    if (!post) {
+      throw new NotFoundException(`Post with ID ${postId} not found.`);
+    }
+
+    return PostsAdminService.mapToPostDetails(post);
   }
 
   async updatePostByAdmin(
     postId: number,
     updatePostDto: UpdatePostDto,
+    images: Express.Multer.File[] = [],
     adminUserId: string,
   ): Promise<PostDetailsResponseDto> {
-    const existingPost = await this.prisma.post.findUnique({
-      where: { id: postId },
-    });
-    if (!existingPost)
-      throw new NotFoundException(`Post with ID ${postId} not found.`);
+    // If files are uploaded but no thumbnailUrl is provided, handle file upload
+    if (images && images.length > 0 && !updatePostDto.thumbnailUrl) {
+      return this.handleFileUploadUpdate(postId, updatePostDto, images, adminUserId);
+    }
+    
+    const dataToUpdate = this.buildUpdateData(updatePostDto, postId);
+    
+    try {
+      const updatedPost = await this.prisma.post.update({
+        where: { id: postId },
+        data: dataToUpdate,
+        select: PostsAdminService.POST_DETAILS_SELECT
+      });
+      
+      return PostsAdminService.mapToPostDetails(updatedPost);
+    } catch (error: any) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`Post with ID ${postId} not found.`);
+      }
+      throw error;
+    }
+  }
 
-    this.logger.log(
-      `Admin ${adminUserId} updating post ${postId} with data: ${JSON.stringify(updatePostDto)}`,
-    );
+  private async handleFileUploadUpdate(
+    postId: number, 
+    updatePostDto: UpdatePostDto, 
+    images: Express.Multer.File[], 
+    _adminUserId: string
+  ): Promise<PostDetailsResponseDto> {
+    try {
+      // Upload files to storage
+      const uploadResults = await this.storageService.uploadFiles(images, 'posts');
+      
+      // Use the first uploaded image as thumbnail
+      const newThumbnailUrl = uploadResults[0]?.url;
+      
+      if (newThumbnailUrl) {
+        // Update the DTO with the new thumbnail URL
+        const updatedDto = { ...updatePostDto, thumbnailUrl: newThumbnailUrl };
+        
+        // Build and apply the update
+        const dataToUpdate = this.buildUpdateData(updatedDto, postId);
+        
+        const updatedPost = await this.prisma.post.update({
+          where: { id: postId },
+          data: dataToUpdate,
+          select: PostsAdminService.POST_DETAILS_SELECT
+        });
+        
+        return PostsAdminService.mapToPostDetails(updatedPost);
+      } else {
+        throw new Error('Failed to upload thumbnail file');
+      }
+    } catch (error) {
+      this.logger.error(`Failed to handle file upload for post ${postId}:`, error);
+      throw error;
+    }
+  }
 
+  private buildUpdateData(updatePostDto: UpdatePostDto, postId: number): Prisma.PostUpdateInput {
     const dataToUpdate: Prisma.PostUpdateInput = {};
 
     if (updatePostDto.title) dataToUpdate.title = updatePostDto.title;
-    if (updatePostDto.description)
-      dataToUpdate.description = updatePostDto.description;
-    if (updatePostDto.isMature !== undefined)
-      dataToUpdate.isMature = updatePostDto.isMature;
-    if (updatePostDto.aiCreated !== undefined)
-      dataToUpdate.aiCreated = updatePostDto.aiCreated;
-    if (updatePostDto.thumbnailUrl !== undefined)
-      dataToUpdate.thumbnailUrl = updatePostDto.thumbnailUrl;
+    if (updatePostDto.description) dataToUpdate.description = updatePostDto.description;
+    if (updatePostDto.isMature !== undefined) dataToUpdate.isMature = updatePostDto.isMature;
+    if (updatePostDto.aiCreated !== undefined) dataToUpdate.aiCreated = updatePostDto.aiCreated;
+    if (updatePostDto.thumbnailUrl !== undefined) dataToUpdate.thumbnailUrl = updatePostDto.thumbnailUrl;
 
     if (updatePostDto.thumbnailCropMeta !== undefined) {
       try {
-        dataToUpdate.thumbnailCropMeta =
-          typeof updatePostDto.thumbnailCropMeta === 'string'
-            ? JSON.parse(updatePostDto.thumbnailCropMeta)
-            : updatePostDto.thumbnailCropMeta;
-      } catch (e) {
-        this.logger.warn(
-          `Invalid JSON for thumbnailCropMeta for post ${postId}: ${updatePostDto.thumbnailCropMeta}. Using default or existing value. Error: ${e}`,
-        );
+        dataToUpdate.thumbnailCropMeta = typeof updatePostDto.thumbnailCropMeta === 'string'
+          ? JSON.parse(updatePostDto.thumbnailCropMeta)
+          : updatePostDto.thumbnailCropMeta;
+      } catch (e: any) {
+        this.logger.warn(`Invalid thumbnailCropMeta for post ${postId}: ${e.message}`);
+      }
+    }
+
+    if (updatePostDto.categoryIds !== undefined) {
+      if (updatePostDto.categoryIds.length === 0) {
+        dataToUpdate.categories = { set: [] };
+      } else {
+        dataToUpdate.categories = {
+          set: updatePostDto.categoryIds.map((id) => ({ id })),
+        };
       }
     }
 
     if (updatePostDto.videoUrl) {
-      this.logger.warn(
-        `'video_url' provided for post ${postId}. This field will be ignored for direct Post update.`,
-      );
-    }
-    if (updatePostDto.existingImageUrls) {
-      this.logger.log(
-        `Post ${postId}: 'existingImageUrls' received. Full media management logic is not implemented.`,
-      );
+      this.logger.warn(`video_url ignored for post ${postId} - use media management`);
     }
 
-    if (updatePostDto.categoryIds !== undefined) {
-      dataToUpdate.categories = {
-        set: updatePostDto.categoryIds.map((id) => ({ id })),
-      };
-    }
-
-    const updatedPostPrisma = await this.prisma.post.update({
-      where: { id: postId },
-      data: dataToUpdate,
-      include: { user: true, medias: true, categories: true },
-    });
-
-    return this.mapPrismaPostToPostDetailsDto(
-      updatedPostPrisma as PrismaPostForDetails,
-    );
+    return dataToUpdate;
   }
 
   async deletePostByAdmin(
     postId: number,
     adminUserId: string,
   ): Promise<{ success: boolean; message?: string }> {
-    const existingPost = await this.prisma.post.findUnique({
-      where: { id: postId },
-    });
-    if (!existingPost)
-      throw new NotFoundException(`Post with ID ${postId} not found.`);
-
-    await this.prisma.post.delete({ where: { id: postId } });
-    this.logger.log(`Admin ${adminUserId} deleted post ${postId}.`);
-    return { success: true, message: `Post ${postId} deleted successfully.` };
+    try {
+      await this.prisma.post.delete({ where: { id: postId } });
+      this.logger.log(`Admin ${adminUserId} deleted post ${postId}`);
+      return { success: true, message: `Post ${postId} deleted successfully.` };
+    } catch (error: any) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`Post with ID ${postId} not found.`);
+      }
+      throw error;
+    }
   }
 
   async bulkUpdatePublishStatus(
@@ -285,13 +284,14 @@ export class PostsAdminService {
     publish: boolean,
     adminUserId: string,
   ): Promise<{ count: number }> {
-    this.logger.log(
-      `Admin ${adminUserId} is ${publish ? 'publishing' : 'unpublishing'} posts: ${postIds.join(', ')}`,
-    );
+    if (postIds.length === 0) return { count: 0 };
+
     const result = await this.prisma.post.updateMany({
       where: { id: { in: postIds } },
       data: { isPublished: publish, updatedAt: new Date() },
     });
+
+    this.logger.log(`Admin ${adminUserId} ${publish ? 'published' : 'unpublished'} ${result.count}/${postIds.length} posts`);
     return { count: result.count };
   }
 
@@ -299,12 +299,50 @@ export class PostsAdminService {
     postIds: number[],
     adminUserId: string,
   ): Promise<{ count: number }> {
-    this.logger.log(
-      `Admin ${adminUserId} is deleting posts: ${postIds.join(', ')}`,
-    );
+    if (postIds.length === 0) return { count: 0 };
+
     const result = await this.prisma.post.deleteMany({
-      where: { id: { in: postIds } },
+      where: { id: { in: postIds } }
     });
+
+    this.logger.log(`Admin ${adminUserId} deleted ${result.count}/${postIds.length} posts`);
     return { count: result.count };
+  }
+
+  async getPostsStats(filters?: any) {
+    const where = this.queryBuilder.buildWhereClause(filters || {});
+    return this.queryBuilder.getAggregatedStats(where);
+  }
+
+  async bulkUpdateCategories(
+    postIds: number[],
+    categoryIds: number[],
+    adminUserId: string,
+  ): Promise<{ count: number }> {
+    if (postIds.length === 0) return { count: 0 };
+
+    let updatedCount = 0;
+    
+    await this.prisma.$transaction(async (tx) => {
+      for (const postId of postIds) {
+        try {
+          await tx.post.update({
+            where: { id: postId },
+            data: {
+              categories: { set: categoryIds.map(id => ({ id })) },
+              updatedAt: new Date()
+            }
+          });
+          updatedCount++;
+         } catch (error) {
+          this.logger.error(
+            `Failed to update categories for post ${postId}: ${error instanceof Error ? error.message : error}`,
+          );
+        }
+      }
+    });
+
+    this.logger.log(`Admin ${adminUserId} updated categories for ${updatedCount}/${postIds.length} posts`);
+    return { count: updatedCount };
   }
 }

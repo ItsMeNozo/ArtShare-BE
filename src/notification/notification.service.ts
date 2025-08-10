@@ -484,4 +484,34 @@ export class NotificationService {
       );
     }
   }
+
+  @OnEvent('post.viewed')
+  async handlePostViewedEvent(payload: { postId: number }) {
+    try {
+      await this.prisma.post.update({
+        where: { id: payload.postId },
+        data: { viewCount: { increment: 1 } },
+      });
+    } catch (error) {
+      this.logger.error(
+        `Failed to increment view count for post ID ${payload.postId}:`,
+        (error as Error).stack,
+      );
+    }
+  }
+
+  @OnEvent('blog.viewed')
+  async handleBlogViewedEvent(payload: { blogId: number }) {
+    try {
+      await this.prisma.blog.update({
+        where: { id: payload.blogId },
+        data: { viewCount: { increment: 1 } },
+      });
+    } catch (error) {
+      this.logger.error(
+        `Failed to increment view count for post ID ${payload.blogId}:`,
+        (error as Error).stack,
+      );
+    }
+  }
 }

@@ -11,8 +11,8 @@ export const subscriptionInfoResponseMapper = (
 ): SubscriptionInfoResponseDto => {
   return {
     plan: SubscriptionPlan[plan.id],
-    aiCreditRemaining: plan.dailyQuotaCredits - userUsage.usedAmount,
-    dailyAiCreditLimit: plan.dailyQuotaCredits,
+    aiCreditRemaining: plan.monthlyQuotaCredits - userUsage.usedAmount,
+    dailyAiCreditLimit: plan.monthlyQuotaCredits,
     createdAt: access.createdAt,
     expiresAt: access.expiresAt,
   };
