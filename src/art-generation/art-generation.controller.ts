@@ -40,8 +40,8 @@ export class ArtGenerationController {
   ): Promise<ImageGenerationResponseDto> {
     return await this.artGenerationService.generateImages(
       imageGenerationDto,
-      seedImage,
       user.id,
+      seedImage,
     );
   }
 

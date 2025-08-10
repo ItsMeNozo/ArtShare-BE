@@ -39,8 +39,8 @@ export class ArtGenerationService {
 
   async generateImages(
     dto: ImageGenerationDto,
-    seedImage: Express.Multer.File,
     userId: string,
+    seedImage?: Express.Multer.File,
   ): Promise<ImageGenerationResponseDto> {
     const { modelKey, prompt, n, aspectRatio } = dto;
 
