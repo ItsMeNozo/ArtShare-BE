@@ -156,15 +156,6 @@ export class PostsController {
   }
 
   @Public()
-  @Get(':post_id/view')
-  async getPostDetailsForView(
-    @Param('post_id', ParseIntPipe) postId: number,
-    @CurrentUser() user?: CurrentUserType,
-  ): Promise<PostDetailForViewDto> {
-    return this.postsExploreService.getPostDetailsForView(postId, user?.id ?? '');
-  }
-
-  @Public()
   @Get('user/:username')
   async findPostsByUsername(
     @Param('username') username: string,
