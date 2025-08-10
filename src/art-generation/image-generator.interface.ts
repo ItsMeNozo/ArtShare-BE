@@ -17,4 +17,6 @@ export type ImageGenerationOptions = {
   prompt: string;
   n: number;
   aspectRatio: AspectRatio;
+  quality: 'low' | 'medium' | 'high';
+  seedImage?: Express.Multer.File;
 };
