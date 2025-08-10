@@ -18,10 +18,14 @@ import { PostListItemResponse } from './dto/response/post-list-item.dto';
 import {
   mapPostListToDto,
   mapPostToDetailViewDto,
+  mapPostToDetailViewDto,
   mapPostToDto,
+  postItemSelect,
   postItemSelect,
   PostWithRelations,
 } from './mapper/posts-explore.mapper';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { PostDetailForViewDto } from './dto/response/post-details-view.dto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PostDetailForViewDto } from './dto/response/post-details-view.dto';
 
@@ -35,6 +39,7 @@ export class PostsExploreService {
     private readonly qdrantClient: QdrantClient,
     @Inject(embeddingConfig.KEY)
     private embeddingConf: ConfigType<typeof embeddingConfig>,
+    private readonly eventEmitter: EventEmitter2,
     private readonly eventEmitter: EventEmitter2,
   ) {
     this.postsCollectionName = this.embeddingConf.postsCollectionName;
@@ -174,6 +179,30 @@ export class PostsExploreService {
     }
 
     return mapPostToDto(post);
+  }
+
+  @TryCatch()
+  async getPostDetailsForView(
+    postId: number,
+    userId: string,
+  ): Promise<PostDetailForViewDto> {
+    const post = await this.prisma.post.findUnique({
+      where: { id: postId },
+      select: this.buildPostIncludesForViewDetails(userId),
+    });
+
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+
+    // update the view count
+    this.eventEmitter.emitAsync('post.viewed', {
+      postId: postId,
+    this.eventEmitter.emitAsync('post.viewed', {
+      postId: postId,
+    });
+
+    return mapPostToDetailViewDto(post);
   }
 
   @TryCatch()

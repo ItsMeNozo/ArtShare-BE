@@ -325,6 +325,7 @@ model UserAccess {
   createdAt            DateTime        @default(now()) @map("created_at")
   updatedAt            DateTime?       @updatedAt @map("updated_at")
   cancelAtPeriodEnd    Boolean         @default(false) @map("cancel_at_period_end")
+  monthlyResetDay      Int?            @map("monthly_reset_day")
   plan                 Plan            @relation(fields: [planId], references: [id])
   user                 User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -338,8 +339,7 @@ model Plan {
   description             String?
   stripeProductId         String?         @unique @map("stripe_product_id")
   imageQualityAllowed     ImageQuality    @default(LOW) @map("image_quality_allowed")
-  monthlyQuotaCredits     Int?            @map("monthly_quota_credits")
-  dailyQuotaCredits       Int             @map("daily_quota_credits")
+  monthlyQuotaCredits     Int             @map("monthly_quota_credits")
   storageQuotaMB          Int?            @map("storage_quota_mb")
   maxTeamSeats            Int             @default(1) @map("max_team_seats")
   allowHighResolution     Boolean         @default(false) @map("allow_high_resolution")

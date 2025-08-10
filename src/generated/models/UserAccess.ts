@@ -19,8 +19,18 @@ export type UserAccessModel = runtime.Types.Result.DefaultSelection<Prisma.$User
 
 export type AggregateUserAccess = {
   _count: UserAccessCountAggregateOutputType | null
+  _avg: UserAccessAvgAggregateOutputType | null
+  _sum: UserAccessSumAggregateOutputType | null
   _min: UserAccessMinAggregateOutputType | null
   _max: UserAccessMaxAggregateOutputType | null
+}
+
+export type UserAccessAvgAggregateOutputType = {
+  monthlyResetDay: number | null
+}
+
+export type UserAccessSumAggregateOutputType = {
+  monthlyResetDay: number | null
 }
 
 export type UserAccessMinAggregateOutputType = {
@@ -33,6 +43,7 @@ export type UserAccessMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   cancelAtPeriodEnd: boolean | null
+  monthlyResetDay: number | null
 }
 
 export type UserAccessMaxAggregateOutputType = {
@@ -45,6 +56,7 @@ export type UserAccessMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   cancelAtPeriodEnd: boolean | null
+  monthlyResetDay: number | null
 }
 
 export type UserAccessCountAggregateOutputType = {
@@ -57,9 +69,18 @@ export type UserAccessCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   cancelAtPeriodEnd: number
+  monthlyResetDay: number
   _all: number
 }
 
+
+export type UserAccessAvgAggregateInputType = {
+  monthlyResetDay?: true
+}
+
+export type UserAccessSumAggregateInputType = {
+  monthlyResetDay?: true
+}
 
 export type UserAccessMinAggregateInputType = {
   userId?: true
@@ -71,6 +92,7 @@ export type UserAccessMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   cancelAtPeriodEnd?: true
+  monthlyResetDay?: true
 }
 
 export type UserAccessMaxAggregateInputType = {
@@ -83,6 +105,7 @@ export type UserAccessMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   cancelAtPeriodEnd?: true
+  monthlyResetDay?: true
 }
 
 export type UserAccessCountAggregateInputType = {
@@ -95,6 +118,7 @@ export type UserAccessCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   cancelAtPeriodEnd?: true
+  monthlyResetDay?: true
   _all?: true
 }
 
@@ -136,6 +160,18 @@ export type UserAccessAggregateArgs<ExtArgs extends runtime.Types.Extensions.Int
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAccessAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserAccessSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserAccessMinAggregateInputType
@@ -166,6 +202,8 @@ export type UserAccessGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   _count?: UserAccessCountAggregateInputType | true
+  _avg?: UserAccessAvgAggregateInputType
+  _sum?: UserAccessSumAggregateInputType
   _min?: UserAccessMinAggregateInputType
   _max?: UserAccessMaxAggregateInputType
 }
@@ -180,7 +218,10 @@ export type UserAccessGroupByOutputType = {
   createdAt: Date
   updatedAt: Date | null
   cancelAtPeriodEnd: boolean
+  monthlyResetDay: number | null
   _count: UserAccessCountAggregateOutputType | null
+  _avg: UserAccessAvgAggregateOutputType | null
+  _sum: UserAccessSumAggregateOutputType | null
   _min: UserAccessMinAggregateOutputType | null
   _max: UserAccessMaxAggregateOutputType | null
 }
@@ -213,6 +254,7 @@ export type UserAccessWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"UserAccess"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"UserAccess"> | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFilter<"UserAccess"> | boolean
+  monthlyResetDay?: Prisma.IntNullableFilter<"UserAccess"> | number | null
   plan?: Prisma.XOR<Prisma.PlanScalarRelationFilter, Prisma.PlanWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -227,6 +269,7 @@ export type UserAccessOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   cancelAtPeriodEnd?: Prisma.SortOrder
+  monthlyResetDay?: Prisma.SortOrderInput | Prisma.SortOrder
   plan?: Prisma.PlanOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -244,6 +287,7 @@ export type UserAccessWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"UserAccess"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"UserAccess"> | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFilter<"UserAccess"> | boolean
+  monthlyResetDay?: Prisma.IntNullableFilter<"UserAccess"> | number | null
   plan?: Prisma.XOR<Prisma.PlanScalarRelationFilter, Prisma.PlanWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "userId" | "stripeSubscriptionId">
@@ -258,9 +302,12 @@ export type UserAccessOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   cancelAtPeriodEnd?: Prisma.SortOrder
+  monthlyResetDay?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserAccessCountOrderByAggregateInput
+  _avg?: Prisma.UserAccessAvgOrderByAggregateInput
   _max?: Prisma.UserAccessMaxOrderByAggregateInput
   _min?: Prisma.UserAccessMinOrderByAggregateInput
+  _sum?: Prisma.UserAccessSumOrderByAggregateInput
 }
 
 export type UserAccessScalarWhereWithAggregatesInput = {
@@ -276,6 +323,7 @@ export type UserAccessScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserAccess"> | Date | string
   updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"UserAccess"> | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolWithAggregatesFilter<"UserAccess"> | boolean
+  monthlyResetDay?: Prisma.IntNullableWithAggregatesFilter<"UserAccess"> | number | null
 }
 
 export type UserAccessCreateInput = {
@@ -286,6 +334,7 @@ export type UserAccessCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   cancelAtPeriodEnd?: boolean
+  monthlyResetDay?: number | null
   plan: Prisma.PlanCreateNestedOneWithoutUserAccessInput
   user: Prisma.UserCreateNestedOneWithoutUserAccessInput
 }
@@ -300,6 +349,7 @@ export type UserAccessUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   cancelAtPeriodEnd?: boolean
+  monthlyResetDay?: number | null
 }
 
 export type UserAccessUpdateInput = {
@@ -310,6 +360,7 @@ export type UserAccessUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  monthlyResetDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   plan?: Prisma.PlanUpdateOneRequiredWithoutUserAccessNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutUserAccessNestedInput
 }
@@ -324,6 +375,7 @@ export type UserAccessUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  monthlyResetDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type UserAccessCreateManyInput = {
@@ -336,6 +388,7 @@ export type UserAccessCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   cancelAtPeriodEnd?: boolean
+  monthlyResetDay?: number | null
 }
 
 export type UserAccessUpdateManyMutationInput = {
@@ -346,6 +399,7 @@ export type UserAccessUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  monthlyResetDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type UserAccessUncheckedUpdateManyInput = {
@@ -358,6 +412,7 @@ export type UserAccessUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  monthlyResetDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type UserAccessNullableScalarRelationFilter = {
@@ -375,6 +430,11 @@ export type UserAccessCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   cancelAtPeriodEnd?: Prisma.SortOrder
+  monthlyResetDay?: Prisma.SortOrder
+}
+
+export type UserAccessAvgOrderByAggregateInput = {
+  monthlyResetDay?: Prisma.SortOrder
 }
 
 export type UserAccessMaxOrderByAggregateInput = {
@@ -387,6 +447,7 @@ export type UserAccessMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   cancelAtPeriodEnd?: Prisma.SortOrder
+  monthlyResetDay?: Prisma.SortOrder
 }
 
 export type UserAccessMinOrderByAggregateInput = {
@@ -399,6 +460,11 @@ export type UserAccessMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   cancelAtPeriodEnd?: Prisma.SortOrder
+  monthlyResetDay?: Prisma.SortOrder
+}
+
+export type UserAccessSumOrderByAggregateInput = {
+  monthlyResetDay?: Prisma.SortOrder
 }
 
 export type UserAccessListRelationFilter = {
@@ -497,6 +563,7 @@ export type UserAccessCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   cancelAtPeriodEnd?: boolean
+  monthlyResetDay?: number | null
   plan: Prisma.PlanCreateNestedOneWithoutUserAccessInput
 }
 
@@ -509,6 +576,7 @@ export type UserAccessUncheckedCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   cancelAtPeriodEnd?: boolean
+  monthlyResetDay?: number | null
 }
 
 export type UserAccessCreateOrConnectWithoutUserInput = {
@@ -535,6 +603,7 @@ export type UserAccessUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  monthlyResetDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   plan?: Prisma.PlanUpdateOneRequiredWithoutUserAccessNestedInput
 }
 
@@ -547,6 +616,7 @@ export type UserAccessUncheckedUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  monthlyResetDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type UserAccessCreateWithoutPlanInput = {
@@ -557,6 +627,7 @@ export type UserAccessCreateWithoutPlanInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   cancelAtPeriodEnd?: boolean
+  monthlyResetDay?: number | null
   user: Prisma.UserCreateNestedOneWithoutUserAccessInput
 }
 
@@ -569,6 +640,7 @@ export type UserAccessUncheckedCreateWithoutPlanInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   cancelAtPeriodEnd?: boolean
+  monthlyResetDay?: number | null
 }
 
 export type UserAccessCreateOrConnectWithoutPlanInput = {
@@ -610,6 +682,7 @@ export type UserAccessScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"UserAccess"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"UserAccess"> | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFilter<"UserAccess"> | boolean
+  monthlyResetDay?: Prisma.IntNullableFilter<"UserAccess"> | number | null
 }
 
 export type UserAccessCreateManyPlanInput = {
@@ -621,6 +694,7 @@ export type UserAccessCreateManyPlanInput = {
   createdAt?: Date | string
   updatedAt?: Date | string | null
   cancelAtPeriodEnd?: boolean
+  monthlyResetDay?: number | null
 }
 
 export type UserAccessUpdateWithoutPlanInput = {
@@ -631,6 +705,7 @@ export type UserAccessUpdateWithoutPlanInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  monthlyResetDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   user?: Prisma.UserUpdateOneRequiredWithoutUserAccessNestedInput
 }
 
@@ -643,6 +718,7 @@ export type UserAccessUncheckedUpdateWithoutPlanInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  monthlyResetDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type UserAccessUncheckedUpdateManyWithoutPlanInput = {
@@ -654,6 +730,7 @@ export type UserAccessUncheckedUpdateManyWithoutPlanInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelAtPeriodEnd?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  monthlyResetDay?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 
@@ -668,6 +745,7 @@ export type UserAccessSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   createdAt?: boolean
   updatedAt?: boolean
   cancelAtPeriodEnd?: boolean
+  monthlyResetDay?: boolean
   plan?: boolean | Prisma.PlanDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userAccess"]>
@@ -682,6 +760,7 @@ export type UserAccessSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   createdAt?: boolean
   updatedAt?: boolean
   cancelAtPeriodEnd?: boolean
+  monthlyResetDay?: boolean
   plan?: boolean | Prisma.PlanDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userAccess"]>
@@ -696,6 +775,7 @@ export type UserAccessSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   createdAt?: boolean
   updatedAt?: boolean
   cancelAtPeriodEnd?: boolean
+  monthlyResetDay?: boolean
   plan?: boolean | Prisma.PlanDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userAccess"]>
@@ -710,9 +790,10 @@ export type UserAccessSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   cancelAtPeriodEnd?: boolean
+  monthlyResetDay?: boolean
 }
 
-export type UserAccessOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "planId" | "expiresAt" | "stripeSubscriptionId" | "stripePriceId" | "stripeCustomerId" | "createdAt" | "updatedAt" | "cancelAtPeriodEnd", ExtArgs["result"]["userAccess"]>
+export type UserAccessOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"userId" | "planId" | "expiresAt" | "stripeSubscriptionId" | "stripePriceId" | "stripeCustomerId" | "createdAt" | "updatedAt" | "cancelAtPeriodEnd" | "monthlyResetDay", ExtArgs["result"]["userAccess"]>
 export type UserAccessInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   plan?: boolean | Prisma.PlanDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -742,6 +823,7 @@ export type $UserAccessPayload<ExtArgs extends runtime.Types.Extensions.Internal
     createdAt: Date
     updatedAt: Date | null
     cancelAtPeriodEnd: boolean
+    monthlyResetDay: number | null
   }, ExtArgs["result"]["userAccess"]>
   composites: {}
 }
@@ -1176,6 +1258,7 @@ export interface UserAccessFieldRefs {
   readonly createdAt: Prisma.FieldRef<"UserAccess", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"UserAccess", 'DateTime'>
   readonly cancelAtPeriodEnd: Prisma.FieldRef<"UserAccess", 'Boolean'>
+  readonly monthlyResetDay: Prisma.FieldRef<"UserAccess", 'Int'>
 }
     
 

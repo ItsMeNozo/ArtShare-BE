@@ -5,7 +5,9 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
 import { PaidAccessLevel, Plan, User } from 'src/generated';
+import { UsageService } from 'src/usage/usage.service';
 import Stripe from 'stripe';
 import { StripeCoreService } from './stripe-core.service';
 import { StripeDbService } from './stripe-db.service';
@@ -34,6 +36,7 @@ export class StripeWebhookProcessorService {
   constructor(
     private readonly stripeCoreService: StripeCoreService,
     private readonly stripeDbService: StripeDbService,
+    private readonly usageService: UsageService,
   ) {}
 
   private async _downgradeUserToFreeTier(
@@ -291,7 +294,14 @@ export class StripeWebhookProcessorService {
           );
         }
 
-        const expiresAt = new Date(periodEndTimestamp * 1000);
+        const cycleStart = new Date(periodStartTimestamp * 1000);
+        const cycleEnd = new Date(periodEndTimestamp * 1000);
+
+        const price = await this.stripeCoreService.retrievePrice(
+          determinedPriceId!,
+        );
+        const isYearlyPlan = price.recurring?.interval === 'year';
+        const resetDay = cycleStart.getDate();
         const actualSubscriptionId = isSimulated
           ? `sim_${Date.now()}`
           : subscriptionId!;
@@ -300,12 +310,46 @@ export class StripeWebhookProcessorService {
         await this.stripeDbService.upsertUserAccess({
           userId: user.id,
           planId: plan.id,
-          expiresAt,
+          expiresAt: cycleEnd,
           stripeSubscriptionId: actualSubscriptionId,
           stripePriceId: determinedPriceId,
           stripeCustomerId: actualCustomerId,
           cancelAtPeriodEnd: cancelAtPeriodEndFlag,
+          monthlyResetDay: isYearlyPlan ? resetDay : null,
         });
+
+        if (!isYearlyPlan) {
+          try {
+            await this.usageService.resetUsageForNewCycle(
+              user.id,
+              FeatureKey.AI_CREDITS,
+              cycleStart,
+              cycleEnd,
+            );
+            this.logger.log(
+              `Directly reset usage for monthly plan for user ${user.id}.`,
+            );
+          } catch (usageError) {
+            this.logger.error(
+              `CRITICAL: UserAccess was updated for monthly plan (user ${user.id}) but usage reset failed.`,
+              usageError instanceof Error ? usageError.stack : usageError,
+            );
+          }
+        } else {
+          this.logger.log(
+            `Yearly plan activated for user ${user.id}. Monthly reset scheduled for day ${resetDay}.`,
+          );
+
+          const firstMonthEnd = new Date(cycleStart);
+          firstMonthEnd.setMonth(firstMonthEnd.getMonth() + 1);
+
+          await this.usageService.resetUsageForNewCycle(
+            user.id,
+            FeatureKey.AI_CREDITS,
+            cycleStart,
+            firstMonthEnd,
+          );
+        }
 
         return {
           user,
