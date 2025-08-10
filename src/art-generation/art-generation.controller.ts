@@ -7,8 +7,11 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { CurrentUser } from 'src/auth/decorators/users.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CurrentUserType } from 'src/auth/types/current-user.type';
@@ -29,13 +32,16 @@ export class ArtGenerationController {
   ) {}
 
   @Post('text-to-image')
+  @UseInterceptors(FileInterceptor('seedImage'))
   async generateImage(
     @Body() imageGenerationDto: ImageGenerationDto,
     @CurrentUser() user: CurrentUserType,
+    @UploadedFile() seedImage: Express.Multer.File,
   ): Promise<ImageGenerationResponseDto> {
     return await this.artGenerationService.generateImages(
       imageGenerationDto,
       user.id,
+      seedImage,
     );
   }
 
