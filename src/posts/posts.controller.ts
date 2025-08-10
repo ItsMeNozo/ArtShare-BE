@@ -109,9 +109,6 @@ export class PostsController {
 
   @Public()
   @Get('trending')
-  @UseInterceptors(CacheInterceptor)
-  @CacheKey('posts-trending')
-  @CacheTTL(60 * 1000) // 1 minutes
   async getTrendingPosts(
     @Query() query: GetPostsDto,
     @CurrentUser() user?: CurrentUserType,
