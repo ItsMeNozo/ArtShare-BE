@@ -11,6 +11,7 @@ import {
   Post,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
@@ -22,6 +23,7 @@ import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { GetCommentsQueryDto } from './dto/get-comments-query.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 
 @UseGuards(JwtAuthGuard)
 @Controller('comments')
@@ -41,6 +43,9 @@ export class CommentController {
   @Get()
   @Public()
   @ApiOkResponse({ description: 'Comments retrieved successfully' })
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey('get_comments')
+  @CacheTTL(30 * 1000)
   async getComments(
     @Query() query: GetCommentsQueryDto,
     @CurrentUser() user?: CurrentUserType,

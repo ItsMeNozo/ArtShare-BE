@@ -32,6 +32,23 @@ export const blogListItemSelect = {
   updatedAt: true,
 };
 
+export const blogListItemNecessaryField = {
+  id: true,
+  title: true,
+  createdAt: true,
+  isPublished: true,
+  pictures: true,
+  user: {
+    select: {
+      id: true,
+      username: true,
+      profilePictureUrl: true,
+      fullName: true,
+      followersCount: true,
+    },
+  },
+};
+
 export type BlogForListItemPayload = Prisma.BlogGetPayload<{
   select: typeof blogListItemSelect;
 }>;

@@ -173,11 +173,6 @@ export class PostsExploreService {
       throw new NotFoundException('Post not found');
     }
 
-    // update the view count
-    this.eventEmitter.emitAsync('post.viewed', {
-      postId: postId,
-    });
-
     return mapPostToDto(post);
   }
 

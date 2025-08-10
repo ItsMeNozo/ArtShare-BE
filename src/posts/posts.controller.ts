@@ -43,6 +43,7 @@ import { PostsExploreService } from './posts-explore.service';
 import { PostsManagementService } from './posts-management.service';
 import { WorkflowAssistService } from './workflow-assist.service';
 import { PostDetailForViewDto } from './dto/response/post-details-view.dto';
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 
 @Controller('posts')
 @UseGuards(JwtAuthGuard)
@@ -108,6 +109,9 @@ export class PostsController {
 
   @Public()
   @Get('trending')
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey('posts-trending')
+  @CacheTTL(60 * 1000) // 1 minutes
   async getTrendingPosts(
     @Query() query: GetPostsDto,
     @CurrentUser() user?: CurrentUserType,
