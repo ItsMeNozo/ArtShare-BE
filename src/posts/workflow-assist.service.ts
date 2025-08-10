@@ -137,7 +137,7 @@ export class WorkflowAssistService {
       imageFiles.map(async (file) => {
         const queryEmbedding =
           await this.embeddingService.generateEmbeddingFromImageBlob(
-            new Blob([file.buffer]),
+            new Blob([file.buffer as BlobPart]),
           );
         return {
           prefetch: [
