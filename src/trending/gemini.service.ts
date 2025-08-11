@@ -17,6 +17,9 @@ export class GeminiService {
   getModel(config: {
     model: string;
     systemInstruction?: string;
+    generationConfig?: {
+      responseMimeType?: string;
+    };
   }): GenerativeModel {
     return this.genAI.getGenerativeModel(config);
   }

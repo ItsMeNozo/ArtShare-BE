@@ -121,6 +121,9 @@ export class ChatService {
       Output format: json array of 3 string prompts.
       Example: [prompt1, prompt2, ...]
     `,
+    generationConfig: {
+        responseMimeType: 'application/json',
+    },
     });
 
     const prompt = promptHistory.join('\n');
@@ -128,7 +131,7 @@ export class ChatService {
     try {
       const result = await model.generateContent(prompt);
       const responseText = result.response.text();
-      const cleanedResponse = responseText.replace(/```json|```/g, '').trim();
+      const cleanedResponse = responseText.trim();
 
       const parsed = JSON.parse(cleanedResponse);
       if (!Array.isArray(parsed)) {
