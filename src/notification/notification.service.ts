@@ -84,8 +84,8 @@ export class NotificationService {
     },
     report_created: {
       template:
-        '{{user:from}} have reported {{report.targetType}} {{report.targetTitle}}',
-      fallback: 'A new user have filed a report',
+        '{{user:from}} has reported {{report.target_type}} {{report.target_title}}',
+      fallback: 'A new user has filed a report',
     },
   };
 
