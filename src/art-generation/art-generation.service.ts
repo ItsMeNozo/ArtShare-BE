@@ -5,6 +5,8 @@ import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
 import { PrismaService } from 'src/prisma.service';
 import { FileUploadResponse } from 'src/storage/dto/response.dto';
 import { StorageService } from 'src/storage/storage.service';
+import { SubscriptionPlan } from 'src/subscription/dto/response/subscription-info.dto';
+import { SubscriptionService } from 'src/subscription/subscription.service';
 import { UsageService } from 'src/usage/usage.service';
 import { ImageGenerationDto } from './dto/request/image-generation.dto';
 import { ImageGenerationResponseDto } from './dto/response/image-generation.dto';
@@ -26,6 +28,7 @@ export class ArtGenerationService {
     private readonly storageService: StorageService,
     private readonly prismaService: PrismaService,
     private readonly usageService: UsageService,
+    private readonly subscriptionService: SubscriptionService,
   ) {
     this.strategies = Object.fromEntries(
       this.generators.map(
@@ -37,6 +40,7 @@ export class ArtGenerationService {
   async generateImages(
     dto: ImageGenerationDto,
     userId: string,
+    seedImage?: Express.Multer.File,
   ): Promise<ImageGenerationResponseDto> {
     const { modelKey, prompt, n, aspectRatio } = dto;
 
@@ -71,6 +75,8 @@ export class ArtGenerationService {
           : 0), // extra cost for landscape/portrait
     );
 
+    const subInfo = await this.subscriptionService.getSubscriptionInfo(userId);
+
     // get the model based on the modelKey
     const strat = this.strategies[modelKey];
     if (!strat) {
@@ -89,6 +95,8 @@ export class ArtGenerationService {
       prompt: finalPrompt,
       n,
       aspectRatio,
+      seedImage,
+      quality: this.getImageQuality(subInfo.plan),
     });
 
     if (!imageGenerationResult || !imageGenerationResult.b64EncodedImages) {
@@ -132,6 +140,21 @@ export class ArtGenerationService {
     });
 
     return plainToInstance(ImageGenerationResponseDto, generatedArt);
+  }
+
+  private getImageQuality(plan: SubscriptionPlan): 'low' | 'medium' | 'high' {
+    switch (plan) {
+      case SubscriptionPlan.FREE:
+        return 'low';
+      case SubscriptionPlan.ARTIST_PRO:
+        return 'medium';
+      case SubscriptionPlan.STUDIO:
+        return 'high';
+      case SubscriptionPlan.ENTERPRISE:
+        return 'high';
+      default:
+        return 'low';
+    }
   }
 
   private getFinalPrompt(
