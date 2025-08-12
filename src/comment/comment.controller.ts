@@ -43,9 +43,6 @@ export class CommentController {
   @Get()
   @Public()
   @ApiOkResponse({ description: 'Comments retrieved successfully' })
-  @UseInterceptors(CacheInterceptor)
-  @CacheKey('get_comments')
-  @CacheTTL(30 * 1000)
   async getComments(
     @Query() query: GetCommentsQueryDto,
     @CurrentUser() user?: CurrentUserType,
