@@ -1,7 +1,16 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import * as cheerio from 'cheerio';
 import OpenAI from 'openai';
 import { zodTextFormat } from 'openai/helpers/zod';
+import { firstValueFrom } from 'rxjs';
+import { FacebookAuthService } from 'src/auth/facebook/facebook.service';
 import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
 import { AutoPost } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
@@ -11,6 +20,7 @@ import { GenAutoPostsPayload } from './dto/request/gen-auto-posts-payload';
 
 @Injectable()
 export class AutoPostGenerateServiceV2 {
+  private readonly logger = new Logger(AutoPostGenerateServiceV2.name);
   private readonly openai: OpenAI;
   textCost = 2;
 
@@ -18,6 +28,8 @@ export class AutoPostGenerateServiceV2 {
     private readonly configService: ConfigService,
     private readonly prisma: PrismaService,
     private readonly usageService: UsageService,
+    private readonly facebookAuthService: FacebookAuthService,
+    private readonly httpService: HttpService,
   ) {
     this.openai = new OpenAI({
       apiKey: this.configService.get<string>('OPEN_AI_SECRET_KEY'),
@@ -28,6 +40,10 @@ export class AutoPostGenerateServiceV2 {
     payload: GenAutoPostsPayload,
     userId: string,
   ): Promise<AutoPost[]> {
+    this.logger.log(
+      `Generating posts for user ${userId} with payload: ${JSON.stringify(payload)}`,
+    );
+
     const { autoProjectId, postCount = 1 } = payload;
 
     await this.usageService.handleCreditUsage(
@@ -38,11 +54,10 @@ export class AutoPostGenerateServiceV2 {
 
     const postContentList = await Promise.all(
       Array.from({ length: postCount }, () =>
-        this.generateOneAutoPost(payload),
+        this.generateOneAutoPost(payload, userId),
       ),
     );
 
-    // save the generated posts to the database
     const posts = postContentList.map((content) => ({
       content,
       autoProjectId: autoProjectId,
@@ -54,14 +69,62 @@ export class AutoPostGenerateServiceV2 {
     });
   }
 
-  async generateOneAutoPost(payload: GenAutoPostsPayload): Promise<string> {
+  async generateOneAutoPost(
+    payload: GenAutoPostsPayload,
+    userId: string,
+  ): Promise<string> {
     const {
       contentPrompt,
       wordCount = 100,
       toneOfVoice = 'informative',
       generateHashtag = true,
       includeEmojis = true,
+      url,
     } = payload;
+
+    let contextContent = '';
+
+    if (url) {
+      this.logger.log(`URL detected. Fetching content from: ${url}`);
+      try {
+        if (
+          url.includes('facebook.com') ||
+          url.includes('fb.com') ||
+          url.includes('fb.watch')
+        ) {
+          this.logger.log('Facebook URL detected. Using FacebookAuthService.');
+          contextContent = await this.facebookAuthService.getPostContentFromUrl(
+            userId,
+            url,
+          );
+        } else {
+          this.logger.log('Generic URL detected. Using internal web scraper.');
+          contextContent = await this.extractContentFromUrl(url);
+        }
+      } catch (error: any) {
+        this.logger.error(
+          `Failed to fetch content from URL: ${url}`,
+          error.stack,
+        );
+
+        if (error.message.includes('Could not parse a valid Post ID')) {
+          throw new BadRequestException(
+            'Invalid Facebook URL. Please provide a direct link to a specific post, photo, or video, not a profile page.',
+          );
+        }
+
+        throw new InternalServerErrorException(
+          `Failed to process URL content: ${error.message}`,
+        );
+      }
+    }
+
+    this.logger.log('contextContent', contextContent);
+
+    const finalContentPrompt = contextContent
+      ? `Using the following text as context: "${contextContent}".\n\nNow, do the following: ${contentPrompt}`
+      : contentPrompt;
+
     const instructions = `
       You are an expert social media content creator. Your task is to generate a social media post based on the provided input topic.
 
@@ -83,7 +146,7 @@ export class AutoPostGenerateServiceV2 {
     const response = await this.openai.responses.parse({
       model: 'gpt-4.1-nano-2025-04-14',
       instructions: instructions,
-      input: contentPrompt,
+      input: finalContentPrompt,
       text: {
         format: zodTextFormat(AutoPostResponseSchema, 'generatedPosts'),
       },
@@ -96,6 +159,22 @@ export class AutoPostGenerateServiceV2 {
     }
 
     return response.output_parsed.content;
+  }
+
+  private async extractContentFromUrl(url: string): Promise<string> {
+    try {
+      const response = await firstValueFrom(this.httpService.get(url));
+      const $ = cheerio.load(response.data);
+
+      $('script, style, head, nav, footer, aside, form, header').remove();
+
+      const mainContent = $('body').text().trim().replace(/\s\s+/g, ' ');
+
+      return mainContent.substring(0, 10000);
+    } catch (error: any) {
+      this.logger.error(`Error scraping URL ${url}`, error.stack);
+      throw new Error(`Failed to retrieve or parse content from ${url}.`);
+    }
   }
 }
 
