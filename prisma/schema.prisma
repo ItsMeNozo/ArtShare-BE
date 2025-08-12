@@ -67,6 +67,7 @@ model User {
   AutoProject     AutoProject[]
   notifications   Notification[]
   Conversation    Conversation[]
+  facebookAccounts FacebookAccount[]
 
   @@map("user")
 }
@@ -511,6 +512,7 @@ model FacebookAccount {
   createdAt                DateTime  @default(now()) @map("created_at")
   updatedAt                DateTime? @updatedAt @map("updated_at")
 
+user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   platforms Platform[]
 
   @@map("facebook_accounts")

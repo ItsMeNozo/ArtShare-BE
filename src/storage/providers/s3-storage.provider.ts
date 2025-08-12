@@ -13,6 +13,7 @@ export class S3StorageProvider implements IStorageProvider {
   private bucketName: string;
   private region: string;
   private bucketUrl: string;
+  private cloudFrontUrl: string;
 
   constructor(private readonly configService: ConfigService) {
     this.region =
@@ -20,6 +21,8 @@ export class S3StorageProvider implements IStorageProvider {
     this.bucketName =
       this.configService.get<string>('AWS_S3_BUCKET_NAME') || 'artsharing';
     this.bucketUrl = `https://${this.bucketName}.s3.${this.region}.amazonaws.com/`;
+    this.cloudFrontUrl =
+      this.configService.get<string>('CLOUD_FRONT_URL') || '';
 
     // Configure the S3 client
     this.s3 = new S3({
@@ -37,7 +40,7 @@ export class S3StorageProvider implements IStorageProvider {
     directory,
   }: GetPresignedUrlRequestDto): Promise<GetPresignedUrlResponseDto> {
     const key = `${directory}/${fileName}.${extension}`;
-    const fileUrl = `${this.bucketUrl}${key}`;
+    const fileUrl = `${this.cloudFrontUrl}/${key}`;
 
     try {
       const presignedUrl = await this.s3.getSignedUrlPromise('putObject', {

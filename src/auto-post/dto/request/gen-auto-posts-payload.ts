@@ -3,6 +3,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUrl,
   Min,
   MinLength,
 } from 'class-validator';
@@ -34,4 +35,8 @@ export class GenAutoPostsPayload {
   @IsOptional()
   @IsBoolean()
   includeEmojis?: boolean;
+
+  @IsOptional()
+  @IsUrl()
+  url?: string;
 }

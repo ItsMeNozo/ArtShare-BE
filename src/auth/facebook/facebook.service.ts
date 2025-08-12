@@ -1,5 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -76,6 +77,9 @@ export class FacebookAuthService {
       'email',
       'pages_show_list',
       'pages_manage_posts',
+      'user_posts',
+      'user_photos',
+      'user_videos',
     ].join(',');
     const loginUrl = `https://www.facebook.com/${this.API_VERSION}/dialog/oauth?client_id=${this.FB_APP_ID}&redirect_uri=${encodeURIComponent(this.FB_REDIRECT_URI)}&state=${stateJwt}&scope=${scopes}&response_type=code`;
 
@@ -147,6 +151,204 @@ export class FacebookAuthService {
       );
 
       throw error;
+    }
+  }
+
+  async getPostContentFromUrl(
+    internalUserId: string,
+    postUrl: string,
+  ): Promise<string> {
+    this.logger.log(`Processing URL for user ${internalUserId}: ${postUrl}`);
+
+    let effectiveUrl = postUrl;
+    if (postUrl.includes('fb.watch') || postUrl.includes('/share/')) {
+      effectiveUrl = await this._resolveRedirectUrl(postUrl);
+    }
+
+    const facebookAccount = await this.prisma.facebookAccount.findFirst({
+      where: { userId: internalUserId },
+    });
+
+    if (!facebookAccount?.longLivedUserAccessToken) {
+      throw new UnauthorizedException(
+        'User has not connected a Facebook account or the token is missing.',
+      );
+    }
+    const userAccessToken = facebookAccount.longLivedUserAccessToken;
+
+    const idParts = this._getPostIdFromUrl(effectiveUrl);
+    if (!idParts?.postId) {
+      throw new Error('Could not parse a valid Post ID from the URL.');
+    }
+
+    if (idParts.pageId) {
+      const finalPostId = `${idParts.pageId}_${idParts.postId}`;
+      this.logger.log(`Using combined ID for direct API call: ${finalPostId}`);
+
+      const fields = 'message,name,description,story';
+      try {
+        const contentUrl = `https://graph.facebook.com/${this.API_VERSION}/${finalPostId}`;
+        const contentParams = { fields, access_token: userAccessToken };
+        const contentResponse = await firstValueFrom(
+          this.httpService.get<{ [key: string]: any }>(contentUrl, {
+            params: contentParams,
+          }),
+        );
+        const content =
+          contentResponse.data.message ||
+          contentResponse.data.name ||
+          contentResponse.data.description ||
+          contentResponse.data.story;
+        if (content) return content;
+        return '';
+      } catch (error) {
+        return this._handleApiError(error, finalPostId);
+      }
+    } else {
+      this.logger.log(
+        `Only Post ID found. Using two-step metadata process for ID: ${idParts.postId}`,
+      );
+
+      let objectType: string;
+      try {
+        const metadataUrl = `https://graph.facebook.com/${this.API_VERSION}/${idParts.postId}`;
+        const metadataParams = { metadata: 1, access_token: userAccessToken };
+        const metadataResponse = await firstValueFrom(
+          this.httpService.get<{ metadata: { type: string } }>(metadataUrl, {
+            params: metadataParams,
+          }),
+        );
+        objectType = metadataResponse.data.metadata.type;
+        this.logger.log(`Detected Facebook object type: '${objectType}'`);
+      } catch (error) {
+        return this._handleApiError(error, idParts.postId);
+      }
+
+      let textFields: string;
+      switch (objectType) {
+        case 'photo':
+          textFields = 'name';
+          break;
+        case 'video':
+        case 'reel':
+          textFields = 'message,description';
+          break;
+        case 'status':
+        case 'link':
+        case 'post':
+          textFields = 'message';
+          break;
+        default:
+          this.logger.warn(
+            `Unsupported Facebook object type via metadata: '${objectType}'`,
+          );
+          return '';
+      }
+
+      try {
+        const contentUrl = `https://graph.facebook.com/${this.API_VERSION}/${idParts.postId}`;
+        const contentParams = {
+          fields: textFields,
+          access_token: userAccessToken,
+        };
+        const contentResponse = await firstValueFrom(
+          this.httpService.get<{ [key: string]: any }>(contentUrl, {
+            params: contentParams,
+          }),
+        );
+        const content =
+          contentResponse.data.message ||
+          contentResponse.data.description ||
+          contentResponse.data.name;
+        if (content) return content;
+        return '';
+      } catch (error) {
+        return this._handleApiError(error, idParts.postId);
+      }
+    }
+  }
+
+  private _handleApiError(error: any, objectId: string): never {
+    const apiError = error.response?.data?.error;
+    const apiErrorMessage = apiError?.message;
+    const apiErrorCode = apiError?.code;
+
+    this.logger.error(
+      `Failed to fetch content for ID ${objectId}. API Error:`,
+      apiError,
+    );
+
+    if (apiErrorCode === 10) {
+      throw new BadRequestException(
+        'This content cannot be accessed. It may be due to copyright or privacy settings on the original post.',
+      );
+    }
+    if (apiErrorCode === 12) {
+      throw new BadRequestException(
+        'This post is in a format that is no longer supported by the Facebook API.',
+      );
+    }
+    if (
+      apiErrorCode === 100 &&
+      apiErrorMessage?.includes('nonexisting field')
+    ) {
+      this.logger.error(
+        `Logic error: An incorrect field was requested for object ID ${objectId}.`,
+      );
+      throw new InternalServerErrorException(
+        'There was an unexpected error retrieving the post content.',
+      );
+    }
+
+    throw new InternalServerErrorException(
+      `Failed to fetch content from Facebook. API Error: "${apiErrorMessage || 'The post may be private, deleted, or the URL format is not supported.'}"`,
+    );
+  }
+
+  private _getPostIdFromUrl(
+    url: string,
+  ): { postId: string; pageId?: string } | null {
+    const regex =
+      /(?:posts|videos|reel|photo(?:s|\.php)|share\/p)\/([a-zA-Z0-9_.-]+)|(?:story_fbid|fbid)=([a-zA-Z0-9_.-]+)|watch\/\?v=([0-9]+)/;
+    const pageIdRegex = /[?&]id=([0-9]+)/;
+
+    const postMatches = url.match(regex);
+    const pageMatches = url.match(pageIdRegex);
+
+    if (postMatches) {
+      const postId = postMatches[1] || postMatches[2] || postMatches[3];
+      const pageId = pageMatches ? pageMatches[1] : undefined;
+
+      this.logger.log(`Parsed IDs: postId=${postId}, pageId=${pageId}`);
+      return { postId, pageId };
+    }
+
+    this.logger.warn(`Could not parse a known Post ID format from URL: ${url}`);
+    return null;
+  }
+
+  private async _resolveRedirectUrl(url: string): Promise<string> {
+    try {
+      this.logger.log(`Resolving redirect for short URL: ${url}`);
+
+      const response = await firstValueFrom(
+        this.httpService.head(url, { maxRedirects: 5 }),
+      );
+
+      const finalUrl = response.request.res.responseUrl;
+      if (!finalUrl || finalUrl === url) {
+        throw new Error(
+          'Could not resolve the short URL to a final destination.',
+        );
+      }
+
+      this.logger.log(`Resolved short URL to: ${finalUrl}`);
+      return finalUrl;
+    } catch (error: any) {
+      this.logger.error(`Failed to resolve redirect for ${url}`, error.stack);
+      throw new Error(
+        `The link ${url} could not be resolved. It may be broken or private.`,
+      );
     }
   }
 

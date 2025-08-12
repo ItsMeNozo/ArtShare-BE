@@ -12,6 +12,8 @@ class PostAuthorDto {
 export class PostDetailForViewDto {
   id: number;
 
+  userId: string;
+
   title: string;
 
   description: string;
@@ -30,7 +32,6 @@ export class PostDetailForViewDto {
   medias: PostMediaDto[];
 
   user: PostAuthorDto;
-
 
   isLikedByCurrentUser: boolean;
 }

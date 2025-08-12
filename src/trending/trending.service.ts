@@ -1,5 +1,4 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
 import { StatisticsService } from '../statistics/statistics.service';
 import { GeminiService } from './gemini.service';
 
@@ -13,7 +12,6 @@ export class TrendingService {
     private geminiService: GeminiService,
   ) {}
 
-  @Cron(CronExpression.EVERY_DAY_AT_10PM)
   async handleCron() {
     this.logger.log('CRON: Starting trending prompts calculation...');
 
