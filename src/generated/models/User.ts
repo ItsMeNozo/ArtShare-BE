@@ -318,6 +318,7 @@ export type UserWhereInput = {
   AutoProject?: Prisma.AutoProjectListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   Conversation?: Prisma.ConversationListRelationFilter
+  facebookAccounts?: Prisma.FacebookAccountListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -355,6 +356,7 @@ export type UserOrderByWithRelationInput = {
   AutoProject?: Prisma.AutoProjectOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   Conversation?: Prisma.ConversationOrderByRelationAggregateInput
+  facebookAccounts?: Prisma.FacebookAccountOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -395,6 +397,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   AutoProject?: Prisma.AutoProjectListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   Conversation?: Prisma.ConversationListRelationFilter
+  facebookAccounts?: Prisma.FacebookAccountListRelationFilter
 }, "id" | "username" | "email" | "stripeCustomerId">
 
 export type UserOrderByWithAggregationInput = {
@@ -476,6 +479,7 @@ export type UserCreateInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -513,6 +517,7 @@ export type UserUncheckedCreateInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -550,6 +555,7 @@ export type UserUpdateInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -587,6 +593,7 @@ export type UserUncheckedUpdateInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -1001,6 +1008,20 @@ export type UserUpdateOneRequiredWithoutConversationNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutConversationInput, Prisma.UserUpdateWithoutConversationInput>, Prisma.UserUncheckedUpdateWithoutConversationInput>
 }
 
+export type UserCreateNestedOneWithoutFacebookAccountsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFacebookAccountsInput, Prisma.UserUncheckedCreateWithoutFacebookAccountsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFacebookAccountsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutFacebookAccountsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFacebookAccountsInput, Prisma.UserUncheckedCreateWithoutFacebookAccountsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFacebookAccountsInput
+  upsert?: Prisma.UserUpsertWithoutFacebookAccountsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFacebookAccountsInput, Prisma.UserUpdateWithoutFacebookAccountsInput>, Prisma.UserUncheckedUpdateWithoutFacebookAccountsInput>
+}
+
 export type UserCreateWithoutRolesInput = {
   id: string
   username: string
@@ -1035,6 +1056,7 @@ export type UserCreateWithoutRolesInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRolesInput = {
@@ -1071,6 +1093,7 @@ export type UserUncheckedCreateWithoutRolesInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRolesInput = {
@@ -1123,6 +1146,7 @@ export type UserUpdateWithoutRolesInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRolesInput = {
@@ -1159,6 +1183,7 @@ export type UserUncheckedUpdateWithoutRolesInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPostsInput = {
@@ -1195,6 +1220,7 @@ export type UserCreateWithoutPostsInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPostsInput = {
@@ -1231,6 +1257,7 @@ export type UserUncheckedCreateWithoutPostsInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPostsInput = {
@@ -1283,6 +1310,7 @@ export type UserUpdateWithoutPostsInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostsInput = {
@@ -1319,6 +1347,7 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBlogsInput = {
@@ -1355,6 +1384,7 @@ export type UserCreateWithoutBlogsInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBlogsInput = {
@@ -1391,6 +1421,7 @@ export type UserUncheckedCreateWithoutBlogsInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBlogsInput = {
@@ -1443,6 +1474,7 @@ export type UserUpdateWithoutBlogsInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBlogsInput = {
@@ -1479,6 +1511,7 @@ export type UserUncheckedUpdateWithoutBlogsInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutLikesInput = {
@@ -1515,6 +1548,7 @@ export type UserCreateWithoutLikesInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutLikesInput = {
@@ -1551,6 +1585,7 @@ export type UserUncheckedCreateWithoutLikesInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutLikesInput = {
@@ -1603,6 +1638,7 @@ export type UserUpdateWithoutLikesInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLikesInput = {
@@ -1639,6 +1675,7 @@ export type UserUncheckedUpdateWithoutLikesInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommentLikeInput = {
@@ -1675,6 +1712,7 @@ export type UserCreateWithoutCommentLikeInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommentLikeInput = {
@@ -1711,6 +1749,7 @@ export type UserUncheckedCreateWithoutCommentLikeInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommentLikeInput = {
@@ -1763,6 +1802,7 @@ export type UserUpdateWithoutCommentLikeInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentLikeInput = {
@@ -1799,6 +1839,7 @@ export type UserUncheckedUpdateWithoutCommentLikeInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -1835,6 +1876,7 @@ export type UserCreateWithoutCommentsInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -1871,6 +1913,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -1923,6 +1966,7 @@ export type UserUpdateWithoutCommentsInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -1959,6 +2003,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSharesInput = {
@@ -1995,6 +2040,7 @@ export type UserCreateWithoutSharesInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSharesInput = {
@@ -2031,6 +2077,7 @@ export type UserUncheckedCreateWithoutSharesInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSharesInput = {
@@ -2083,6 +2130,7 @@ export type UserUpdateWithoutSharesInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSharesInput = {
@@ -2119,6 +2167,7 @@ export type UserUncheckedUpdateWithoutSharesInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutFollowingsInput = {
@@ -2155,6 +2204,7 @@ export type UserCreateWithoutFollowingsInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutFollowingsInput = {
@@ -2191,6 +2241,7 @@ export type UserUncheckedCreateWithoutFollowingsInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutFollowingsInput = {
@@ -2232,6 +2283,7 @@ export type UserCreateWithoutFollowersInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutFollowersInput = {
@@ -2268,6 +2320,7 @@ export type UserUncheckedCreateWithoutFollowersInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutFollowersInput = {
@@ -2320,6 +2373,7 @@ export type UserUpdateWithoutFollowingsInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFollowingsInput = {
@@ -2356,6 +2410,7 @@ export type UserUncheckedUpdateWithoutFollowingsInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutFollowersInput = {
@@ -2403,6 +2458,7 @@ export type UserUpdateWithoutFollowersInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFollowersInput = {
@@ -2439,6 +2495,7 @@ export type UserUncheckedUpdateWithoutFollowersInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBookmarksInput = {
@@ -2475,6 +2532,7 @@ export type UserCreateWithoutBookmarksInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBookmarksInput = {
@@ -2511,6 +2569,7 @@ export type UserUncheckedCreateWithoutBookmarksInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBookmarksInput = {
@@ -2563,6 +2622,7 @@ export type UserUpdateWithoutBookmarksInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBookmarksInput = {
@@ -2599,6 +2659,7 @@ export type UserUncheckedUpdateWithoutBookmarksInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRatingsInput = {
@@ -2635,6 +2696,7 @@ export type UserCreateWithoutRatingsInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRatingsInput = {
@@ -2671,6 +2733,7 @@ export type UserUncheckedCreateWithoutRatingsInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRatingsInput = {
@@ -2723,6 +2786,7 @@ export type UserUpdateWithoutRatingsInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRatingsInput = {
@@ -2759,6 +2823,7 @@ export type UserUncheckedUpdateWithoutRatingsInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCollectionsInput = {
@@ -2795,6 +2860,7 @@ export type UserCreateWithoutCollectionsInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCollectionsInput = {
@@ -2831,6 +2897,7 @@ export type UserUncheckedCreateWithoutCollectionsInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCollectionsInput = {
@@ -2883,6 +2950,7 @@ export type UserUpdateWithoutCollectionsInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCollectionsInput = {
@@ -2919,6 +2987,7 @@ export type UserUncheckedUpdateWithoutCollectionsInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReportInput = {
@@ -2955,6 +3024,7 @@ export type UserCreateWithoutReportInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReportInput = {
@@ -2991,6 +3061,7 @@ export type UserUncheckedCreateWithoutReportInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReportInput = {
@@ -3032,6 +3103,7 @@ export type UserCreateWithoutReportsResolvedInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReportsResolvedInput = {
@@ -3068,6 +3140,7 @@ export type UserUncheckedCreateWithoutReportsResolvedInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReportsResolvedInput = {
@@ -3120,6 +3193,7 @@ export type UserUpdateWithoutReportInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportInput = {
@@ -3156,6 +3230,7 @@ export type UserUncheckedUpdateWithoutReportInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReportsResolvedInput = {
@@ -3203,6 +3278,7 @@ export type UserUpdateWithoutReportsResolvedInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportsResolvedInput = {
@@ -3239,6 +3315,7 @@ export type UserUncheckedUpdateWithoutReportsResolvedInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserAccessInput = {
@@ -3275,6 +3352,7 @@ export type UserCreateWithoutUserAccessInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserAccessInput = {
@@ -3311,6 +3389,7 @@ export type UserUncheckedCreateWithoutUserAccessInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserAccessInput = {
@@ -3363,6 +3442,7 @@ export type UserUpdateWithoutUserAccessInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserAccessInput = {
@@ -3399,6 +3479,7 @@ export type UserUncheckedUpdateWithoutUserAccessInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserUsageInput = {
@@ -3435,6 +3516,7 @@ export type UserCreateWithoutUserUsageInput = {
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserUsageInput = {
@@ -3471,6 +3553,7 @@ export type UserUncheckedCreateWithoutUserUsageInput = {
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserUsageInput = {
@@ -3523,6 +3606,7 @@ export type UserUpdateWithoutUserUsageInput = {
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserUsageInput = {
@@ -3559,6 +3643,7 @@ export type UserUncheckedUpdateWithoutUserUsageInput = {
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -3595,6 +3680,7 @@ export type UserCreateWithoutNotificationsInput = {
   reportsResolved?: Prisma.ReportCreateNestedManyWithoutModeratorInput
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -3631,6 +3717,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   reportsResolved?: Prisma.ReportUncheckedCreateNestedManyWithoutModeratorInput
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -3683,6 +3770,7 @@ export type UserUpdateWithoutNotificationsInput = {
   reportsResolved?: Prisma.ReportUpdateManyWithoutModeratorNestedInput
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -3719,6 +3807,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   reportsResolved?: Prisma.ReportUncheckedUpdateManyWithoutModeratorNestedInput
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAutoProjectInput = {
@@ -3755,6 +3844,7 @@ export type UserCreateWithoutAutoProjectInput = {
   reportsResolved?: Prisma.ReportCreateNestedManyWithoutModeratorInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAutoProjectInput = {
@@ -3791,6 +3881,7 @@ export type UserUncheckedCreateWithoutAutoProjectInput = {
   reportsResolved?: Prisma.ReportUncheckedCreateNestedManyWithoutModeratorInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAutoProjectInput = {
@@ -3843,6 +3934,7 @@ export type UserUpdateWithoutAutoProjectInput = {
   reportsResolved?: Prisma.ReportUpdateManyWithoutModeratorNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAutoProjectInput = {
@@ -3879,6 +3971,7 @@ export type UserUncheckedUpdateWithoutAutoProjectInput = {
   reportsResolved?: Prisma.ReportUncheckedUpdateManyWithoutModeratorNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutConversationInput = {
@@ -3915,6 +4008,7 @@ export type UserCreateWithoutConversationInput = {
   reportsResolved?: Prisma.ReportCreateNestedManyWithoutModeratorInput
   AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutConversationInput = {
@@ -3951,6 +4045,7 @@ export type UserUncheckedCreateWithoutConversationInput = {
   reportsResolved?: Prisma.ReportUncheckedCreateNestedManyWithoutModeratorInput
   AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutConversationInput = {
@@ -4003,6 +4098,7 @@ export type UserUpdateWithoutConversationInput = {
   reportsResolved?: Prisma.ReportUpdateManyWithoutModeratorNestedInput
   AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutConversationInput = {
@@ -4039,6 +4135,171 @@ export type UserUncheckedUpdateWithoutConversationInput = {
   reportsResolved?: Prisma.ReportUncheckedUpdateManyWithoutModeratorNestedInput
   AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  facebookAccounts?: Prisma.FacebookAccountUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutFacebookAccountsInput = {
+  id: string
+  username: string
+  email: string
+  fullName?: string | null
+  profilePictureUrl?: string | null
+  bio?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
+  birthday?: Date | string | null
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
+  status?: $Enums.UserStatus
+  collections?: Prisma.CollectionCreateNestedManyWithoutUserInput
+  blogs?: Prisma.BlogCreateNestedManyWithoutUserInput
+  bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  followers?: Prisma.FollowCreateNestedManyWithoutFollowingInput
+  followings?: Prisma.FollowCreateNestedManyWithoutFollowerInput
+  likes?: Prisma.LikeCreateNestedManyWithoutUserInput
+  posts?: Prisma.PostCreateNestedManyWithoutUserInput
+  ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  Report?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  shares?: Prisma.ShareCreateNestedManyWithoutUserInput
+  userAccess?: Prisma.UserAccessCreateNestedOneWithoutUserInput
+  roles?: Prisma.UserRoleCreateNestedManyWithoutUserInput
+  UserUsage?: Prisma.UserUsageCreateNestedManyWithoutUserInput
+  CommentLike?: Prisma.CommentLikeCreateNestedManyWithoutUserInput
+  reportsResolved?: Prisma.ReportCreateNestedManyWithoutModeratorInput
+  AutoProject?: Prisma.AutoProjectCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  Conversation?: Prisma.ConversationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutFacebookAccountsInput = {
+  id: string
+  username: string
+  email: string
+  fullName?: string | null
+  profilePictureUrl?: string | null
+  bio?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  refreshToken?: string | null
+  birthday?: Date | string | null
+  followersCount?: number
+  followingsCount?: number
+  stripeCustomerId?: string | null
+  isOnboard?: boolean
+  status?: $Enums.UserStatus
+  collections?: Prisma.CollectionUncheckedCreateNestedManyWithoutUserInput
+  blogs?: Prisma.BlogUncheckedCreateNestedManyWithoutUserInput
+  bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  followers?: Prisma.FollowUncheckedCreateNestedManyWithoutFollowingInput
+  followings?: Prisma.FollowUncheckedCreateNestedManyWithoutFollowerInput
+  likes?: Prisma.LikeUncheckedCreateNestedManyWithoutUserInput
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutUserInput
+  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  Report?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  shares?: Prisma.ShareUncheckedCreateNestedManyWithoutUserInput
+  userAccess?: Prisma.UserAccessUncheckedCreateNestedOneWithoutUserInput
+  roles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput
+  UserUsage?: Prisma.UserUsageUncheckedCreateNestedManyWithoutUserInput
+  CommentLike?: Prisma.CommentLikeUncheckedCreateNestedManyWithoutUserInput
+  reportsResolved?: Prisma.ReportUncheckedCreateNestedManyWithoutModeratorInput
+  AutoProject?: Prisma.AutoProjectUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  Conversation?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutFacebookAccountsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutFacebookAccountsInput, Prisma.UserUncheckedCreateWithoutFacebookAccountsInput>
+}
+
+export type UserUpsertWithoutFacebookAccountsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFacebookAccountsInput, Prisma.UserUncheckedUpdateWithoutFacebookAccountsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFacebookAccountsInput, Prisma.UserUncheckedCreateWithoutFacebookAccountsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutFacebookAccountsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFacebookAccountsInput, Prisma.UserUncheckedUpdateWithoutFacebookAccountsInput>
+}
+
+export type UserUpdateWithoutFacebookAccountsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  collections?: Prisma.CollectionUpdateManyWithoutUserNestedInput
+  blogs?: Prisma.BlogUpdateManyWithoutUserNestedInput
+  bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  followers?: Prisma.FollowUpdateManyWithoutFollowingNestedInput
+  followings?: Prisma.FollowUpdateManyWithoutFollowerNestedInput
+  likes?: Prisma.LikeUpdateManyWithoutUserNestedInput
+  posts?: Prisma.PostUpdateManyWithoutUserNestedInput
+  ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  Report?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  shares?: Prisma.ShareUpdateManyWithoutUserNestedInput
+  userAccess?: Prisma.UserAccessUpdateOneWithoutUserNestedInput
+  roles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput
+  UserUsage?: Prisma.UserUsageUpdateManyWithoutUserNestedInput
+  CommentLike?: Prisma.CommentLikeUpdateManyWithoutUserNestedInput
+  reportsResolved?: Prisma.ReportUpdateManyWithoutModeratorNestedInput
+  AutoProject?: Prisma.AutoProjectUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  Conversation?: Prisma.ConversationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutFacebookAccountsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthday?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  followersCount?: Prisma.IntFieldUpdateOperationsInput | number
+  followingsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isOnboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  collections?: Prisma.CollectionUncheckedUpdateManyWithoutUserNestedInput
+  blogs?: Prisma.BlogUncheckedUpdateManyWithoutUserNestedInput
+  bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  followers?: Prisma.FollowUncheckedUpdateManyWithoutFollowingNestedInput
+  followings?: Prisma.FollowUncheckedUpdateManyWithoutFollowerNestedInput
+  likes?: Prisma.LikeUncheckedUpdateManyWithoutUserNestedInput
+  posts?: Prisma.PostUncheckedUpdateManyWithoutUserNestedInput
+  ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  Report?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  shares?: Prisma.ShareUncheckedUpdateManyWithoutUserNestedInput
+  userAccess?: Prisma.UserAccessUncheckedUpdateOneWithoutUserNestedInput
+  roles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput
+  UserUsage?: Prisma.UserUsageUncheckedUpdateManyWithoutUserNestedInput
+  CommentLike?: Prisma.CommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  reportsResolved?: Prisma.ReportUncheckedUpdateManyWithoutModeratorNestedInput
+  AutoProject?: Prisma.AutoProjectUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  Conversation?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -4065,6 +4326,7 @@ export type UserCountOutputType = {
   AutoProject: number
   notifications: number
   Conversation: number
+  facebookAccounts: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4086,6 +4348,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   AutoProject?: boolean | UserCountOutputTypeCountAutoProjectArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
   Conversation?: boolean | UserCountOutputTypeCountConversationArgs
+  facebookAccounts?: boolean | UserCountOutputTypeCountFacebookAccountsArgs
 }
 
 /**
@@ -4224,6 +4487,13 @@ export type UserCountOutputTypeCountConversationArgs<ExtArgs extends runtime.Typ
   where?: Prisma.ConversationWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountFacebookAccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FacebookAccountWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4260,6 +4530,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   AutoProject?: boolean | Prisma.User$AutoProjectArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   Conversation?: boolean | Prisma.User$ConversationArgs<ExtArgs>
+  facebookAccounts?: boolean | Prisma.User$facebookAccountsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -4338,6 +4609,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   AutoProject?: boolean | Prisma.User$AutoProjectArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   Conversation?: boolean | Prisma.User$ConversationArgs<ExtArgs>
+  facebookAccounts?: boolean | Prisma.User$facebookAccountsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -4365,6 +4637,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     AutoProject: Prisma.$AutoProjectPayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
     Conversation: Prisma.$ConversationPayload<ExtArgs>[]
+    facebookAccounts: Prisma.$FacebookAccountPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4795,6 +5068,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   AutoProject<T extends Prisma.User$AutoProjectArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$AutoProjectArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AutoProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   Conversation<T extends Prisma.User$ConversationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ConversationArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  facebookAccounts<T extends Prisma.User$facebookAccountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$facebookAccountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FacebookAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5675,6 +5949,30 @@ export type User$ConversationArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.ConversationScalarFieldEnum | Prisma.ConversationScalarFieldEnum[]
+}
+
+/**
+ * User.facebookAccounts
+ */
+export type User$facebookAccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FacebookAccount
+   */
+  select?: Prisma.FacebookAccountSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FacebookAccount
+   */
+  omit?: Prisma.FacebookAccountOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FacebookAccountInclude<ExtArgs> | null
+  where?: Prisma.FacebookAccountWhereInput
+  orderBy?: Prisma.FacebookAccountOrderByWithRelationInput | Prisma.FacebookAccountOrderByWithRelationInput[]
+  cursor?: Prisma.FacebookAccountWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FacebookAccountScalarFieldEnum | Prisma.FacebookAccountScalarFieldEnum[]
 }
 
 /**

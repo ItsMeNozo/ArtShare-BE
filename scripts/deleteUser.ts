@@ -238,7 +238,7 @@ async function deleteUserAndVerify(userId: string) {
           
           // Delete conversations (these don't cascade in your schema)
           tx.conversation.deleteMany({ where: { userId } })
-        ]);
+                  ]);
 
         if (updatedReports.count > 0) {
           console.log(`🔧 Updated ${updatedReports.count} report(s) - removed moderator assignment`);
@@ -332,7 +332,10 @@ async function verifyUserDeletion(userId: string): Promise<boolean> {
       conversations,
       notifications,
       autoProjects,
+      autoPosts,
       platforms,
+      facebookAccounts,
+      messages,
     ] = await Promise.all([
       prisma.userRole.count({ where: { userId } }),
       prisma.post.count({ where: { userId } }),
@@ -352,7 +355,18 @@ async function verifyUserDeletion(userId: string): Promise<boolean> {
       prisma.conversation.count({ where: { userId } }),
       prisma.notification.count({ where: { userId } }),
       prisma.autoProject.count({ where: { userId } }),
+      prisma.autoPost.count({ 
+        where: { 
+          autoProject: { userId } 
+        } 
+      }),
       prisma.platform.count({ where: { userId } }),
+      prisma.facebookAccount.count({ where: { userId } }),
+      prisma.message.count({ 
+        where: { 
+          conversation: { userId } 
+        } 
+      }),
     ]);
 
     const checks = [
@@ -374,7 +388,10 @@ async function verifyUserDeletion(userId: string): Promise<boolean> {
       { name: 'Conversations', count: conversations },
       { name: 'Notifications', count: notifications },
       { name: 'Auto Projects', count: autoProjects },
+      { name: 'Auto Posts', count: autoPosts },
       { name: 'Platforms', count: platforms },
+      { name: 'Facebook Accounts', count: facebookAccounts },
+      { name: 'Messages', count: messages },
     ];
 
     checks.forEach(check => {

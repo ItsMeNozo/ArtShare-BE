@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 import OpenAI from 'openai';
+import { toFile } from 'openai/uploads';
 import { AspectRatio } from '../enum/aspect-ratio';
 import {
   ImageGenerationOptions,
@@ -13,6 +14,7 @@ import {
 @Injectable()
 export class GptImageStrategy implements ImageGeneratorStrategy {
   private readonly openai: OpenAI;
+  private readonly logger = new Logger(GptImageStrategy.name);
 
   constructor(private readonly configService: ConfigService) {
     this.openai = new OpenAI({
@@ -25,13 +27,33 @@ export class GptImageStrategy implements ImageGeneratorStrategy {
   async generate(
     options: ImageGenerationOptions,
   ): Promise<ImageGenerationResult> {
-    const img = await this.openai.images.generate({
+    this.logger.debug(
+      `Generating image with options: ${JSON.stringify(options)}`,
+    );
+
+    let img;
+
+    const commonOptions = {
       model: 'gpt-image-1',
       prompt: options.prompt,
       n: options.n,
       size: this.getImageSize(options.aspectRatio),
-      quality: 'low',
-    });
+      quality: options.quality,
+    };
+
+    if (options.seedImage) {
+      const imageFile = await toFile(options.seedImage.buffer, 'seed-image', {
+        type: options.seedImage.mimetype,
+      });
+      img = await this.openai.images.edit({
+        ...commonOptions,
+        image: imageFile,
+      });
+    } else {
+      img = await this.openai.images.generate({
+        ...commonOptions,
+      });
+    }
 
     if (!img.data || !img.data[0].b64_json) {
       throw new Error('Image data is undefined or invalid');

@@ -44,7 +44,7 @@ export class PostsEmbeddingService {
           ? Promise.all(
               imageFiles.map((image) =>
                 this.embeddingService.generateEmbeddingFromImageBlob(
-                  new Blob([image.buffer]),
+                  new Blob([image.buffer as BlobPart]),
                 ),
               ),
             ).then((embeds) => this.averageEmbeddings(embeds))

@@ -499,4 +499,19 @@ export class NotificationService {
       );
     }
   }
+
+  @OnEvent('blog.viewed')
+  async handleBlogViewedEvent(payload: { blogId: number }) {
+    try {
+      await this.prisma.blog.update({
+        where: { id: payload.blogId },
+        data: { viewCount: { increment: 1 } },
+      });
+    } catch (error) {
+      this.logger.error(
+        `Failed to increment view count for post ID ${payload.blogId}:`,
+        (error as Error).stack,
+      );
+    }
+  }
 }
