@@ -1,11 +1,12 @@
 import { plainToInstance } from 'class-transformer';
 import { Prisma } from 'src/generated';
+import { PostDetailForViewDto } from '../dto/response/post-details-view.dto';
 import { PostDetailsResponseDto } from '../dto/response/post-details.dto';
 import { PostListItemResponse } from '../dto/response/post-list-item.dto';
-import { PostDetailForViewDto } from '../dto/response/post-details-view.dto';
 
 export const postItemSelect = {
   id: true,
+  userId: true,
   title: true,
   description: true,
   createdAt: true,
@@ -14,7 +15,6 @@ export const postItemSelect = {
   isMature: true,
   aiCreated: true,
 };
-
 
 export type PostWithRelations = Prisma.PostGetPayload<{
   include: {
@@ -49,9 +49,7 @@ export const mapPostToDto = (
   });
 };
 
-export const mapPostToDetailViewDto = (
-  post: any,
-): PostDetailForViewDto => {
+export const mapPostToDetailViewDto = (post: any): PostDetailForViewDto => {
   const { likes, ...rest } = post;
   return plainToInstance(PostDetailForViewDto, {
     ...rest,

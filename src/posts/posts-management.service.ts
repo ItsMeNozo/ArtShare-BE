@@ -8,9 +8,7 @@ import {
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import axios from 'axios';
 import { plainToInstance } from 'class-transformer';
-import sharp from 'sharp';
 import { TryCatch } from 'src/common/try-catch.decorator';
 import { NotificationUtils } from 'src/common/utils/notification.utils';
 import embeddingConfig from 'src/config/embedding.config';
@@ -77,26 +75,8 @@ export class PostsManagementService {
       videoUrl,
     );
 
-    let thumbnailWidth: number | undefined | null = undefined;
-    let thumbnailHeight: number | undefined | null = undefined;
-
-    try {
-      const response = await axios.get(thumbnailUrl, {
-        responseType: 'arraybuffer',
-      });
-      const imageBuffer = Buffer.from(response.data);
-
-      const metadata = await sharp(imageBuffer).metadata();
-      thumbnailWidth = metadata.width;
-      thumbnailHeight = metadata.height;
-    } catch (error) {
-      console.error(
-        `Failed to download or process thumbnail from URL: ${thumbnailUrl}`,
-        error,
-      );
-      thumbnailWidth = null;
-      thumbnailHeight = null;
-    }
+    const thumbnailWidth = parsedCropMeta.width;
+    const thumbnailHeight = parsedCropMeta.height;
 
     const createdPost = await this.prisma.post.create({
       data: {
@@ -203,8 +183,13 @@ export class PostsManagementService {
       videoUrl,
       existingImageUrls = [],
       thumbnailUrl,
+      thumbnailCropMeta: thumbnailMetaString,
       ...postUpdateData
     } = updatePostDto;
+
+    const thumbnailMeta = JSON.parse(thumbnailMetaString);
+    const thumbnailWidth = thumbnailMeta.initialWidth;
+    const thumbnailHeight = thumbnailMeta.initialHeight;
 
     const existingImageUrlsSet = new Set(existingImageUrls);
 
@@ -218,31 +203,11 @@ export class PostsManagementService {
     );
 
     const oldThumb = existingPost.thumbnailUrl;
-    let thumbnailWidth: number | undefined | null = undefined;
-    let thumbnailHeight: number | undefined | null = undefined;
     if (thumbnailUrl && oldThumb && thumbnailUrl !== oldThumb) {
       this.logger.log(
         `Deleting old thumbnail in s3 for post ${postId} with URL: ${oldThumb}`,
       );
       await this.storageService.deleteFiles([oldThumb]);
-
-      try {
-        const response = await axios.get(thumbnailUrl, {
-          responseType: 'arraybuffer',
-        });
-        const imageBuffer = Buffer.from(response.data);
-
-        const metadata = await sharp(imageBuffer).metadata();
-        thumbnailWidth = metadata.width;
-        thumbnailHeight = metadata.height;
-      } catch (error) {
-        console.error(
-          `Failed to download or process thumbnail from URL: ${thumbnailUrl}`,
-          error,
-        );
-        thumbnailWidth = null;
-        thumbnailHeight = null;
-      }
     }
 
     if (imagesToDelete.length > 0) {

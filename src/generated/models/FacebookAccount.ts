@@ -239,6 +239,7 @@ export type FacebookAccountWhereInput = {
   tokenExpiresAt?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"FacebookAccount"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   platforms?: Prisma.PlatformListRelationFilter
 }
 
@@ -251,6 +252,7 @@ export type FacebookAccountOrderByWithRelationInput = {
   tokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  user?: Prisma.UserOrderByWithRelationInput
   platforms?: Prisma.PlatformOrderByRelationAggregateInput
 }
 
@@ -266,6 +268,7 @@ export type FacebookAccountWhereUniqueInput = Prisma.AtLeast<{
   tokenExpiresAt?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"FacebookAccount"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   platforms?: Prisma.PlatformListRelationFilter
 }, "id" | "facebookUserId">
 
@@ -300,13 +303,13 @@ export type FacebookAccountScalarWhereWithAggregatesInput = {
 }
 
 export type FacebookAccountCreateInput = {
-  userId: string
   facebookUserId: string
   name: string
   longLivedUserAccessToken: string
   tokenExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  user: Prisma.UserCreateNestedOneWithoutFacebookAccountsInput
   platforms?: Prisma.PlatformCreateNestedManyWithoutFacebookAccountInput
 }
 
@@ -323,13 +326,13 @@ export type FacebookAccountUncheckedCreateInput = {
 }
 
 export type FacebookAccountUpdateInput = {
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
   tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user?: Prisma.UserUpdateOneRequiredWithoutFacebookAccountsNestedInput
   platforms?: Prisma.PlatformUpdateManyWithoutFacebookAccountNestedInput
 }
 
@@ -357,7 +360,6 @@ export type FacebookAccountCreateManyInput = {
 }
 
 export type FacebookAccountUpdateManyMutationInput = {
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
@@ -375,6 +377,16 @@ export type FacebookAccountUncheckedUpdateManyInput = {
   tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type FacebookAccountListRelationFilter = {
+  every?: Prisma.FacebookAccountWhereInput
+  some?: Prisma.FacebookAccountWhereInput
+  none?: Prisma.FacebookAccountWhereInput
+}
+
+export type FacebookAccountOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type FacebookAccountNullableScalarRelationFilter = {
@@ -423,6 +435,48 @@ export type FacebookAccountSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
 }
 
+export type FacebookAccountCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.FacebookAccountCreateWithoutUserInput, Prisma.FacebookAccountUncheckedCreateWithoutUserInput> | Prisma.FacebookAccountCreateWithoutUserInput[] | Prisma.FacebookAccountUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.FacebookAccountCreateOrConnectWithoutUserInput | Prisma.FacebookAccountCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.FacebookAccountCreateManyUserInputEnvelope
+  connect?: Prisma.FacebookAccountWhereUniqueInput | Prisma.FacebookAccountWhereUniqueInput[]
+}
+
+export type FacebookAccountUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.FacebookAccountCreateWithoutUserInput, Prisma.FacebookAccountUncheckedCreateWithoutUserInput> | Prisma.FacebookAccountCreateWithoutUserInput[] | Prisma.FacebookAccountUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.FacebookAccountCreateOrConnectWithoutUserInput | Prisma.FacebookAccountCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.FacebookAccountCreateManyUserInputEnvelope
+  connect?: Prisma.FacebookAccountWhereUniqueInput | Prisma.FacebookAccountWhereUniqueInput[]
+}
+
+export type FacebookAccountUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.FacebookAccountCreateWithoutUserInput, Prisma.FacebookAccountUncheckedCreateWithoutUserInput> | Prisma.FacebookAccountCreateWithoutUserInput[] | Prisma.FacebookAccountUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.FacebookAccountCreateOrConnectWithoutUserInput | Prisma.FacebookAccountCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.FacebookAccountUpsertWithWhereUniqueWithoutUserInput | Prisma.FacebookAccountUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.FacebookAccountCreateManyUserInputEnvelope
+  set?: Prisma.FacebookAccountWhereUniqueInput | Prisma.FacebookAccountWhereUniqueInput[]
+  disconnect?: Prisma.FacebookAccountWhereUniqueInput | Prisma.FacebookAccountWhereUniqueInput[]
+  delete?: Prisma.FacebookAccountWhereUniqueInput | Prisma.FacebookAccountWhereUniqueInput[]
+  connect?: Prisma.FacebookAccountWhereUniqueInput | Prisma.FacebookAccountWhereUniqueInput[]
+  update?: Prisma.FacebookAccountUpdateWithWhereUniqueWithoutUserInput | Prisma.FacebookAccountUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.FacebookAccountUpdateManyWithWhereWithoutUserInput | Prisma.FacebookAccountUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.FacebookAccountScalarWhereInput | Prisma.FacebookAccountScalarWhereInput[]
+}
+
+export type FacebookAccountUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.FacebookAccountCreateWithoutUserInput, Prisma.FacebookAccountUncheckedCreateWithoutUserInput> | Prisma.FacebookAccountCreateWithoutUserInput[] | Prisma.FacebookAccountUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.FacebookAccountCreateOrConnectWithoutUserInput | Prisma.FacebookAccountCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.FacebookAccountUpsertWithWhereUniqueWithoutUserInput | Prisma.FacebookAccountUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.FacebookAccountCreateManyUserInputEnvelope
+  set?: Prisma.FacebookAccountWhereUniqueInput | Prisma.FacebookAccountWhereUniqueInput[]
+  disconnect?: Prisma.FacebookAccountWhereUniqueInput | Prisma.FacebookAccountWhereUniqueInput[]
+  delete?: Prisma.FacebookAccountWhereUniqueInput | Prisma.FacebookAccountWhereUniqueInput[]
+  connect?: Prisma.FacebookAccountWhereUniqueInput | Prisma.FacebookAccountWhereUniqueInput[]
+  update?: Prisma.FacebookAccountUpdateWithWhereUniqueWithoutUserInput | Prisma.FacebookAccountUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.FacebookAccountUpdateManyWithWhereWithoutUserInput | Prisma.FacebookAccountUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.FacebookAccountScalarWhereInput | Prisma.FacebookAccountScalarWhereInput[]
+}
+
 export type FacebookAccountCreateNestedOneWithoutPlatformsInput = {
   create?: Prisma.XOR<Prisma.FacebookAccountCreateWithoutPlatformsInput, Prisma.FacebookAccountUncheckedCreateWithoutPlatformsInput>
   connectOrCreate?: Prisma.FacebookAccountCreateOrConnectWithoutPlatformsInput
@@ -439,14 +493,75 @@ export type FacebookAccountUpdateOneWithoutPlatformsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.FacebookAccountUpdateToOneWithWhereWithoutPlatformsInput, Prisma.FacebookAccountUpdateWithoutPlatformsInput>, Prisma.FacebookAccountUncheckedUpdateWithoutPlatformsInput>
 }
 
-export type FacebookAccountCreateWithoutPlatformsInput = {
-  userId: string
+export type FacebookAccountCreateWithoutUserInput = {
   facebookUserId: string
   name: string
   longLivedUserAccessToken: string
   tokenExpiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  platforms?: Prisma.PlatformCreateNestedManyWithoutFacebookAccountInput
+}
+
+export type FacebookAccountUncheckedCreateWithoutUserInput = {
+  id?: number
+  facebookUserId: string
+  name: string
+  longLivedUserAccessToken: string
+  tokenExpiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  platforms?: Prisma.PlatformUncheckedCreateNestedManyWithoutFacebookAccountInput
+}
+
+export type FacebookAccountCreateOrConnectWithoutUserInput = {
+  where: Prisma.FacebookAccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.FacebookAccountCreateWithoutUserInput, Prisma.FacebookAccountUncheckedCreateWithoutUserInput>
+}
+
+export type FacebookAccountCreateManyUserInputEnvelope = {
+  data: Prisma.FacebookAccountCreateManyUserInput | Prisma.FacebookAccountCreateManyUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type FacebookAccountUpsertWithWhereUniqueWithoutUserInput = {
+  where: Prisma.FacebookAccountWhereUniqueInput
+  update: Prisma.XOR<Prisma.FacebookAccountUpdateWithoutUserInput, Prisma.FacebookAccountUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.FacebookAccountCreateWithoutUserInput, Prisma.FacebookAccountUncheckedCreateWithoutUserInput>
+}
+
+export type FacebookAccountUpdateWithWhereUniqueWithoutUserInput = {
+  where: Prisma.FacebookAccountWhereUniqueInput
+  data: Prisma.XOR<Prisma.FacebookAccountUpdateWithoutUserInput, Prisma.FacebookAccountUncheckedUpdateWithoutUserInput>
+}
+
+export type FacebookAccountUpdateManyWithWhereWithoutUserInput = {
+  where: Prisma.FacebookAccountScalarWhereInput
+  data: Prisma.XOR<Prisma.FacebookAccountUpdateManyMutationInput, Prisma.FacebookAccountUncheckedUpdateManyWithoutUserInput>
+}
+
+export type FacebookAccountScalarWhereInput = {
+  AND?: Prisma.FacebookAccountScalarWhereInput | Prisma.FacebookAccountScalarWhereInput[]
+  OR?: Prisma.FacebookAccountScalarWhereInput[]
+  NOT?: Prisma.FacebookAccountScalarWhereInput | Prisma.FacebookAccountScalarWhereInput[]
+  id?: Prisma.IntFilter<"FacebookAccount"> | number
+  userId?: Prisma.StringFilter<"FacebookAccount"> | string
+  facebookUserId?: Prisma.StringFilter<"FacebookAccount"> | string
+  name?: Prisma.StringFilter<"FacebookAccount"> | string
+  longLivedUserAccessToken?: Prisma.StringFilter<"FacebookAccount"> | string
+  tokenExpiresAt?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
+  createdAt?: Prisma.DateTimeFilter<"FacebookAccount"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"FacebookAccount"> | Date | string | null
+}
+
+export type FacebookAccountCreateWithoutPlatformsInput = {
+  facebookUserId: string
+  name: string
+  longLivedUserAccessToken: string
+  tokenExpiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+  user: Prisma.UserCreateNestedOneWithoutFacebookAccountsInput
 }
 
 export type FacebookAccountUncheckedCreateWithoutPlatformsInput = {
@@ -477,6 +592,17 @@ export type FacebookAccountUpdateToOneWithWhereWithoutPlatformsInput = {
 }
 
 export type FacebookAccountUpdateWithoutPlatformsInput = {
+  facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user?: Prisma.UserUpdateOneRequiredWithoutFacebookAccountsNestedInput
+}
+
+export type FacebookAccountUncheckedUpdateWithoutPlatformsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -486,9 +612,39 @@ export type FacebookAccountUpdateWithoutPlatformsInput = {
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type FacebookAccountUncheckedUpdateWithoutPlatformsInput = {
+export type FacebookAccountCreateManyUserInput = {
+  id?: number
+  facebookUserId: string
+  name: string
+  longLivedUserAccessToken: string
+  tokenExpiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
+}
+
+export type FacebookAccountUpdateWithoutUserInput = {
+  facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  platforms?: Prisma.PlatformUpdateManyWithoutFacebookAccountNestedInput
+}
+
+export type FacebookAccountUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
+  tokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  platforms?: Prisma.PlatformUncheckedUpdateManyWithoutFacebookAccountNestedInput
+}
+
+export type FacebookAccountUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   facebookUserId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   longLivedUserAccessToken?: Prisma.StringFieldUpdateOperationsInput | string
@@ -537,6 +693,7 @@ export type FacebookAccountSelect<ExtArgs extends runtime.Types.Extensions.Inter
   tokenExpiresAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   platforms?: boolean | Prisma.FacebookAccount$platformsArgs<ExtArgs>
   _count?: boolean | Prisma.FacebookAccountCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["facebookAccount"]>
@@ -550,6 +707,7 @@ export type FacebookAccountSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   tokenExpiresAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["facebookAccount"]>
 
 export type FacebookAccountSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -561,6 +719,7 @@ export type FacebookAccountSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   tokenExpiresAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["facebookAccount"]>
 
 export type FacebookAccountSelectScalar = {
@@ -576,15 +735,21 @@ export type FacebookAccountSelectScalar = {
 
 export type FacebookAccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "facebookUserId" | "name" | "longLivedUserAccessToken" | "tokenExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["facebookAccount"]>
 export type FacebookAccountInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   platforms?: boolean | Prisma.FacebookAccount$platformsArgs<ExtArgs>
   _count?: boolean | Prisma.FacebookAccountCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type FacebookAccountIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type FacebookAccountIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type FacebookAccountIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type FacebookAccountIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
 
 export type $FacebookAccountPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "FacebookAccount"
   objects: {
+    user: Prisma.$UserPayload<ExtArgs>
     platforms: Prisma.$PlatformPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -990,6 +1155,7 @@ readonly fields: FacebookAccountFieldRefs;
  */
 export interface Prisma__FacebookAccountClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   platforms<T extends Prisma.FacebookAccount$platformsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FacebookAccount$platformsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PlatformPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1277,6 +1443,10 @@ export type FacebookAccountCreateManyAndReturnArgs<ExtArgs extends runtime.Types
    */
   data: Prisma.FacebookAccountCreateManyInput | Prisma.FacebookAccountCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FacebookAccountIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1347,6 +1517,10 @@ export type FacebookAccountUpdateManyAndReturnArgs<ExtArgs extends runtime.Types
    * Limit how many FacebookAccounts to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FacebookAccountIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
