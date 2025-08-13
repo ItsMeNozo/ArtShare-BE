@@ -32,7 +32,7 @@ export class ChatService {
     let conversation = [];
 
     if (!conversationId) {
-      conversationId = `${userId}_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+      conversationId = crypto.randomUUID();
       await this.cacheService.set(conversationId, []);
     } else {
       // array of chats
