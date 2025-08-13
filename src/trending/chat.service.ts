@@ -100,6 +100,9 @@ export class ChatService {
   ): Promise<GeneratedPrompt[]> {
     const model = this.geminiService.getModel({
       model: 'gemini-2.5-flash-lite',
+      generationConfig: {
+        responseMimeType: 'application/json',
+      },
       systemInstruction: `
       You are an AI art generation assistant helping users refine and discover creative prompts.
       You have access to the user's recent prompt history and current conversation context.

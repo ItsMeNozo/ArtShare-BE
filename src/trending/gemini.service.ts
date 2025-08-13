@@ -1,6 +1,12 @@
-import { GenerativeModel, GoogleGenerativeAI } from '@google/generative-ai';
+import { GenerationConfig, GenerativeModel, GoogleGenerativeAI } from '@google/generative-ai';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+
+interface GetModelConfig {
+  model: string;
+  systemInstruction?: string;
+  generationConfig?: GenerationConfig;
+}
 
 @Injectable()
 export class GeminiService {
@@ -14,11 +20,12 @@ export class GeminiService {
     this.genAI = new GoogleGenerativeAI(apiKey);
   }
 
-  getModel(config: {
-    model: string;
-    systemInstruction?: string;
-  }): GenerativeModel {
-    return this.genAI.getGenerativeModel(config);
+  getModel(config: GetModelConfig): GenerativeModel {
+    return this.genAI.getGenerativeModel({
+      model: config.model,
+      systemInstruction: config.systemInstruction,
+      generationConfig: config.generationConfig,
+    });
   }
 
   async generateCanonicalPrompts(prompts: string[]): Promise<string[]> {
