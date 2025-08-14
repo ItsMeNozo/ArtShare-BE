@@ -1,5 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { QdrantClient } from '@qdrant/js-client-rest';
 import { PaginatedResponse } from 'src/common/dto/paginated-response.dto';
 import {
@@ -13,6 +14,7 @@ import { Post, Prisma } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { GetPostsDto } from './dto/request/get-posts.dto';
 import { SearchPostDto } from './dto/request/search-post.dto';
+import { PostDetailForViewDto } from './dto/response/post-details-view.dto';
 import { PostDetailsResponseDto } from './dto/response/post-details.dto';
 import { PostListItemResponse } from './dto/response/post-list-item.dto';
 import {
@@ -22,8 +24,6 @@ import {
   postItemSelect,
   PostWithRelations,
 } from './mapper/posts-explore.mapper';
-import { EventEmitter2 } from '@nestjs/event-emitter';
-import { PostDetailForViewDto } from './dto/response/post-details-view.dto';
 
 @Injectable()
 export class PostsExploreService {
@@ -431,6 +431,7 @@ export class PostsExploreService {
         take: 1,
         select: { id: true }, // only need existence
       },
+      categories: true,
     };
   };
 }
