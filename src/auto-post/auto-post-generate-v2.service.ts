@@ -7,11 +7,13 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as cheerio from 'cheerio';
+import { Agent as HttpsAgent } from 'https';
 import OpenAI from 'openai';
 import { zodTextFormat } from 'openai/helpers/zod';
 import { firstValueFrom } from 'rxjs';
 import { FacebookAuthService } from 'src/auth/facebook/facebook.service';
 import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
+import { TryCatch } from 'src/common/try-catch.decorator';
 import { AutoPost } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { UsageService } from 'src/usage/usage.service';
@@ -24,7 +26,7 @@ export class AutoPostGenerateServiceV2 {
   private readonly logger = new Logger(AutoPostGenerateServiceV2.name);
   private readonly openai: OpenAI;
   textCost = 2;
-  private readonly MODEL: string = 'gpt-5-nano';
+  private readonly MODEL: string = 'gpt-5-mini';
 
   constructor(
     private readonly configService: ConfigService,
@@ -35,6 +37,9 @@ export class AutoPostGenerateServiceV2 {
   ) {
     this.openai = new OpenAI({
       apiKey: this.configService.get<string>('OPEN_AI_SECRET_KEY'),
+      maxRetries: 0, // default is 2; silent backoff can add many seconds
+      // timeout: 15_000, // hard cap per request (you can tune later)
+      httpAgent: new HttpsAgent({ keepAlive: true }),
     });
   }
 
@@ -65,6 +70,7 @@ export class AutoPostGenerateServiceV2 {
     return response.output_parsed.content;
   }
 
+  @TryCatch()
   async generateAutoPosts(
     payload: GenAutoPostsPayload,
     userId: string,
@@ -98,6 +104,7 @@ export class AutoPostGenerateServiceV2 {
     });
   }
 
+  @TryCatch()
   async generateOneAutoPost(
     payload: GenAutoPostsPayload,
     userId: string,
@@ -157,37 +164,38 @@ export class AutoPostGenerateServiceV2 {
     const instructions = `
       You are an expert social media content creator. Your task is to generate a social media post based on the provided input topic.
 
-      **Constraints and Style Guide:**
-      - **Tone of Voice:** The post must have a ${toneOfVoice} tone.
-      - **Length:** The post must have exactly ${wordCount} words.
-      - **Emojis:** ${
+      Constraints and Style Guide:
+      - Tone of Voice: The post should have a ${toneOfVoice} tone
+      - Length: The post should have around ${wordCount} words
+      - Emojis: ${
         includeEmojis
-          ? 'Use relevant emojis to make the posts engaging.'
+          ? 'Use relevant emojis to make the posts engaging'
           : 'Do not include any emojis.'
       }
-      - **Hashtags:** ${
+      - Hashtags: ${
         generateHashtag
-          ? 'Include a few relevant and popular hashtags at the end of each post.'
-          : 'Do not include any hashtags.'
+          ? 'Include a few relevant and popular hashtags at the end of each post'
+          : 'Do not include any hashtags'
       }
     `;
 
-    const response = await this.openai.responses.parse({
+    const t1 = Date.now();
+    const response = await this.openai.responses.create({
       model: this.MODEL,
       instructions: instructions,
       input: finalContentPrompt,
-      text: {
-        format: zodTextFormat(AutoPostResponseSchema, 'generatedPosts'),
-      },
     });
+    this.logger.debug(
+      `openai this.openai.responses.create ms=${Date.now() - t1}`,
+    );
 
-    if (!response.output_parsed) {
+    if (!response.output_text) {
       throw new InternalServerErrorException(
         'Failed to parse AI response. The response may be malformed.',
       );
     }
 
-    return response.output_parsed.content;
+    return response.output_text;
   }
 
   private async extractContentFromUrl(url: string): Promise<string> {
