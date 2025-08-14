@@ -38,6 +38,8 @@ export const blogListItemNecessaryField = {
   createdAt: true,
   isPublished: true,
   pictures: true,
+  likeCount: true,
+  commentCount: true,
   user: {
     select: {
       id: true,

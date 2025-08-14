@@ -12,6 +12,7 @@ import { PrismaService } from 'src/prisma.service';
 import { CreateAutoProjectDto } from './dto/request/create-project.dto';
 import { UpdateAutoProjectDto } from './dto/request/update-project.dto';
 import { AutoProjectDetailsDto } from './dto/response/auto-project-details.dto';
+import { mapToAutoProjectDetailsDto } from './mapper/index.mapper';
 
 @Injectable()
 export class AutoProjectWriteService {
@@ -43,10 +44,15 @@ export class AutoProjectWriteService {
       },
       include: {
         platform: true,
+        _count: {
+          select: {
+            autoPosts: true,
+          },
+        },
       },
     });
 
-    return createdAutoProject;
+    return mapToAutoProjectDetailsDto(createdAutoProject);
   }
 
   private async validatePlatform(
