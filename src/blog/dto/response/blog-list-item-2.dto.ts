@@ -20,6 +20,8 @@ export class BlogListItem2ResponseDto {
   likeCount: number;
   commentCount: number;
 
+  content: string;
+
   @ApiProperty({
     type: [String],
     example: [

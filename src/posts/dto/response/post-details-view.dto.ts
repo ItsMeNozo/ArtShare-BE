@@ -1,10 +1,6 @@
 import { Type } from 'class-transformer';
 import { PostCategoryResponseDto } from './category.dto';
-
-class PostMediaDto {
-  url: string;
-  mediaType: 'image' | 'video' | 'gif' | string;
-}
+import { PostMediaDto } from './post-media.dto';
 
 class PostAuthorDto {
   username: string;
