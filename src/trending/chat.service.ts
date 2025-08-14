@@ -32,7 +32,7 @@ export class ChatService {
     let conversation = [];
 
     if (!conversationId) {
-      conversationId = `${Math.floor(Math.random() * 100) + 1}`;
+      conversationId = crypto.randomUUID();
       await this.cacheService.set(conversationId, []);
     } else {
       // array of chats
@@ -158,24 +158,6 @@ export class ChatService {
     );
   }
 
-  private async getCachedUserPromptHistory(userId: string): Promise<string[]> {
-    const cacheKey = `user_prompt_history:${userId}`;
-
-    const cached = await this.cacheService.get<string[]>(cacheKey);
-    if (cached) {
-      // this.logger.log(`Found cache userPromptHistory ${cached}`);
-      return cached;
-    }
-
-    const prompts = await this.chatRepository.getRecentUserPrompts(
-      userId,
-      this.PROMPT_HISTORY_DAYS,
-    );
-
-    await this.cacheService.set(cacheKey, prompts, this.CACHE_TTL);
-
-    return prompts;
-  }
 
   private generateFallbackPrompts(): string[] {
     const styles = [

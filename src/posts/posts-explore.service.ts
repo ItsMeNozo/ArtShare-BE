@@ -410,7 +410,7 @@ export class PostsExploreService {
 
   private buildPostIncludesForViewDetails = (
     userId: string,
-  ): Prisma.PostInclude => {
+  ): Prisma.PostSelect => {
     return {
       ...postItemSelect,
       medias: {

@@ -77,9 +77,6 @@ export class FacebookAuthService {
       'email',
       'pages_show_list',
       'pages_manage_posts',
-      'user_posts',
-      'user_photos',
-      'user_videos',
     ].join(',');
     const loginUrl = `https://www.facebook.com/${this.API_VERSION}/dialog/oauth?client_id=${this.FB_APP_ID}&redirect_uri=${encodeURIComponent(this.FB_REDIRECT_URI)}&state=${stateJwt}&scope=${scopes}&response_type=code`;
 

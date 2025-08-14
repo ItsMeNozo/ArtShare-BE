@@ -14,6 +14,7 @@ export const postItemSelect = {
   commentCount: true,
   isMature: true,
   aiCreated: true,
+  viewCount: true,
 };
 
 export type PostWithRelations = Prisma.PostGetPayload<{
