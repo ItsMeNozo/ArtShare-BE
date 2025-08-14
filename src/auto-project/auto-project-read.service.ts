@@ -113,6 +113,12 @@ export class AutoProjectReadService {
       },
       include: {
         platform: true,
+        // count posts
+        _count: {
+          select: {
+            autoPosts: true,
+          },
+        },
       },
     });
 
@@ -120,6 +126,9 @@ export class AutoProjectReadService {
       throw new BadRequestException('Auto project not found');
     }
 
-    return autoProject;
+    return {
+      ...autoProject,
+      postCount: autoProject._count.autoPosts,
+    };
   }
 }
