@@ -1,8 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
+import { Agent as HttpsAgent } from 'https';
 import OpenAI from 'openai';
 import { toFile } from 'openai/uploads';
+import sharp from 'sharp';
 import { AspectRatio } from '../enum/aspect-ratio';
 import {
   ImageGenerationOptions,
@@ -19,6 +21,9 @@ export class GptImageStrategy implements ImageGeneratorStrategy {
   constructor(private readonly configService: ConfigService) {
     this.openai = new OpenAI({
       apiKey: this.configService.get<string>('OPEN_AI_SECRET_KEY'),
+      maxRetries: 0, // default is 2; silent backoff can add many seconds
+      // timeout: 15_000, // hard cap per request (you can tune later)
+      httpAgent: new HttpsAgent({ keepAlive: true }),
     });
   }
 
@@ -27,10 +32,6 @@ export class GptImageStrategy implements ImageGeneratorStrategy {
   async generate(
     options: ImageGenerationOptions,
   ): Promise<ImageGenerationResult> {
-    this.logger.debug(
-      `Generating image with options: ${JSON.stringify(options)}`,
-    );
-
     let img;
 
     const commonOptions = {
@@ -42,13 +43,20 @@ export class GptImageStrategy implements ImageGeneratorStrategy {
     };
 
     if (options.seedImage) {
-      const imageFile = await toFile(options.seedImage.buffer, 'seed-image', {
-        type: options.seedImage.mimetype,
+      const t1 = Date.now();
+      const { out, filename, mime } = await this.preprocessFast(
+        options.seedImage.buffer,
+      );
+
+      // 2) Wrap once (no disk I/O)
+      const imageFile = await toFile(out, filename, {
+        type: mime === 'image/*' ? options.seedImage.mimetype : mime,
       });
       img = await this.openai.images.edit({
         ...commonOptions,
         image: imageFile,
       });
+      this.logger.debug(`openai this.openai.images.edit ms=${Date.now() - t1}`);
     } else {
       img = await this.openai.images.generate({
         ...commonOptions,
@@ -80,4 +88,39 @@ export class GptImageStrategy implements ImageGeneratorStrategy {
         return 'auto';
     }
   }
+
+  shouldBypassReencode(meta: sharp.Metadata) {
+    // If already small and not huge file size, skip re-encode for speed.
+    const w = meta.width ?? 0;
+    const h = meta.height ?? 0;
+    return w <= FAST_TARGET && h <= FAST_TARGET;
+  }
+
+  async preprocessFast(buffer: Buffer) {
+    const meta = await sharp(buffer).metadata();
+
+    if (this.shouldBypassReencode(meta)) {
+      // Keep original if it's already small — avoids extra CPU time
+      return { out: buffer, filename: 'seed-original', mime: 'image/*' };
+    }
+
+    // WebP typically smaller; use fastest settings (effort:0)
+    const out = await sharp(buffer)
+      .resize({
+        width: FAST_TARGET,
+        height: FAST_TARGET,
+        fit: 'inside',
+        withoutEnlargement: true,
+        fastShrinkOnLoad: true,
+      })
+      .webp({
+        quality: 75, // try 70–80
+        effort: 0, // fastest encoding
+        smartSubsample: true,
+      })
+      .toBuffer();
+
+    return { out, filename: 'seed-image.webp', mime: 'image/webp' };
+  }
 }
+const FAST_TARGET = 512;

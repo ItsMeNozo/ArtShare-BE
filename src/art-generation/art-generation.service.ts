@@ -2,6 +2,7 @@ import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { nanoid } from 'nanoid';
 import { FeatureKey } from 'src/common/enum/subscription-feature-key.enum';
+import { AspectRatio } from 'src/generated';
 import { PrismaService } from 'src/prisma.service';
 import { FileUploadResponse } from 'src/storage/dto/response.dto';
 import { StorageService } from 'src/storage/storage.service';
@@ -10,7 +11,6 @@ import { SubscriptionService } from 'src/subscription/subscription.service';
 import { UsageService } from 'src/usage/usage.service';
 import { ImageGenerationDto } from './dto/request/image-generation.dto';
 import { ImageGenerationResponseDto } from './dto/response/image-generation.dto';
-import { AspectRatio } from './enum/aspect-ratio';
 import {
   ImageGenerationResult,
   ImageGeneratorStrategy,
