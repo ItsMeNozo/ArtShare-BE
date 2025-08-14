@@ -39,6 +39,13 @@ export class StorageService {
     return this.storageProvider.uploadFiles(files, directory);
   }
 
+  uploadFilesAsync(
+    files: Express.Multer.File[],
+    directory: string,
+  ): FileUploadResponse[] {
+    return this.storageProvider.uploadFilesAsync(files, directory);
+  }
+
   async getBucketUrl() {
     return this.storageProvider.getBucketUrl();
   }

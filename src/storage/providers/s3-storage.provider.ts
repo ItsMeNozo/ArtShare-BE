@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { S3 } from 'aws-sdk';
 import { nanoid } from 'nanoid';
@@ -14,6 +14,7 @@ export class S3StorageProvider implements IStorageProvider {
   private region: string;
   private bucketUrl: string;
   private cloudFrontUrl: string;
+  private readonly logger = new Logger(S3StorageProvider.name);
 
   constructor(private readonly configService: ConfigService) {
     this.region =
@@ -79,6 +80,33 @@ export class S3StorageProvider implements IStorageProvider {
     };
 
     await this.s3.deleteObjects(params).promise();
+  }
+
+  uploadFilesAsync(
+    files: Express.Multer.File[],
+    directory: string,
+  ): { url: string; key: string }[] {
+    return files.map((file) => {
+      const key = `${directory}/${nanoid()}_${file.originalname}`;
+      const url = `${this.cloudFrontUrl}/${key}`;
+
+      // Fire-and-forget (attach catch so errors aren't unhandled)
+      void this.s3
+        .upload({
+          Bucket: this.bucketName,
+          Key: key,
+          Body: file.buffer, // if using memoryStorage
+          ContentType: file.mimetype,
+        })
+        .promise()
+        .then((data) => this.logger.log(`S3 upload OK ${key}`, data))
+        .catch((err) =>
+          this.logger.error(`S3 upload FAILED ${key}`, err?.stack),
+        );
+
+      // Return immediately
+      return { key, url };
+    });
   }
 
   @TryCatch('Failed to upload images')

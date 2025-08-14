@@ -16,5 +16,10 @@ export interface IStorageProvider {
     directory: string,
   ): Promise<FileUploadResponse[]>;
 
+  uploadFilesAsync(
+    files: Express.Multer.File[],
+    directory: string,
+  ): FileUploadResponse[];
+
   getBucketUrl(): string;
 }
