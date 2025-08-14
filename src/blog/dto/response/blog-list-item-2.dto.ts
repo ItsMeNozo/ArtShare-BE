@@ -17,6 +17,9 @@ export class BlogListItem2ResponseDto {
   @ApiProperty({ example: true })
   isPublished: boolean;
 
+  likeCount: number;
+  commentCount: number;
+
   @ApiProperty({
     type: [String],
     example: [
