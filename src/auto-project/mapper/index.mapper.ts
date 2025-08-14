@@ -1,3 +1,5 @@
+import { Prisma } from 'src/generated';
+import { AutoProjectDetailsDto } from '../dto/response/auto-project-details.dto';
 import { AutoProjectListItemDto } from '../dto/response/auto-project-list-item.dto';
 import { RawProjectResult } from '../types/index.type';
 
@@ -17,4 +19,24 @@ export const mapToAutoProjectListItemsDto = (
     createdAt: p.createdAt,
     updatedAt: p.updatedAt,
   }));
+};
+
+type AutoProjectWithPostCount = Prisma.AutoProjectGetPayload<{
+  include: {
+    platform: true;
+    _count: {
+      select: {
+        autoPosts: true;
+      };
+    };
+  };
+}>;
+
+export const mapToAutoProjectDetailsDto = (
+  autoProject: AutoProjectWithPostCount,
+): AutoProjectDetailsDto => {
+  return {
+    ...autoProject,
+    postCount: autoProject._count.autoPosts,
+  };
 };

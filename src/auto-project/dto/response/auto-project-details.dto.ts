@@ -24,4 +24,5 @@ export class AutoProjectDetailsDto {
   createdAt: Date;
   updatedAt: Date | null;
   platform: PlatformDto;
+  postCount: number;
 }
